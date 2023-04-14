@@ -1,0 +1,20 @@
+<svg width="1000" height="1000" viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_i_204_466)">
+<circle cx="500" cy="500" r="500" fill="#831B1B"/>
+</g>
+<path d="M477.916 389.583H522.083V544.167H477.916V389.583ZM477.916 566.25H522.083V610.417H477.916V566.25Z" fill="white"/>
+<path d="M714.362 396.054L603.946 285.637C601.898 283.582 599.465 281.953 596.785 280.843C594.106 279.732 591.233 279.163 588.333 279.167H411.666C408.766 279.163 405.893 279.732 403.213 280.843C400.534 281.953 398.1 283.582 396.053 285.637L285.636 396.054C283.582 398.101 281.952 400.535 280.842 403.214C279.731 405.894 279.162 408.766 279.166 411.667V588.333C279.166 594.208 281.485 599.817 285.636 603.946L396.053 714.363C398.1 716.418 400.534 718.047 403.213 719.158C405.893 720.268 408.766 720.838 411.666 720.833H588.333C594.207 720.833 599.816 718.515 603.946 714.363L714.362 603.946C716.417 601.899 718.047 599.466 719.157 596.786C720.267 594.107 720.837 591.234 720.833 588.333V411.667C720.837 408.766 720.267 405.894 719.157 403.214C718.047 400.535 716.417 398.101 714.362 396.054ZM676.666 579.191L579.19 676.667H420.809L323.333 579.191V420.809L420.809 323.333H579.19L676.666 420.809V579.191Z" fill="white"/>
+<defs>
+<filter id="filter0_i_204_466" x="0" y="0" width="1020" height="1020" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feMorphology radius="20" operator="erode" in="SourceAlpha" result="effect1_innerShadow_204_466"/>
+<feOffset dx="20" dy="20"/>
+<feGaussianBlur stdDeviation="20"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="shape" result="effect1_innerShadow_204_466"/>
+</filter>
+</defs>
+</svg>
