@@ -1,0 +1,37 @@
+{
+  "name": "my-project",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@react-google-maps/api": "^2.18.1",
+    "@types/node": "18.15.10",
+    "@types/react": "18.0.30",
+    "@types/react-dom": "18.0.11",
+    "dayjs": "^1.11.6",
+    "eslint": "8.36.0",
+    "eslint-config-next": "13.2.4",
+    "framer-motion": "^10.10.0",
+    "moment": "^2.29.4",
+    "next": "13.2.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-icons": "^4.8.0",
+    "react-tailwindcss-datepicker": "^1.5.1",
+    "react-tailwindcss-select": "^1.8.5",
+    "swiper": "^9.2.0",
+    "typescript": "5.0.2",
+    "zustand": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/react-datepicker": "^4.10.0",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.2.7"
+  }
+}
