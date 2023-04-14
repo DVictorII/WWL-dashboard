@@ -1,0 +1,3 @@
+access-logs		    logs     perl5	  python     tmp
+clients.wwlengineering.com  lscache  public_ftp   srbackups  virtualenv
+etc			    mail     public_html  ssl	     www

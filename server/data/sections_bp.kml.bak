@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>Rossing All Section Lines</name>
+	<open>1</open>
+	<LookAt>
+		<longitude>15.0426843258954</longitude>
+		<latitude>-22.4484190160533</latitude>
+		<altitude>0</altitude>
+		<heading>-1.07906</heading>
+		<tilt>0</tilt>
+		<range>6371</range>
+	</LookAt>
+	<Style id="style">
+		<LineStyle>
+			<color>ff009800</color>
+			<width>7</width>
+		</LineStyle>
+	</Style>
+	<StyleMap id="stylemap_id1">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#style</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#style0</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Style id="style0">
+		<LineStyle>
+			<color>ff009800</color>
+			<width>7</width>
+		</LineStyle>
+	</Style>
+	<Folder>
+		<name>Cameras</name>
+	</Folder>
+	<Folder>
+		<name>Paths</name>
+	</Folder>
+	<Folder>
+		<name>Model</name>
+		<open>1</open>
+		<Folder>
+			<name>Section 21</name>
+			<open>1</open>
+			<Placemark>
+				<name>Section 21</name>
+				<Style>
+					<LineStyle>
+						<color>ffff0000</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0416628421625,-22.4395553101509,0 15.0385912754777,-22.4373405591509,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Section 22</name>
+			<Placemark>
+				<name>Section 22</name>
+				<Style>
+					<LineStyle>
+						<color>ff009800</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0407286593766,-22.4462883882718,0 15.0445711360366,-22.4468365165675,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Section 23</name>
+			<Placemark>
+				<name>Section 23</name>
+				<Style>
+					<LineStyle>
+						<color>ff009800</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0383813984933,-22.4527926998169,0 15.0400581163989,-22.4560529464926,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Section 24</name>
+			<Placemark>
+				<name>Section 24</name>
+				<Style>
+					<LineStyle>
+						<color>ff009800</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0295497911859,-22.4635227628456,0 15.0297082489969,-22.4689411694185,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Section19</name>
+			<Placemark>
+				<name>Section 19</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0435001967621,-22.4397219191628,0 15.0470115016424,-22.4412723581857,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Section 20</name>
+			<Placemark>
+				<name>Section 20</name>
+				<Style>
+					<LineStyle>
+						<color>ff009800</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0446793735948,-22.4378225920867,0 15.0464758688089,-22.4346180483925,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Section16</name>
+			<Placemark>
+				<name>Section 16</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0403845684479,-22.4427958901969,0 15.0419805610362,-22.4395008819717,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Section 15</name>
+			<Placemark>
+				<name>Section 15</name>
+				<Style>
+					<LineStyle>
+						<color>ffff0000</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0393874333727,-22.4418128764906,0 15.0360749644534,-22.4399217379003,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Section 14</name>
+			<Placemark>
+				<name>Section 14</name>
+				<Style>
+					<LineStyle>
+						<color>ffff0000</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0368768980865,-22.4452120272286,0 15.034792402907,-22.4421618563033,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Section17</name>
+			<Placemark>
+				<name>Section 17</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0369380484765,-22.4479290863987,0 15.0377053373635,-22.4443865600487,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Section 18</name>
+			<Placemark>
+				<name>Section 18</name>
+				<Style>
+					<LineStyle>
+						<color>ffff0000</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0392120218003,-22.4486458951181,0 15.0399652558108,-22.4451007630735,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Section 9</name>
+			<Placemark>
+				<name>Section 9</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0301953627654,-22.4454280584926,0 15.0311161741251,-22.4419172837051,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Section 10</name>
+			<Placemark>
+				<name>Section 10</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0327781404671,-22.4523550130854,0 15.0348487578488,-22.4492966256314,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Section 11</name>
+			<Placemark>
+				<name>Section 11</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.033877459097,-22.4530355595128,0 15.0358542763666,-22.4499240021022,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Section 12</name>
+			<Placemark>
+				<name>Section 12</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0320462321388,-22.456099412943,0 15.0353710447808,-22.4579723272682,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Section13</name>
+			<Placemark>
+				<name>Section 13</name>
+				<Style>
+					<LineStyle>
+						<color>ffff0000</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0303569373612,-22.4539098289018,0 15.0273992888211,-22.4562551336309,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Section 7-8</name>
+			<Placemark>
+				<name>Section 7-8</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0240358440682,-22.4486071323675,0 15.0228572094465,-22.4451636087522,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Section 6-7</name>
+			<Placemark>
+				<name>Section 6-7</name>
+				<Style>
+					<LineStyle>
+						<color>ffff0000</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0223170922994,-22.449005503472,0 15.018460956833,-22.4485472499827,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Section 5-6</name>
+			<Placemark>
+				<name>Section 5-6</name>
+				<Style>
+					<LineStyle>
+						<color>ffff0000</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0214498609636,-22.4515382118186,0 15.0175976759288,-22.4510516210262,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Section 3</name>
+			<Placemark>
+				<name>Section 3</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0229442064721,-22.4544351661712,0 15.0201370226873,-22.4569351508205,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Section 2</name>
+			<Placemark>
+				<name>Section 2</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0245789668431,-22.4563603981797,0 15.0216028796616,-22.4586855203491,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Section 1</name>
+			<Placemark>
+				<name>Section 1</name>
+				<Style>
+					<LineStyle>
+						<color>ffff0000</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0256437825556,-22.4583990766951,0 15.0225453605572,-22.4605818299801,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+	</Folder>
+</Document>
+</kml>

@@ -1,0 +1,12 @@
+XDG_SESSION_ID=5415996
+SHELL=/usr/local/cpanel/bin/jailshell
+MAILTO=
+USER=wwlengineering
+PATH=/usr/bin:/bin
+PWD=/home/wwlengineering
+LANG=en_US.UTF-8
+SHLVL=1
+HOME=/home/wwlengineering
+LOGNAME=wwlengineering
+XDG_RUNTIME_DIR=/run/user/2959
+_=/usr/bin/env

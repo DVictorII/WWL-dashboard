@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>ROSSING SECTION LINES_RB</name>
+	<LookAt>
+		<longitude>15.037712</longitude>
+		<latitude>-22.447065</latitude>
+		<altitude>0</altitude>
+		<heading>0</heading>
+		<tilt>0</tilt>
+		<range>6371</range>
+	</LookAt>
+	<Folder>
+		<name>Cameras</name>
+	</Folder>
+	<Folder>
+		<name>Paths</name>
+	</Folder>
+	<Folder>
+		<name>Model</name>
+		<Folder>
+			<name>Polyline [24251475]</name>
+			<Placemark>
+				<name>Section 21</name>
+				<Style>
+					<LineStyle>
+						<color>ff009800</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0422625951194,-22.4391190977217,0 15.0391910285485,-22.43690435801,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Polyline [24251476]</name>
+			<Placemark>
+				<name>Section 22</name>
+				<Style>
+					<LineStyle>
+						<color>ff009800</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0413284441682,-22.4458521796285,0 15.0451709111398,-22.446400293693,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Polyline [24251477]</name>
+			<Placemark>
+				<name>Section 23</name>
+				<Style>
+					<LineStyle>
+						<color>ff009800</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0389812185785,-22.4523565001958,0 15.040657945236,-22.4556167408035,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Polyline [24251478]</name>
+			<Placemark>
+				<name>Section 19</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.044099944678,-22.4392856999262,0 15.0476112452105,-22.4408361259979,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Polyline [24251479]</name>
+			<Placemark>
+				<name>Section 20</name>
+				<Style>
+					<LineStyle>
+						<color>ff009800</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0452791096645,-22.4373863683871,0 15.0470755854995,-22.4341818178807,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Polyline [2425147A]</name>
+			<Placemark>
+				<name>Section 16</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0409843393212,-22.4423596826639,0 15.0425803127642,-22.4390646683614,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Polyline [2425147B]</name>
+			<Placemark>
+				<name>Section 15</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0399872031492,-22.4413766726102,0 15.0366747364855,-22.4394855462189,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Polyline [2425147C]</name>
+			<Placemark>
+				<name>Section 14</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0374766903236,-22.4447758328268,0 15.0353921885744,-22.4417256694893,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Polyline [2425147D]</name>
+			<Placemark>
+				<name>Section 17</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0375378521916,-22.4474928919009,0 15.0383051234604,-22.443950362533,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Polyline [2425147E]</name>
+			<Placemark>
+				<name>Section 18</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.039811821469,-22.4482096922154,0 15.0405650378944,-22.4446645572063,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Polyline [2425147F]</name>
+			<Placemark>
+				<name>Section 9</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0307951768573,-22.4449918888994,0 15.0317159702541,-22.4414811105216,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Polyline [24251480]</name>
+			<Placemark>
+				<name>Section 10</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0333779762297,-22.451918834244,0 15.035448573984,-22.4488604389545,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Polyline [24251481]</name>
+			<Placemark>
+				<name>Section 11</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0344772943396,-22.4525993766234,0 15.0364540920467,-22.4494878117233,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Polyline [24251482]</name>
+			<Placemark>
+				<name>Section 12</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0326460862863,-22.4556632370025,0 15.0359708965585,-22.4575361390731,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Polyline [24251483]</name>
+			<Placemark>
+				<name>Section 13</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0309567873909,-22.4534736591265,0 15.027999158197,-22.4558189749551,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Polyline [24251484]</name>
+			<Placemark>
+				<name>Section 7-8</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0246356911055,-22.4481709857999,0 15.0234570453762,-22.4447274663877,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Polyline [24251485]</name>
+			<Placemark>
+				<name>Section 6-7</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0229169464296,-22.4485693633068,0 15.0190608210639,-22.448111124115,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Polyline [24251486]</name>
+			<Placemark>
+				<name>Section 5-6</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0220497286949,-22.4511020750022,0 15.0181975536272,-22.450615498493,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Polyline [24251487]</name>
+			<Placemark>
+				<name>Section 3</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0235440819777,-22.4539990239509,0 15.0207369177323,-22.4564990191545,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Polyline [24251488]</name>
+			<Placemark>
+				<name>Section 2</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.0251788455058,-22.4559242499842,0 15.0222027776429,-22.4582493833262,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+		<Folder>
+			<name>Polyline [24251489]</name>
+			<Placemark>
+				<name>Section 1</name>
+				<Style>
+					<LineStyle>
+						<color>ff0000fe</color>
+						<width>5</width>
+					</LineStyle>
+				</Style>
+				<MultiGeometry>
+					<LineString>
+						<coordinates>
+							15.026243666648,-22.4579629246465,0 15.0231452637414,-22.4601456895516,0 
+						</coordinates>
+					</LineString>
+				</MultiGeometry>
+			</Placemark>
+		</Folder>
+	</Folder>
+</Document>
+</kml>
