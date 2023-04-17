@@ -47,26 +47,12 @@ function Sidebar() {
           <div className="w-full relative h-20">
             <img
               className="object-contain w-full"
-              src="./../../../static/img/logo_white.png"
-              alt="rossing-logo"
-            />
-          </div>
-
-          <div className="w-full relative h-20">
-            <img
-              className="object-contain w-full"
-              src="./../../static/img/logo_white.png"
-              alt="rossing-logo"
-            />
-          </div>
-
-          <div className="w-full relative h-20">
-            <img
-              className="object-contain w-full"
               src="/static/img/logo_white.png"
               alt="rossing-logo"
             />
           </div>
+
+          
 
           <div
             onClick={openMenu}
