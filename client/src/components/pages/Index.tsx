@@ -289,7 +289,7 @@ const Index = () => {
             <PiezoFilterComp />
           </div>
 
-          <StateShowing/>
+          {/* <StateShowing/> */}
 
           <div
             className="flex flex-col gap-y-4"

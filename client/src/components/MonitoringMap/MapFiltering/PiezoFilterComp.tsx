@@ -8,9 +8,9 @@ function PiezoFilterComp() {
     <div className='flex flex-col gap-y-8'>
       <StatusTable/>
 
+      <DateTable/>
       <LocationTable/>
 
-      <DateTable/>
     </div>
   )
 }
