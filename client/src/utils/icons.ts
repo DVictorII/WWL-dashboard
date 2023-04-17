@@ -6,56 +6,56 @@ import "../MarkerCluster.Default.css";
 import "leaflet.markercluster";
 
 export const activeIcon = L.icon({
-  iconUrl: "/static/img/icons/i-1.svg",
+  iconUrl: "/media/icons/i-1.svg",
   iconSize: [30, 30],
   iconAnchor: [0, 0],
   popupAnchor: [15, 0],
 });
 
 export const damagedIcon = L.icon({
-  iconUrl: "/static/img/icons/i-2.svg",
+  iconUrl: "/media/icons/i-2.svg",
   iconSize: [30, 30],
   iconAnchor: [0, 0],
   popupAnchor: [15, 0],
 });
 
 export const disconnectedIcon = L.icon({
-  iconUrl: "/static/img/icons/i-3.svg",
+  iconUrl: "/media/icons/i-3.svg",
   iconSize: [30, 30],
   iconAnchor: [0, 0],
   popupAnchor: [15, 0],
 });
 
 export const proposedIcon = L.icon({
-  iconUrl: "/static/img/icons/i-4.svg",
+  iconUrl: "/media/icons/i-4.svg",
   iconSize: [30, 30],
   iconAnchor: [0, 0],
   popupAnchor: [15, 0],
 });
 
 export const tarpIcon = L.icon({
-  iconUrl: "/static/img/icons/i-5.svg",
+  iconUrl: "/media/icons/i-5.svg",
   iconSize: [30, 30],
   iconAnchor: [0, 0],
   popupAnchor: [15, 0],
 });
 
 export const incidentIcon = L.icon({
-  iconUrl: "/static/img/icons/i-6.svg",
+  iconUrl: "/media/icons/i-6.svg",
   iconSize: [30, 30],
   iconAnchor: [0, 0],
   popupAnchor: [15, 0],
 });
 
 export const photoIcon = L.icon({
-  iconUrl: "/static/img/icons/i-photo.svg",
+  iconUrl: "/media/icons/i-photo.svg",
   iconSize: [30, 30],
   iconAnchor: [0, 0],
   popupAnchor: [15, 0],
 });
 
 export const videoIcon = L.icon({
-  iconUrl: "/static/img/icons/i-video.svg",
+  iconUrl: "/media/icons/i-video.svg",
   iconSize: [30, 30],
   iconAnchor: [0, 0],
   popupAnchor: [15, 0],

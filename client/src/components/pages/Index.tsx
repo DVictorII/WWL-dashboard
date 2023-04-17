@@ -264,8 +264,8 @@ const Index = () => {
           </div>
         )} */}
 
-        <div className="md:bg-[#f5f5f5] bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-12">
-          <h2 className="font-semibold flex gap-x-12 items-end">
+        <div className="md:bg-[#f5f5f5] bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-8">
+          <h2 className="font-semibold flex gap-x-8 items-end">
             <span className="md:text-lg 2xl:text-xl">
               {selectedStatus.name === "incident"
                 ? "Incidents"
@@ -292,7 +292,7 @@ const Index = () => {
           {/* <StateShowing/> */}
 
           <div
-            className="flex flex-col gap-y-4"
+            className="flex flex-col gap-y-4 mt-8"
             key={`${piezo}${paddock}${status}${date}`}
           >
             <h2 className="md:text-lg 2xl:text-xl font-semibold">

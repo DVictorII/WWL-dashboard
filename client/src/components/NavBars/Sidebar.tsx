@@ -47,7 +47,8 @@ function Sidebar() {
           <div className="w-full relative h-20">
             <img
               className="object-contain w-full"
-              src="/static/img/logo_white.png"
+              src="/media/img/photos/logo_white.png"
+              
               alt="rossing-logo"
             />
           </div>
@@ -168,7 +169,7 @@ function Sidebar() {
                   </div>
 
                   <div
-                    onClick={() => navigateTo("/paddock-lectures")}
+                    onClick={() => navigateTo("/piezometer-lectures")}
                     className="whitespace-nowrap flex items-center gap-x-4 relative py-2 group cursor-pointer hover:text-orange-500 transition-all"
                   >
                     <AiOutlineBarChart className="w-6 h-6 lg:w-7 lg:h-7 shrink-0" />

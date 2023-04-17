@@ -22,7 +22,7 @@ function MenuNavbar() {
     <nav className="flex justify-between items-center lg:hidden">
       <div className="w-36  relative rounded-md overflow-hidden">
         <img
-          src="/static/img/rossing_logo.png"
+          src="/media/img/photos/logo_normal.png"
           className="w-full  object-contain"
         />
       </div>
