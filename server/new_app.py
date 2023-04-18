@@ -35,14 +35,20 @@ app.secret_key = "SUPERSECRETWWLKEY"
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://WWL_ADMIN:WWL#2023@wwl-rossing.crnkanilun4m.ap-southeast-2.rds.amazonaws.com/wwlengineering_rossing'
 app.config['SECRET_KEY'] = "SUPERSECRETWWLKEY"
+app.config['SESSION_SECRET'] = "SUPERSECRETWWLKEY"
 app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SESSION_COOKIE_SAMESITE'] = "None"
+app.config['SESSION_COOKIE_SECURE'] = True
+
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=20)
 app.config['SESSION_COOKIE_NAME'] = 'logged_user'
 db = SQLAlchemy(app)
+
+app.secret_key = app.config['SESSION_SECRET']
 # ma = Marshmallow(app)
 
 
-server_session = Session(app)
+Session(app)
 CORS(app)
 
 #app.config.from_pyfile('config.cfg')
@@ -280,7 +286,7 @@ def getUsers():
     users=[]
     
     result = piezometer_details.query.all()
-    print(result)
+    
     
     piezos = dict_helper(result)
     
@@ -364,10 +370,14 @@ def login_user():
     
     result = [dict(r._mapping) for r in userQuery]
 
+    print('results',result)
+
     if len(result) == 0:
         return jsonify({"error":"Unauthorized"}),401
 
     user = result[0]
+
+    print("USER",user)
 
     if not check_password_hash(user['password'],attempted_password):
         return jsonify({"error":"Unauthorized"}),401
@@ -387,7 +397,7 @@ def logout():
 @cross_origin()
 def current_user_info():
     user_id = session.get('user_id')
-    print(session)
+    print('SESSION',user_id)
 
     if not user_id:
         return jsonify({"error":"Unauthorized"}), 401
