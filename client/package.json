@@ -31,6 +31,7 @@
     "react-tailwindcss-datepicker": "^1.5.1",
     "react-tailwindcss-select": "^1.8.5",
     "sort-by": "^1.2.0",
+    "swiper": "^9.2.3",
     "three": "^0.150.1",
     "zustand": "^4.3.3"
   },

@@ -17,7 +17,7 @@ function StatusTable() {
 
       <div className="py-2 flex items-center w-full justify-evenly border-2 border-[#69742C] rounded-xl">
         <div className="relative group">
-          <div
+          <button
             onClick={() => {
               status !== 0 && changeStatus(0);
             }}
@@ -26,7 +26,7 @@ function StatusTable() {
             } hover:bg-gray-300  transition-all duration-500 cursor-pointer rounded-full `}
           >
             <span className="font-semibold text-sm">All</span>
-          </div>
+          </button>
           <span className="absolute w-auto px-3 py-2  min-w-max left-2 -bottom-12  rounded-md shadow-md text-xs text-white bg-[#222] border-2 border-gray-500  font-semibold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
             All piezometers
           </span>

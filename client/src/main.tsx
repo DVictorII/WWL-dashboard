@@ -22,130 +22,120 @@ import BianualVisit from "./components/pages/BianualVisit";
 import VisitDetails from "./components/pages/VisitDetails";
 import MediaPlayer from "./components/MediaPlayer";
 
+import PageLayout from "./components/pages/PageLayout";
+
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: 
-    
-    // <ProtectedRoute>
-    <Index />
-    //  </ProtectedRoute>,
-  },
 
-  {
-    path: "/piezometer-lectures",
-    element: 
-    <ProtectedRoute>
-    
-      <PaddockLectures />
-    </ProtectedRoute>,
-  },
+    element:<PageLayout/>,
 
-  {
-    path: "/reports/piezometers",
-    element: 
-    <ProtectedRoute>
-      <ContentLayout>
-        <PiezoReports />
-      </ContentLayout>
-    </ProtectedRoute>
-    
-  },
-  {
-    path: "/reports/incidents",
-    element: 
-    <ProtectedRoute>
-      <ContentLayout>
-        <IncidentReports  />
-      </ContentLayout>
-    </ProtectedRoute>
-    
-  },
+    children:[
+      {
+        path:"",
+        element:<Index/>
+      },
 
-  {
-    path: "/reports/piezometers/new-report",
-    element: 
-    <ProtectedRoute>
-      <ContentLayout>
-        <NewPiezoReport />
-      </ContentLayout>
-     </ProtectedRoute>
-    
-  },
+      {
+        path:"piezometer-lectures",
+        element: <PaddockLectures/>
+      },
 
-  {
-    path: "/reports/incidents/new-incident",
-    element: 
-    <ProtectedRoute>
-      <ContentLayout>
-        <NewIncidentReport />
-      </ContentLayout>
-     </ProtectedRoute>
-    
+      {
+        path: "reports",
+        children:[
+          {
+          path:"piezometers",  
+          children: [
+            {
+              path:"",
+              element:
+                <PiezoReports />
+              
+            },
+            {
+              path:"new-report",
+              element:
+                <NewPiezoReport />
+              
+            },
+            {
+              path:":id",
+              element:
+                  <PiezoReportDetails />
+               
+            }
+          ]
+        },
+        {
+          path:"incidents",  
+          children: [
+            {
+              path:"",
+              element:
+                     <IncidentReports  />
+                   
+            },
+            {
+              path:"new-incident",
+              element:
+              <NewIncidentReport />
+            
+            },
+            {
+              path:":id",
+              element:
+              <IncidentReportDetails />
+            
+            }
+          ]
+        }]
+      },
+    ]
   },
-
-  {
-    path: "/reports/piezometers/:id",
-    element: 
-    <ProtectedRoute>
-      <ContentLayout>
-        <PiezoReportDetails />
-      </ContentLayout>
-     </ProtectedRoute>
-    
-  },
-
-  {
-    path: "/reports/incidents/:id",
-    element: 
-    <ProtectedRoute>
-      <ContentLayout>
-        <IncidentReportDetails />
-      </ContentLayout>
-     </ProtectedRoute>
-    
-  },
+  
 
   {
     path: "/login",
     element: 
-    <ProtectedLogIn>
+    // <ProtectedLogIn>
       <Login />
               
-    </ProtectedLogIn>
+    // </ProtectedLogIn>
     
   },
 
   {
     path: "/biannual-visits",
     element: 
-    <ProtectedRoute>
-                <ContentLayout>
+    // <ProtectedRoute>
+                
                   <BianualVisit />
-                </ContentLayout>
-              </ProtectedRoute>
+                
+              // </ProtectedRoute>
     
   },
 
   {
     path: "/biannual-visits/:id",
     element: 
-    <ProtectedRoute>
-                <ContentLayout>
+    // <ProtectedRoute>
+                
                 <VisitDetails />
-                </ContentLayout>
-              </ProtectedRoute>
+                
+              // </ProtectedRoute>
     
   },
 
-  {
-    path: "/biannual-visits/:id",
-    element: 
-    <ProtectedRoute>
-                <MediaPlayer />
-              </ProtectedRoute>
+  // {
+  //   path: "/biannual-visits/media",
+  //   element: 
+  //   // <ProtectedRoute>
+  //               <MediaPlayer />
+  //             // </ProtectedRoute>
     
-  },
+  // },
 
   
 ]);

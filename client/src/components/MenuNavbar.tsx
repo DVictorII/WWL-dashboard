@@ -19,8 +19,8 @@ function MenuNavbar() {
   });
 
   return (
-    <nav className="flex justify-between items-center lg:hidden">
-      <div className="w-36  relative rounded-md overflow-hidden">
+    <nav className="flex justify-between items-center md:hidden">
+      <div className="w-28  relative rounded-md overflow-hidden">
         <img
           src="/media/img/photos/logo_normal.png"
           className="w-full  object-contain"
@@ -30,27 +30,6 @@ function MenuNavbar() {
       <div className="md:hidden" onClick={openMobileMenu}>
         <HiMenuAlt2 className="text-4xl" />
       </div>
-
-      {currentPage.startsWith("/reports") ||
-      currentPage.startsWith("/biannual-visits") ? (
-        <div className="hidden md:grid grid-cols-2 lg:hidden items-center gap-x-12 gap-y-8">
-          <TabletSubLink
-            title="Piezometers"
-            linkTo="/reports/piezometers"
-            isCurrentPage={currentPage.startsWith("/reports/piezometers")}
-          />
-          <TabletSubLink
-            title="Incidents"
-            linkTo="/reports/incidents"
-            isCurrentPage={currentPage.startsWith("/reports/incidents")}
-          />
-          <TabletSubLink
-            title="Visits"
-            linkTo="/biannual-visits"
-            isCurrentPage={currentPage.startsWith("/biannual-visits")}
-          />
-        </div>
-      ) : null}
     </nav>
   );
 }

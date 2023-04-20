@@ -38,17 +38,7 @@ function PaddockLectures() {
   const imgURL = useSectionImgStore((s) => s.imgURL);
 
   return (
-    <main className="flex font-openSans">
-    <Sidebar />
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5, ease: "easeInOut" }}
-      exit={{ opacity: 0, transition: { duration: 0.2 } }}
-      key="paddock-lectures"
-      className="md:ml-20 lg:ml-24 2xl:ml-28 px-4 py-12 md:px-8  lg:p-12  2xl:p-16 w-full"
-      // className="md:ml-20 lg:ml-24 2xl:ml-28"
-    >
+    <>
       <MenuNavbar />
       <div className="mt-12 md:mt-0 flex flex-col gap-y-8 justify-between">
         <h1 className="md:text-lg 2xl:text-xl font-bold ">
@@ -169,13 +159,7 @@ function PaddockLectures() {
         </div>)
     :null  
       }
-
-
-      <Toaster position="top-right" />
-      {logOutModalIsOpen ? <LogOutConfirmationModal /> : null}
-       <MobileMenu />
-    </motion.div>
-     </main>
+    </>
   );
 }
 

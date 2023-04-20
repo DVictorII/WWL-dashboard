@@ -53,7 +53,7 @@ CORS(app)
 
 #app.config.from_pyfile('config.cfg')
 
-BASEPATH = os.getcwd()+"/"
+BASEPATH = os.getcwd()
 
 dbname = 'wwlengineering_rossing'
 user = 'WWL_ADMIN'
@@ -86,12 +86,14 @@ def query(data,node,channel,ammount,period):
     cur.execute(query)
     con.commit()
     vals = cur.fetchall()
+    print("vals",vals)
     for x in vals:
         data = data + tuple(map(str,list(x)))
     return data
 
 def get_data():
     piezo_data = get_piezometer_data()
+    print("data")
     new_data = []
     # looping around all piezometers
     for data in piezo_data:
@@ -101,14 +103,21 @@ def get_data():
         data = query(data,node,channel,1,'month')
         data = query(data,node,channel,3,'month')
         new_data.append(data)
+
+    print("new_data", new_data)
     return new_data
 
 def read_excel():
-    print("#######################")
+    print(BASEPATH)
+    print("UWU")
     tdata = get_data()
-    filename = BASEPATH + "pyreport/report.xlsx"
+    print(tdata)
+    filename = BASEPATH + "/pyreport/report.xlsx"
+    print(filename)
+    
     #print(piezo_data)
     wb = load_workbook(filename)
+    print(wb)
     sh = wb.active
     i=14
     for data in tdata:
@@ -121,7 +130,7 @@ def read_excel():
             sh.cell(row=i,column=4+j).value = float(data[j])
         i+=1
     sh.cell(row=5,column=13).value = date.today()
-    wb.save(BASEPATH + "pyreport/report2.xlsx")
+    wb.save(BASEPATH + "/pyreport/report2.xlsx")
     return i
 
 class piezometer_details(db.Model):
@@ -558,6 +567,7 @@ def get_geojson(folder,name):
 
 @app.route('/api/v1/modify_excel', methods=['POST'])
 def modify_excel():
+    
     now = datetime.now()
     dt_string = now.strftime("%Y/%m/%d %H:%M:%S")
     data = read_excel()

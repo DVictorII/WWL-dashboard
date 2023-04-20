@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   AiOutlineSetting,
   AiOutlineDown,
@@ -22,6 +22,7 @@ import { useMenuStore } from "../../store/DesktopSidebarStore";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogOutStore } from "../../store/LogOutStore";
 
+
 function Sidebar() {
   const menuIsOpen = useMenuStore((state) => state.menuIsOpen);
   const closeMenu = useMenuStore((state) => state.closeMenu);
@@ -36,8 +37,10 @@ function Sidebar() {
     navigate(destiny);
   };
 
+
+
   return (
-    <div className="z-[1000] hidden md:block">
+    <div  className="z-[1000] hidden md:block">
       <div
         className="fixed top-0 left-0 h-screen pt-8 pb-12 
                         w-20 lg:w-24  2xl:w-28 m-0 flex flex-col 
@@ -68,7 +71,7 @@ function Sidebar() {
           <div className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 border-2 border-white border-opacity-50 flex items-center justify-center bg-white bg-opacity-10 rounded-lg hover:text-[#222] hover:bg-opacity-100 transition-all cursor-pointer duration-500 relative group">
             <AiOutlinePieChart className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6" />
             <span className="absolute w-auto px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-[#222] border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
-              Buisiness
+              Business
             </span>
           </div>
 

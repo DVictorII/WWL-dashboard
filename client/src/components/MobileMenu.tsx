@@ -8,21 +8,20 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 
+
 function MobileMenu() {
   const mobileMenuIsOpen = useMobileMenuStore(
     (state) => state.mobileMenuIsOpen
   );
   const closeMobileMenu = useMobileMenuStore((state) => state.closeMobileMenu);
 
+
   const location = useLocation();
 
   const currentPage = location.pathname;
 
-  // const router = useRouter();
 
-  // useEffect(() => {
-  //   setCurrentPage(router.route);
-  // });
+  
   return (
     <AnimatePresence>
       {mobileMenuIsOpen ? (
@@ -34,7 +33,7 @@ function MobileMenu() {
           }}
           exit={{ x: "100%", transition: { duration: 0.7, ease: "easeInOut" } }}
           key="mobile-menu"
-          className=" md:hidden fixed top-0 left-0 z-[100] h-screen w-screen bg-[#F1F5F9] py-8  px-4 overflow-scroll "
+          className=" md:hidden fixed top-0 left-0 z-[100] h-screen w-screen bg-[#222] text-white py-8  px-4 overflow-scroll "
         >
           <motion.div
             initial={{ opacity: 0 }}
@@ -48,9 +47,9 @@ function MobileMenu() {
             }}
             className="flex justify-between items-center"
           >
-            <div className="w-36 relative rounded-md overflow-hidden">
+            <div className="w-28 relative rounded-md overflow-hidden">
               <img
-                src="/media/img/photos/logo_normal.png"
+                src="/media/img/photos/logo_white.png"
                 className="w-full object-contain"
               />
             </div>
@@ -88,9 +87,9 @@ function MobileMenu() {
               <DesktopLink
                 title="Monitoring Chart"
                 icon="chart"
-                linkTo="/paddock-lectures"
+                linkTo="/piezometer-lectures"
                 hasSubLinks={false}
-                isCurrentPage={currentPage === "/paddock-lectures"}
+                isCurrentPage={currentPage === "/piezometer-lectures"}
               />
 
               <div>
