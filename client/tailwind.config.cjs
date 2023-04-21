@@ -147,6 +147,7 @@ module.exports = {
       all: {
         normal: "#333",
         dark: "#222",
+        light: "#dfdfdf"
       },
       active: {
         normal: "#477C9A",
@@ -155,6 +156,7 @@ module.exports = {
       damaged: {
         normal: "#B41818",
         dark: "#8D2525",
+        light:"#F0D1D1"
       },
       proposed: {
         normal: "#7B8831",
@@ -794,6 +796,7 @@ module.exports = {
       150: "1.5",
     },
     screens: {
+      sz400:"400px",
       sm: "640px",
       md: "768px",
       lg: "1024px",

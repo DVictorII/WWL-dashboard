@@ -1,6 +1,4 @@
-import { useState } from "react";
 import moment from "moment";
-import { mapPiezoList } from "../../utils/piezoList";
 import MenuNavbar from "../MenuNavbar";
 
 import MapWrapper from "../MapWrapper";
@@ -17,7 +15,6 @@ import PiezoFilterComp from "../MonitoringMap/MapFiltering/PiezoFilterComp";
 
 import { useMonitoringMapStateStore } from "../../store/MonitoringMapStateStore";
 
-import { useLogOutStore } from "../../store/LogOutStore";
 import {
   capitalizeName,
   monitoringMapStatusInfo,
@@ -35,107 +32,6 @@ const Index = () => {
   const paddock = useMonitoringMapStateStore((s) => s.paddock);
   const piezo = useMonitoringMapStateStore((s) => s.piezo);
   const date = useMonitoringMapStateStore((s) => s.date);
-
-  const logOutModalIsOpen = useLogOutStore((state) => state.logOutModalIsOpen);
-
-  // const mapState = {
-  //   status,
-  //   paddock,
-  //   piezo,
-  //   date
-  // }
-
-  const changeStatus = useMonitoringMapStateStore((s) => s.changeStatus);
-  const changePaddock = useMonitoringMapStateStore((s) => s.changePaddock);
-  const changePiezo = useMonitoringMapStateStore((s) => s.changePiezo);
-
-  const [mapType, setMapType] = useState("piezometers");
-  const changeMapType = (type: string) => setMapType(type);
-
-  const [mapKey, setMapKey] = useState(0);
-  const refreshMap = () => {
-    setMapKey((k) => k + 1);
-  };
-
-  // const [globalMapStateDisplay, setGlobalMapStateDisplay] =
-  //   useState<GlobalMapState>({
-  //     status: "All",
-  //     paddock: "All",
-  //     piezo: "All",
-  //     date: moment(Date.now()).format("YYYY-MM-DD"),
-  //   });
-
-  const [piezoListDisplay, setPiezoListDisplay] = useState<string[]>(
-    mapPiezoList["CDIII"]
-  );
-
-  // const handleChange = (
-  //   e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
-  // ) => {
-  //   setGlobalMapState((s) => {
-  //     return {
-  //       ...s,
-  //       [e.target.name]: e.target.value,
-  //     };
-  //   });
-  // };
-
-  const setGlobalStateStatus = (newStatus: string | number) => {
-    // changeStatus(String(newStatus))
-    // changePaddock("All")
-    // changePiezo("All")
-    // refreshMap();
-    // setGlobalMapState((s) => {
-    //   return {
-    //     ...s,
-    //     paddock: "All",
-    //     piezo: "All",
-    //     status: newStatus,
-    //   };
-    // });
-    // setGlobalMapStateDisplay((s) => {
-    //   return {
-    //     ...s,
-    //     paddock: "All",
-    //     piezo: "All",
-    //     status: newStatus,
-    //   };
-    // });
-    // refreshMap();
-  };
-
-  // const applyFilters = () => {
-  //   if (piezo === "All") {
-  //     setGlobalMapStateDisplay(globalMapState);
-  //   } else {
-  //     setGlobalMapStateDisplay((s) => {
-  //       return {
-  //         status: "All",
-  //         paddock: globalMapState.paddock,
-  //         piezo: globalMapState.piezo,
-  //         date: globalMapState.date,
-  //       };
-  //     });
-  //   }
-
-  //   // refreshMap();
-  // };
-
-  // useEffect(() => {
-  //   // @ts-ignore: Unreachable code error
-  //   setPiezoListDisplay((s) => mapPiezoList[paddock]);
-  // }, [paddock]);
-
-  // useEffect(() => {
-  //   changePiezo(piezoListDisplay[0])
-
-  //   // setGlobalMapState((s) => {
-  //   //   return {
-  //   //     ...s,
-  //   //     piezo: piezoListDisplay[0],
-  //   //   };
-  //   // });
-  // }, [piezoListDisplay]);
 
   const downloadReport = async () => {
     try {
@@ -213,39 +109,6 @@ const Index = () => {
         </button>
       </div>
 
-      {/* <PiezoOverview
-      globalMapStateDisplay={mapState}
-      setGlobalStateStatus={setGlobalStateStatus}
-      changeMapType={changeMapType}
-      mapType={mapType}
-    />
-
-    <MapTable
-    refreshMap={refreshMap}
-      mapState={mapState}
-      piezoListDisplay={piezoListDisplay}
-      
-      changeMapType={changeMapType}
-    />
-
-    <div className="mt-16">
-      <MapTypeSelection changeMapType={changeMapType} mapType={mapType} />
-    </div>
-
-    {mapType === "piezometers" ? (
-      <div className="mt-16" key={mapKey}>
-        <MapWrapper
-          status={status}
-          paddock={paddock}
-          piezo={piezo}
-          date={date}
-        />
-      </div>
-    ) : (
-      <div className="mt-16">
-        <IncidentMapMultiple />
-      </div>
-    )} */}
 
       <div className="md:bg-[#f5f5f5] bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-8">
         <h2 className="font-semibold flex gap-x-8 items-end">

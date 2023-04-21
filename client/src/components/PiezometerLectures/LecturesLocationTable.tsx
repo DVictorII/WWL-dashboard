@@ -26,8 +26,8 @@ function LecturesLocationTable() {
 
   return (
     <div className="flex justify-between items-end gap-x-16 gap-y-8 flex-wrap">
-      <div className="flex items-center gap-x-8 xl:gap-x-10 flex-wrap gap-y-6 md:gap-y-8 xl:gap-y-10">
-        <div className="flex flex-col gap-y-1 min-w-[15rem]">
+      <div className="grid grid-cols-2 gap-x-8 xl:gap-x-10 z-[40] w-full sm:w-3/4 lg:w-1/2">
+        <div className="flex flex-col gap-y-1">
           <h3 className=" text-[10px] xl:text-xs 2xl:text-sm font-semibold">
             Paddock section
           </h3>
@@ -38,19 +38,18 @@ function LecturesLocationTable() {
             //@ts-ignore
             onChange={(e) => changePaddock(e.value)}
             options={paddockOptions}
-            //@ts-ignore
             classNames={{
               //@ts-ignore
               menuButton: ({ isDisabled }) =>
-                `flex  text-sm  text-gray-500 border border-gray-300 rounded-xl  shadow-sm  transition-all duration-300 focus:outline-none ${
+                `flex text-sm text-gray-500 border-2 border-gray-300 rounded-xl py-1 shadow-sm  transition-all duration-300 focus:outline-none ${
                   isDisabled
                     ? "bg-gray-200"
-                    : "bg-white hover:border-gray-400 focus:border-[#F97316] focus:ring focus:ring-[#F97316]/20 transition-all"
+                    : "bg-white hover:border-gray-400 focus:border-[#F97316] focus:ring focus:ring-[#F97316]/20"
                 }`,
             }}
           />
         </div>
-        <div className="flex flex-col gap-y-1 min-w-[15rem]">
+        <div className="flex flex-col gap-y-1">
           <h3 className="text-[10px] xl:text-xs 2xl:text-sm font-semibold">
             Piezometer ID
           </h3>
@@ -62,27 +61,27 @@ function LecturesLocationTable() {
             //@ts-ignore
             onChange={(e) => changePiezo(e.value)}
             options={piezoOptions}
-            //@ts-ignore
+            
             classNames={{
               //@ts-ignore
               menuButton: ({ isDisabled }) =>
-                `flex text-sm text-gray-500 border border-gray-300 rounded-xl shadow-sm  transition-all duration-300 focus:outline-none ${
+                `flex text-sm text-gray-500 border-2 border-gray-300 rounded-xl py-1 shadow-sm  transition-all duration-300 focus:outline-none ${
                   isDisabled
                     ? "bg-gray-200"
-                    : "bg-white hover:border-gray-400 focus:border-[#F97316] focus:ring focus:ring-[#F97316]/20 transition-all"
+                    : "bg-white hover:border-gray-400 focus:border-[#F97316] focus:ring focus:ring-[#F97316]/20"
                 }`,
             }}
           />
         </div>
       </div>
-      <div className="relative">
-        <AiOutlineSearch className="absolute top-3 right-4 text-gray-500" />
+      {/* <div className="relative">
+        <AiOutlineSearch className="absolute top-1/2 -translate-y-1/2 right-4 text-gray-500" />
         <input
           type="text"
-          className="text-sm px-3 py-2 rounded-[10px] border-2 border-[#ccc] focus:outline-none focus:border-[#F97316] focus:ring focus:ring-[#F97316]/20 transition-all"
+          className="text-sm px-3 h-12 rounded-[10px] border-2 border-[#ccc] focus:outline-none focus:border-[#F97316] focus:ring focus:ring-[#F97316]/20 transition-all"
           placeholder="Search..."
         />
-      </div>
+      </div> */}
     </div>
   );
 }

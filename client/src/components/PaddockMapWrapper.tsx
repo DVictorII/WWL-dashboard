@@ -167,7 +167,7 @@ function PaddockMapWrapper() {
     lastReadingsAreLoading
   )
     return (
-      <div className="w-full   h-[60vh]  rounded-[14px] overflow-hidden shadow-md relative z-[10] flex justify-center items-center">
+      <div className="w-full   h-[50vh]  rounded-[14px] overflow-hidden shadow-md relative z-[10] flex justify-center items-center">
         <FadeLoader
           color="#BD9C45"
           loading={
@@ -183,7 +183,7 @@ function PaddockMapWrapper() {
 
   return (
     <div
-      className=" w-full h-[60vh] rounded-lg overflow-hidden shadow-md relative z-[10]"
+      className=" w-full h-[50vh] rounded-lg overflow-hidden shadow-md relative z-[10]"
       style={{ boxShadow: boxShadowSlight }}
     >
       <div id="map2"></div>

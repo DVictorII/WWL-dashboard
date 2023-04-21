@@ -15,14 +15,15 @@ import {usePiezometerLecturesStateStore} from "./../store/PiezometerLecturesStat
 // no chart will be rendered.
 // website examples showcase many properties,
 // you'll often use just a few of them.
-const BarChart = () => {
+const BarChart = ({information}) => {
   const [piezoData, setPiezoData] = useState([]);
   const [piezoElevationData, setPiezoElevationData] = useState([]);
 
-  const paddock = usePiezometerLecturesStateStore((s) => s.paddock);
-  const piezo = usePiezometerLecturesStateStore((s) => s.piezo);
-  const days = usePiezometerLecturesStateStore((s) => s.days);
-  const chartType = usePiezometerLecturesStateStore((s) => s.chartType);
+  const paddock = information.paddock;
+  const piezo = information.piezo;
+  const days = information.days;
+  const chartType = information.chartType;
+
 
   const fetchPiezometerData = async () => {
     const result = await axios.get(
@@ -117,7 +118,7 @@ const BarChart = () => {
           transition: { duration: 0.2, ease: "easeInOut" },
         }}
         key="pressure-chart-no-data"
-        className="h-full w-full flex justify-center items-center bg-white rounded-[12px]"
+        className="h-full w-full flex justify-center items-center bg-[#f5f5f5] md:bg-white rounded-[12px] px-4"
       >
         
           <span className="font-semibold">No lectures recently. Please, increment the days span</span>

@@ -48,7 +48,7 @@ function LocationTable() {
                 options={paddockOptions}
                 //@ts-ignore
                 classNames={{menuButton: ({ isDisabled }) => (
-                    `flex text-sm text-gray-500 border border-gray-300 rounded-xl py-1 shadow-sm  transition-all duration-300 focus:outline-none ${
+                    `flex text-sm text-gray-500 border-2 border-gray-300 rounded-xl py-1 shadow-sm  transition-all duration-300 focus:outline-none ${
                         isDisabled
                             ? "bg-gray-200"
                             : "bg-white hover:border-gray-400 focus:border-[#F97316] focus:ring focus:ring-[#F97316]/20"
@@ -70,7 +70,7 @@ function LocationTable() {
 
                 //@ts-ignore
                 classNames={{menuButton: ({ isDisabled }) => (
-                    `flex text-sm text-gray-500 border border-gray-300 rounded-xl py-1 shadow-sm  transition-all duration-300 focus:outline-none ${
+                    `flex text-sm text-gray-500 border-2 border-gray-300 rounded-xl py-1 shadow-sm  transition-all duration-300 focus:outline-none ${
                         isDisabled
                             ? "bg-gray-200"
                             : "bg-white hover:border-gray-400 focus:border-[#F97316] focus:ring focus:ring-[#F97316]/20"

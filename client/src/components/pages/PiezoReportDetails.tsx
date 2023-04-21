@@ -115,8 +115,8 @@ function PiezoReportDetails() {
     return lecture.pressure;
   });
 
-  console.log("LECTURES DATES", lecturesPressure);
-  console.log("LECTURES PRESSURE", lecturesDates);
+  console.log("LECTURES DATES", lecturesDates);
+  console.log("LECTURES PRESSURE", lecturesPressure);
 
   const inoperativeDates = lecturesDates
     ? getInoperativeDates(lecturesDates)
@@ -190,62 +190,62 @@ function PiezoReportDetails() {
         }
       );
 
-      //@ts-ignore
-      const filename = res.data.filename;
+      // //@ts-ignore
+      // const filename = res.data.filename;
 
-      const aTag = document.createElement("a");
-      aTag.href = filename;
-      aTag.target = "_blank";
-      // aTag.setAttribute(
-      //   "download",
-      //   `report_${moment(Date.now()).format("YYYY_MM_DD_hh_mm_ss")}.xlsx`
-      // );
+      // const aTag = document.createElement("a");
+      // aTag.href = filename;
+      // aTag.target = "_blank";
+      // // aTag.setAttribute(
+      // //   "download",
+      // //   `report_${moment(Date.now()).format("YYYY_MM_DD_hh_mm_ss")}.xlsx`
+      // // );
 
-      document.body.appendChild(aTag);
-      aTag.click();
-      aTag.remove();
+      // document.body.appendChild(aTag);
+      // aTag.click();
+      // aTag.remove();
     } catch (err) {
       console.log("ERROR", err);
     }
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5, ease: "easeInOut" }}
-      exit={{ opacity: 0, transition: { duration: 0.2 } }}
-      key="piezometer-report-details"
-    >
+    <>
       <MenuNavbar />
 
-      <div className="mt-20 lg:mt-10 grid grid-cols-1 sz450:grid-cols-2 gap-y-10 pb-10 border-b border-[#F1F5F9]">
-        <h1 className="font-semibold text-2xl 2xl:text-4xl">{report.title}</h1>
+      <div className="mt-12 md:mt-0 flex flex-col gap-y-12">
 
-        <Link to="/reports/piezometers" className="sz450:text-end">
-          <span className="cursor-pointer text-bluePrimary pb-1 border-b border-bluePrimary w-max sz450:justify-self-end justify-items-end  2xl:text-2xl font-medium ">
-            &larr; Back
-          </span>
-        </Link>
+        <div className="flex items-center justify-between gap-x-8 gap-y-8 flex-wrap">
+          <h1 className="md:text-lg 2xl:text-xl font-bold">{report.title}</h1>
 
-        {/* <button className="flex items-center gap-x-2 2xl:gap-x-3 bg-orangeSecondary px-4 py-2 2xl:px-6 2xl:py-3 rounded-[14px] text-white shadow-md shadow-orangeSecondaryShadow w-max ">
-          <BsDownload className="2xl:w-6 2xl:h-6" />
-          <span className="font-semibold 2xl:text-xl">Generate report </span>
-        </button> */}
+          <div className="flex items-center gap-x-12 flex-wrap gap-y-8">
+
+            <button
+              onClick={downloadReport}
+              className="flex items-center gap-x-2 md:gap-x-3 lg:gap-x-4 px-4 py-2 bg-[#333] text-white rounded-xl"
+            >
+              <BsDownload className="w-4 h-4 md:w-5 md:h-5" />
+              <span className="text-sm md:text-base">
+                Download report on PDF
+              </span>
+            </button>
+
+            <Link to="/reports/piezometers">
+              <span className="cursor-pointer text-bluePrimary pb-1 border-b-2 border-[#777] border-bluePrimary w-max sz450:justify-self-end md:text-lg  font-semibold ">
+                &larr; Back
+              </span>
+            </Link>
+
+          </div>
+        </div>
+        <div className="text-sm font-medium">{report.description}</div>
       </div>
 
-      <main className="py-12">
-        <div className="2xl:text-xl font-medium">{report.description}</div>
 
-        <button
-          onClick={downloadReport}
-          className="flex items-center gap-x-2 2xl:gap-3 bg-orangeSecondary px-4 py-2 2xl:px-6 2xl:py-4 rounded-[14px] text-white shadow-md shadow-orangeSecondaryShadow w-max mt-16"
-        >
-          <BsDownload className="2xl:w-6 2xl:h-6" />
-          <span className="font-medium 2xl:text-xl">
-            Download report on PDF
-          </span>
-        </button>
+      <div className="py-12">
+        
+
+        
 
         <div className="mt-16 flex flex-col gap-y-8">
           <h2 className="text-lg font-semibold 2xl:text-2xl">
@@ -355,7 +355,7 @@ function PiezoReportDetails() {
                 boxShadow: boxShadowSlight,
               }}
             >
-              {piezometersData?.status !== 4 ? (
+              {/* {piezometersData?.status !== 4 ? (
                 <BarChart
                   chartType={chartType}
                   chartState={{
@@ -368,7 +368,7 @@ function PiezoReportDetails() {
                 <span className="text-lg font-semibold 2xl:text-xl 3xl:text-2xl py-10">
                   Proposed piezometer. No lectures yet
                 </span>
-              )}
+              )} */}
             </div>
 
             <div className="mt-16 2xl:mt-24">
@@ -403,9 +403,9 @@ function PiezoReportDetails() {
             </div>
           </div>
         </div>
-      </main>
-      <Toaster position="top-right" />
-    </motion.div>
+      </div>
+      
+    </>
   );
 }
 

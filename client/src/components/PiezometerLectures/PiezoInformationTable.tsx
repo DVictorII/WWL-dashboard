@@ -6,10 +6,14 @@ import { fetchLastReadings, fetchPiezometerData } from "../../utils/map";
 import { FadeLoader } from "react-spinners";
 import { monitoringMapStatusInfo } from "../../utils/monitoringMapStatusInfo";
 import { capitalizeName } from "../../utils/monitoringMapStatusInfo";
+import { useLocation } from "react-router-dom";
+import { useNewPiezoReportStateStore } from "../../store/NewPiezoReportStateStore";
 
 function PiezoInformationTable() {
-  const paddock = usePiezometerLecturesStateStore((s) => s.paddock);
-  const piezo = usePiezometerLecturesStateStore((s) => s.piezo);
+  const location = useLocation().pathname
+
+  const paddock = location === "/piezometer-lectures" ? usePiezometerLecturesStateStore((s) => s.paddock):  useNewPiezoReportStateStore((state) => state.paddock);
+  const piezo =  location === "/piezometer-lectures" ? usePiezometerLecturesStateStore((s) => s.piezo):  useNewPiezoReportStateStore((state) => state.piezo);
 
   const { isLoading: piezometersAreLoading, data: piezometersData } = useQuery({
     queryKey: [`Onepiezometer_${paddock}_${piezo}`],
@@ -62,8 +66,8 @@ function PiezoInformationTable() {
           <tr style={{
             backgroundColor: statusStateObj.lightColor
           }} className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12   ">
-            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span>Location coordinates:</span>
+            <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px]">
+              <span >Location coordinates:</span>
             </th>
 
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
@@ -72,7 +76,7 @@ function PiezoInformationTable() {
           </tr>
 
           <tr className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12 bg-white ">
-            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
+            <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px]">
               <span>Section:</span>
             </th>
 
@@ -84,7 +88,7 @@ function PiezoInformationTable() {
           <tr style={{
             backgroundColor: statusStateObj.lightColor
           }} className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12  ">
-            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
+            <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px]">
               <span>Depth:</span>
             </th>
 
@@ -96,7 +100,7 @@ function PiezoInformationTable() {
           </tr>
 
           <tr className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12 bg-white ">
-            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
+            <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px]">
               <span>Status:</span>
             </th>
 
@@ -109,7 +113,7 @@ function PiezoInformationTable() {
           <tr style={{
             backgroundColor: statusStateObj.lightColor
           }} className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12  ">
-            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
+            <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px]">
               <span>Current PWP</span>
             </th>
 
@@ -121,7 +125,7 @@ function PiezoInformationTable() {
           </tr>
 
           <tr className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12 bg-white ">
-            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
+            <th className="flex items-center gap-x-2 w-20 justify-center font-bold  text-[11px]">
               <span>Last reading at:</span>
             </th>
 

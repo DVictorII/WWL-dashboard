@@ -602,7 +602,8 @@ def create_chart(paddock, piezo, days, initial_pressure,dates):
     now = datetime.now()
     dt_string = now.strftime("%Y%m%d%H%M%S")
 
-    filename = os.getcwd() + f"/static/img/charts/{paddock}_{piezo}_{days}_{dt_string}.png"
+    filename = os.getcwd() + f"\static\img\charts\{paddock}_{piezo}_{days}_{dt_string}.png"
+    print("FILENAME", filename)
 
     
     plt.savefig(filename)
@@ -741,13 +742,16 @@ def save_pdf():
   
     if len(lecturesDates) != 0 and len(lecturesPressure) != 0:
         chart_filename = create_chart(paddock, piezo, days,lecturesPressure,lecturesDates)
-        filename = create_pdf(title, description, paddock, piezo, date, averagePWP, inoperativeDates, days, chart_filename, sectionURL, lecturesDates)
+        # filename = create_pdf(title, description, paddock, piezo, date, averagePWP, inoperativeDates, days, chart_filename, sectionURL, lecturesDates)
+        filename="uwu"
         return jsonify({
             "filename": filename,
         })
     else:
         chart_filename ="None"
-        filename = create_pdf(title, description, paddock, piezo, date, averagePWP, inoperativeDates, days, chart_filename, sectionURL, lecturesDates)
+        # filename = create_pdf(title, description, paddock, piezo, date, averagePWP, inoperativeDates, days, chart_filename, sectionURL, lecturesDates)
+        filename="uwu"
+        print("ASA")
         return jsonify({
             "filename": filename,
         })

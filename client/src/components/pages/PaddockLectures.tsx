@@ -40,106 +40,41 @@ function PaddockLectures() {
   return (
     <>
       <MenuNavbar />
-      <div className="mt-12 md:mt-0 flex flex-col gap-y-8 justify-between">
+      <div className="mt-12 md:mt-0 flex flex-col gap-y-6 justify-between">
         <h1 className="md:text-lg 2xl:text-xl font-bold ">
           Monitoring of Paddock - dashboard
         </h1>
-        <p className="text-sm ">
+        <p className="text-sm font-medium">
           Use the interactive chart below to explore piezometer readings from
           Paddock{" "}
         </p>
       </div>
-      <div className="md:bg-[#ccc] bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-10 md:gap-y-12 w-full">
-          <LecturesLocationTable />
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 xl:gap-x-10 gap-y-8 xl:gap-y-10">
-            <div className="bg-white my-4 md:my-0 md:p-4 xl:p-8 2xl:p-10 rounded-[14px] flex flex-col gap-y-4 md:gap-y-8">
-              <h2 className="text-sm md:text-base font-semibold" key={`${paddock}${piezo}`}>
-                {paddock} / {piezo}
-              </h2>
-              <PiezoInformationTable />
+      <div className="md:bg-[#f5f5f5] bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-16">
+
+        <div className=" flex flex-col gap-y-10 md:gap-y-12 w-full">
+            <LecturesLocationTable />
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 xl:gap-x-10 gap-y-8 xl:gap-y-10">
+              <div className="bg-white my-4 md:my-0 md:px-4 md:py-8 rounded-[14px] flex flex-col gap-y-4 ">
+                <h2 className="text-sm md:text-base font-semibold" key={`${paddock}${piezo}`}>
+                  {paddock} / {piezo}
+                </h2>
+                <PiezoInformationTable />
+              </div>
+
+              <div key={`${piezo}${paddock}`}>
+                
+                <PaddockMapWrapper />
+              </div>
             </div>
 
-            <div key={`${piezo}${paddock}`}>
-              
-              <PaddockMapWrapper />
-            </div>
-          </div>
-
-          <LecturesStateShowing />
-      </div>
-      <PiezoLecturesComponent />
-
-      {/* <ChartTable
-        chartState={chartState}
-        piezoListDisplay={piezoListDisplay}
-        displayingDate
-      />
-      <div className="mt-16">
-        <ChartTypeSelection changeChartType={changeChartType} />
-      </div>
-      <div
-        className={`mt-12  rounded-lg  ${
-          piezometersData[0].status === 4
-            ? "flex items-center justify-center h-32"
-            : "pb-4"
-        }`}
-        style={{
-          boxShadow: boxShadowSlight,
-        }}
-      >
-        {piezometersData[0].status !== 4 ? (
-          <BarChart chartType={chartType} chartState={chartState} />
-        ) : (
-          <span className="text-lg font-semibold 2xl:text-xl 3xl:text-2xl py-10">
-            Proposed piezometer. No lectures yet
-          </span>
-        )}
-      </div>
-      <div className="mt-20 2xl:mt-24">
-        <h2 className="text-lg  font-semibold">
-          Piezometer location map{" "}
-          {piezometersData[0].depth &&
-            `(Depth: ${Number(piezometersData[0].depth).toFixed(1)} m)`}
-        </h2>
-
-        <div className="mt-8" key={mapKey}>
-          <PaddockMapWrapper paddock={paddock} piezo={piezo} />
+            {/* <LecturesStateShowing /> */}
         </div>
-      </div>
-      <div className="mt-20 2xl:mt-24">
-        <h2 className="text-lg  font-semibold">Section Graph</h2>
+        <PiezoLecturesComponent />
 
-        <div className=" w-full  rounded-[14px] overflow-hidden shadow-md mt-16">
-          {piezometersAreLoading ? (
-            <div className="w-full h-full flex items-center justify-center">
-              <FadeLoader
-                color="#BD9C45"
-                loading={piezometersAreLoading}
-                radius={50}
-              />
-            </div>
-          ) : (
-            <>
-              {piezometersData[0].section ? (
-                <img
-                  className="cursor-pointer"
-                  onClick={() =>
-                    openSectionImg(
-                      `/img/sections/${piezometersData[0].section}.png`
-                    )
-                  }
-                  src={`/img/sections/${piezometersData[0].section}.png`}
-                />
-              ) : (
-                <div className="flex justify-center items-center py-10">
-                  Piezometer don't belong to any section
-                </div>
-              )}
-            </>
-          )}
-        </div>
-      </div> */}
+      </div>
+
       {
         sectionImgIsOpen ? (<div className="fixed top-0 left-0 h-screen w-screen z-[100] flex items-center justify-center">
             <div onClick={closeSectionImg} className="absolute top-0 left-0 w-full h-full bg-[#222222] bg-opacity-50 blur-md  "/>

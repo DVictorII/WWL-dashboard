@@ -47,10 +47,12 @@ function PiezoReports() {
             <BsBookmarkHeartFill className="w-3 h-3 xl:w-4 xl:h-4" />
           </div>
 
-          <button className="flex items-center gap-x-2 px-3 xl:px-4 py-2 bg-[#333] text-white rounded-[8px]">
-            <BsPlusSquare className="w-3 h-3 xl:w-4 xl:h-4" />
-            <span className="text-xs xl:text-sm font-bold">new</span>
-          </button>
+          <Link to="/reports/piezometers/new-report">
+            <button className="flex items-center gap-x-2 px-3 xl:px-4 py-2 bg-[#333] text-white rounded-[8px]">
+              <BsPlusSquare className="w-3 h-3 xl:w-4 xl:h-4" />
+              <span className="text-xs xl:text-sm font-bold">new</span>
+            </button>
+          </Link>
         </div>
       </div>
 
@@ -87,36 +89,7 @@ function PiezoReports() {
         </div>
       </div>
 
-      {/* <div className="mt-20 lg:mt-10 flex flex-col sz450:flex-row sz450:items-center sz450:justify-between gap-y-8 pb-10 border-b border-[#F1F5F9]">
-        <h1 className="font-bold text-2xl 2xl:text-4xl">Piezo. Reports</h1>
-
-        <button
-          className="flex items-center gap-x-2 2xl:gap-x-3 bg-[#333] px-4 py-2 2xl:px-6 2xl:py-3 rounded-[10px] text-white w-max"
-          style={{ boxShadow: boxShadowSlight }}
-        >
-          <AiOutlinePlus className="2xl:w-6 2xl:h-6" />
-          <Link to={"/reports/piezometers/new-report"}>
-            <span className="font-medium 2xl:text-xl">Add new report </span>
-          </Link>
-        </button>
-      </div>
-
-      <div className="pb-12">
-        {isLoading ? (
-          <div className="w-full h-full flex items-center justify-center">
-            <FadeLoader color="#BD9C45" loading={isLoading} radius={50} />
-          </div>
-        ) : (
-          <>
-            
-            {piezoReports.map((report) => (
-              <div className="mt-20">
-                <PiezoReportComp report={report} />
-              </div>
-            ))}
-          </>
-        )}
-      </div> */}
+      
     </>
   );
 }

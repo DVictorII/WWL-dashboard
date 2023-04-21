@@ -5,33 +5,58 @@ import { motion } from "framer-motion";
 
 import { Link } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import { useSectionImgStore } from "../../store/sectionImgStore";
+
+//@ts-ignore
+import BarChart from "../BarChart"
 
 function NewPiezoReport() {
+  const sectionImgIsOpen = useSectionImgStore((s) => s.sectionImgIsOpen);
+  const closeSectionImg = useSectionImgStore((s) => s.closeSectionImg);
+
+  const fullPageBarChartIsOpen = useSectionImgStore((s) => s.fullPageBarChartIsOpen);
+  const closeFullPageBarChart = useSectionImgStore((s) => s.closeFullPageBarChart);
+  const imgURL = useSectionImgStore((s) => s.imgURL);
+
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5, ease: "easeInOut" }}
-      exit={{ opacity: 0, transition: { duration: 0.2 } }}
-      key="new-piezometer-report"
-    >
+    <>
       <MenuNavbar />
 
-      <div className="mt-20 lg:mt-10 flex flex-col md:flex-row md:items-center md:justify-between gap-y-8 pb-10 border-b border-[#F1F5F9]">
-        <h1 className="font-semibold text-2xl  2xl:text-4xl">New Report</h1>
+      <div className="mt-12 md:mt-0 flex items-center justify-between gap-x-16 flex-wrap ">
+        <h1 className="md:text-lg 2xl:text-xl font-bold">New Report</h1>
 
         <Link to="/reports/piezometers">
-          <span className="cursor-pointer text-bluePrimary pb-1 border-b border-bluePrimary w-max sz450:justify-self-end 2xl:text-2xl font-medium">
+          <span className="cursor-pointer text-bluePrimary pb-1 border-b-2 border-[#777] border-bluePrimary w-max sz450:justify-self-end md:text-lg  font-semibold">
             &larr; Back
           </span>
         </Link>
       </div>
 
-      <main className="py-12">
+      <div className="md:bg-[#f5f5f5] bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-8">
         <PiezoReportForm />
-      </main>
-      <Toaster position="top-right" />
-    </motion.div>
+      </div>
+
+      {
+        sectionImgIsOpen ? (<div className="fixed top-0 left-0 h-screen w-screen z-[100] flex items-center justify-center">
+            <div onClick={closeSectionImg} className="absolute top-0 left-0 w-full h-full bg-[#222222] bg-opacity-50 blur-md  "/>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-[700px] md:w-4/5 rounded-[14px] overflow-hidden shadow-sm shadow-sky-900  rotate-90 origin-center lg:rotate-0">
+              <img className=" w-full "  src={imgURL} />
+            </div>
+        </div>)
+    :null  
+      }
+
+      {
+        fullPageBarChartIsOpen ? (<div className="fixed top-0 left-0 h-screen w-screen z-[100] flex items-center justify-center">
+            <div onClick={closeFullPageBarChart} className="absolute top-0 left-0 w-full h-full bg-[#222222] bg-opacity-50 blur-md  "/>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-[700px] md:w-4/5 rounded-[14px] h-1/2  shadow-sm shadow-sky-900  rotate-90 origin-center lg:rotate-0 ">
+                <BarChart />
+            </div>
+        </div>)
+    :null  
+      }
+      
+    </>
   );
 }
 
