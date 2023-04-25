@@ -15,12 +15,12 @@ function DateTable() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 xl:gap-x-10 z-[50] relative">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 xl:gap-x-10 z-[50] relative">
       <div className="flex flex-col gap-y-1">
-        <h3 className=" text-xs font-semibold">Date</h3>
+        <h3 className=" text-[10px] xl:text-xs  font-bold text-[#555] ">Date</h3>
 
         <Datepicker
-          inputClassName="py-4 rounded-xl dark:bg-[#222222]"
+          inputClassName="py-4 rounded-lg dark:bg-[#18212f]"
           useRange={false}
           asSingle={true}
           // showShortcuts={true}
@@ -35,7 +35,7 @@ function DateTable() {
             //@ts-ignore
             changeDate(value.startDate);
           }}
-          displayFormat={"MMM DD YYYY"}
+          displayFormat={"MMM DD, YYYY"}
           readOnly={true}
         />
       </div>

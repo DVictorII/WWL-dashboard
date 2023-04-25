@@ -95,12 +95,12 @@ const Index = () => {
       <MenuNavbar />
 
       <div className="flex items-center justify-between gap-x-8 gap-y-8 flex-wrap mt-12 md:mt-0">
-        <h1 className=" md:text-lg 2xl:text-xl font-bold">
+        <h1 className="md:text-lg 2xl:text-xl font-bold">
           Monitoring Map (92 Piezometers)
         </h1>
         <button
           onClick={downloadReport}
-          className="flex items-center gap-x-2 md:gap-x-3 lg:gap-x-4 px-4 py-2 bg-[#222] text-white rounded-xl"
+          className="flex items-center gap-x-2 md:gap-x-3 lg:gap-x-4 px-4 py-2 bg-[#1E293B] text-white rounded-xl"
         >
           <AiOutlineDownload className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
           <span className="text-sm md:text-base lg:text-lg">
@@ -110,9 +110,9 @@ const Index = () => {
       </div>
 
 
-      <div className="md:bg-[#f5f5f5] bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-8">
+      <div className=" bg-backgroundWhite md:bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-8 md:shadow-lg ">
         <h2 className="font-semibold flex gap-x-8 items-end">
-          <span className="md:text-lg 2xl:text-xl">
+          <span className="font-semibold text-sm 2xl:text-base">
             {selectedStatus.name === "incident"
               ? "Incidents"
               : selectedStatus.name === "tarp"
@@ -141,7 +141,7 @@ const Index = () => {
           className="flex flex-col gap-y-4 mt-8"
           key={`${piezo}${paddock}${status}${date}`}
         >
-          <h2 className="md:text-lg 2xl:text-xl font-semibold">
+          <h2 className="font-semibold text-sm 2xl:text-base">
             {status !== 6
               ? "Piezometers interactive map"
               : "Incidents interactive map"}

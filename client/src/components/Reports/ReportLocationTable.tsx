@@ -22,51 +22,55 @@ function ReportLocationTable() {
   });
 
   return (
-    <div className="grid grid-cols-2 gap-x-8 xl:gap-x-10 z-[40] w-full ">
-      <div className="flex flex-col gap-y-1">
-        <span className=" text-[10px] xl:text-xs 2xl:text-sm font-bold text-[#555]">
+    <div className="flex flex-col gap-y-8 ">
+      <div className="flex flex-col sz500:w-4/5 md:w-5/6 lg:w-full sz500:self-center sz500:grid sz500:grid-cols-4 md:grid-cols-3  gap-y-1 sz500:gap-y-8 gap-x-8">
+        <span className="text-[10px] xl:text-xs 2xl:text-sm font-bold text-[#555] justify-self-end">
           Paddock section
         </span>
 
-        <Select
-          primaryColor="orange"
-          value={{ value: paddock, label: paddock, disabled: false }}
-          //@ts-ignore
-          onChange={(e) => changePaddock(e.value)}
-          options={paddockOptions}
-          classNames={{
+        <div className="sz500:col-span-3 md:col-span-2">
+          <Select
+            primaryColor="orange"
+            value={{ value: paddock, label: paddock, disabled: false }}
             //@ts-ignore
-            menuButton: ({ isDisabled }) =>
-              `flex text-sm text-gray-500 border border-gray-300 shadow-sm  rounded-xl h-10 2xl:h-12 items-center   transition-all duration-300 focus:outline-none ${
-                isDisabled
-                  ? "bg-gray-200"
-                  : "bg-[#f9f9f9]  focus:border-orange-500 focus:border-opacity-50"
-              }`,
-          }}
-        />
+            onChange={(e) => changePaddock(e.value)}
+            options={paddockOptions}
+            classNames={{
+              //@ts-ignore
+              menuButton: ({ isDisabled }) =>
+                `flex text-sm text-gray-500 border border-[#dfdfdf] shadow-sm  rounded-lg h-10 2xl:h-12 items-center   transition-all duration-300 focus:outline-none ${
+                  isDisabled
+                    ? "bg-gray-200"
+                    : "text-sm bg-[#f5f5f5] text-[#333] font-semibold focus:border-orange-500 focus:border-opacity-50"
+                }`,
+            }}
+          />
+        </div>
       </div>
-      <div className="flex flex-col gap-y-1">
-        <span className="text-[10px] xl:text-xs 2xl:text-sm font-bold text-[#555]">
+      <div className="flex flex-col sz500:w-4/5 md:w-5/6 lg:w-full sz500:self-center sz500:grid sz500:grid-cols-4 md:grid-cols-3  gap-y-1 sz500:gap-y-8 gap-x-8">
+        <span className="text-[10px] xl:text-xs 2xl:text-sm font-bold text-[#555] justify-self-end">
           Piezometer ID
         </span>
 
-        <Select
-          primaryColor="orange"
-          //@ts-ignore
-          value={{ value: piezo, label: piezo }}
-          //@ts-ignore
-          onChange={(e) => changePiezo(e.value)}
-          options={piezoOptions}
-          classNames={{
+        <div className="sz500:col-span-3 md:col-span-2">
+          <Select
+            primaryColor="orange"
             //@ts-ignore
-            menuButton: ({ isDisabled }) =>
-              `flex text-sm text-gray-500 border border-gray-300 shadow-sm rounded-xl h-10 2xl:h-12 items-center   transition-all duration-300 focus:outline-none ${
-                isDisabled
-                  ? "bg-gray-200"
-                  : "bg-[#f9f9f9]  focus:border-orange-500 focus:border-opacity-50"
-              }`,
-          }}
-        />
+            value={{ value: piezo, label: piezo }}
+            //@ts-ignore
+            onChange={(e) => changePiezo(e.value)}
+            options={piezoOptions}
+            classNames={{
+              //@ts-ignore
+              menuButton: ({ isDisabled }) =>
+                `flex text-sm text-gray-500 border border-[#dfdfdf] shadow-sm rounded-lg h-10 2xl:h-12 items-center   transition-all duration-300 focus:outline-none ${
+                  isDisabled
+                    ? "bg-gray-200"
+                    : "text-sm bg-[#f5f5f5] text-[#333] font-semibold focus:border-orange-500 focus:border-opacity-50"
+                }`,
+            }}
+          />
+        </div>
       </div>
     </div>
   );

@@ -39,7 +39,7 @@ function NewPiezoReport() {
         </Link>
       </div>
 
-      <div className="md:bg-[#f5f5f5] bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-8">
+      <div className="md:bg-white bg-[#f1f1f1]   md:px-8 md:py-10  rounded-xl mt-12 flex flex-col gap-y-8 md:shadow-lg">
         <PiezoReportForm />
       </div>
 

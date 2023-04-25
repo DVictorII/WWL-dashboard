@@ -5,25 +5,31 @@ import { FiAlertTriangle, FiAlertOctagon } from "react-icons/fi";
 import { VscDebugDisconnect } from "react-icons/vsc";
 import { SiFlood } from "react-icons/si";
 import { useMonitoringMapStateStore } from "../../../store/MonitoringMapStateStore";
+import { monitoringMapStatusInfo } from "../../../utils/monitoringMapStatusInfo";
 
 function StatusTable() {
   const status = useMonitoringMapStateStore((state) => state.status);
+  //@ts-ignore
+  const selectedStatus = monitoringMapStatusInfo[status];
+
   const changeStatus = useMonitoringMapStateStore(
     (state) => state.changeStatus
   );
   return (
     <div className="flex flex-col gap-y-1">
-      <h3 className="text-xs font-semibold">Piezometer status</h3>
+      <h3 className="text-[10px] xl:text-xs  font-bold text-[#555] justify-self-end">Piezometer status</h3>
 
-      <div className="py-2 flex items-center w-full justify-evenly border-2 border-[#69742C] rounded-xl">
+      <div style={{
+        borderColor: selectedStatus.darkColor,
+      }} className="py-2 flex items-center w-full justify-evenly border-2  rounded-lg shadow-sm">
         <div className="relative group">
           <button
             onClick={() => {
               status !== 0 && changeStatus(0);
             }}
             className={` w-10 h-10 xl:w-12 xl:h-12 flex justify-center items-center ${
-              status === 0 ? "bg-gray-300" : "bg-transparent"
-            } hover:bg-gray-300  transition-all duration-500 cursor-pointer rounded-full `}
+              status === 0 ? "bg-all-normal bg-opacity-20" : "bg-transparent"
+            } hover:bg-all-normal hover:bg-opacity-20  transition-all duration-500 cursor-pointer rounded-full `}
           >
             <span className="font-semibold text-sm">All</span>
           </button>

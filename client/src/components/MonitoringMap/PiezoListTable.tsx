@@ -72,7 +72,7 @@ function PiezoListTable() {
       style={{
         borderColor: selectedStatus.darkColor,
       }}
-      className={`max-w-[1000vh] h-[21rem] md:h-[24rem] overflow-x-auto rounded-lg border-2 bg-white`}
+      className={`max-w-[1000vh] h-[21rem] md:h-[24rem] overflow-x-auto rounded-lg border-2 bg-white shadow-sm`}
     >
       <table className="select-none w-full border-collapse bg-white">
         <thead>
@@ -80,7 +80,7 @@ function PiezoListTable() {
             style={{
               backgroundColor: selectedStatus.darkColor,
             }}
-            className={`w-full flex items-center px-8 whitespace-nowrap  gap-x-14 md:gap-x-16 justify-evenly   text-xs h-12  font-medium text-white`}
+            className={`w-full flex items-center px-8 whitespace-nowrap   gap-x-10 md:gap-x-12 justify-evenly   text-xs h-12  font-medium text-white`}
           >
             <th className="flex items-center gap-x-2 w-16 md:w-20 justify-center ">
               <span className="text-[11px] md:text-xs">Piezo. ID</span>
@@ -137,7 +137,7 @@ function PiezoListTable() {
                     backgroundColor:
                       i % 2 === 0 ? selectedStatus.lightColor : "#fff",
                   }}
-                  className="w-full flex items-center whitespace-nowrap gap-x-14 md:gap-x-16 px-8  h-12  "
+                  className="w-full flex items-center whitespace-nowrap  gap-x-10 md:gap-x-12 px-8  h-12  "
                 >
                   <th className="flex items-center gap-x-2 w-16 md:w-20 justify-center">
                     <span className="text-[9px] md:text-[10px]">{piezometer.id}</span>
@@ -151,11 +151,11 @@ function PiezoListTable() {
                     <span className="text-[9px] md:text-[10px]">{piezometer.section}</span>
                   </th>
 
-                  <th className="flex items-center gap-x-2 w-24 md:w-28 justify-center">
+                  <th className="flex flex-col gap-y-1 items-center gap-x-2 w-24 md:w-28 justify-center">
                     <span className="text-[9px] md:text-[10px]">
-                      {piezometer.lat},<br />
-                      {piezometer.lon}
+                      {piezometer.lat},
                     </span>
+                    <span className="text-[9px] md:text-[10px]">{piezometer.lon}</span>
                   </th>
 
                   <th
@@ -180,7 +180,7 @@ function PiezoListTable() {
               );
             })
           }
-          {/* <tr className='w-full flex items-center whitespace-nowrap gap-x-14 md:gap-x-16 px-8 text-[10px] h-12 bg-white '>
+          {/* <tr className='w-full flex items-center whitespace-nowrap  gap-x-10 md:gap-x-12 px-8 text-[10px] h-12 bg-white '>
                 <th className='flex items-center gap-x-2 w-20 justify-center'>
                 <span>VW-YB-01</span>
                     
@@ -222,7 +222,7 @@ function PiezoListTable() {
 
             <tr style={{
                 backgroundColor:selectedStatus.lightColor,
-            }} className={`w-full flex items-center whitespace-nowrap gap-x-14 md:gap-x-16 px-8 text-[10px] h-12  bg-opacity-30  `}>
+            }} className={`w-full flex items-center whitespace-nowrap  gap-x-10 md:gap-x-12 px-8 text-[10px] h-12  bg-opacity-30  `}>
                 <th className='flex items-center gap-x-2 w-20 justify-center'>
                 <span>VW-YB-01</span>
                     
@@ -262,91 +262,7 @@ function PiezoListTable() {
 
 
 
-            <tr className='w-full flex items-center whitespace-nowrap gap-x-14 md:gap-x-16 px-8 text-[10px] h-12 bg-white  '>
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>VW-YB-01</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>Y1/Y2</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>Section-17</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-24 md:w-28 justify-center'>
-                <span>-22.29382918,<br/>
-    -15.82938212</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>14.0 m</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-24 md:w-28 justify-center'>
-                <span className="text-2xl">-</span>
-                    
-                </th>
-                
-                
-                
-                
-            </tr>
-
-
-
-
-
-            <tr style={{
-                backgroundColor:selectedStatus.lightColor,
-            }} className={`w-full flex items-center whitespace-nowrap gap-x-14 md:gap-x-16 px-8 text-[10px] h-12  bg-opacity-30  `}>
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>VW-YB-01</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>Y1/Y2</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>Section-17</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-24 md:w-28 justify-center'>
-                <span>-22.29382918,<br/>
-    -15.82938212</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>14.0 m</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-24 md:w-28 justify-center'>
-                <span className="text-2xl">-</span>
-                    
-                </th>
-                
-                
-                
-                
-            </tr>
-
-
-
-
-
-            <tr className='w-full flex items-center whitespace-nowrap gap-x-14 md:gap-x-16 px-8 text-[10px] h-12 bg-white  '>
+            <tr className='w-full flex items-center whitespace-nowrap  gap-x-10 md:gap-x-12 px-8 text-[10px] h-12 bg-white  '>
                 <th className='flex items-center gap-x-2 w-20 justify-center'>
                 <span>VW-YB-01</span>
                     
@@ -389,7 +305,7 @@ function PiezoListTable() {
 
             <tr style={{
                 backgroundColor:selectedStatus.lightColor,
-            }} className={`w-full flex items-center whitespace-nowrap gap-x-14 md:gap-x-16 px-8 text-[10px] h-12  bg-opacity-30  `}>
+            }} className={`w-full flex items-center whitespace-nowrap  gap-x-10 md:gap-x-12 px-8 text-[10px] h-12  bg-opacity-30  `}>
                 <th className='flex items-center gap-x-2 w-20 justify-center'>
                 <span>VW-YB-01</span>
                     
@@ -430,7 +346,91 @@ function PiezoListTable() {
 
 
 
-            <tr className='w-full flex items-center whitespace-nowrap gap-x-14 md:gap-x-16 px-8 text-[10px] h-12 bg-white  '>
+            <tr className='w-full flex items-center whitespace-nowrap  gap-x-10 md:gap-x-12 px-8 text-[10px] h-12 bg-white  '>
+                <th className='flex items-center gap-x-2 w-20 justify-center'>
+                <span>VW-YB-01</span>
+                    
+                </th>
+
+                <th className='flex items-center gap-x-2 w-20 justify-center'>
+                <span>Y1/Y2</span>
+                    
+                </th>
+
+                <th className='flex items-center gap-x-2 w-20 justify-center'>
+                <span>Section-17</span>
+                    
+                </th>
+
+                <th className='flex items-center gap-x-2 w-24 md:w-28 justify-center'>
+                <span>-22.29382918,<br/>
+    -15.82938212</span>
+                    
+                </th>
+
+                <th className='flex items-center gap-x-2 w-20 justify-center'>
+                <span>14.0 m</span>
+                    
+                </th>
+
+                <th className='flex items-center gap-x-2 w-24 md:w-28 justify-center'>
+                <span className="text-2xl">-</span>
+                    
+                </th>
+                
+                
+                
+                
+            </tr>
+
+
+
+
+
+            <tr style={{
+                backgroundColor:selectedStatus.lightColor,
+            }} className={`w-full flex items-center whitespace-nowrap  gap-x-10 md:gap-x-12 px-8 text-[10px] h-12  bg-opacity-30  `}>
+                <th className='flex items-center gap-x-2 w-20 justify-center'>
+                <span>VW-YB-01</span>
+                    
+                </th>
+
+                <th className='flex items-center gap-x-2 w-20 justify-center'>
+                <span>Y1/Y2</span>
+                    
+                </th>
+
+                <th className='flex items-center gap-x-2 w-20 justify-center'>
+                <span>Section-17</span>
+                    
+                </th>
+
+                <th className='flex items-center gap-x-2 w-24 md:w-28 justify-center'>
+                <span>-22.29382918,<br/>
+    -15.82938212</span>
+                    
+                </th>
+
+                <th className='flex items-center gap-x-2 w-20 justify-center'>
+                <span>14.0 m</span>
+                    
+                </th>
+
+                <th className='flex items-center gap-x-2 w-24 md:w-28 justify-center'>
+                <span className="text-2xl">-</span>
+                    
+                </th>
+                
+                
+                
+                
+            </tr>
+
+
+
+
+
+            <tr className='w-full flex items-center whitespace-nowrap  gap-x-10 md:gap-x-12 px-8 text-[10px] h-12 bg-white  '>
                 <th className='flex items-center gap-x-2 w-20 justify-center'>
                 <span>VW-YB-01</span>
                     

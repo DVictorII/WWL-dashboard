@@ -16,7 +16,7 @@ function DaysChange() {
       min={1}
       value={days}
       onChange={(e) => changeDays(Number(e.target.value))}
-      className="px-2 md:px-3 py-1 text-sm md:text-base rounded-[8px] bg-[#333] text-white font-bold w-24"
+      className="px-2 md:px-3 py-1 text-sm md:text-base rounded-lg bg-[#333] text-white font-bold w-24"
     />
   );
 }

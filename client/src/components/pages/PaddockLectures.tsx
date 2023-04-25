@@ -45,7 +45,7 @@ function PaddockLectures() {
         </p>
       </div>
 
-      <div className="md:bg-[#f5f5f5] bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-16">
+      <div className="bg-backgroundWhite md:bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-8 md:shadow-lg ">
 
         <div className=" flex flex-col gap-y-10 md:gap-y-12 w-full">
             <LecturesLocationTable />

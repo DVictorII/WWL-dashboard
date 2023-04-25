@@ -120,7 +120,7 @@ const BarChart = ({information}) => {
           transition: { duration: 0.2, ease: "easeInOut" },
         }}
         key="pressure-chart-no-data"
-        className="h-full w-full flex justify-center items-center bg-[#f5f5f5] md:bg-white rounded-[12px] px-4"
+        className="h-full w-full flex justify-center items-center bg-white md:bg-[#f5f5f5] rounded-[12px] px-4"
       >
         
           <span className="font-semibold">Proposed piezometer. No lectures yet!</span>
@@ -139,7 +139,7 @@ const BarChart = ({information}) => {
           transition: { duration: 0.2, ease: "easeInOut" },
         }}
         key="pressure-chart-no-data"
-        className="h-full w-full flex justify-center items-center bg-[#f5f5f5] md:bg-white rounded-[12px] px-4"
+        className="h-full w-full flex justify-center items-center bg-white md:bg-[#f5f5f5] rounded-[12px] px-4"
       >
         
           <span className="font-semibold">No lectures recently. Please, increment the days span</span>

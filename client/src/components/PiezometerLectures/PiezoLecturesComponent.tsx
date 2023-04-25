@@ -7,7 +7,7 @@ import { Information } from "../../types";
 
 function PiezoLecturesComponent() {
   return (
-    <div className=" flex flex-col gap-y-10">
+    <div className=" flex flex-col gap-y-10 rounded-xl py-8">
       <h2 className="flex items-center gap-x-4 flex-wrap gap-y-2">
         <span className="text-sm md:text-base font-semibold">
           Piezometer lectures / Last

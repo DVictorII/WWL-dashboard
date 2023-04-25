@@ -45,10 +45,10 @@ function ChartTypeTable() {
         classNames={{
           //@ts-ignore
           menuButton: ({ isDisabled }) =>
-            `max-w-[15rem] flex text-sm text-gray-500 border border-gray-300 shadow-sm  rounded-xl h-10 2xl:h-12 items-center   transition-all duration-300 focus:outline-none ${
+            `max-w-[15rem] flex text-sm text-gray-500 border border-[#dfdfdf] shadow-sm  rounded-lg h-10 2xl:h-12 items-center   transition-all duration-300 focus:outline-none ${
               isDisabled
                 ? "bg-gray-200"
-                : "bg-[#f9f9f9]  focus:border-orange-500 focus:border-opacity-50"
+                : "text-sm bg-[#f5f5f5] text-[#333] font-semibold focus:border-orange-500 focus:border-opacity-50"
             }`,
         }}
       />

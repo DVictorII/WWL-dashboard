@@ -17,12 +17,14 @@ function ReportDateTable() {
     };
   
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 xl:gap-x-10 z-[50] relative">
-        <div className="flex flex-col gap-y-1">
-          <h3 className="text-[10px] xl:text-xs 2xl:text-sm font-bold text-[#555] shadow-sm">Report date</h3>
+      <div className="flex flex-col sz500:w-4/5 md:w-5/6 lg:w-full sz500:self-center sz500:grid sz500:grid-cols-4 md:grid-cols-3  gap-y-1 sz500:gap-y-8 gap-x-8 z-[50] relative">
+        
+          <span className="text-[10px] xl:text-xs 2xl:text-sm font-bold text-[#555] justify-self-end">Report date</span>
   
+          <div className='sz500:col-span-3 md:col-span-2'>
+
           <Datepicker
-            inputClassName="h-10 2xl:h-12 rounded-xl dark:bg-[#222222] shadow-sm"
+            inputClassName="py-4 rounded-xl dark:bg-all-normal"
             useRange={false}
             asSingle={true}
             // showShortcuts={true}
@@ -40,8 +42,9 @@ function ReportDateTable() {
             displayFormat={"MMM DD YYYY"}
             readOnly={true}
           />
+          </div>
         </div>
-      </div>
+      
     );
 }
 

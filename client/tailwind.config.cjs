@@ -145,9 +145,9 @@ module.exports = {
     caretColor: ({ theme }) => theme("colors"),
     colors: ({ colors }) => ({
       all: {
-        normal: "#333",
-        dark: "#222",
-        light: "#dfdfdf"
+        normal: "#18212f",
+        dark: "#0c1018",
+        light: "#d2d4d8"
       },
       active: {
         normal: "#477C9A",
@@ -175,6 +175,8 @@ module.exports = {
         dark: "#622323",
         light:"#F2E8E8"
       },
+      backgroundWhite:"#f1f1f1",
+
       inherit: colors.inherit,
       current: colors.current,
       transparent: colors.transparent,
@@ -798,6 +800,7 @@ module.exports = {
     },
     screens: {
       sz400:"400px",
+      sz500:"500px",
       sm: "640px",
       md: "768px",
       lg: "1024px",

@@ -37,7 +37,7 @@ function LocationTable() {
     <div className='grid grid-cols-2 gap-x-8 xl:gap-x-10 z-[40]'>
 
         <div className='flex flex-col gap-y-1'>
-            <h3 className='text-xs font-semibold'>Paddock section</h3>
+            <h3 className='text-[10px] xl:text-xs  font-bold text-[#555]'>Paddock section</h3>
 
             <Select
                 primaryColor='orange'
@@ -47,18 +47,20 @@ function LocationTable() {
                 onChange={(e)=>  changePaddock(e.value)}
                 options={paddockOptions}
                 //@ts-ignore
-                classNames={{menuButton: ({ isDisabled }) => (
-                    `flex text-sm text-gray-500 border-2 border-gray-300 rounded-xl py-1 shadow-sm  transition-all duration-300 focus:outline-none ${
+                classNames={{
+                    //@ts-ignore
+                    menuButton: ({ isDisabled }) =>
+                      `flex text-sm text-gray-500 border border-[#dfdfdf] shadow-sm  rounded-lg h-10 2xl:h-12 items-center   transition-all duration-300 focus:outline-none ${
                         isDisabled
-                            ? "bg-gray-200"
-                            : "bg-white hover:border-gray-400 focus:border-[#F97316] focus:ring focus:ring-[#F97316]/20"
-                    }`
-                ),}}
+                          ? "bg-gray-200"
+                          : "text-sm bg-[#f5f5f5] text-[#333] font-semibold focus:border-orange-500 focus:border-opacity-50"
+                      }`,
+                  }}
             />
 
         </div>
         <div className='flex flex-col gap-y-1'>
-            <h3 className='text-xs font-semibold'>Piezometer ID</h3>
+            <h3 className='text-[10px] xl:text-xs  font-bold text-[#555]'>Piezometer ID</h3>
 
             <Select
                 primaryColor='orange'
@@ -69,13 +71,15 @@ function LocationTable() {
                 options={piezoOptions}
 
                 //@ts-ignore
-                classNames={{menuButton: ({ isDisabled }) => (
-                    `flex text-sm text-gray-500 border-2 border-gray-300 rounded-xl py-1 shadow-sm  transition-all duration-300 focus:outline-none ${
+                classNames={{
+                    //@ts-ignore
+                    menuButton: ({ isDisabled }) =>
+                      `flex text-sm text-gray-500 border border-[#dfdfdf] shadow-sm  rounded-lg h-10 2xl:h-12 items-center   transition-all duration-300 focus:outline-none ${
                         isDisabled
-                            ? "bg-gray-200"
-                            : "bg-white hover:border-gray-400 focus:border-[#F97316] focus:ring focus:ring-[#F97316]/20"
-                    }`
-                ),}}
+                          ? "bg-gray-200"
+                          : "text-sm bg-[#f5f5f5] text-[#333] font-semibold focus:border-orange-500 focus:border-opacity-50"
+                      }`,
+                  }}
             />
 
         </div>

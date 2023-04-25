@@ -35,20 +35,20 @@ function PiezoReports() {
         </h1>
 
         <div className="flex items-center gap-x-4">
-          <div className="w-8 h-8 xl:w-10 xl:h-10 bg-[#333] flex items-center justify-center rounded-full text-white ">
-            <BsBookmarkHeartFill className="w-3 h-3 xl:w-4 xl:h-4" />
+          <div className="w-8 h-8 xl:w-10 xl:h-10 bg-all-normal flex items-center justify-center rounded-full text-white ">
+            <BsBookmarkHeartFill className="w-3 h-3 xl:w-4 xl:h-4 " />
           </div>
 
           <Link to="/reports/piezometers/new-report">
-            <button className="flex items-center gap-x-2 px-3 xl:px-4 py-2 bg-[#333] text-white rounded-[8px]">
-              <BsPlusSquare className="w-3 h-3 xl:w-4 xl:h-4" />
-              <span className="text-xs xl:text-sm font-bold">new</span>
+            <button className="flex items-center gap-x-2 px-3 xl:px-4 py-2 bg-all-normal text-white rounded-[8px]">
+              <BsPlusSquare className="w-3 h-3 xl:w-4 xl:h-4 opacity-70" />
+              <span className="text-xs xl:text-sm font-bold">New</span>
             </button>
           </Link>
         </div>
       </div>
 
-      <div className="md:bg-[#f5f5f5] bg-white   md:p-6   rounded-2xl mt-12 flex flex-col gap-y-10">
+      <div className="bg-backgroundWhite md:bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-12 md:shadow-lg ">
         
         <div className="grid-cols-1  grid gap-x-10 gap-y-10  ">
           <div className="  flex flex-col  gap-y-4 w-full ">

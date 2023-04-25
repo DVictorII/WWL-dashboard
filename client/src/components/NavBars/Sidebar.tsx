@@ -44,7 +44,7 @@ function Sidebar() {
       <div
         className="fixed top-0 left-0 h-screen pt-8 pb-12 
                         w-20 lg:w-24  2xl:w-28 m-0 flex flex-col 
-                        bg-[#222] text-white justify-between  z-[400]"
+                        bg-all-normal text-white justify-between  z-[400]"
       >
         <div className="flex flex-col items-center gap-y-6 2xl:gap-y-10 ">
           <div className="w-full relative h-20">
@@ -134,7 +134,7 @@ function Sidebar() {
                 className="bg-cover  h-full   p-10 text-white flex flex-col gap-y-24"
                 style={{
                   backgroundImage:
-                    "linear-gradient(to bottom, rgba(34,34,34,0.95), rgba(34,34,34,0.95)) ,url('/static/img/Rossing_mine.jpg') ",
+                    "linear-gradient(to bottom, rgba(12, 16, 24,0.95), rgba(12, 16, 24,0.95)) ,url('/static/img/Rossing_mine.jpg') ",
                 }}
               >
                 <motion.div
@@ -221,7 +221,7 @@ function Sidebar() {
             <motion.div
               onClick={closeMenu}
               exit={{ opacity: 0 }}
-              className="cursor-pointer fixed top-0 left-0 bg-[#222] w-screen h-screen bg-opacity-50 backdrop-blur-sm z-[200]"
+              className="cursor-pointer fixed top-0 left-0 bg-all-dark w-screen h-screen bg-opacity-50 backdrop-blur-sm z-[200]"
             />
           </>
         ) : null}

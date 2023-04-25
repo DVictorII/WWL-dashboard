@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 function ReportCard({report}:{report:ReportDetails}) {
 
   return (
-    <div className={`w-48 md:w-56 mx-auto h-full rounded-[6px] md:rounded-[8px] overflow-hidden shadow-sm`}>
+    <div className={`w-48 md:w-56 mx-auto h-full rounded-[6px] md:rounded-[8px] overflow-hidden shadow-md my-1`}>
         <div className='h-24 md:h-28  '>
             <img src="/media/img/photos/Rossing_mine.jpg" alt="mine" className='w-full h-full object-cover' />
         </div>
@@ -33,7 +33,7 @@ function ReportCard({report}:{report:ReportDetails}) {
 
             <p className='text-[8px] md:text-[10px] text-[#555] mt-1 md:mt-2 line-clamp-2 h-[30px]'>{report.report_description}</p>
 
-            <div className='w-full h-[2px] bg-[#333] bg-opacity-10 mt-4'/>
+            <div className='w-full h-[2px] bg-all-normal bg-opacity-10 mt-4'/>
 
 
             <div className='flex items-center justify-between mt-4'>
