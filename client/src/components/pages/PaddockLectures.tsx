@@ -22,20 +22,15 @@ import LecturesStateShowing from "../PiezometerLectures/LecturesStateShowing";
 import { usePiezometerLecturesStateStore } from "../../store/PiezometerLecturesStateStore";
 //@ts-ignore
 import BarChart from "../BarChart"
+import FullPageComps from "../FullPageComps";
 
 function PaddockLectures() {
   const paddock = usePiezometerLecturesStateStore((s) => s.paddock);
   const piezo = usePiezometerLecturesStateStore((s) => s.piezo);
 
-  const logOutModalIsOpen = useLogOutStore((state) => state.logOutModalIsOpen);
-  
-  const sectionImgIsOpen = useSectionImgStore((s) => s.sectionImgIsOpen);
-  const closeSectionImg = useSectionImgStore((s) => s.closeSectionImg);
+  const days = usePiezometerLecturesStateStore((s) => s.days);
+  const chartType = usePiezometerLecturesStateStore((s) => s.chartType);
 
-  const fullPageBarChartIsOpen = useSectionImgStore((s) => s.fullPageBarChartIsOpen);
-  const closeFullPageBarChart = useSectionImgStore((s) => s.closeFullPageBarChart);
-
-  const imgURL = useSectionImgStore((s) => s.imgURL);
 
   return (
     <>
@@ -56,7 +51,7 @@ function PaddockLectures() {
             <LecturesLocationTable />
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 xl:gap-x-10 gap-y-8 xl:gap-y-10">
-              <div className="bg-white my-4 md:my-0 md:px-4 md:py-8 rounded-[14px] flex flex-col gap-y-4 ">
+              <div className=" md:px-4 md:py-8 rounded-[14px] flex flex-col gap-y-4 ">
                 <h2 className="text-sm md:text-base font-semibold" key={`${paddock}${piezo}`}>
                   {paddock} / {piezo}
                 </h2>
@@ -75,25 +70,12 @@ function PaddockLectures() {
 
       </div>
 
-      {
-        sectionImgIsOpen ? (<div className="fixed top-0 left-0 h-screen w-screen z-[100] flex items-center justify-center">
-            <div onClick={closeSectionImg} className="absolute top-0 left-0 w-full h-full bg-[#222222] bg-opacity-50 blur-md  "/>
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-[700px] md:w-4/5 rounded-[14px] overflow-hidden shadow-sm shadow-sky-900  rotate-90 origin-center lg:rotate-0">
-              <img className=" w-full "  src={imgURL} />
-            </div>
-        </div>)
-    :null  
-      }
-
-      {
-        fullPageBarChartIsOpen ? (<div className="fixed top-0 left-0 h-screen w-screen z-[100] flex items-center justify-center">
-            <div onClick={closeFullPageBarChart} className="absolute top-0 left-0 w-full h-full bg-[#222222] bg-opacity-50 blur-md  "/>
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-[700px] md:w-4/5 rounded-[14px] h-1/2  shadow-sm shadow-sky-900  rotate-90 origin-center lg:rotate-0 ">
-                <BarChart />
-            </div>
-        </div>)
-    :null  
-      }
+      <FullPageComps information={{
+        paddock,
+        piezo,
+        days,
+        chartType
+      }}/>
     </>
   );
 }

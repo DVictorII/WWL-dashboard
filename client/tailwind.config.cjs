@@ -173,6 +173,7 @@ module.exports = {
       incident: {
         normal: "#831B1B",
         dark: "#622323",
+        light:"#F2E8E8"
       },
       inherit: colors.inherit,
       current: colors.current,
@@ -1004,5 +1005,7 @@ module.exports = {
       50: "50",
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/line-clamp')
+  ],
 };

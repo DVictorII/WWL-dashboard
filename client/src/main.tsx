@@ -23,6 +23,7 @@ import VisitDetails from "./components/pages/VisitDetails";
 import MediaPlayer from "./components/MediaPlayer";
 
 import PageLayout from "./components/pages/PageLayout";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 
 const router = createBrowserRouter([
@@ -144,7 +145,7 @@ const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient} contextSharing={true}>
 
       <RouterProvider router={router} />
     </QueryClientProvider>

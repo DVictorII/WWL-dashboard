@@ -16,12 +16,13 @@ import { usePageScreenSizeStore } from '../../store/pageScreenSizeStore';
 import SlidesController from './SlidesController';
 import PreviousSlideButton from './PreviousSlideButton';
 import NextSlideButton from './NextSlideButton';
+import { ReportDetails } from '../../types';
 
 
 
 
 
-function SliderComp() {
+function SliderComp({reports}:{reports:ReportDetails[]}) {
 
   const screenSize = usePageScreenSizeStore((state)=>state.screenSize)  
   const changeScreenSize = usePageScreenSizeStore((state)=>state.changeScreenSize) 
@@ -34,7 +35,7 @@ function SliderComp() {
 
   
 
-  return (
+  return reports.length >0 ?(
     <Swiper
     modules={[Navigation, Pagination, Scrollbar, A11y]}
     spaceBetween={screenSize==="mobile" ? 24 : 26}
@@ -42,39 +43,24 @@ function SliderComp() {
     className='w-full'
 
     onSlideChange={(s) => {
-      console.log(s.slides)
       setActiveIndex(s.activeIndex)}}
     >
 
       <PreviousSlideButton/>
-      
-      <SwiperSlide style={{
-        width:screenSize==="mobile" ? "12rem" : "14rem"
-      }} >
-        <ReportCard/>
-      </SwiperSlide>
-      <SwiperSlide style={{
-        width:screenSize==="mobile" ? "12rem" : "14rem"
-      }} ><ReportCard/></SwiperSlide>
-      <SwiperSlide style={{
-        width:screenSize==="mobile" ? "12rem" : "14rem"
-      }} ><ReportCard/></SwiperSlide>
-      <SwiperSlide style={{
-        width:screenSize==="mobile" ? "12rem" : "14rem"
-      }}><ReportCard/></SwiperSlide>
-      <SwiperSlide style={{
-        width:screenSize==="mobile" ? "12rem" : "14rem"
-      }}><ReportCard/></SwiperSlide>
-      <SwiperSlide style={{
-        width:screenSize==="mobile" ? "12rem" : "14rem"
-      }}><ReportCard/></SwiperSlide>
-      <SwiperSlide style={{
-        width:screenSize==="mobile" ? "12rem" : "14rem"
-      }}><ReportCard/></SwiperSlide>
+
+      {
+        reports.map(report=>(
+          <SwiperSlide style={{
+            width:screenSize==="mobile" ? "12rem" : "14rem"
+          }} key={report.report_id}>
+            <ReportCard report={report}/>
+          </SwiperSlide>
+        ))
+      }
       
       <NextSlideButton/>
     </Swiper>
-  )
+  ) : null
 }
 
 export default SliderComp

@@ -28,7 +28,7 @@ function LecturesLocationTable() {
     <div className="flex justify-between items-end gap-x-16 gap-y-8 flex-wrap">
       <div className="grid grid-cols-2 gap-x-8 xl:gap-x-10 z-[40] w-full sm:w-3/4 lg:w-1/2">
         <div className="flex flex-col gap-y-1">
-          <h3 className=" text-[10px] xl:text-xs 2xl:text-sm font-semibold">
+          <h3 className=" text-[10px] xl:text-xs 2xl:text-sm font-bold text-[#555]">
             Paddock section
           </h3>
 
@@ -41,16 +41,16 @@ function LecturesLocationTable() {
             classNames={{
               //@ts-ignore
               menuButton: ({ isDisabled }) =>
-                `flex text-sm text-gray-500 border-2 border-gray-300 rounded-xl py-1 shadow-sm  transition-all duration-300 focus:outline-none ${
+                `flex text-sm text-gray-500 border border-gray-300 shadow-sm  rounded-xl h-10 2xl:h-12 items-center   transition-all duration-300 focus:outline-none ${
                   isDisabled
                     ? "bg-gray-200"
-                    : "bg-white hover:border-gray-400 focus:border-[#F97316] focus:ring focus:ring-[#F97316]/20"
+                    : "bg-[#f9f9f9]  focus:border-orange-500 focus:border-opacity-50"
                 }`,
             }}
           />
         </div>
         <div className="flex flex-col gap-y-1">
-          <h3 className="text-[10px] xl:text-xs 2xl:text-sm font-semibold">
+          <h3 className="text-[10px] xl:text-xs 2xl:text-sm font-bold text-[#555]">
             Piezometer ID
           </h3>
 
@@ -65,10 +65,10 @@ function LecturesLocationTable() {
             classNames={{
               //@ts-ignore
               menuButton: ({ isDisabled }) =>
-                `flex text-sm text-gray-500 border-2 border-gray-300 rounded-xl py-1 shadow-sm  transition-all duration-300 focus:outline-none ${
+                `flex text-sm text-gray-500 border border-gray-300 shadow-sm  rounded-xl h-10 2xl:h-12 items-center   transition-all duration-300 focus:outline-none ${
                   isDisabled
                     ? "bg-gray-200"
-                    : "bg-white hover:border-gray-400 focus:border-[#F97316] focus:ring focus:ring-[#F97316]/20"
+                    : "bg-[#f9f9f9]  focus:border-orange-500 focus:border-opacity-50"
                 }`,
             }}
           />

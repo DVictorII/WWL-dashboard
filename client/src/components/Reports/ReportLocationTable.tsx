@@ -63,7 +63,7 @@ function ReportLocationTable() {
               `flex text-sm text-gray-500 border border-gray-300 shadow-sm rounded-xl h-10 2xl:h-12 items-center   transition-all duration-300 focus:outline-none ${
                 isDisabled
                   ? "bg-gray-200"
-                  : "bg-[#f9f9f9]  focus:border-orange-500 focus:border-opacity-70"
+                  : "bg-[#f9f9f9]  focus:border-orange-500 focus:border-opacity-50"
               }`,
           }}
         />

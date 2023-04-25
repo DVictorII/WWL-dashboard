@@ -1,37 +1,29 @@
 import MenuNavbar from "../MenuNavbar";
-import PiezoReportComp from "../PiezoReportComp";
-import ReportsFiltering from "../ReportsFiltering";
-
-import { AiOutlinePlus } from "react-icons/ai";
-
-// @ts-ignore: Unreachable code error
-import { boxShadowSlight } from "../../utils/shadow";
-
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
-//@ts-ignore: Unreachable code error
-import axios from "../../utils/axios";
+
 import { useQuery } from "react-query";
 
-import FadeLoader from "react-spinners/FadeLoader";
 import { BsBookmarkHeartFill, BsPlusSquare } from "react-icons/bs";
 import SliderComp from "../Slider/SliderComp";
 import ReportsListTable from "../Reports/ReportsListTable";
+import { fetchPiezoReports } from "../../utils/reportsFetchFunctions";
+import { useEffect } from "react";
 
 function PiezoReports() {
-  const fetchPiezoReports = async () => {
-    const result = await axios.get("/piezometer-reports");
-    return result.data.reports;
-  };
-
   const { isLoading, data: piezoReports } = useQuery(
-    "incidents",
+    "piezoReports",
     fetchPiezoReports,
     {
       refetchOnWindowFocus: false,
     }
   );
+  useEffect(()=>{
+    console.log(piezoReports)
+  },[piezoReports])
+
+  if(isLoading) return (
+    <h1>Loading...</h1>
+  )
 
   return (
     <>
@@ -57,6 +49,7 @@ function PiezoReports() {
       </div>
 
       <div className="md:bg-[#f5f5f5] bg-white   md:p-6   rounded-2xl mt-12 flex flex-col gap-y-10">
+        
         <div className="grid-cols-1  grid gap-x-10 gap-y-10  ">
           <div className="  flex flex-col  gap-y-4 w-full ">
             <h2 className="font-bold text-sm 2xl:text-base">
@@ -64,27 +57,16 @@ function PiezoReports() {
             </h2>
 
             <div className="w-full ">
-              <SliderComp />
+              <SliderComp reports={piezoReports}/>
             </div>
           </div>
-
-          {/* <div className='  flex flex-col  gap-y-4 w-full '>
-
-            <h2 className='font-bold text-sm 2xl:text-base'>
-                Mi marked reports 
-              </h2>
-
-              <div className='w-full '>
-                <SliderComp/>
-              </div>
-            </div> */}
         </div>
 
         <div className="  flex flex-col  gap-y-4  ">
           <h2 className="font-bold text-sm 2xl:text-base">Reports List</h2>
 
           <div className="grid grid-cols-1">
-            <ReportsListTable />
+            <ReportsListTable reports={piezoReports}/>
           </div>
         </div>
       </div>

@@ -1,12 +1,15 @@
 import React,{useEffect} from 'react'
 import {AiOutlineUser, AiOutlineCalendar} from "react-icons/ai"
 import { BsBookmarkHeart } from 'react-icons/bs'
+import { ReportDetails } from '../../types'
+import moment from 'moment'
+import { Link } from 'react-router-dom'
 
 
-function ReportCard() {
+function ReportCard({report}:{report:ReportDetails}) {
 
   return (
-    <div className={`w-48 md:w-56 mx-auto rounded-[6px] md:rounded-[8px] overflow-hidden shadow-sm`}>
+    <div className={`w-48 md:w-56 mx-auto h-full rounded-[6px] md:rounded-[8px] overflow-hidden shadow-sm`}>
         <div className='h-24 md:h-28  '>
             <img src="/media/img/photos/Rossing_mine.jpg" alt="mine" className='w-full h-full object-cover' />
         </div>
@@ -14,9 +17,12 @@ function ReportCard() {
         <div className='bg-white p-2 md:p-3'>
        
             <div className='flex justify-between gap-x-4 items-center'>
-                <span className='text-xs md:text-base font-semibold'>First report test</span>
+                <Link to={`/reports/piezometers/${report.report_id}`}>
+                <span className='text-xs md:text-base font-semibold line-clamp-2 h-[48px] hover:text-active-normal cursor-pointer transition-all'>{report.report_title}</span>
 
-                <div className='w-5 h-5 border border-[#333] rounded-full flex justify-center items-center'>
+                </Link>
+
+                <div className='w-5 h-5 border border-[#333] rounded-full flex justify-center items-center shrink-0'>
                     <BsBookmarkHeart className='w-3 h-3'/>
                 </div>
 
@@ -25,7 +31,7 @@ function ReportCard() {
                 
 
 
-            <p className='text-[8px] md:text-[10px] text-[#555] mt-1 md:mt-2'>Use these reports to keep track of any evaluation on a piezometer...</p>
+            <p className='text-[8px] md:text-[10px] text-[#555] mt-1 md:mt-2 line-clamp-2 h-[30px]'>{report.report_description}</p>
 
             <div className='w-full h-[2px] bg-[#333] bg-opacity-10 mt-4'/>
 
@@ -33,12 +39,12 @@ function ReportCard() {
             <div className='flex items-center justify-between mt-4'>
                 <div className='flex flex-col gap-y-1 md:gap-y-2'>
                     <div className=' text-[8px] md:text-[10px] font-semibold'>
-                        <span className=' font-semibold'>CDIII</span> / <span className=' font-semibold'>VW-CD3-02</span>
+                        <span className=' font-semibold'>{report.report_paddock}</span> / <span className=' font-semibold'>{report.report_piezo}</span>
                     </div>
                     <div className='flex items-center gap-x-1'>
                         <AiOutlineCalendar className='w-2 h-2 md:w-3 md:h-3'/>
                         <span className='text-[8px] md:text-[10px] font-semibold'>
-                            Jan 23, 2023
+                            {moment(report.report_date).format("MMM DD, YYYY")}
                         </span>
                     </div>
                 </div>
@@ -50,7 +56,7 @@ function ReportCard() {
 
                     <div className='flex flex-col'>
                         <span className='text-[6px] md:text-[8px] font-medium text-[#777] '>Writen by</span>
-                        <span className=' text-[8px] md:text-[10px] font-semibold'>Aaron Smith</span>
+                        <span className=' text-[8px] md:text-[10px] font-semibold'>{report.user_name}</span>
                     </div>
 
                     

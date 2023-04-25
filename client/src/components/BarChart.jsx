@@ -107,6 +107,27 @@ const BarChart = ({information}) => {
       </div>
     );
 
+
+
+  if (piezometersData.status === 4)
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
+        exit={{
+          opacity: 0,
+          transition: { duration: 0.2, ease: "easeInOut" },
+        }}
+        key="pressure-chart-no-data"
+        className="h-full w-full flex justify-center items-center bg-[#f5f5f5] md:bg-white rounded-[12px] px-4"
+      >
+        
+          <span className="font-semibold">Proposed piezometer. No lectures yet!</span>
+        
+      </motion.div>
+    );
+
   if (!lecturesData || lecturesData.length === 0)
     return (
       <motion.div
