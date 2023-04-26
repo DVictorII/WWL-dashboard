@@ -17,7 +17,7 @@ interface GlobalUserStoreState {
 }
 
 export const useGloblalUserStore = create<GlobalUserStoreState>((set) => ({
-  userID: 0,
+  userID: 12,
   currentUser: null,
 
   updateUser: (id) => set((state) => ({ ...state, userID: id })),

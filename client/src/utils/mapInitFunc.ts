@@ -253,7 +253,6 @@ async function DrawIncidentsMap({
   const myMap = L.map(mapDOM, {
     center: L.latLng(incidentList[0].latitude, incidentList[0].longitude),
     zoom: current_zoom,
-    // @ts-ignore: Unreachable code error
     layers: basemap,
     fadeAnimation: true,
     zoomAnimation: true,

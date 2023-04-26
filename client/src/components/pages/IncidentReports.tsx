@@ -18,6 +18,9 @@ import FadeLoader from "react-spinners/FadeLoader";
 import { BsBookmarkHeartFill, BsPlusSquare } from "react-icons/bs";
 import SliderComp from "../Slider/SliderComp";
 import ReportsListTable from "../Reports/ReportsListTable";
+import { useEffect } from "react";
+import IncidentsSliderComp from "../Slider/IncidentsSliderComp";
+import IncidentsListTable from "../Incidents/IncidentsListTable";
 
 function IncidentReports() {
   const fetchIncidents = async () => {
@@ -25,9 +28,18 @@ function IncidentReports() {
     return result.data.incidents;
   };
 
+
   const { isLoading, data: incidents } = useQuery("incidents", fetchIncidents, {
     refetchOnWindowFocus: false,
   });
+
+  useEffect(()=>{
+    console.log(incidents)
+  },[incidents])
+
+  if(isLoading) return (
+    <h1>Loading...</h1>
+  )
 
   return (
     <>
@@ -39,12 +51,12 @@ function IncidentReports() {
         </h1>
 
         <div className="flex items-center gap-x-4">
-          <div className="w-8 h-8 xl:w-10 xl:h-10 bg-[#333] flex items-center justify-center rounded-full text-white ">
+          <div className="w-8 h-8 xl:w-10 xl:h-10 bg-all-normal flex items-center justify-center rounded-full text-white ">
             <BsBookmarkHeartFill className="w-3 h-3 xl:w-4 xl:h-4" />
           </div>
 
           <Link to="/reports/incidents/new-incident">
-            <button className="flex items-center gap-x-2 px-3 xl:px-4 py-2 bg-[#333] text-white rounded-[8px]">
+            <button className="flex items-center gap-x-2 px-3 xl:px-4 py-2 bg-all-normal text-white rounded-[8px] hover:bg-orange-800 transition-all">
               <BsPlusSquare className="w-3 h-3 xl:w-4 xl:h-4" />
               <span className="text-xs xl:text-sm font-bold">new</span>
             </button>
@@ -52,16 +64,16 @@ function IncidentReports() {
         </div>
       </div>
 
-      <div className="md:bg-[#f5f5f5] bg-white   md:p-6   rounded-2xl mt-12 flex flex-col gap-y-10">
+      <div className="bg-backgroundWhite md:bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-12 md:shadow-lg ">
         
         <div className="grid-cols-1  grid gap-x-10 gap-y-10  ">
           <div className="  flex flex-col  gap-y-4 w-full ">
             <h2 className="font-bold text-sm 2xl:text-base">
-              Featured reports
+              Featured Incidents
             </h2>
 
             <div className="w-full ">
-              <SliderComp reports={piezoReports}/>
+              <IncidentsSliderComp incidents={incidents}/>
             </div>
           </div>
         </div>
@@ -70,29 +82,12 @@ function IncidentReports() {
           <h2 className="font-bold text-sm 2xl:text-base">Reports List</h2>
 
           <div className="grid grid-cols-1">
-            <ReportsListTable reports={piezoReports}/>
+            <IncidentsListTable incidents={incidents}/>
           </div>
         </div>
       </div>
 
-      <div className="pb-12">
-        {isLoading ? (
-          <div className="w-full h-full flex items-center justify-center">
-            <FadeLoader color="#BD9C45" loading={isLoading} radius={50} />
-          </div>
-        ) : (
-          <>
-            {/* <ReportsFiltering page="reports" /> */}
-
-            {/* @ts-ignore */}
-            {incidents.map((incident) => (
-              <div className="mt-20">
-                <IncidentReportComp incident={incident} />
-              </div>
-            ))}
-          </>
-        )}
-      </div>
+      
       
     </>
   );

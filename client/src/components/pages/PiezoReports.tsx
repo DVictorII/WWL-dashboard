@@ -40,7 +40,7 @@ function PiezoReports() {
           </div>
 
           <Link to="/reports/piezometers/new-report">
-            <button className="flex items-center gap-x-2 px-3 xl:px-4 py-2 bg-all-normal text-white rounded-[8px]">
+            <button className="flex items-center gap-x-2 px-3 xl:px-4 py-2 bg-all-normal text-white rounded-[8px] hover:bg-orange-800 transition-all">
               <BsPlusSquare className="w-3 h-3 xl:w-4 xl:h-4 opacity-70" />
               <span className="text-xs xl:text-sm font-bold">New</span>
             </button>

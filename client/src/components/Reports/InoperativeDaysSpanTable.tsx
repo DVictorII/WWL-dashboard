@@ -25,7 +25,7 @@ function InoperativeDaysSpanTable() {
             changeDaysSpan(Number(e.target.value))
             
           }}
-          className="px-2 md:px-3 py-1 text-sm md:text-base rounded-[8px] bg-[#333] text-white font-bold w-24"
+          className="px-2 md:px-3 py-1 text-sm md:text-base rounded-[8px] bg-all-normal text-white font-bold w-24  focus:bg-orange-800 focus:outline-none transition-all"
         />
       </div>
     </div>

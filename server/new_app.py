@@ -183,10 +183,10 @@ class Incident_report(db.Model):
     elevation= db.Column(db.Numeric(), nullable=False)
     description= db.Column(db.String(length=150), nullable=False)
 
-    supervisor2= db.Column(db.String(length=40))
-    supervisor3= db.Column(db.String(length=40))
+    supervisors= db.Column(db.ARRAY(db.String(length=40)))
+    
 
-    def __init__(self, id, from_user, photo, title, paddock, date, latitude, longitude, elevation, description, supervisor2, supervisor3 ):
+    def __init__(self, id, from_user, photo, title, paddock, date, latitude, longitude, elevation, description, supervisors ):
         self.id = id
         self.from_user = from_user
         self.photo = photo
@@ -197,8 +197,8 @@ class Incident_report(db.Model):
         self.longitude=longitude
         self.elevation=elevation
         self.description=description
-        self.supervisor2=supervisor2
-        self.supervisor3=supervisor3
+        self.supervisors=supervisors
+        
 
     def obj_to_dict(self):
         return {
@@ -212,8 +212,7 @@ class Incident_report(db.Model):
             "longitude":self.longitude,
             "elevation":self.elevation,
             "description":self.description,
-            "supervisor2":self.supervisor2,
-            "supervisor3":self.supervisor3
+            "supervisors":self.supervisors,      
         }
 
 
@@ -223,31 +222,37 @@ class Piezometer_report(db.Model):
 
     id = db.Column(db.String(length=50), primary_key=True)
     from_user = db.Column(db.Integer(), nullable=False)
+    photo = db.Column(db.String(length=100), default="piezoreport-default" )
     title= db.Column(db.String(length=50), nullable=False)
     paddock= db.Column(db.String(length=20), nullable=False)
     piezo= db.Column(db.String(length=20), nullable=False)
     date= db.Column(db.String(length=20), nullable=False)
     description= db.Column(db.String(length=150), nullable=False)
+    supervisors= db.Column(db.ARRAY(db.String(length=40)))
 
-    def __init__(self, id, from_user, title, paddock, piezo, date, description ):
+    def __init__(self, id, from_user,photo, title, paddock, piezo, date, description, supervisors ):
         self.id = id
         self.from_user = from_user
+        self.photo = photo
         
         self.title = title
         self.paddock=paddock
         self.piezo = piezo
         self.date = date
         self.description=description
+        self.supervisors=supervisors
 
     def obj_to_dict(self):
         return {
             "id":self.id,
             "from_user":self.from_user,
+            "photo":self.photo,
             "title":self.title,
             "paddock":self.paddock,
             "piezo":self.piezo,
             "date":self.date,
-            "description":self.description
+            "description":self.description,
+            "supervisors":self.supervisors,
         }
         
 
@@ -464,16 +469,15 @@ def upload_photo():
 @cross_origin()
 def get_incidents():
     
-    result = Incident_report.query.all()
+    userQuery = db.session.execute(text(f"SELECT ir.id as incident_id, ir.title as incident_title, ir.photo as incident_photo,  ir.paddock as incident_paddock, ir.date as incident_date, ir.latitude as incident_latitude, ir.longitude as incident_longitude, ir.elevation as incident_elevation, ir.description as incident_description, ir.supervisors as incident_supervisors, u.username as user_username , u.user_id, u.name as user_name, u.picture user_picture FROM incident_reports as ir LEFT JOIN users as u ON ir.from_user = u.user_id;"))
     
-    incidents = dict_helper(result)
-    
+    incident_reports = [dict(r._mapping) for r in userQuery]
 
-    
+
     return jsonify({
         "message":"success",
-        "results": len(incidents),
-        "incidents": incidents
+        "results": len(incident_reports),
+        "incidents": incident_reports
     })
 
 @app.route("/api/v1/piezometer-reports", methods=["GET"])
@@ -481,7 +485,7 @@ def get_incidents():
 def get_piezo_reports():
 
 
-    userQuery = db.session.execute(text(f"SELECT pr.id as report_id, pr.title as report_title, pr.paddock as report_paddock, pr.piezo as report_piezo, pr.date as report_date, pr.description as report_description, u.username as user_username , u.user_id, u.name as user_name, u.picture user_picture FROM piezometer_reports as pr LEFT JOIN users as u ON pr.from_user = u.user_id;"))
+    userQuery = db.session.execute(text(f"SELECT pr.id as report_id, pr.title as report_title, pr.photo as report_photo, pr.paddock as report_paddock, pr.piezo as report_piezo, pr.date as report_date, pr.description as report_description, pr.supervisors as report_supervisors,  u.username as user_username , u.user_id, u.name as user_name, u.picture user_picture FROM piezometer_reports as pr LEFT JOIN users as u ON pr.from_user = u.user_id;"))
     
     piezo_reports = [dict(r._mapping) for r in userQuery]
 

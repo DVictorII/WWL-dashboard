@@ -144,7 +144,7 @@ function PiezoReportDetails() {
 
             <button
               // onClick={downloadReport}
-              className="flex items-center gap-x-2 md:gap-x-3 lg:gap-x-4 px-4 py-2 bg-[#333] text-white rounded-xl"
+              className="flex items-center gap-x-2 md:gap-x-3 lg:gap-x-4 px-4 py-2 bg-all-normal hover:bg-orange-800 transition-all text-white rounded-lg shadow-sm"
             >
               <BsDownload className="w-4 h-4 " />
               <span className="text-xs md:text-sm">
@@ -153,7 +153,7 @@ function PiezoReportDetails() {
             </button>
 
             <Link to="/reports/piezometers">
-              <span className="cursor-pointer text-bluePrimary pb-1 border-b-2 border-[#777] border-bluePrimary w-max sz450:justify-self-end md:text-lg  font-semibold ">
+              <span className="cursor-pointer text-all-normal pb-1 border-b-2  border-all-normal hover:text-orange-800 hover:border-orange-800 transition-all w-max sz450:justify-self-end md:text-lg  font-semibold ">
                 &larr; Back
               </span>
             </Link>

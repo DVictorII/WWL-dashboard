@@ -16,13 +16,14 @@ import { usePageScreenSizeStore } from '../../store/pageScreenSizeStore';
 import SlidesController from './SlidesController';
 import PreviousSlideButton from './PreviousSlideButton';
 import NextSlideButton from './NextSlideButton';
-import { ReportDetails } from '../../types';
+import { IncidentDetails, ReportDetails } from '../../types';
+import IncidentReportCard from '../Incidents/IncidentReportCard';
 
 
 
 
 
-function IncidentsSliderComp({reports}:{reports:ReportDetails[]}) {
+function IncidentsSliderComp({incidents}:{incidents:IncidentDetails[]}) {
 
   const screenSize = usePageScreenSizeStore((state)=>state.screenSize)  
   const changeScreenSize = usePageScreenSizeStore((state)=>state.changeScreenSize) 
@@ -35,7 +36,7 @@ function IncidentsSliderComp({reports}:{reports:ReportDetails[]}) {
 
   
 
-  return reports.length >0 ?(
+  return incidents.length >0 ?(
     <Swiper
     modules={[Navigation, Pagination, Scrollbar, A11y]}
     spaceBetween={screenSize==="mobile" ? 24 : 26}
@@ -49,11 +50,11 @@ function IncidentsSliderComp({reports}:{reports:ReportDetails[]}) {
       <PreviousSlideButton/>
 
       {
-        reports.map(report=>(
+        incidents.map(incident=>(
           <SwiperSlide style={{
             width:screenSize==="mobile" ? "12rem" : "14rem"
-          }} key={report.report_id}>
-            <ReportCard report={report}/>
+          }} key={incident.incident_id}>
+            <IncidentReportCard incident={incident}/>
           </SwiperSlide>
         ))
       }

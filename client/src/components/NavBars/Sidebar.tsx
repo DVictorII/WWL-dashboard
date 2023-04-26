@@ -134,7 +134,7 @@ function Sidebar() {
                 className="bg-cover  h-full   p-10 text-white flex flex-col gap-y-24"
                 style={{
                   backgroundImage:
-                    "linear-gradient(to bottom, rgba(12, 16, 24,0.95), rgba(12, 16, 24,0.95)) ,url('/static/img/Rossing_mine.jpg') ",
+                    "linear-gradient(to bottom, rgba(12, 16, 24,0.95), rgba(12, 16, 24,0.95)) ,url('/media/img/photos/Rossing_mine.jpg') ",
                 }}
               >
                 <motion.div

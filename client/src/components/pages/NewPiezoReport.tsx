@@ -13,12 +13,6 @@ import { useNewPiezoReportStateStore } from "../../store/NewPiezoReportStateStor
 import FullPageComps from "../FullPageComps";
 
 function NewPiezoReport() {
-  const sectionImgIsOpen = useSectionImgStore((s) => s.sectionImgIsOpen);
-  const closeSectionImg = useSectionImgStore((s) => s.closeSectionImg);
-
-  const fullPageBarChartIsOpen = useSectionImgStore((s) => s.fullPageBarChartIsOpen);
-  const closeFullPageBarChart = useSectionImgStore((s) => s.closeFullPageBarChart);
-  const imgURL = useSectionImgStore((s) => s.imgURL);
 
   const paddock = useNewPiezoReportStateStore((state) => state.paddock);
   const piezo = useNewPiezoReportStateStore((state) => state.piezo);

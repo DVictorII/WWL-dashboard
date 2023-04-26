@@ -1,19 +1,18 @@
-import React from "react";
-import { AiOutlineUser } from "react-icons/ai";
-import { BsArrowDownUp, BsTrash } from "react-icons/bs";
-import { ReportDetails } from "../../types";
-import moment from "moment";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { IncidentDetails } from '../../types'
+import { BsArrowDownUp, BsTrash } from 'react-icons/bs'
+import moment from 'moment'
+import { Link } from 'react-router-dom'
 
-function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
+function IncidentsListTable({incidents}:{incidents:IncidentDetails[]}) {
   return (
     <div
-      className={`max-w-[1000vh] h-[21rem] sm:h-[24.5rem] md:h-[28rem] overflow-x-auto rounded-lg border-2 bg-white border-all-normal`}
+      className={`max-w-[1000vh] h-[21rem] sm:h-[24.5rem] md:h-[28rem] overflow-x-auto rounded-lg border-2 bg-white border-incident-dark`}
     >
       <table className=" select-none w-full border-collapse bg-white">
         <thead>
           <tr
-            className={`w-full flex items-center px-8 whitespace-nowrap  gap-x-10 md:gap-x-12 justify-evenly  h-14  font-medium text-white bg-all-normal`}
+            className={`w-full flex items-center px-8 whitespace-nowrap  gap-x-10 md:gap-x-12 justify-evenly  h-14  font-medium text-white bg-incident-dark`}
           >
             <th className="flex items-center gap-x-2 w-8 md:w-10 justify-center ">
               <span className="text-[11px] md:text-xs">N°</span>
@@ -26,7 +25,7 @@ function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
             </th>
 
             <th className="flex items-center gap-x-2 w-36 md:w-40 justify-center">
-              <span className="text-[11px] md:text-xs">Report title</span>
+              <span className="text-[11px] md:text-xs">Incident title</span>
               <BsArrowDownUp className="w-2" />
             </th>
 
@@ -36,7 +35,12 @@ function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
             </th>
 
             <th className="flex items-center gap-x-2 w-36 md:w-40 justify-center">
-              <span className="text-[11px] md:text-xs">Piezo. location</span>
+              <span className="text-[11px] md:text-xs">Incident location</span>
+              <BsArrowDownUp className="w-2" />
+            </th>
+
+            <th className="flex items-center gap-x-2 w-36 md:w-40 justify-center">
+              <span className="text-[11px] md:text-xs">At paddock</span>
               <BsArrowDownUp className="w-2" />
             </th>
 
@@ -48,9 +52,9 @@ function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
         </thead>
 
         <tbody className="bg-white">
-          {reports.map((report, i) => (
-            <tr key={report.report_id} style={{
-              backgroundColor: i%2===0 ? "#d2d4d8" : "white"
+          {incidents.map((incident, i) => (
+            <tr key={incident.incident_id} style={{
+              backgroundColor: i%2===0 ? "#F2E8E8" : "white"
             }} className="w-full flex items-center justify-evenly whitespace-nowrap gap-x-10 md:gap-x-12 px-8  text-[9px] md:text-[10px] h-14 bg-white ">
               <th className="flex items-center gap-x-2 w-8 md:w-10 justify-center">
                 <span className="text-xs">{String(i+1).padStart(2,"0")}.</span>
@@ -58,35 +62,40 @@ function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
 
               <th className="flex items-center gap-x-2 w-36 md:w-40 justify-center">
                 <div className="w-6 h-6 border border-[#333] rounded-full flex items-center justify-center">
-                  <img src={`/media/img/photos/${report.user_picture}`} />
+                  <img src={`/media/img/photos/${incident.user_picture}`} />
                 </div>
-                <span>{report.user_name}</span>
+                <span>{incident.user_name}</span>
               </th>
 
               <th className="flex items-center gap-x-2 w-36 md:w-40 justify-center ">
-                <span>{report.report_title}</span>
+                <span>{incident.incident_title}</span>
               </th>
 
               <th className="flex items-center gap-x-2 w-36 md:w-40 justify-center">
-                <span>{moment(report.report_date).format("MMM DD, YYYY")}</span>
+                <span>{moment(incident.incident_date).format("MMM DD, YYYY")}</span>
+              </th>
+
+              <th className="flex flex-col items-center gap-y-1 w-36 md:w-40 justify-center">
+                <span>
+                  {incident.incident_latitude}°,
+                </span>
+                
+
+                <span>
+                {incident.incident_longitude}°
+                </span>
               </th>
 
               <th className="flex items-center gap-x-1 w-36 md:w-40 justify-center">
                 <span>
-                  {report.report_paddock} 
+                  {incident.incident_paddock} 
                 </span>
-                <span>
-                  /
-                </span>
-
-                <span>
-                {report.report_piezo}
-                </span>
+                
               </th>
 
               <th className="flex items-center gap-x-2 w-8 md:w-10 justify-center">
-                <Link to={`/reports/piezometers/${report.report_id}`}>
-                <span className="text-[11px] md:text-xs text-orange-600  border-b border-orange-600  hover:text-orange-800 hover:border-orange-800 transition-all cursor-pointer">
+                <Link to={`/reports/incidents/${incident.incident_id}`}>
+                <span className="text-[11px] md:text-xs text-orange-600  border-b-2 border-orange-600  hover:text-orange-800 hover:border-orange-800 transition-all cursor-pointer">
                   View
                 </span>
                 
@@ -94,7 +103,7 @@ function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
               </th>
 
               <th className="flex items-center gap-x-2 w-8 md:w-10 justify-center">
-                <span className="text-[11px] md:text-xs text-orange-600 border-b border-orange-600  hover:text-orange-800 hover:border-orange-800 transition-all cursor-pointer">
+                <span className="text-[11px] md:text-xs text-orange-600 border-b-2 border-orange-600  hover:text-orange-800 hover:border-orange-800 transition-all cursor-pointer">
                   Edit
                 </span>
               </th>
@@ -109,7 +118,7 @@ function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
         </tbody>
       </table>
     </div>
-  );
+  )
 }
 
-export default ReportsListTable;
+export default IncidentsListTable

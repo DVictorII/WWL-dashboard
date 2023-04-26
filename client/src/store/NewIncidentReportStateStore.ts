@@ -2,8 +2,8 @@ import moment from "moment";
 import { chartPiezoList } from "./../utils/piezoList";
 import { create } from "zustand";
 
-interface NewPiezoReportStateStore {
-  photo?: File | string ;
+interface NewIncidentReportStateStore {
+  photo?: File | string;
   title: string;
   paddock: string;
   date: string;
@@ -24,9 +24,9 @@ interface NewPiezoReportStateStore {
   changeTitle: (newTitle: string) => void;
   changeDate: (newDate: string) => void;
 
-  changeLatitude: (newLatitude: string| number) => void;
-  changeLongitude: (newLongitude: string| number) => void;
-  changeElevation: (newElevation: string| number) => void;
+  changeLatitude: (newLatitude: string | number) => void;
+  changeLongitude: (newLongitude: string | number) => void;
+  changeElevation: (newElevation: string | number) => void;
 
   changeDescription: (newDescription: string) => void;
 
@@ -35,19 +35,19 @@ interface NewPiezoReportStateStore {
   deleteSupervisor: (index: number) => void;
 }
 
-export const useNewPiezoReportStateStore = create<NewPiezoReportStateStore>(
-  (set) => ({
+export const useNewIncidentReportStateStore =
+  create<NewIncidentReportStateStore>((set) => ({
     photo: undefined,
     title: "",
     paddock: "CDIII",
     date: moment(Date.now()).format("YYYY-MM-DD"),
 
-    latitude: 0,
-  longitude: 0,
-  elevation: 0,
+    latitude: -22.454974,  
+    longitude: 15.027137,
+    elevation: 0,
 
     description: "",
-    supervisors: ["", ""],
+    supervisors: ["rugaz@wwlengineering.com", ""],
 
     uploadPhoto: (newPhoto) => set((state) => ({ ...state, photo: newPhoto })),
     deletePhoto: () => set((state) => ({ ...state, photo: undefined })),
@@ -62,7 +62,6 @@ export const useNewPiezoReportStateStore = create<NewPiezoReportStateStore>(
         //@ts-ignore
         piezoList: chartPiezoList[newPaddock],
       })),
-
 
     changeTitle: (newTitle) => set((state) => ({ ...state, title: newTitle })),
     changeDate: (newDate) => set((state) => ({ ...state, date: newDate })),
@@ -86,8 +85,10 @@ export const useNewPiezoReportStateStore = create<NewPiezoReportStateStore>(
         supervisors: state.supervisors.filter((sup, i) => i !== index),
       })),
 
-      changeLatitude: (newLatitude: string| number) => set((state) => ({ ...state, latitude: newLatitude })),
-      changeLongitude: (newLongitude: string| number) => set((state) => ({ ...state, longitude: newLongitude })),
-      changeElevation: (newElevation: string| number) => set((state) => ({ ...state, elevation: newElevation })),
-  })
-);
+    changeLatitude: (newLatitude: string | number) =>
+      set((state) => ({ ...state, latitude: newLatitude })),
+    changeLongitude: (newLongitude: string | number) =>
+      set((state) => ({ ...state, longitude: newLongitude })),
+    changeElevation: (newElevation: string | number) =>
+      set((state) => ({ ...state, elevation: newElevation })),
+  }));
