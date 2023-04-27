@@ -49,15 +49,18 @@ function IncidentReportForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const filteredSupervisors = supervisors.filter((sup) => sup !== "");
+    console.log(filteredSupervisors);
+
     try {
       await toast.promise(
         axios.post("/new-incident-report", {
           from_user: userID,
           title,
-          photo,
+          photo : photo,
           description,
           date,
-          supervisors,
+          supervisors: String(filteredSupervisors),
           paddock,
           latitude,
           longitude,
@@ -151,7 +154,6 @@ function IncidentReportForm() {
 
       <button
         className="w-max py-3 px-6 bg-all-normal rounded-[14px] text-white  flex items-center justify-center gap-x-2 shadow-sm"
-        disabled
       >
         <IoSaveOutline className="w-6 h-6 " />
         <span className="text-lg font-semibold">Save</span>

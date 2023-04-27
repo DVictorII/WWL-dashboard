@@ -5,7 +5,7 @@ import MapWrapper from "../MapWrapper";
 
 import { toast } from "react-hot-toast";
 
-import IncidentMapMultiple from "../IncidentMapMultiple";
+import IncidentMapMultiple from "../Incidents/IncidentMapMultiple";
 //@ts-ignore: Unreachable code error
 import axios from "../../utils/axios";
 
@@ -87,7 +87,6 @@ const Index = () => {
   };
 
   //@ts-ignore
-
   const selectedStatus = monitoringMapStatusInfo[status];
 
   return (

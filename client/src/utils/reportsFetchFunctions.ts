@@ -1,9 +1,11 @@
+
+import { ReportDetails } from "../types";
 //@ts-ignore
 import axios from "./axios";
 
 export const fetchSingleReport = async (id: string | undefined) => {
   const result = await axios.get(`/piezometer-reports/${id}`);
-  return result.data.reports[0];
+  return result.data.report as ReportDetails;
 };
 
 export const fetchPiezoReports = async () => {

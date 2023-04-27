@@ -29,6 +29,7 @@ interface NewPiezoReportStateStore {
   changeSupervisor: (index:number, newSupervisor: string) => void;
   addSupervisor: ()=>void
   deleteSupervisor: (index:number)=>void
+  resetState: ()=>void
 }
 
 export const useNewPiezoReportStateStore = create<NewPiezoReportStateStore>(
@@ -43,6 +44,17 @@ export const useNewPiezoReportStateStore = create<NewPiezoReportStateStore>(
     date: moment(Date.now()).format("YYYY-MM-DD"),
     description: "",
     supervisors: ["",""],
+
+    resetState: () => set((state) => ({  photo: undefined,
+      title: "",
+      paddock: "CDIII",
+      piezo: chartPiezoList["CDIII"][0],
+      days: 15,
+      piezoList: chartPiezoList["CDIII"],
+      chartType: "pressure",
+      date: moment(Date.now()).format("YYYY-MM-DD"),
+      description: "",
+      supervisors: ["",""], })),
 
     uploadPhoto: (newPhoto) => set((state) => ({ ...state, photo: newPhoto })),
     deletePhoto: () => set((state) => ({ ...state, photo: undefined })),

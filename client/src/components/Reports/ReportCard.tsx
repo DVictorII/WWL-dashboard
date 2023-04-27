@@ -11,14 +11,14 @@ function ReportCard({report}:{report:ReportDetails}) {
   return (
     <div className={`w-48 md:w-56 mx-auto h-full rounded-[6px] md:rounded-[8px] overflow-hidden shadow-md my-1`}>
         <div className='h-24 md:h-28  '>
-            <img src="/media/img/photos/Rossing_mine.jpg" alt="mine" className='w-full h-full object-cover' />
+            <img src={`/media/piezometer_reports/${report.report_photo}`} alt={report.report_title} className='w-full h-full object-cover' />
         </div>
 
         <div className='bg-white p-2 md:p-3'>
        
             <div className='flex justify-between gap-x-4 items-center'>
                 <Link to={`/reports/piezometers/${report.report_id}`}>
-                <span className='text-xs md:text-base font-semibold line-clamp-2 h-[48px] hover:text-active-normal cursor-pointer transition-all'>{report.report_title}</span>
+                <span className='text-xs md:text-base font-semibold line-clamp-2 h-[48px] hover:text-orange-800 cursor-pointer transition-all'>{report.report_title}</span>
 
                 </Link>
 

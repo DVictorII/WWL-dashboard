@@ -1,3 +1,4 @@
+import {useEffect} from "react"
 
 import MenuNavbar from "../MenuNavbar";
 
@@ -9,8 +10,7 @@ import { useQuery, useQueryClient } from "react-query";
 
 import FadeLoader from "react-spinners/FadeLoader";
 
-import {  fetchSingleReport } from "../../utils/reportsFetchFunctions";
-
+import { fetchSingleReport } from "../../utils/reportsFetchFunctions";
 
 import PiezoInfoWithInoperativeDaysTable from "../Reports/PiezoInfoWithInoperativeDaysTable";
 
@@ -23,9 +23,7 @@ import { useNewPiezoReportStateStore } from "../../store/NewPiezoReportStateStor
 import FullPageComps from "../FullPageComps";
 
 function PiezoReportDetails() {
-
   const { id } = useParams();
-
 
   const days = useNewPiezoReportStateStore((state) => state.days);
   const chartType = useNewPiezoReportStateStore((state) => state.chartType);
@@ -34,26 +32,23 @@ function PiezoReportDetails() {
 
   const { isLoading, data: report } = useQuery(
     `piezoReport-${id}`,
-    ()=>fetchSingleReport(id),
+    () => fetchSingleReport(id),
     {
       refetchOnWindowFocus: false,
     }
-  );
+  )
 
+  useEffect(()=>{
+    console.log("report", report)
+  },[report])
 
-  const paddock = report?.paddock;
-  const piezo = report?.piezo;
-
- 
+  const paddock = report?.report_paddock;
+  const piezo = report?.report_piezo;
 
   if (isLoading || !report)
     return (
       <div className="w-full   h-full relative z-[10] flex justify-center items-center">
-        <FadeLoader
-          color="#BD9C45"
-          loading={isLoading}
-          radius={50}
-        />
+        <FadeLoader color="#BD9C45" loading={isLoading} radius={50} />
       </div>
     );
 
@@ -136,20 +131,16 @@ function PiezoReportDetails() {
       <MenuNavbar />
 
       <div className="mt-12 md:mt-0 flex flex-col gap-y-12">
-
         <div className="flex items-center justify-between gap-x-8 gap-y-8 flex-wrap">
-          <h1 className="md:text-lg 2xl:text-xl font-bold">{report.title}</h1>
+          <h1 className="md:text-lg 2xl:text-xl font-bold">{report.report_title}</h1>
 
           <div className="flex items-center gap-x-8 flex-wrap gap-y-8">
-
             <button
               // onClick={downloadReport}
               className="flex items-center gap-x-2 md:gap-x-3 lg:gap-x-4 px-4 py-2 bg-all-normal hover:bg-orange-800 transition-all text-white rounded-lg shadow-sm"
             >
               <BsDownload className="w-4 h-4 " />
-              <span className="text-xs md:text-sm">
-                Download report on PDF
-              </span>
+              <span className="text-xs md:text-sm">Download report on PDF</span>
             </button>
 
             <Link to="/reports/piezometers">
@@ -157,25 +148,39 @@ function PiezoReportDetails() {
                 &larr; Back
               </span>
             </Link>
-
           </div>
         </div>
-        <div className="text-sm font-medium">{report.description}</div>
+        <div className="text-sm font-medium">{report.report_description}</div>
       </div>
 
-      <div className="md:bg-[#f5f5f5] bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-8" >
-        <PiezoInfoWithInoperativeDaysTable paddock={paddock} piezo={piezo}/>
+      <div className="bg-backgroundWhite md:bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-12 md:shadow-lg ">
+        <div
+          className="bg-[#f5f5f5] border border-[#dfdfdf]  shadow-sm w-full sm:w-3/4 lg:w-1/2 min-h-[10rem] md:min-h-[12rem] 2xl:min-h-[14rem] max-h-[20rem]   rounded-lg flex items-center justify-center overflow-hidden cursor-pointer self-center"
+          
+        >
+          <img
+            src={`/media/piezometer_reports/${report.report_photo === "report-default" ? "report-default.png" : report.report_photo}`}
+            alt={`/media/piezometer_reports/${report.report_photo === "report-default" ? "report-default.png" : report.report_photo}`}
+            className="object-cover"
+          />
+        </div>
 
-        <ReportPiezoLecturesComponent paddock={paddock} piezo={piezo} />
+        <PiezoInfoWithInoperativeDaysTable paddock={report.report_paddock} piezo={report.report_piezo} />
 
-        <SupervisorsView/>
+        <ReportPiezoLecturesComponent paddock={report.report_paddock} piezo={report.report_piezo} />
+
+
+        <SupervisorsView report={report}/>
       </div>
 
-      
-      <FullPageComps information={{
-        paddock, piezo, days, chartType
-      }} />
-      
+      <FullPageComps
+        information={{
+          paddock:report.report_paddock,
+          piezo:report.report_piezo,
+          days,
+          chartType,
+        }}
+      />
     </>
   );
 }

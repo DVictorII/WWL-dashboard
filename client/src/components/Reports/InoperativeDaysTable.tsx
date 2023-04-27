@@ -3,7 +3,7 @@ import React from 'react'
 import { BsArrowDownUp } from 'react-icons/bs';
 
 function InoperativeDaysTable({ inoperativeDates}:{inoperativeDates:{currentDate:string, inoperativeDays:string, nextDate:string}[]}) {
-  console.log("InoperativeDates",inoperativeDates)
+
   return (
     <div
       className={`w-full h-[19rem] overflow-y-auto rounded-lg border-2 bg-white border-damaged-dark`}

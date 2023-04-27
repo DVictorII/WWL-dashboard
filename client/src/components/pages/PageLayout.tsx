@@ -33,7 +33,7 @@ function PageLayout() {
         transition={{ duration: 0.5, ease: "easeInOut" }}
         exit={{ opacity: 0, transition: { duration: 0.2 } }}
         key={location.pathname}
-        className="md:ml-20 lg:ml-24 2xl:ml-28 px-4 py-12 md:px-8  lg:p-12  2xl:p-16 w-full bg-[#f1f1f1]"
+        className="md:ml-20 lg:ml-24 2xl:ml-28 px-4 py-12 md:px-8  lg:p-12  2xl:p-16 w-full bg-[#f1f1f1] min-h-screen"
         
       >
         <MobileMenu />

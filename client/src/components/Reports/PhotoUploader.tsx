@@ -24,7 +24,7 @@ function PhotoUploader() {
           <img
             src={URL.createObjectURL(photo as Blob | MediaSource)}
             alt={URL.createObjectURL(photo as Blob | MediaSource)}
-            className="object-covere"
+            className="object-cover"
           />
         ) : (
           <div className="flex flex-col items-center gap-y-2">

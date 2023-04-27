@@ -24,9 +24,9 @@ function ReportSectionImg({paddock, piezo}:{paddock:string, piezo:string}) {
       refetchOnWindowFocus: false,
     });
 
-    useEffect(()=>{
-      console.log("PIEZO DATA2",piezometersData)
-    },[piezometersData])
+    // useEffect(()=>{
+    //   console.log("PIEZO DATA2",piezometersData)
+    // },[piezometersData])
   
     if(piezometersAreLoading || !piezometersData || piezometersData.length === 0) return (
       <div className="w-full h-full flex items-center justify-center">

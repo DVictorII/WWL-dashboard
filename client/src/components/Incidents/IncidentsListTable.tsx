@@ -7,12 +7,12 @@ import { Link } from 'react-router-dom'
 function IncidentsListTable({incidents}:{incidents:IncidentDetails[]}) {
   return (
     <div
-      className={`max-w-[1000vh] h-[21rem] sm:h-[24.5rem] md:h-[28rem] overflow-x-auto rounded-lg border-2 bg-white border-incident-dark`}
+      className={`max-w-[1000vh] h-[21rem] sm:h-[24.5rem] md:h-[28rem] overflow-x-auto rounded-lg border-2 bg-white border-[#451919]`}
     >
       <table className=" select-none w-full border-collapse bg-white">
         <thead>
           <tr
-            className={`w-full flex items-center px-8 whitespace-nowrap  gap-x-10 md:gap-x-12 justify-evenly  h-14  font-medium text-white bg-incident-dark`}
+            className={`w-full flex items-center px-8 whitespace-nowrap  gap-x-10 md:gap-x-12 justify-evenly  h-14  font-medium text-white bg-[#451919]`}
           >
             <th className="flex items-center gap-x-2 w-8 md:w-10 justify-center ">
               <span className="text-[11px] md:text-xs">N°</span>

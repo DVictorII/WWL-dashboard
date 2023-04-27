@@ -451,18 +451,39 @@ def get_user_from_id(id):
 
 
 def upload_photo():
+ 
+    if len(request.files.to_dict(flat=False)) == 0:
+        return "incident-default"
+    
     file = request.files['photo']
-    print(file)
-    print("name",file.filename)
-    if file.filename == "":
-        return jsonify({"error":"bad"})
+    
+    filename = secure_filename(file.filename)
+
+    final_filename = f'{uuid4()}-{filename}'
+
+    file.save(os.path.abspath( "../client/public/media/incident_reports") + "\\" + final_filename)
+    return final_filename
+
+def upload_piezoreport_photo():
+
+    if len(request.files.to_dict(flat=False)) == 0:
+        return "piezoreport-default"
+    
+    file = request.files['photo']
+    # print(file)
+    # print("name",file.filename)
 
     filename = secure_filename(file.filename)
 
     final_filename = f'{uuid4()}-{filename}'
 
-    file.save(os.path.join("static/img/incident_reports",final_filename))
+    # print(os.path.abspath( "../client/public/media/piezometer_reports") + "\\" + final_filename)
+
+
+    file.save(os.path.abspath( "../client/public/media/piezometer_reports") + "\\" + final_filename)
     return final_filename
+
+    
 
 
 @app.route("/api/v1/incident-reports", methods=["GET"])
@@ -510,14 +531,13 @@ def new_incident_report():
     longitude= request.form["longitude"]
     elevation= request.form["elevation"]
     description=request.form["description"]
-    supervisor2= request.form["supervisor2"]
-    supervisor3= request.form["supervisor3"]
+    supervisors=request.form["supervisors"].split(",")
 
 
     photo_db = upload_photo()
     report_id = uuid4()
 
-    new_report = Incident_report(report_id, from_user, photo_db, title, paddock, date, latitude, longitude, elevation, description, supervisor2, supervisor3 )
+    new_report = Incident_report(report_id, from_user, photo_db, title, paddock, date, latitude, longitude, elevation, description, supervisors )
 
     db.session.add( new_report )
     db.session.commit()
@@ -528,17 +548,24 @@ def new_incident_report():
 @cross_origin()
 def new_piezometer_report():
     
+    from_user = request.form["from_user"]
     
-    from_user = request.json["from_user"]
-    title = request.json["title"]
-    paddock= request.json["paddock"]
-    piezo= request.json["piezo"]
-    date= request.json["date"]
-    description=request.json["description"]
+    title = request.form["title"]
+    
+    paddock= request.form["paddock"]
+    piezo= request.form["piezo"]
+    date= request.form["date"]
+    description=request.form["description"]
+    
+    supervisors=request.form["supervisors"].split(",")
+    print("supervisors",supervisors)
+    
+    
+    photo_db = upload_piezoreport_photo()
     
     report_id = uuid4()
-
-    new_report = Piezometer_report(report_id, from_user, title, paddock, piezo, date, description )
+    
+    new_report = Piezometer_report(report_id, from_user, photo_db, title, paddock, piezo, date, description, supervisors)
 
     db.session.add( new_report )
     db.session.commit()
@@ -549,35 +576,41 @@ def new_piezometer_report():
 @cross_origin()
 def getOneIncident(id):
     
+    userQuery = db.session.execute(text(f"SELECT ir.id as incident_id, ir.title as incident_title, ir.photo as incident_photo,  ir.paddock as incident_paddock, ir.date as incident_date, ir.latitude as incident_latitude, ir.longitude as incident_longitude, ir.elevation as incident_elevation, ir.description as incident_description, ir.supervisors as incident_supervisors, u.username as user_username , u.user_id, u.name as user_name, u.picture user_picture FROM incident_reports as ir LEFT JOIN users as u ON ir.from_user = u.user_id WHERE ir.id = '{id}';"))
+    
+    incident_reports = [dict(r._mapping) for r in userQuery]
 
-    result = Incident_report.query.filter_by(id=id).all()
-    
-    
-    incidents = dict_helper(result)
-    
 
-    
+    if(len(incident_reports) == 0):
+        return jsonify({
+            "message": "error"
+        }), 404
+
+
     return jsonify({
         "message":"success",
-        "incidents":incidents       
+        "report": incident_reports[0]
     })
 
 @app.route('/api/v1/piezometer-reports/<id>', methods=['GET'])
 @cross_origin()
 def getOnePiezoReport(id):
-    
 
-    result = Piezometer_report.query.filter_by(id=id).all()
+    userQuery = db.session.execute(text(f"SELECT pr.id as report_id, pr.title as report_title, pr.photo as report_photo, pr.paddock as report_paddock, pr.piezo as report_piezo, pr.date as report_date, pr.description as report_description, pr.supervisors as report_supervisors,  u.username as user_username , u.user_id, u.name as user_name, u.picture user_picture FROM piezometer_reports as pr LEFT JOIN users as u ON pr.from_user = u.user_id WHERE pr.id = '{id}';"))
     
-    
-    reports = dict_helper(result)
-    
+    piezo_reports = [dict(r._mapping) for r in userQuery]
 
-    
+    if(len(piezo_reports) == 0):
+        return jsonify({
+            "message": "error"
+        }), 404
+
+
     return jsonify({
         "message":"success",
-        "reports":reports       
+        "report": piezo_reports[0]
     })
+
 
 @app.route('/api/v1/get_geojson_<folder>-<name>', methods=['GET'])
 def get_geojson(folder,name):

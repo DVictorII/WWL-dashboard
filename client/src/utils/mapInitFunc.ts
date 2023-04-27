@@ -16,6 +16,7 @@ import "leaflet.markercluster";
 import { satelliteMap, sentinelMap, statusOptions } from "./map";
 
 import {useChartStore} from "../store/ChartStateStore"
+import { IncidentDetails } from "../types";
 
 
 
@@ -163,39 +164,44 @@ export async function drawIncidents({
   map,
   piezoList,
   markers,
-}: any) {
+}: {
+  piezometers: any[];
+  map: any;
+    piezoList: IncidentDetails[];
+    markers: any;
+}) {
   // adding circles to the map
   // @ts-ignore
   piezoList.map((piezometer) => {
     let icon = incidentIcon;
 
-    const circle = L.marker([piezometer.latitude, piezometer.longitude], {
+    const circle = L.marker([Number(piezometer.incident_latitude), Number(piezometer.incident_longitude)], {
       icon: icon,
     });
     circle.bindPopup(`
         <div class="flex flex-col gap-y-4">
-          <div class="font-semibold text-lg">
-            <span>${piezometer.title}</span>
+          <div class="font-semibold">
+            <span>${piezometer.incident_title}</span>
           </div>
 
           <div class="flex items-center gap-x-4">
-            <span class="font-semibold text-xs">Paddock section: </span>
-            <span>${piezometer.paddock}</span>
+            <span class="font-semibold text-[10px]">Paddock section: </span>
+            <span class="text-xs" >${piezometer.incident_paddock}</span>
           </div>
 
           <div class="flex flex-col gap-y-2" >
-            <span class="font-semibold text-xs" >Location coordinates: </span>
-            <span>${piezometer.latitude}° / ${piezometer.longitude}°</span>
+            <span class="font-semibold text-[10px]" >Location coordinates: </span>
+            <span class="text-xs" >${piezometer.incident_latitude}° / ${piezometer.incident_longitude}°</span>
           </div>
 
           <div class="flex items-center gap-x-4">
-            <span class="font-semibold text-xs" >Elevation: </span>
-            <span>${piezometer.elevation} m</span>
+            <span class="font-semibold text-[10px]" >Elevation: </span>
+            <span class="text-xs" >${piezometer.incident_elevation} m</span>
           </div>
 
           <div class="flex items-center gap-x-4">
-            <span class="font-semibold text-xs" >Inspection date: </span>
-            <span>${piezometer.date}</span>
+            <span class="font-semibold text-[10px]" >Inspection date: </span>
+            <span class="text-xs" >${piezometer.incident_date}</span>
           </div>
         </div>
       `);
@@ -249,9 +255,14 @@ async function DrawIncidentsMap({
   incidentList,
   current_zoom,
   mapDOM,
-}: any) {
+}: {
+  basemap:any
+  incidentList:IncidentDetails[]
+  current_zoom:number
+  mapDOM:any
+}) {
   const myMap = L.map(mapDOM, {
-    center: L.latLng(incidentList[0].latitude, incidentList[0].longitude),
+    center: L.latLng(Number(incidentList[0].incident_latitude), Number(incidentList[0].incident_longitude)),
     zoom: current_zoom,
     layers: basemap,
     fadeAnimation: true,

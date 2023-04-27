@@ -1,7 +1,7 @@
 //@ts-ignore
 import axios from "../utils/axios";
-import React from "react";
-import { toast} from "react-hot-toast";
+import React, { useEffect } from "react";
+import { toast } from "react-hot-toast";
 import { IoSaveOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { useGloblalUserStore } from "../store/GlobalUserStore";
@@ -48,27 +48,44 @@ function PiezoReportForm() {
   const chartType = useNewPiezoReportStateStore((state) => state.chartType);
   const userID = useGloblalUserStore((state) => state.userID);
 
+  const resetState = useNewPiezoReportStateStore((state) => state.resetState);
+
+  // useEffect(()=>{
+  //   //@ts-ignore
+  //   console.log("PHOTO", photo?.name  || "piezoreport-default")
+  // },[photo])
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const filteredSupervisors = supervisors.filter((sup) => sup !== "");
+    console.log(filteredSupervisors);
+
     try {
       await toast.promise(
-        axios.post("/new-piezometer-report", {
-          from_user: userID,
-          photo,
-          title,
-          paddock,
-          piezo,
-          date,
-          description,
-          supervisors
-        }),
+        axios.post(
+          "/new-piezometer-report",
+          {
+            from_user: userID,
+            title,
+            photo,
+            description,
+            date,
+            supervisors: String(filteredSupervisors),
+            paddock,
+            piezo,
+          },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        ),
         {
           loading: "Creating report...",
-          success: (data) => `Piezometer report created!`,
+          success: (data) => `Piezo. report created!`,
           error: (err) => `There was an error, please try again`,
         },
         {
@@ -95,15 +112,19 @@ function PiezoReportForm() {
         }
       );
 
+      resetState();
       navigate("/reports/piezometers");
     } catch (err) {
       console.log(err);
     }
   };
 
-
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-y-20">
+    <form
+      encType="multipart/form-data"
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-y-20"
+    >
       <PhotoUploader />
 
       {/* <ReportState/> */}
@@ -123,7 +144,7 @@ function PiezoReportForm() {
           </div>
 
           <div className=" md:py-8 flex flex-col gap-y-8">
-            <ReportTitleDescription/>
+            <ReportTitleDescription />
 
             <ReportDateTable />
 
@@ -145,10 +166,7 @@ function PiezoReportForm() {
         <SupervisorsComponent />
       </div>
 
-      <button
-        className="w-max py-3 px-6 bg-[#333] rounded-[14px] text-white  flex items-center justify-center gap-x-2 shadow-sm"
-        disabled
-      >
+      <button className="w-max py-3 px-6 bg-[#333] rounded-[14px] text-white  flex items-center justify-center gap-x-2 shadow-sm">
         <IoSaveOutline className="w-6 h-6 " />
         <span className="text-lg font-semibold">Save</span>
       </button>

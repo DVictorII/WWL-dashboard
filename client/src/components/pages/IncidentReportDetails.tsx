@@ -11,16 +11,20 @@ import landscape from "../../assets/loginLandscape.jpg";
 //@ts-ignore: Unreachable code error
 import axios from "../../utils/axios";
 import { useQuery } from "react-query";
-import IncidentMapSingle from "../IncidentMapSingle";
 
 import FadeLoader from "react-spinners/FadeLoader";
+import { useEffect } from "react";
+import { BsDownload } from "react-icons/bs";
+import IncidentSupervisorsView from "../Incidents/IncidentSupervisorsView";
+import IncidentMapDetailsTable from "../Incidents/IncidentMapDetailsTable";
+import { IncidentDetails } from "../../types";
 
 function IncidentReportDetails() {
   const { id } = useParams();
 
   const fetchIncidents = async () => {
     const result = await axios.get(`/incident-reports/${id}`);
-    return result.data.incidents[0];
+    return result.data.report as IncidentDetails;
   };
 
   const { isLoading, data: incident } = useQuery(
@@ -31,7 +35,11 @@ function IncidentReportDetails() {
     }
   );
 
-  if (isLoading)
+  useEffect(() => {
+    console.log("INCIDENT", incident);
+  }, [incident]);
+
+  if (isLoading || !incident)
     return (
       <div className="w-full h-full flex items-center justify-center">
         <FadeLoader color="#BD9C45" loading={isLoading} radius={50} />
@@ -39,93 +47,50 @@ function IncidentReportDetails() {
     );
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5, ease: "easeInOut" }}
-      exit={{ opacity: 0, transition: { duration: 0.2 } }}
-      key="incident-report-details"
-    >
+    <>
       <MenuNavbar />
 
-      <div className="mt-20 lg:mt-10 flex flex-col sz450:flex-row sz450:justify-between gap-y-10 pb-10 border-b border-[#F1F5F9]">
-        <h1 className="font-semibold text-2xl 2xl:text-4xl">
-          {incident.title}
-        </h1>
+      <div className="mt-12 md:mt-0 flex flex-col gap-y-12">
+        <div className="flex items-center justify-between gap-x-8 gap-y-8 flex-wrap">
+          <h1 className="md:text-lg 2xl:text-xl font-bold">
+            {incident.incident_title}
+          </h1>
 
-        <div>
-          <Link to="/reports/incidents">
-            <span className=" grow-0  cursor-pointer text-bluePrimary pb-1 border-b border-bluePrimary w-max }2xl:text-2xl font-medium">
-              &larr; Back
-            </span>
-          </Link>
+          <div className="flex items-center gap-x-8 flex-wrap gap-y-8">
+            {/* <button
+              // onClick={downloadReport}
+              className="flex items-center gap-x-2 md:gap-x-3 lg:gap-x-4 px-4 py-2 bg-all-normal hover:bg-orange-800 transition-all text-white rounded-lg shadow-sm"
+            >
+              <BsDownload className="w-4 h-4 " />
+              <span className="text-xs md:text-sm">Download report on PDF</span>
+            </button> */}
+
+            <Link to="/reports/piezometers">
+              <span className="cursor-pointer text-all-normal pb-1 border-b-2  border-all-normal hover:text-orange-800 hover:border-orange-800 transition-all w-max sz450:justify-self-end md:text-lg  font-semibold ">
+                &larr; Back
+              </span>
+            </Link>
+          </div>
+        </div>
+        <div className="text-sm font-medium">
+          {incident.incident_description}
         </div>
       </div>
 
-      <main className="py-12">
-        <p className="leading-relaxed 2xl:text-xl font-medium">
-          {incident.description}
-        </p>
-
-        <div
-          className="mt-16 relative w-full h-64 rounded-[14px] overflow-hidden"
-          style={{ boxShadow: boxShadowSlight }}
-        >
+      <div className="bg-backgroundWhite md:bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-12 md:shadow-lg ">
+        <div className="bg-[#f5f5f5] border border-[#dfdfdf]  shadow-sm w-full sm:w-3/4 lg:w-1/2 min-h-[10rem] md:min-h-[12rem] 2xl:min-h-[14rem] max-h-[20rem]   rounded-lg flex items-center justify-center overflow-hidden cursor-pointer self-center">
           <img
-            src={`/static/img/incident_reports/${incident.photo}`}
-            className="h-full object-cover w-full"
+            src={`/media/incident_reports/${incident.incident_photo === "incident-default" ? "incident-default.png" : incident.incident_photo}`}
+            alt={`/media/incident_reports/${incident.incident_photo === "incident-default" ? "incident-default.png" : incident.incident_photo}`}
+            className="object-cover"
           />
         </div>
 
-        <div className="mt-16 flex flex-col gap-y-8">
-          <h2 className="text-lg font-semibold 2xl:text-2xl">
-            Piezo. information
-          </h2>
+        <IncidentMapDetailsTable incident={incident}/>
 
-          <div className="grid grid-cols-2 gap-x-4 gap-y-4">
-            <span className="font-semibold 2xl:text-lg">Paddock section:</span>
-            <span className="2xl:text-lg">{incident.paddock}</span>
-
-            <span className="font-semibold 2xl:text-lg">Inspection date:</span>
-            <span className="2xl:text-lg">{incident.date}</span>
-
-            <span className="font-semibold 2xl:text-lg">Coordinates:</span>
-            <span className="2xl:text-lg">
-              {incident.latitude}, {incident.longitude}
-            </span>
-
-            <span className="font-semibold 2xl:text-lg">Elevation:</span>
-            <span className="2xl:text-lg">{incident.elevation} m</span>
-          </div>
-        </div>
-
-        {isLoading ? (
-          <span>Loading...</span>
-        ) : (
-          <div className="mt-16">
-            <IncidentMapSingle incident={incident} />
-          </div>
-        )}
-
-        <div className="mt-16 flex flex-col gap-y-8">
-          <h2 className="text-lg font-semibold 2xl:text-2xl">
-            Supervisors email
-          </h2>
-
-          <p className="2xl:text-xl font-medium ">
-            These supervisors were notified of the incident. Please contact them
-            if required.
-          </p>
-
-          <div className=" font-medium 2xl:text-xl flex flex-col gap-y-4">
-            <span>. rugaz@wwlengineering.com</span>
-            {incident.supervisor2 && <span>. {incident.supervisor2}</span>}
-
-            {incident.supervisor3 && <span>. {incident.supervisor3}</span>}
-          </div>
-        </div>
-      </main>
-    </motion.div>
+        <IncidentSupervisorsView incident={incident} />
+      </div>
+    </>
   );
 }
 
