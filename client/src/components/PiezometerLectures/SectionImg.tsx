@@ -47,10 +47,10 @@ function SectionImg() {
                     className="cursor-pointer rounded-[12px]"
                     onClick={() =>
                       openSectionImg(
-                        `/media/img/sections/${piezometersData[0].section}.png`
+                        `/media/img/sections/${piezometersData[0].section}.${"svg"||"png"}`
                       )
                     }
-                    src={`/media/img/sections/${piezometersData[0].section}.png`}
+                    src={`/media/img/sections/${piezometersData[0].section}.${"svg"||"png"}`}
                   />
 
                   <FullScreenButton />   
