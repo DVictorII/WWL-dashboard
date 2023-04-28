@@ -1,7 +1,7 @@
 
-import React,{useState} from 'react'
+
 import Select from "react-tailwindcss-select";
-import { SelectValue } from 'react-tailwindcss-select/dist/components/type';
+
 import { useMonitoringMapStateStore } from '../../../store/MonitoringMapStateStore';
 import { mapPiezoList } from '../../../utils/piezoList';
 
@@ -50,10 +50,10 @@ function LocationTable() {
                 classNames={{
                     //@ts-ignore
                     menuButton: ({ isDisabled }) =>
-                      `flex text-sm text-gray-500 border border-[#dfdfdf] shadow-sm  rounded-lg h-10 2xl:h-12 items-center   transition-all duration-300 focus:outline-none ${
+                      `flex text-xs sm:text-sm text-gray-500 border border-[#dfdfdf] shadow-sm  rounded-lg h-10 2xl:h-12 items-center   transition-all duration-300 focus:outline-none ${
                         isDisabled
                           ? "bg-gray-200"
-                          : "text-sm bg-[#f5f5f5] text-[#333] font-semibold focus:border-orange-500 focus:border-opacity-50"
+                          : "bg-[#f5f5f5] text-[#333] font-semibold focus:border-orange-500 focus:border-opacity-50"
                       }`,
                   }}
             />
@@ -74,10 +74,10 @@ function LocationTable() {
                 classNames={{
                     //@ts-ignore
                     menuButton: ({ isDisabled }) =>
-                      `flex text-sm text-gray-500 border border-[#dfdfdf] shadow-sm  rounded-lg h-10 2xl:h-12 items-center   transition-all duration-300 focus:outline-none ${
+                      `flex text-xs sm:text-sm text-gray-500 border border-[#dfdfdf] shadow-sm  rounded-lg h-10 2xl:h-12 items-center   transition-all duration-300 focus:outline-none ${
                         isDisabled
                           ? "bg-gray-200"
-                          : "text-sm bg-[#f5f5f5] text-[#333] font-semibold focus:border-orange-500 focus:border-opacity-50"
+                          : " bg-[#f5f5f5] text-[#333] font-semibold focus:border-orange-500 focus:border-opacity-50"
                       }`,
                   }}
             />

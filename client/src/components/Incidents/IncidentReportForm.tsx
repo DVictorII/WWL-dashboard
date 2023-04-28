@@ -1,23 +1,17 @@
 import React, {useState} from "react";
 import { IoSaveOutline } from "react-icons/io5";
 
-// @ts-ignore: Unreachable code error
-import { boxShadowSlight } from "../../utils/shadow";
-import landscape from "../assets/loginLandscape.jpg";
 import { useGloblalUserStore } from "../../store/GlobalUserStore";
 import { useNewIncidentReportStateStore } from "../../store/NewIncidentReportStateStore";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 // @ts-ignore
 import axios from "../../utils/axios"
-import PhotoUploader from "../Reports/PhotoUploader";
+
 import IncidentPhotoUploader from "./IncidentPhotoUploader";
-import IncidentMapSingle from "../IncidentMapSingle";
+
 import IncidentLocationShowcaseMap from "./IncidentLocationShowcaseMap";
-import ReportTitleDescription from "../Reports/ReportTitleDescription";
-import ReportDateTable from "../Reports/ReportDateTable";
-import ReportLocationTable from "../Reports/ReportLocationTable";
-import SupervisorsComponent from "../Reports/SupervisorsComponent";
+
 import IncidentTitleDescription from "./filtering/IncidentTitleDescription";
 import IncidentDateTable from "./filtering/IncidentDateTable";
 import IncidentLocationTable from "./filtering/IncidentLocationTable";

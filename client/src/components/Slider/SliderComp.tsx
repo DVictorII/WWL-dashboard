@@ -1,10 +1,8 @@
 import React,{useEffect, useState} from 'react'
 //@ts-ignore
-import { Swiper, SwiperSlide, useSwiper, useSwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
-// import function to register Swiper custom elements
-import { register } from 'swiper/element/bundle';
-import {BsChevronLeft} from "react-icons/bs"
+
 
 
 import 'swiper/css';
@@ -13,7 +11,7 @@ import 'swiper/css/navigation';
 
 import ReportCard from '../Reports/ReportCard';
 import { usePageScreenSizeStore } from '../../store/pageScreenSizeStore';
-import SlidesController from './SlidesController';
+
 import PreviousSlideButton from './PreviousSlideButton';
 import NextSlideButton from './NextSlideButton';
 import { ReportDetails } from '../../types';

@@ -33,6 +33,7 @@ interface NewIncidentReportStateStore {
   changeSupervisor: (index: number, newSupervisor: string) => void;
   addSupervisor: () => void;
   deleteSupervisor: (index: number) => void;
+  resetState: () => void;
 }
 
 export const useNewIncidentReportStateStore =
@@ -42,12 +43,27 @@ export const useNewIncidentReportStateStore =
     paddock: "CDIII",
     date: moment(Date.now()).format("YYYY-MM-DD"),
 
-    latitude: -22.454974,  
+    latitude: -22.454974,
     longitude: 15.027137,
     elevation: 0,
 
     description: "",
     supervisors: ["rugaz@wwlengineering.com", ""],
+
+    resetState: () =>
+      set((state) => ({
+        photo: undefined,
+        title: "",
+        paddock: "CDIII",
+        date: moment(Date.now()).format("YYYY-MM-DD"),
+
+        latitude: -22.454974,
+        longitude: 15.027137,
+        elevation: 0,
+
+        description: "",
+        supervisors: ["rugaz@wwlengineering.com", ""],
+      })),
 
     uploadPhoto: (newPhoto) => set((state) => ({ ...state, photo: newPhoto })),
     deletePhoto: () => set((state) => ({ ...state, photo: undefined })),

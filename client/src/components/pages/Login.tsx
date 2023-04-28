@@ -1,4 +1,3 @@
-import FooterLines from "../FooterLines";
 
 import React, { useEffect, useState } from "react";
 
@@ -13,8 +12,6 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "../../utils/axios";
 import toast, { Toaster } from "react-hot-toast";
 
-// @ts-ignore
-import { boxShadowSlight } from "../../utils/shadow";
 
 function Login() {
   const [credentials, setCredentials] = useState({
@@ -113,7 +110,7 @@ function Login() {
                 name="username"
                 required
                 onChange={handleChange}
-                style={{ boxShadow: boxShadowSlight }}
+                
               />
             </fieldset>
 
@@ -127,7 +124,7 @@ function Login() {
                 name="password"
                 required
                 onChange={handleChange}
-                style={{ boxShadow: boxShadowSlight }}
+                
               />
             </fieldset>
 
@@ -136,7 +133,7 @@ function Login() {
             </button>
           </form>
         </main>
-        <FooterLines />
+        
       </div>
       <Toaster position="top-right" />
     </motion.div>

@@ -5,7 +5,6 @@ import FullScreenButton from "./FullScreenButton";
 import ChartLegend from "./ChartLegend";
 //@ts-ignore
 import BarChart from "./../BarChart"
-import { Information } from "../../types";
 import { useNewPiezoReportStateStore } from "../../store/NewPiezoReportStateStore";
 import { useLocation } from "react-router-dom";
 import { usePiezometerLecturesStateStore } from "../../store/PiezometerLecturesStateStore";

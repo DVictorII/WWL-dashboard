@@ -18,7 +18,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ProtectedLogIn from "./components/ProtectedLogIn";
 import BianualVisit from "./components/pages/BianualVisit";
 import VisitDetails from "./components/pages/VisitDetails";
-import MediaPlayer from "./components/MediaPlayer";
+import MediaPlayer from "./components/BVisits/MediaPlayer";
 
 function App() {
   const location = useLocation();

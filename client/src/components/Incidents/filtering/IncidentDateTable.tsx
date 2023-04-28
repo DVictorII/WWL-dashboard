@@ -21,7 +21,7 @@ function IncidentDateTable() {
           <div className='sz500:col-span-3 md:col-span-2'>
 
           <Datepicker
-            inputClassName="py-4 rounded-xl bg-all-normal dark:bg-all-normal"
+            inputClassName="text-xs sm:text-sm py-4 rounded-xl bg-all-normal dark:bg-all-normal"
             useRange={false}
             asSingle={true}
             // showShortcuts={true}

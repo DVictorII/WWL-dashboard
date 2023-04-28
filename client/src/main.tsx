@@ -20,7 +20,7 @@ import Login from "./components/pages/Login";
 import ProtectedLogIn from "./components/ProtectedLogIn";
 import BianualVisit from "./components/pages/BianualVisit";
 import VisitDetails from "./components/pages/VisitDetails";
-import MediaPlayer from "./components/MediaPlayer";
+import MediaPlayer from "./components/BVisits/MediaPlayer";
 
 import PageLayout from "./components/pages/PageLayout";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
@@ -93,51 +93,16 @@ const router = createBrowserRouter([
           ]
         }]
       },
+      {
+        path:"/biannual-visits/:id",
+        element:<BianualVisit />
+      },
+      {
+        path:"/login",
+        element:<Login />
+      }
     ]
   },
-  
-
-  {
-    path: "/login",
-    element: 
-    // <ProtectedLogIn>
-      <Login />
-              
-    // </ProtectedLogIn>
-    
-  },
-
-  {
-    path: "/biannual-visits",
-    element: 
-    // <ProtectedRoute>
-                
-                  <BianualVisit />
-                
-              // </ProtectedRoute>
-    
-  },
-
-  {
-    path: "/biannual-visits/:id",
-    element: 
-    // <ProtectedRoute>
-                
-                <VisitDetails />
-                
-              // </ProtectedRoute>
-    
-  },
-
-  // {
-  //   path: "/biannual-visits/media",
-  //   element: 
-  //   // <ProtectedRoute>
-  //               <MediaPlayer />
-  //             // </ProtectedRoute>
-    
-  // },
-
   
 ]);
 

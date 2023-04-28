@@ -1,23 +1,15 @@
-import IncidentReportComp from "../IncidentReportComp";
+
 import MenuNavbar from "../MenuNavbar";
 
-import ReportsFiltering from "../ReportsFiltering";
-
-import { AiOutlinePlus } from "react-icons/ai";
-// @ts-ignore: Unreachable code error
-import { boxShadowSlight } from "../../utils/shadow";
-
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
+
 //@ts-ignore: Unreachable code error
 import axios from "../../utils/axios";
 import { useQuery } from "react-query";
 
-import FadeLoader from "react-spinners/FadeLoader";
+
 import { BsBookmarkHeartFill, BsPlusSquare } from "react-icons/bs";
-import SliderComp from "../Slider/SliderComp";
-import ReportsListTable from "../Reports/ReportsListTable";
+
 import { useEffect } from "react";
 import IncidentsSliderComp from "../Slider/IncidentsSliderComp";
 import IncidentsListTable from "../Incidents/IncidentsListTable";

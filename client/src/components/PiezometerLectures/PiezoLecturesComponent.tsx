@@ -2,13 +2,13 @@ import React from "react";
 import DaysChange from "./Filtering/DaysChange";
 import LecturesChart from "./LecturesChart";
 import SectionImg from "./SectionImg";
-import { Information } from "../../types";
+
 
 
 function PiezoLecturesComponent() {
   return (
     <div className=" flex flex-col gap-y-10 rounded-xl py-8">
-      <h2 className="flex items-center gap-x-4 flex-wrap gap-y-2">
+      <h2 className="flex items-center gap-x-2 md:gap-x-4 flex-wrap gap-y-2">
         <span className="text-sm md:text-base font-semibold">
           Piezometer lectures / Last
         </span>

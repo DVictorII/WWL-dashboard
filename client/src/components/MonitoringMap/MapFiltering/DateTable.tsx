@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+
 import Datepicker from "react-tailwindcss-datepicker";
 
-import { BsCalendarDay } from "react-icons/bs";
 import moment from "moment";
 import { useMonitoringMapStateStore } from "../../../store/MonitoringMapStateStore";
 
@@ -20,7 +19,7 @@ function DateTable() {
         <h3 className=" text-[10px] xl:text-xs  font-bold text-[#555] ">Date</h3>
 
         <Datepicker
-          inputClassName="py-4 rounded-lg dark:bg-[#18212f]"
+          inputClassName="text-xs sm:text-sm py-4 rounded-lg dark:bg-[#18212f]"
           useRange={false}
           asSingle={true}
           // showShortcuts={true}

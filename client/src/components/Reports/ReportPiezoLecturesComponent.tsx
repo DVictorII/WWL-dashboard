@@ -1,8 +1,5 @@
-import React from "react";
-import { Information } from "../../types";
+
 import DaysChange from "../PiezometerLectures/Filtering/DaysChange";
-import SectionImg from "../PiezometerLectures/SectionImg";
-import LecturesChart from "../PiezometerLectures/LecturesChart";
 import ReportSectionImg from "./ReportSectionImg";
 import ReportLecturesChart from "./ReportLecturesChart";
 

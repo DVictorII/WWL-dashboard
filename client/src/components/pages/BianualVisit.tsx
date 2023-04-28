@@ -1,58 +1,50 @@
 import React from "react";
 
 import { useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
+
 import MenuNavbar from "../MenuNavbar";
-import { Toaster } from "react-hot-toast";
-import VisitComp from "../VisitComp";
+
+import { BsPlusSquare } from "react-icons/bs";
+import BVisitSelector from "../BVisits/BVisitSelector";
+import BVisitMapShowcase from "../BVisits/BVisitMapShowcase";
+import BVisitMediaPlayer from "../BVisits/BVisitMediaPlayer";
 
 function BianualVisit() {
   const location = useLocation();
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5, ease: "easeInOut" }}
-      exit={{ opacity: 0, transition: { duration: 0.2 } }}
-      key="bianual-visits"
-    >
+    <>
       <MenuNavbar />
 
-      <div className="mt-20 lg:mt-10 flex flex-col sz450:flex-row sz450:items-center sz450:justify-between gap-y-8 pb-10 border-b border-[#F1F5F9]">
-        <h1 className="font-bold text-2xl 2xl:text-4xl ">Bianual visits</h1>
+      <div className="mt-12 md:mt-0 flex flex-col gap-y-8 justify-between">
+        <h1 className="md:text-lg 2xl:text-xl font-bold ">Biannual Visits</h1>
 
-        {/* <button
-          className="flex items-center gap-x-2 2xl:gap-x-3 bg-orangeSecondary px-4 py-2 2xl:px-6 2xl:py-3 rounded-[10px] text-white w-max"
-          style={{ boxShadow: boxShadowSlight }}
-        >
-          <AiOutlinePlus className="2xl:w-6 2xl:h-6" />
-          <Link to={"/reports/incidents/new-incident"}>
-            <span className="font-medium 2xl:text-xl">Add new report </span>
-          </Link>
-        </button> */}
+        <div className="flex flex-col gap-y-4">
+          <h2 className=" font-bold ">
+            Biannual Review - 360 Photos - May 2022
+          </h2>
+          <p className="text-sm font-medium text-[#555]">Made on 2022-05-02</p>
+        </div>
       </div>
 
-      <main className="py-12">
-        <div className="mt-20">
-          <VisitComp />
-        </div>
-      </main>
-      <Toaster position="top-right" />
-    </motion.div>
+      <div className="bg-backgroundWhite md:bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-12 md:gap-y-8 md:shadow-lg ">
+       
+          <div className="flex items-center justify-between gap-x-16 flex-wrap gap-y-8">
+            <BVisitSelector/>
+
+            <button className="flex items-center gap-x-2 px-3 xl:px-4 py-2 bg-all-normal text-white rounded-[8px] hover:bg-orange-800 transition-all">
+              <BsPlusSquare className="w-3 h-3 xl:w-4 xl:h-4 opacity-70" />
+              <span className="text-xs xl:text-sm font-bold">Register new visit</span>
+            </button>
+          </div>
+
+          <BVisitMapShowcase/>
+
+          <BVisitMediaPlayer/>
+      </div>
+    </>
   );
 }
 
 export default BianualVisit;
 
-// {location.pathname === "/bianual-visits" ? (
-//     <a className="photo360 w-full h-full">
-//       {/* @ts-ignore */}
-//       <a-scene embedded>
-//         {/* @ts-ignore */}
-//         <a-sky src="/static/img/img_69.jpg"></a-sky>
-//         {/* <a-sky src="IMG_20220502_094531_00_369.jpg"></a-sky> */}
-//         {/* @ts-ignore */}
-//       </a-scene>
-//     </a>
-//   ) : null}

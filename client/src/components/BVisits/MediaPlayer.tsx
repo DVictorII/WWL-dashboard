@@ -1,24 +1,21 @@
-import React from "react";
-import { useLocation, useParams } from "react-router-dom";
 import "aframe";
-import { img360Data } from "../utils/img360Data";
+import { img360Data } from "../../utils/img360Data";
+import { useBiannualVisitStateStore } from "../../store/BiannualVisitStateStore";
 
 function MediaPlayer() {
-  const location = useLocation();
+  const mediaID = useBiannualVisitStateStore((state)=>state.mediaID)
 
-  const { id } = useParams();
-
-  const data = img360Data.find((d) => d.id === Number(id));
+  const data = img360Data.find((d) => d.id === Number(mediaID));
 
   return (
-    <div className="w-screen h-screen p-8">
-      {location.pathname.startsWith("/player") ? (
+    <div className="w-full h-screen sm:px-4  sm:py-8">
+      {location.pathname.startsWith("/biannual-visits") ? (
         <a className="block photo360 w-full h-full rounded-[18px] overflow-hidden">
           {/* @ts-ignore */}
           <a-scene embedded>
             {/* @ts-ignore */}
             <a-sky
-              src={`/static/img/${data?.type === "photo" ? "img" : "video"}_${
+              src={`/media/img/360/${data?.type === "photo" ? "img" : "video"}_${
                 data?.id
               }.${data?.type === "photo" ? "jpg" : "mp4"}`}
 

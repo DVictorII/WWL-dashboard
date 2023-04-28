@@ -1,11 +1,10 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import { usePiezometerLecturesStateStore } from "../../store/PiezometerLecturesStateStore";
-import { useNewPiezoReportStateStore } from "../../store/NewPiezoReportStateStore";
+
 import { useReportInfoTablesDaysSpanStore } from "../../store/ReportInfoTablesDaysSpanStore";
 
 function InoperativeDaysSpanTable() {
-  const location = useLocation().pathname;
+
 
   const daysSpan = useReportInfoTablesDaysSpanStore((state)=>state.daysSpan)
   const changeDaysSpan = useReportInfoTablesDaysSpanStore((state)=>state.changeDaysSpan)

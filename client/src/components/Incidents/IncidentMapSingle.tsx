@@ -3,21 +3,14 @@ import axios from "../../utils/axios";
 import React, { useEffect } from "react";
 import { useQuery } from "react-query";
 
-// @ts-ignore
-import { satelliteMap, sentinelMap } from "../utils/map";
-
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-
-//@ts-ignore
-import { boxShadowSlight } from "../../utils/shadow";
-import moment from "moment";
 
 import "../../MarkerCluster.css";
 import "../../MarkerCluster.Default.css";
 import "leaflet.markercluster";
 
-import { incidentIcon } from "../../utils/icons";
+
 import FadeLoader from "react-spinners/FadeLoader";
 import {
   addSections,

@@ -3,7 +3,6 @@ import {
   AiOutlineSetting,
   AiOutlineDown,
   AiOutlineBarChart,
-  AiOutlineHome,
   AiOutlinePieChart,
   AiOutlineAreaChart,
   AiOutlineUsergroupAdd,
@@ -207,7 +206,7 @@ function Sidebar() {
                   </div>
 
                   <div
-                    onClick={() => navigateTo("/biannual-visits")}
+                    onClick={() => navigateTo("/biannual-visits/1")}
                     className="whitespace-nowrap flex items-center gap-x-4 relative py-2 group cursor-pointer hover:text-orange-500 transition-all"
                   >
                     <BsCalendarMonth className="w-6 h-6 shrink-0" />

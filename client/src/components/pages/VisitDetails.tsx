@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import MenuNavbar from "../MenuNavbar";
 import { Link } from "react-router-dom";
 import { img360Data } from "../../utils/img360Data";
-import VisitMap from "../VisitMap";
+import VisitMap from "../BVisits/VisitMap";
 
 function VisitDetails() {
   return (

@@ -15,9 +15,7 @@ import { fetchSingleReport } from "../../utils/reportsFetchFunctions";
 import PiezoInfoWithInoperativeDaysTable from "../Reports/PiezoInfoWithInoperativeDaysTable";
 
 import SupervisorsView from "../Reports/SupervisorsView";
-import { useSectionImgStore } from "../../store/sectionImgStore";
 
-import { useReportInfoTablesDaysSpanStore } from "../../store/ReportInfoTablesDaysSpanStore";
 import ReportPiezoLecturesComponent from "../Reports/ReportPiezoLecturesComponent";
 import { useNewPiezoReportStateStore } from "../../store/NewPiezoReportStateStore";
 import FullPageComps from "../FullPageComps";
@@ -42,8 +40,6 @@ function PiezoReportDetails() {
     console.log("report", report)
   },[report])
 
-  const paddock = report?.report_paddock;
-  const piezo = report?.report_piezo;
 
   if (isLoading || !report)
     return (

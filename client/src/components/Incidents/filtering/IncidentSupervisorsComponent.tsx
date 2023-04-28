@@ -37,7 +37,7 @@ function IncidentSupervisorsComponent() {
                   disabled={i === 0}
                   onChange={(e) => changeSupervisor(i, e.target.value)}
                   placeholder="Supervisor Email..."
-                  className="grow text-sm bg-[#f9f9f9] disabled:bg-backgroundWhite disabled:text-[#999] text-[#333] font-medium placeholder:text-gray-300 px-3 h-10 2xl:h-12 rounded-xl shadow-sm border border-gray-300 focus:outline-none focus:border-orange-500 focus:border-opacity-50 transition-all"
+                  className="grow text-xs sm:text-sm bg-[#f9f9f9] disabled:bg-backgroundWhite disabled:text-[#999] text-[#333] font-medium placeholder:text-gray-300 px-3 h-10 2xl:h-12 rounded-xl shadow-sm border border-gray-300 focus:outline-none focus:border-orange-500 focus:border-opacity-50 transition-all"
                 />
                 {i !== 0 ? (
                   <button

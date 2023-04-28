@@ -241,7 +241,7 @@ function MapWrapper() {
 
   return (
     <div
-      className=" w-full   h-[50vh]  rounded-[14px] overflow-hidden shadow-md relative z-[10]"
+      className=" w-full   h-[50vh]  rounded-lg overflow-hidden shadow-md relative z-[10]"
       style={{ boxShadow: boxShadowSlight }}
     >
       <div id="map"></div>

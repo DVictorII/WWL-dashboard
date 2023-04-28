@@ -1,12 +1,11 @@
-import React,{useEffect} from "react";
+
 
 import { fetchPiezometerData } from "../../utils/map";
 import { FadeLoader } from "react-spinners";
 import { useQuery } from "react-query";
-import { usePiezometerLecturesStateStore } from "../../store/PiezometerLecturesStateStore";
+
 import { useSectionImgStore } from "../../store/sectionImgStore";
 import { useLocation } from "react-router-dom";
-import { useNewPiezoReportStateStore } from "../../store/NewPiezoReportStateStore";
 import FullScreenButton from "../PiezometerLectures/FullScreenButton";
 
 function ReportSectionImg({paddock, piezo}:{paddock:string, piezo:string}) {

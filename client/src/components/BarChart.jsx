@@ -1,7 +1,6 @@
 import { ResponsiveLine } from "@nivo/line";
 
 import { AnimatePresence, motion } from "framer-motion";
-import Legend from "./Legend";
 import { useEffect, useState } from "react";
 import axios from "../utils/axios";
 import { useQuery } from "react-query";

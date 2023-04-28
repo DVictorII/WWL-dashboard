@@ -1,20 +1,19 @@
 import React, { useEffect } from "react";
 
-//@ts-ignore
-import { boxShadowSlight } from "../utils/shadow";
+
 
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import "../MarkerCluster.css";
-import "../MarkerCluster.Default.css";
+import "../../MarkerCluster.css";
+import "../../MarkerCluster.Default.css";
 import "leaflet.markercluster";
 
 //@ts-ignore
-import { satelliteMap, sentinelMap } from "../utils/map";
+import { satelliteMap, sentinelMap } from "../../utils/map";
 //@ts-ignore
-import axios from "../utils/axios";
+import axios from "../../utils/axios";
 import { useQuery } from "react-query";
-import { photoIcon, videoIcon } from "../utils/icons";
+import { photoIcon, videoIcon } from "../../utils/icons";
 import moment from "moment";
 
 interface Media {
@@ -210,8 +209,7 @@ function VisitMap({ media }: VisitMapProps) {
 
   return (
     <div
-      className=" w-full   h-[60vh]  rounded-[14px] overflow-hidden shadow-md relative z-[10]"
-      style={{ boxShadow: boxShadowSlight }}
+      className="  w-full   h-[50vh]  rounded-lg overflow-hidden shadow-md relative z-[10]"
     >
       <div id="map5"></div>
     </div>

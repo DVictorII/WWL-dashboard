@@ -1,9 +1,3 @@
-import React, { useEffect, useMemo } from "react";
-import { useNewPiezoReportStateStore } from "../../store/NewPiezoReportStateStore";
-import PiezoInformationTable from "../PiezometerLectures/PiezoInformationTable";
-import ReportTitleDescription from "./ReportTitleDescription";
-import ReportDateTable from "./ReportDateTable";
-import ReportLocationTable from "./ReportLocationTable";
 import InoperativeDaysSpanTable from "./InoperativeDaysSpanTable";
 import InoperativeDaysTable from "./InoperativeDaysTable";
 import { QueryClient, useQuery, useQueryClient } from "react-query";

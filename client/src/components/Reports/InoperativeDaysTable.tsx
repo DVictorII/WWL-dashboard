@@ -1,6 +1,5 @@
 import moment from 'moment';
-import React from 'react'
-import { BsArrowDownUp } from 'react-icons/bs';
+
 
 function InoperativeDaysTable({ inoperativeDates}:{inoperativeDates:{currentDate:string, inoperativeDays:string, nextDate:string}[]}) {
 

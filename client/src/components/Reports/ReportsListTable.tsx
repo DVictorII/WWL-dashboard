@@ -1,5 +1,4 @@
-import React from "react";
-import { AiOutlineUser } from "react-icons/ai";
+
 import { BsArrowDownUp, BsTrash } from "react-icons/bs";
 import { ReportDetails } from "../../types";
 import moment from "moment";

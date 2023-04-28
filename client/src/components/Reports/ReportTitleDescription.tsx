@@ -22,7 +22,7 @@ function ReportTitleDescription() {
           name="title"
           value={title}
           onChange={(e) => changeTitle(e.target.value)}
-          className="sz500:col-span-3 md:col-span-2 text-sm bg-[#f5f5f5] text-[#333] font-semibold placeholder:text-[#dfdfdf] px-3 h-10 2xl:h-12 rounded-lg shadow-sm border border-[#dfdfdf]  focus:outline-none focus:border-orange-500 focus:border-opacity-50 transition-all"
+          className="sz500:col-span-3 md:col-span-2  text-xs sm:text-sm bg-[#f5f5f5] text-[#333] font-semibold placeholder:text-[#dfdfdf] px-3 h-10 2xl:h-12 rounded-lg shadow-sm border border-[#dfdfdf]  focus:outline-none focus:border-orange-500 focus:border-opacity-50 transition-all"
           placeholder="Title..."
         />
 
@@ -37,7 +37,7 @@ function ReportTitleDescription() {
         name="description"
         value={description}
         onChange={(e) => changeDescription(e.target.value)}
-        className="sz500:col-span-3 md:col-span-2 text-sm bg-[#f5f5f5] text-[#333] font-semibold placeholder:text-[#dfdfdf] px-3 py-3 h-14 2xl:h-16 rounded-lg shadow-sm border border-[#dfdfdf]  focus:outline-none focus:border-orange-500 focus:border-opacity-50  transition-all"
+        className="sz500:col-span-3 md:col-span-2 text-xs sm:text-sm bg-[#f5f5f5] text-[#333] font-semibold placeholder:text-[#dfdfdf] px-3 py-3 h-14 2xl:h-16 rounded-lg shadow-sm border border-[#dfdfdf]  focus:outline-none focus:border-orange-500 focus:border-opacity-50  transition-all"
         placeholder="Description..."
       />
 </div>

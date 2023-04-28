@@ -38,10 +38,10 @@ function IncidentLocationTable({refreshMap}:{refreshMap:()=>void}) {
             classNames={{
               //@ts-ignore
               menuButton: ({ isDisabled }) =>
-                `flex text-sm text-gray-500 border border-[#dfdfdf] shadow-sm  rounded-lg h-10 2xl:h-12 items-center   transition-all duration-300 focus:outline-none ${
+                `flex text-xs sm:text-sm text-gray-500 border border-[#dfdfdf] shadow-sm  rounded-lg h-10 2xl:h-12 items-center   transition-all duration-300 focus:outline-none ${
                   isDisabled
                     ? "bg-gray-200"
-                    : "text-sm bg-[#f5f5f5] text-[#333] font-semibold focus:border-orange-500 focus:border-opacity-50"
+                    : " bg-[#f5f5f5] text-[#333] font-semibold focus:border-orange-500 focus:border-opacity-50"
                 }`,
             }}
           />
@@ -56,7 +56,7 @@ function IncidentLocationTable({refreshMap}:{refreshMap:()=>void}) {
           name="latitude"
           value={latitude}
           onChange={(e) => changeLatitude(e.target.value)}
-          className="sz500:col-span-3 md:col-span-2 text-sm bg-[#f5f5f5] text-[#333] font-semibold placeholder:text-[#dfdfdf] px-3 h-10 2xl:h-12 rounded-lg shadow-sm border border-[#dfdfdf]  focus:outline-none focus:border-orange-500 focus:border-opacity-50 transition-all"
+          className="sz500:col-span-3 md:col-span-2 text-xs sm:text-sm bg-[#f5f5f5] text-[#333] font-semibold placeholder:text-[#dfdfdf] px-3 h-10 2xl:h-12 rounded-lg shadow-sm border border-[#dfdfdf]  focus:outline-none focus:border-orange-500 focus:border-opacity-50 transition-all"
           placeholder="Latitude..."
         />
       </div>
@@ -70,7 +70,7 @@ function IncidentLocationTable({refreshMap}:{refreshMap:()=>void}) {
           name="longitude"
           value={longitude}
           onChange={(e) => changeLongitude(e.target.value)}
-          className="sz500:col-span-3 md:col-span-2 text-sm bg-[#f5f5f5] text-[#333] font-semibold placeholder:text-[#dfdfdf] px-3 h-10 2xl:h-12 rounded-lg shadow-sm border border-[#dfdfdf]  focus:outline-none focus:border-orange-500 focus:border-opacity-50 transition-all"
+          className="sz500:col-span-3 md:col-span-2 text-xs sm:text-sm bg-[#f5f5f5] text-[#333] font-semibold placeholder:text-[#dfdfdf] px-3 h-10 2xl:h-12 rounded-lg shadow-sm border border-[#dfdfdf]  focus:outline-none focus:border-orange-500 focus:border-opacity-50 transition-all"
           placeholder="Longitude..."
         />
       </div>
@@ -104,7 +104,7 @@ function IncidentLocationTable({refreshMap}:{refreshMap:()=>void}) {
           name="elevation"
           value={elevation}
           onChange={(e) => changeElevation(e.target.value)}
-          className="sz500:col-span-3 md:col-span-2 text-sm bg-[#f5f5f5] text-[#333] font-semibold placeholder:text-[#dfdfdf] px-3 h-10 2xl:h-12 rounded-lg shadow-sm border border-[#dfdfdf]  focus:outline-none focus:border-orange-500 focus:border-opacity-50 transition-all"
+          className="sz500:col-span-3 md:col-span-2 text-xs sm:text-sm bg-[#f5f5f5] text-[#333] font-semibold placeholder:text-[#dfdfdf] px-3 h-10 2xl:h-12 rounded-lg shadow-sm border border-[#dfdfdf]  focus:outline-none focus:border-orange-500 focus:border-opacity-50 transition-all"
           placeholder="Elevation..."
         />
       </div>

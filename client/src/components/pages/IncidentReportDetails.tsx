@@ -1,20 +1,15 @@
-import MapWrapper from "../MapWrapper";
+
 import MenuNavbar from "../MenuNavbar";
 
-// @ts-ignore: Unreachable code error
-import { boxShadowSlight } from "../../utils/shadow";
-
-import { motion } from "framer-motion";
 import { Link, useParams } from "react-router-dom";
 
-import landscape from "../../assets/loginLandscape.jpg";
 //@ts-ignore: Unreachable code error
 import axios from "../../utils/axios";
 import { useQuery } from "react-query";
 
 import FadeLoader from "react-spinners/FadeLoader";
 import { useEffect } from "react";
-import { BsDownload } from "react-icons/bs";
+
 import IncidentSupervisorsView from "../Incidents/IncidentSupervisorsView";
 import IncidentMapDetailsTable from "../Incidents/IncidentMapDetailsTable";
 import { IncidentDetails } from "../../types";
@@ -65,7 +60,7 @@ function IncidentReportDetails() {
               <span className="text-xs md:text-sm">Download report on PDF</span>
             </button> */}
 
-            <Link to="/reports/piezometers">
+            <Link to="/reports/incidents">
               <span className="cursor-pointer text-all-normal pb-1 border-b-2  border-all-normal hover:text-orange-800 hover:border-orange-800 transition-all w-max sz450:justify-self-end md:text-lg  font-semibold ">
                 &larr; Back
               </span>

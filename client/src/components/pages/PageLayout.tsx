@@ -1,7 +1,7 @@
 import React from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { useLogOutStore } from '../../store/LogOutStore';
-import { useSectionImgStore } from '../../store/sectionImgStore';
+
 import Sidebar from '../NavBars/Sidebar';
 import {motion} from "framer-motion"
 import LogOutConfirmationModal from '../LogOutConfirmationModal';
@@ -13,9 +13,6 @@ function PageLayout() {
 
   const logOutModalIsOpen = useLogOutStore((state) => state.logOutModalIsOpen);
   
-  const sectionImgIsOpen = useSectionImgStore(s=>s.sectionImgIsOpen)
-  const imgURL = useSectionImgStore(s=>s.imgURL)
-  const closeSectionImg = useSectionImgStore(s=>s.closeSectionImg)
 
 
   return location.pathname === "/login" ? (

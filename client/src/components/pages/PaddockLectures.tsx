@@ -3,25 +3,15 @@
 import MenuNavbar from "../MenuNavbar";
 
 
-import { motion } from "framer-motion";
-
 import PaddockMapWrapper from "../PaddockMapWrapper";
-import { useChartStore } from "../../store/ChartStateStore";
-import { useSectionImgStore } from "../../store/sectionImgStore";
-import Sidebar from "../NavBars/Sidebar";
-import { Toaster } from "react-hot-toast";
-import { useLogOutStore } from "../../store/LogOutStore";
-import LogOutConfirmationModal from "../LogOutConfirmationModal";
-import MobileMenu from "../MobileMenu";
+
 import LecturesLocationTable from "../PiezometerLectures/LecturesLocationTable";
 import PiezoInformationTable from "../PiezometerLectures/PiezoInformationTable";
 
 import PiezoLecturesComponent from "../PiezometerLectures/PiezoLecturesComponent";
 
-import LecturesStateShowing from "../PiezometerLectures/LecturesStateShowing";
 import { usePiezometerLecturesStateStore } from "../../store/PiezometerLecturesStateStore";
-//@ts-ignore
-import BarChart from "../BarChart"
+
 import FullPageComps from "../FullPageComps";
 
 function PaddockLectures() {
@@ -30,7 +20,6 @@ function PaddockLectures() {
 
   const days = usePiezometerLecturesStateStore((s) => s.days);
   const chartType = usePiezometerLecturesStateStore((s) => s.chartType);
-
 
   return (
     <>
@@ -45,37 +34,36 @@ function PaddockLectures() {
         </p>
       </div>
 
-      <div className="bg-backgroundWhite md:bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-8 md:shadow-lg ">
+      <div className="bg-backgroundWhite md:bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-10 md:shadow-lg ">
+        <LecturesLocationTable />
 
-        <div className=" flex flex-col gap-y-10 md:gap-y-12 w-full">
-            <LecturesLocationTable />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 xl:gap-x-10 gap-y-8 xl:gap-y-10">
+          <div className=" md:px-4 md:py-8 rounded-[14px] flex flex-col gap-y-4 ">
+            <h2
+              className="text-sm md:text-base font-semibold"
+              key={`${paddock}${piezo}`}
+            >
+              {paddock} / {piezo}
+            </h2>
+            <PiezoInformationTable />
+          </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 xl:gap-x-10 gap-y-8 xl:gap-y-10">
-              <div className=" md:px-4 md:py-8 rounded-[14px] flex flex-col gap-y-4 ">
-                <h2 className="text-sm md:text-base font-semibold" key={`${paddock}${piezo}`}>
-                  {paddock} / {piezo}
-                </h2>
-                <PiezoInformationTable />
-              </div>
-
-              <div key={`${piezo}${paddock}`}>
-                
-                <PaddockMapWrapper />
-              </div>
-            </div>
-
-            {/* <LecturesStateShowing /> */}
+          <div key={`${piezo}${paddock}`}>
+            <PaddockMapWrapper />
+          </div>
         </div>
-        <PiezoLecturesComponent />
 
+        <PiezoLecturesComponent />
       </div>
 
-      <FullPageComps information={{
-        paddock,
-        piezo,
-        days,
-        chartType
-      }}/>
+      <FullPageComps
+        information={{
+          paddock,
+          piezo,
+          days,
+          chartType,
+        }}
+      />
     </>
   );
 }
