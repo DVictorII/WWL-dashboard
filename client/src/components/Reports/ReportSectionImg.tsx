@@ -44,16 +44,12 @@ function ReportSectionImg({paddock, piezo}:{paddock:string, piezo:string}) {
                 {piezometersData[0].section &&  piezometersData[0].section != "?" ? (
                   <>
                     <img
-                      className="cursor-pointer rounded-[12px]"
-                      onClick={() =>
-                        openSectionImg(
-                          `/media/img/sections/${piezometersData[0].section}.png`
-                        )
-                      }
+                      className=" rounded-[12px]"
+                      
                       src={`/media/img/sections/${piezometersData[0].section}.png`}
                     />
   
-                    <FullScreenButton />   
+                    <FullScreenButton comp="section" url={`/media/img/sections/${piezometersData[0].section}.png`} />   
                   </>
                 ) : (
                   <div className="flex justify-center items-center h-32 bg-[#f5f5f5] rounded-xl font-semibold">

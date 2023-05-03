@@ -129,8 +129,6 @@ function PiezoListTable() {
 
               const depthIsZero = Number(piezometer.depth) == 0;
 
-              console.log(lastReadingExists, depthIsZero);
-
               return (
                 <tr
                   style={{

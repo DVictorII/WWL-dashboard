@@ -24,6 +24,9 @@ from decimal import Decimal
 os.environ['OPENBLAS_NUM_THREADS'] = '1'
 from openpyxl import load_workbook
 
+
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 from fpdf import FPDF
@@ -69,50 +72,85 @@ def dbconnect():
     return conn
 
 def get_piezometer_data():
-    con = dbconnect()
-    cur = con.cursor()
-    query = "select paddock,id as name, depth, datalogger as node, " +\
-         "channel from piezometer_details where status = 1"
-    cur.execute(query)
-    con.commit()
-    data = cur.fetchall()
-    return data
+    userQuery = db.session.execute(text(f"SELECT paddock as piezo_paddock ,id as piezo_name, depth as piezo_depth, datalogger as piezo_node, channel as piezo_channel FROM piezometer_details WHERE status = 1;"))
+    
+    piezo_data = [dict(r._mapping) for r in userQuery]
 
-def query(data,node,channel,ammount,period):
-    query = "select min(pressure),max(pressure),avg(pressure) "+\
-            "from node_%s_%s where (current_date - time) <= interval '%s' %s"%(node,channel,ammount,period)
-    con = dbconnect()
-    cur = con.cursor()
-    cur.execute(query)
-    con.commit()
-    vals = cur.fetchall()
-    print("vals",vals)
-    for x in vals:
-        data = data + tuple(map(str,list(x)))
-    return data
+    # con = dbconnect()
+    # cur = con.cursor()
+    # query = "select paddock,id as name, depth, datalogger as node, " +\
+    #      "channel from piezometer_details where status = 1"
+    # cur.execute(query)
+    # con.commit()
+    # data = cur.fetchall()
+    return piezo_data
+
+def query(data_obj,ammount,period):
+    # query = "select min(pressure),max(pressure),avg(pressure) "+\
+    #         "from node_%s_%s where (current_date - time) <= interval '%s' %s"%(node,channel,ammount,period)
+    # con = dbconnect()
+    # cur = con.cursor()
+    # cur.execute(query)
+    # con.commit()
+    # vals = cur.fetchall()
+
+    userQuery = db.session.execute(text(f"select min(pressure) as min ,max(pressure) as max ,avg(pressure) as avg from node_{data_obj['piezo_node']}_{data_obj['piezo_channel']} where (current_date - time) <= interval '{ammount}' {period};"))
+    piezo_data = [dict(r._mapping) for r in userQuery]
+    # print("vals",vals)
+    # for x in vals:
+    #     data = data + tuple(map(str,list(x)))
+
+    data_dict = piezo_data[0]
+
+    # print("final-query-data",data)
+    return [data_dict['min'], data_dict['max'], data_dict['avg']]
 
 def get_data():
     piezo_data = get_piezometer_data()
-    print("data")
     new_data = []
     # looping around all piezometers
     for data in piezo_data:
-        node,channel = data[3],data[4]
-        data = data[:3]
-        data = query(data,node,channel,14,'day')
-        data = query(data,node,channel,1,'month')
-        data = query(data,node,channel,3,'month')
-        new_data.append(data)
+        weekly = query(data,14,'day')
+        monthly = query(data,1,'month')
+        quarterly = query(data,3,'month')
+
+        lectures_data = [weekly, monthly, quarterly]
+
+        flat_list = list(np.concatenate(lectures_data).flat)
+
+        new_data.append({
+           "piezo_depth": data["piezo_depth"],
+           "piezo_name": data["piezo_name"],
+           "piezo_paddock": data["piezo_paddock"],
+           "piezo_lectures":flat_list
+        })
 
     print("new_data", new_data)
     return new_data
 
+@app.route("/api/v1/excel-data", methods=["GET"])
+@cross_origin()
+def get_excel_data():
+    
+    # print(BASEPATH)
+    # print("UWU")
+    
+    # tdata = get_data()
+    print(os.path.abspath( "pyreport/report.xlsx"))
+    data = get_data()
+
+
+
+    return jsonify({
+        "excel-data":data,
+    })
+
 def read_excel():
-    print(BASEPATH)
-    print("UWU")
+    
     tdata = get_data()
-    print(tdata)
-    filename = BASEPATH + "/pyreport/report.xlsx"
+    
+    filename = os.path.abspath( "pyreport/report.xlsx") 
+    # filename = BASEPATH + "/pyreport/report.xlsx"
     print(filename)
     
     #print(piezo_data)
@@ -120,18 +158,29 @@ def read_excel():
     print(wb)
     sh = wb.active
     i=14
+    j=7
     for data in tdata:
         print(data)
-        sh.cell(row=i,column=3).value = data[0]
-        sh.cell(row=i,column=5).value = data[1]
-        sh.cell(row=i,column=16).value = data[2]
-        for j in range(3,12):
-            print(i,j)
-            sh.cell(row=i,column=4+j).value = float(data[j])
+        sh.cell(row=i,column=3).value = data['piezo_paddock']
+        sh.cell(row=i,column=5).value = data['piezo_name']
+        sh.cell(row=i,column=16).value = data['piezo_depth']
+
+        for val in data['piezo_lectures']:
+            sh.cell(row=i,column=j).value = "-" if val is None else float(val)
+            j+=1
+
+        # for j in range(3,12):
+        #     print(i,j)
+        #     sh.cell(row=i,column=4+j).value = float(data[j])
+        j=7
         i+=1
     sh.cell(row=5,column=13).value = date.today()
-    wb.save(BASEPATH + "/pyreport/report2.xlsx")
+
+    
+    wb.save(os.path.abspath( "../client/public/pyreport/report2.xlsx") )
     return i
+
+
 
 class piezometer_details(db.Model):
 
@@ -280,9 +329,9 @@ class Last_readings(db.Model):
 
 class PDF(FPDF):
     def header(self):
-        self.image(os.getcwd() + f"/static/img/rossing_logo.png", 10,8, 30)
+        self.image(os.path.abspath("../client/public/media/img/photos") + "\\" + "rossing_logo.png", 10,8, 30)
         
-        self.image(os.getcwd() + f"/static/img/wwl-black.png", (self.w -40) ,14, 30)
+        self.image(os.path.abspath("../client/public/media/img/photos") + "\\" + "wwl-black.png", (self.w -40) ,14, 30)
 
         self.ln(40)
 
@@ -629,7 +678,9 @@ def modify_excel():
     dt_string = now.strftime("%Y/%m/%d %H:%M:%S")
     data = read_excel()
     print("report download by %s at %s"%(session.get('user_id'),dt_string))
-    return jsonify('success')
+    return jsonify({
+        "filename":os.path.abspath( "pyreport/report2.xlsx")
+    })
 
 
 
@@ -659,12 +710,14 @@ def create_chart(paddock, piezo, days, initial_pressure,dates):
     now = datetime.now()
     dt_string = now.strftime("%Y%m%d%H%M%S")
 
-    filename = os.getcwd() + f"\static\img\charts\{paddock}_{piezo}_{days}_{dt_string}.png"
+    
+    filename = os.path.abspath( "../client/public/media/charts") + "\\" + f"{paddock}_{piezo}_{days}_{dt_string}.png"
+    chart_filename = f"{paddock}_{piezo}_{days}_{dt_string}.png"
     print("FILENAME", filename)
 
     
     plt.savefig(filename)
-    return filename
+    return chart_filename
 
 
 
@@ -757,7 +810,7 @@ def create_pdf(title,description,paddock, piezo, date, averagePWP, inoperativeDa
         pdf.cell(0,10,f'Latest piezometer lectures ( last {days} days )')
         pdf.ln(20)
 
-        pdf.image(chart_filename,10,60,pdf.w-20)
+        pdf.image(os.path.abspath("../client/public/media/charts") + "\\" + chart_filename,10,60,pdf.w-20)
         pdf.ln(500)
 
     if sectionURL != "None":
@@ -769,13 +822,14 @@ def create_pdf(title,description,paddock, piezo, date, averagePWP, inoperativeDa
     #SECTION IMG
     
 
-        pdf.image(os.getcwd() + sectionURL,10,80,pdf.w-20)
+        pdf.image(os.path.abspath("../client/public/media/img/sections") + "\\" + sectionURL,10,80,pdf.w-20)
 
     now = datetime.now()
     dt_string = now.strftime("%Y%m%d%H%M%S")
 
-    save_filename = os.getcwd() + f"/static/report_pdf/{paddock}_{piezo}_{days}_{dt_string}.pdf"
-    download_filename = f"/static/report_pdf/{paddock}_{piezo}_{days}_{dt_string}.pdf"
+    
+    save_filename = os.path.abspath("../client/public/report_pdf") + "\\" + f"{paddock}_{piezo}_{days}_{dt_string}.pdf"
+    download_filename = f"{paddock}_{piezo}_{days}_{dt_string}.pdf"
     pdf.output(save_filename)
 
     return download_filename
@@ -795,20 +849,36 @@ def save_pdf():
     lecturesDates = request.json["lecturesDates"]
     lecturesPressure = request.json["lecturesPressure"]
     sectionURL = request.json["sectionURL"]
+    photo = request.json["photo"]
+    supervisors=request.json["supervisors"].split(",")
 
+    # print({"supervisors":supervisors,
+    #        "title":title,
+    #        "description":description,
+    #        "paddock":paddock,
+    #        "piezo":piezo,
+    #        "days":days,
+    #        "date":date,
+    #        "averagePWP":averagePWP,
+    #        "inoperativeDates":inoperativeDates,
+    #        "lecturesPressure":lecturesPressure,
+    #        "sectionURL":sectionURL,
+    #        "photo":photo
+    #        })
+
+    # print("lecturesDates", lecturesDates)
   
     if len(lecturesDates) != 0 and len(lecturesPressure) != 0:
         chart_filename = create_chart(paddock, piezo, days,lecturesPressure,lecturesDates)
-        # filename = create_pdf(title, description, paddock, piezo, date, averagePWP, inoperativeDates, days, chart_filename, sectionURL, lecturesDates)
-        filename="uwu"
+        filename = create_pdf(title, description, paddock, piezo, date, averagePWP, inoperativeDates, days, chart_filename, sectionURL, lecturesDates)
+        
         return jsonify({
             "filename": filename,
+            # "chart_filename": chart_filename
         })
     else:
         chart_filename ="None"
-        # filename = create_pdf(title, description, paddock, piezo, date, averagePWP, inoperativeDates, days, chart_filename, sectionURL, lecturesDates)
-        filename="uwu"
-        print("ASA")
+        filename = create_pdf(title, description, paddock, piezo, date, averagePWP, inoperativeDates, days, chart_filename, sectionURL, lecturesDates)
         return jsonify({
             "filename": filename,
         })

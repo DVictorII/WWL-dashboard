@@ -39,12 +39,16 @@ import {
 import { useChartStore } from "../store/ChartStateStore";
 import { useNavigate } from "react-router-dom";
 import { useMonitoringMapStateStore } from "../store/MonitoringMapStateStore";
+import { usePiezometerLecturesStateStore } from "../store/PiezometerLecturesStateStore";
 
 function MapWrapper() {
   const status = useMonitoringMapStateStore((s) => s.status);
   const paddock = useMonitoringMapStateStore((s) => s.paddock);
   const piezo = useMonitoringMapStateStore((s) => s.piezo);
   const date = useMonitoringMapStateStore((s) => s.date);
+
+  const changeChartPaddock = usePiezometerLecturesStateStore((state)=>state.changePaddock)
+  const changeChartPiezo = usePiezometerLecturesStateStore((state)=>state.changePiezo)
 
   const latlng = L.latLng(-22.450643, 15.031006);
   const current_zoom = 14;
@@ -137,9 +141,6 @@ function MapWrapper() {
 
   const markers = L.markerClusterGroup();
 
-  const changeChartPiezo = useChartStore((s) => s.changePiezo);
-  const changeChartPaddock = useChartStore((s) => s.changePaddock);
-
   const navigate = useNavigate();
 
   //@ts-ignore
@@ -147,7 +148,7 @@ function MapWrapper() {
     changeChartPaddock(paddock);
     changeChartPiezo(piezo);
 
-    navigate("/paddock-lectures");
+    navigate("/piezometer-lectures");
   };
 
   // @ts-ignore

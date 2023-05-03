@@ -29,7 +29,7 @@ function LecturesChart() {
       </div>
       
       <div className="w-full flex justify-between gap-x-16 flex-wrap gap-y-8 ">
-        <FullScreenButton />
+        <FullScreenButton comp={"chart"} />
         <ChartLegend />
       </div>
     </div>

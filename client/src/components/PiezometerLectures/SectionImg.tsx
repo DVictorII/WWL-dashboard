@@ -13,7 +13,7 @@ function SectionImg() {
 
   const paddock = location === "/piezometer-lectures" ? usePiezometerLecturesStateStore((s) => s.paddock):  useNewPiezoReportStateStore((state) => state.paddock);
   const piezo =  location === "/piezometer-lectures" ? usePiezometerLecturesStateStore((s) => s.piezo):  useNewPiezoReportStateStore((state) => state.piezo);
-  const openSectionImg = useSectionImgStore((s) => s.openSectionImg);
+
 
   const { isLoading: piezometersAreLoading, data: piezometersData } = useQuery({
     queryKey: [`Onepiezometer_${paddock}_${piezo}`],
@@ -44,16 +44,11 @@ function SectionImg() {
               {piezometersData[0].section &&  piezometersData[0].section != "?" ? (
                 <>
                   <img
-                    className="cursor-pointer rounded-[12px]"
-                    onClick={() =>
-                      openSectionImg(
-                        `/media/img/sections/${piezometersData[0].section}.${"svg"||"png"}`
-                      )
-                    }
-                    src={`/media/img/sections/${piezometersData[0].section}.${"svg"||"png"}`}
+                    className="rounded-[12px]"
+                    src={`/media/img/sections/${piezometersData[0].section}.png`}
                   />
 
-                  <FullScreenButton />   
+                  <FullScreenButton comp="section" url={ `/media/img/sections/${piezometersData[0].section}.png`}/>   
                 </>
               ) : (
                 <div className="flex justify-center items-center h-32 bg-[#f5f5f5] rounded-xl font-semibold">

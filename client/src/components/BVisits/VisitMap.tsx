@@ -15,6 +15,7 @@ import axios from "../../utils/axios";
 import { useQuery } from "react-query";
 import { photoIcon, videoIcon } from "../../utils/icons";
 import moment from "moment";
+import { useBiannualVisitStateStore } from "../../store/BiannualVisitStateStore";
 
 interface Media {
   id: number;
@@ -41,6 +42,13 @@ function VisitMap({ media }: VisitMapProps) {
   let myMap: L.Map | L.LayerGroup<any> | undefined;
   // @ts-ignore: Unreachable code error
   let piezometers = [];
+
+  const updateMediaID = useBiannualVisitStateStore((state)=>state.updateMediaID)
+
+  //@ts-ignore
+  const displayMedia = (id) => {
+    updateMediaID(id)
+  };
 
   const fetchSectionsData = async () => {
     const result = await axios.get("/get_geojson_sections-sections_bp");
@@ -71,13 +79,16 @@ function VisitMap({ media }: VisitMapProps) {
     // adding circles to the map
     // @ts-ignore
     piezoList.map((piezometer, i) => {
+      console.log("PIEZOMETER", piezometer)
       let icon = piezometer.type === "photo" ? photoIcon : videoIcon;
 
       const circle = L.marker([piezometer.latitude, piezometer.longitude], {
         icon: icon,
       });
 
-      circle.bindPopup(`
+      const popup = L.popup()
+      .setLatLng([piezometer.latitude, piezometer.longitude])
+      .setContent(`
         <div class="flex flex-col gap-y-4">
           <div class="font-semibold text-lg">
             <span>${
@@ -92,14 +103,24 @@ function VisitMap({ media }: VisitMapProps) {
 
         
 
-          <div class="flex items-center gap-x-4">
-            <a class="pb-1 border-b-2 border-[#0078A8] text-[#831B1B]  cursor-pointer" href="/#/player/${
-              piezometer.id
-            }" target="_blank">Watch media &rarr;</a>
+          <div class=" media-${piezometer.id} flex items-center gap-x-4">
+            <div class="pb-1 border-b-2 border-[#0078A8] text-[#831B1B]  cursor-pointer" target="_blank">Watch media &rarr;</div>
           </div>
         
         </div>
       `);
+
+      circle.bindPopup(popup,{
+        interactive:true,
+      });
+  
+      popup.on('add',(e)=>{
+        const title = document.querySelectorAll(`.media-${piezometer.id}`)
+        title?.forEach(t=>t.addEventListener('click', () => {
+         displayMedia(piezometer.id)
+          console.log(piezometer.id)
+        }))
+      })
 
       markers.addLayer(circle);
       piezometers.push(circle);

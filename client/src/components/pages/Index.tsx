@@ -20,6 +20,9 @@ import {
   monitoringMapStatusInfo,
 } from "../../utils/monitoringMapStatusInfo";
 
+import path from "path"
+import { useEffect } from "react";
+
 interface GlobalMapState {
   status: string | number;
   paddock: string;
@@ -33,9 +36,14 @@ const Index = () => {
   const piezo = useMonitoringMapStateStore((s) => s.piezo);
   const date = useMonitoringMapStateStore((s) => s.date);
 
+  useEffect(()=>{
+    console.log()
+  },[])
+
   const downloadReport = async () => {
     try {
-      await toast.promise(
+      
+      const res = await toast.promise(
         axios.post("/modify_excel"),
         {
           loading: "Generating report...",
@@ -68,10 +76,10 @@ const Index = () => {
         }
       );
 
-      const filename = "/pyreport/report2.xlsx";
-
+      console.log(res)
       const aTag = document.createElement("a");
-      aTag.href = filename;
+      //@ts-ignore
+      aTag.href = "/pyreport/report2.xlsx";
       aTag.target = "_blank";
       aTag.setAttribute(
         "download",
