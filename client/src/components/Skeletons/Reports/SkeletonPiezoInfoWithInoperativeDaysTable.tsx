@@ -2,6 +2,7 @@ import React from "react";
 import SkeletonPiezoInformationTable from "../PiezometerLectures/SkeletonPiezoInformationTable";
 import Skeleton from "react-loading-skeleton";
 import SkeletonInoperativeDaysTable from "./SkeletonInoperativeDaysTable";
+import InoperativeDaysSpanTable from "../../Reports/InoperativeDaysSpanTable";
 
 function SkeletonPiezoInfoWithInoperativeDaysTable() {
   return (
@@ -18,13 +19,7 @@ function SkeletonPiezoInfoWithInoperativeDaysTable() {
         </div>
 
         <div className=" md:px-4 md:pb-8 md:pt-7 flex flex-col gap-y-4 ">
-          <div className="flex items-center gap-x-4 lg:self-end">
-            <span className="text-sm md:text-base font-semibold">
-              Days span:{" "}
-            </span>
-
-            <Skeleton width={60} height={30} />
-          </div>
+          <InoperativeDaysSpanTable />
           <SkeletonInoperativeDaysTable />
         </div>
       </div>

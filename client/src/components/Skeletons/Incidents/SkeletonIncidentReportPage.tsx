@@ -4,6 +4,7 @@ import Skeleton from "react-loading-skeleton";
 import SkeletonReportCard from "../Reports/SkeletonReportCard";
 import SkeletonReportListTable from "../Reports/SkeletonReportListTable";
 import SkeletonIncidentListTable from "./SkeletonIncidentListTable";
+import SkeletonIncidentMapMultiple from "./SkeletonIncidentMapMultiple"
 
 function SkeletonIncidentReportPage() {
   return (
@@ -44,6 +45,14 @@ function SkeletonIncidentReportPage() {
 
           <div className="grid grid-cols-1">
             <SkeletonIncidentListTable />
+          </div>
+        </div>
+
+        <div className="  flex flex-col  gap-y-4  ">
+          <h2 className="font-bold text-sm 2xl:text-base">Incidents Interactive Map</h2>
+
+          <div className="grid grid-cols-1">
+            <SkeletonIncidentMapMultiple />
           </div>
         </div>
       </div>

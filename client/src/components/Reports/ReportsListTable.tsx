@@ -2,8 +2,20 @@ import { BsArrowDownUp, BsTrash } from "react-icons/bs";
 import { ReportDetails } from "../../types";
 import moment from "moment";
 import { Link } from "react-router-dom";
+//@ts-ignore
+import axios from "../../utils/axios";
+import { useMutation, useQueryClient } from "react-query";
+import { toast } from "react-hot-toast";
+import { useDeletePiezoReport } from "../../hooks/reportHooks";
 
 function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
+
+  const deleteMutation = useDeletePiezoReport()
+
+  const handleDelete = (id:string)=>{
+    deleteMutation.mutate(id)
+  }
+
   return (
     <div
       className={`max-w-[1000vh] h-[21rem] sm:h-[24.5rem] md:h-[28rem] overflow-x-auto rounded-lg border-2 bg-white border-all-normal`}
@@ -96,7 +108,7 @@ function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
                 </span>
               </th>
               <th className="flex items-center gap-x-2 w-8 md:w-10 justify-center">
-                <div className=" w-7 h-7 md:w-9 md:h-9 bg-damaged-normal hover:bg-opacity-30 transition-all cursor-pointer  bg-opacity-20 rounded-full flex items-center justify-center">
+                <div onClick={()=>handleDelete(report.report_id)} className=" w-7 h-7 md:w-9 md:h-9 bg-damaged-normal hover:bg-opacity-30 transition-all cursor-pointer  bg-opacity-20 rounded-full flex items-center justify-center">
                   <BsTrash className="h-3 w-3 md:w-4 md:h-4 text-damaged-dark" />
                 </div>
               </th>

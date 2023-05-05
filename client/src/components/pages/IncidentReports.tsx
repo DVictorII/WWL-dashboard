@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import IncidentsSliderComp from "../Slider/IncidentsSliderComp";
 import IncidentsListTable from "../Incidents/IncidentsListTable";
 import SkeletonIncidentReportPage from "../Skeletons/Incidents/SkeletonIncidentReportPage";
+import IncidentMapMultiple from "../Incidents/IncidentMapMultiple";
 
 function IncidentReports() {
   const fetchIncidents = async () => {
@@ -68,6 +69,14 @@ function IncidentReports() {
 
           <div className="grid grid-cols-1">
             <IncidentsListTable incidents={incidents} />
+          </div>
+        </div>
+
+        <div className="  flex flex-col  gap-y-4  ">
+          <h2 className="font-bold text-sm 2xl:text-base">Incidents Interactive Map</h2>
+
+          <div className="grid grid-cols-1">
+            <IncidentMapMultiple />
           </div>
         </div>
       </div>

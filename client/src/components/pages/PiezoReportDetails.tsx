@@ -80,11 +80,7 @@ function PiezoReportDetails() {
       <div className="bg-backgroundWhite md:bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-12 md:shadow-lg ">
         <div className="bg-[#f5f5f5] border border-[#dfdfdf]  shadow-sm w-full sm:w-3/4 lg:w-1/2 min-h-[10rem] md:min-h-[12rem] 2xl:min-h-[14rem] max-h-[20rem]   rounded-lg flex items-center justify-center overflow-hidden cursor-pointer self-center">
           <img
-            src={`/media/piezometer_reports/${
-              report.report_photo === "report-default"
-                ? "report-default.png"
-                : report.report_photo
-            }`}
+            src={`/media/piezometer_reports/${report.report_photo === "piezoreport-default" ? "piezoreport-default.png" : report.report_photo}`}
             alt={`/media/piezometer_reports/${
               report.report_photo === "report-default"
                 ? "report-default.png"

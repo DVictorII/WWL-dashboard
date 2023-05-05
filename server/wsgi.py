@@ -1,10 +1,8 @@
-from new_app import app,dev
+from app import app,dev
 
 if __name__ == "__main__":
-    app.secret_key = 'super secret key'
-    
-    
-    app.run()
+    app.secret_key = 'super secret key'  
+    app.run(debug=True)
     """if dev:
         app.run(debug=True)#,port=5000)
     else:

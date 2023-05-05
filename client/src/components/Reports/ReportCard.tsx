@@ -12,7 +12,7 @@ function ReportCard({ report }: { report: ReportDetails }) {
     >
       <div className="h-24 md:h-28  ">
         <img
-          src={`/media/piezometer_reports/${report.report_photo}`}
+          src={`/media/piezometer_reports/${report.report_photo === "piezoreport-default" ? "piezoreport-default.png" : report.report_photo}`}
           alt={report.report_title}
           className="w-full h-full object-cover"
         />

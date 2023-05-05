@@ -18,6 +18,7 @@ import "../../MarkerCluster.Default.css";
 import "leaflet.markercluster";
 import { incidentIcon } from "../../utils/icons";
 import FadeLoader from "react-spinners/FadeLoader";
+import SkeletonIncidentMapMultiple from "../Skeletons/Incidents/SkeletonIncidentMapMultiple";
 
 function IncidentMapMultiple() {
   const latlng = L.latLng(-22.450643, 15.031006);
@@ -42,7 +43,6 @@ function IncidentMapMultiple() {
 
   const fetchIncidents = async () => {
     const result = await axios.get("/incident-reports");
-
     return result.data.incidents;
   };
 
@@ -76,41 +76,41 @@ function IncidentMapMultiple() {
 
     // adding circles to the map
     // @ts-ignore
-    piezoList.map((piezometer) => {
+    piezoList.map((incident) => {
       let icon = incidentIcon;
 
-      const circle = L.marker([piezometer.latitude, piezometer.longitude], {
+      const circle = L.marker([incident.incident_latitude, incident.incident_longitude], {
         icon: icon,
       });
 
       circle.bindPopup(`
         <div class="flex flex-col gap-y-4">
           <div class="font-semibold text-lg">
-            <span>${piezometer.title}</span>
+            <span>${incident.incident_title}</span>
           </div>
 
           <div class="flex items-center gap-x-4">
             <span class="font-semibold text-xs">Paddock section: </span>
-            <span>${piezometer.paddock}</span>
+            <span>${incident.incident_paddock}</span>
           </div>
 
           <div class="flex flex-col gap-y-2" >
             <span class="font-semibold text-xs" >Location coordinates: </span>
-            <span>${piezometer.latitude}° / ${piezometer.longitude}°</span>
+            <span>${incident.incident_latitude}° / ${incident.incident_longitude}°</span>
           </div>
 
           <div class="flex items-center gap-x-4">
             <span class="font-semibold text-xs" >Elevation: </span>
-            <span>${piezometer.elevation} m</span>
+            <span>${incident.incident_elevation} m</span>
           </div>
 
           <div class="flex items-center gap-x-4">
             <span class="font-semibold text-xs" >Inspection date: </span>
-            <span>${piezometer.date}</span>
+            <span>${incident.incident_date}</span>
           </div>
 
           <div class="flex items-center gap-x-4">
-            <a class="pb-1 border-b-2 border-[#0078A8] text-[#831B1B] text cursor-pointer" href="/#/reports/incidents/${piezometer.id}" target="_blank">See incident details &rarr;</a>
+            <a class="pb-1 border-b-2 border-[#0078A8] text-[#831B1B] text cursor-pointer" href="/reports/incidents/${incident.incident_id}" target="_blank">See incident details &rarr;</a>
           </div>
         
         </div>
@@ -226,19 +226,12 @@ function IncidentMapMultiple() {
 
   if (sectionsAreLoading || incidentsAreLoading)
     return (
-      <div className="w-full   h-[60vh]  rounded-[14px] overflow-hidden shadow-md relative z-[10] flex justify-center items-center">
-        <FadeLoader
-          color="#BD9C45"
-          loading={sectionsAreLoading || incidentsAreLoading}
-          radius={50}
-        />
-      </div>
+      <SkeletonIncidentMapMultiple/>
     );
 
   return (
     <div
-      className=" w-full   h-[60vh]  rounded-[14px] overflow-hidden shadow-md relative z-[10]"
-      style={{ boxShadow: boxShadowSlight }}
+      className="w-full   h-[50vh]  rounded-lg overflow-hidden shadow-md relative z-[10]"
     >
       <div id="map4"></div>
     </div>
