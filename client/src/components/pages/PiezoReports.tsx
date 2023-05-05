@@ -8,6 +8,7 @@ import SliderComp from "../Slider/SliderComp";
 import ReportsListTable from "../Reports/ReportsListTable";
 import { fetchPiezoReports } from "../../utils/reportsFetchFunctions";
 import { useEffect } from "react";
+import SkeletonPiezoReportsPage from "../Skeletons/Reports/SkeletonPiezoReportsPage";
 
 function PiezoReports() {
   const { isLoading, data: piezoReports } = useQuery(
@@ -17,13 +18,11 @@ function PiezoReports() {
       refetchOnWindowFocus: false,
     }
   );
-  useEffect(()=>{
-    console.log(piezoReports)
-  },[piezoReports])
+  useEffect(() => {
+    console.log(piezoReports);
+  }, [piezoReports]);
 
-  if(isLoading) return (
-    <h1>Loading...</h1>
-  )
+  if (isLoading) return <SkeletonPiezoReportsPage />;
 
   return (
     <>
@@ -49,7 +48,6 @@ function PiezoReports() {
       </div>
 
       <div className="bg-backgroundWhite md:bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-12 md:shadow-lg ">
-        
         <div className="grid-cols-1  grid gap-x-10 gap-y-10  ">
           <div className="  flex flex-col  gap-y-4 w-full ">
             <h2 className="font-bold text-sm 2xl:text-base">
@@ -57,7 +55,7 @@ function PiezoReports() {
             </h2>
 
             <div className="w-full ">
-              <SliderComp reports={piezoReports}/>
+              <SliderComp reports={piezoReports} />
             </div>
           </div>
         </div>
@@ -66,12 +64,10 @@ function PiezoReports() {
           <h2 className="font-bold text-sm 2xl:text-base">Reports List</h2>
 
           <div className="grid grid-cols-1">
-            <ReportsListTable reports={piezoReports}/>
+            <ReportsListTable reports={piezoReports} />
           </div>
         </div>
       </div>
-
-      
     </>
   );
 }

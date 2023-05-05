@@ -3,8 +3,6 @@ import DaysChange from "./Filtering/DaysChange";
 import LecturesChart from "./LecturesChart";
 import SectionImg from "./SectionImg";
 
-
-
 function PiezoLecturesComponent() {
   return (
     <div className=" flex flex-col gap-y-10 rounded-xl py-8">
@@ -16,7 +14,7 @@ function PiezoLecturesComponent() {
         <span className="text-sm md:text-base font-semibold">days</span>
       </h2>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 xl:gap-x-10 gap-y-10 ">
-        <LecturesChart  />
+        <LecturesChart />
         <SectionImg />
       </div>
     </div>

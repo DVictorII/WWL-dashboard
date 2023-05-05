@@ -10,7 +10,6 @@ import "../../MarkerCluster.css";
 import "../../MarkerCluster.Default.css";
 import "leaflet.markercluster";
 
-
 import FadeLoader from "react-spinners/FadeLoader";
 import {
   addSections,
@@ -19,6 +18,7 @@ import {
   InitializeMap,
 } from "../../utils/mapInitFunc";
 import { useMapStore } from "../../store/MapStateStore";
+import SkeletonIncidentLocationShowcaseMap from "../Skeletons/Incidents/SkeletonIncidentLocationShowcaseMap";
 
 //@ts-ignore
 function IncidentMapSingle({ incident }) {
@@ -79,17 +79,10 @@ function IncidentMapSingle({ incident }) {
     if (!sectionsAreLoading) init([incident]);
   }, [sectionsAreLoading]);
 
-  if (sectionsAreLoading)
-    return (
-      <div className="w-full   h-[50vh]  rounded-lg overflow-hidden shadow-sm relative z-[10] flex justify-center items-center">
-        <FadeLoader color="#BD9C45" loading={sectionsAreLoading} radius={50} />
-      </div>
-    );
+  if (sectionsAreLoading) return <SkeletonIncidentLocationShowcaseMap />;
 
   return (
-    <div
-      className=" w-full   h-[50vh]  rounded-lg overflow-hidden shadow-sm relative z-[10]"
-    >
+    <div className=" w-full   h-[50vh]  rounded-lg overflow-hidden shadow-sm relative z-[10]">
       <div id="map3"></div>
     </div>
   );

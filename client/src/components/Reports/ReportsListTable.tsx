@@ -1,4 +1,3 @@
-
 import { BsArrowDownUp, BsTrash } from "react-icons/bs";
 import { ReportDetails } from "../../types";
 import moment from "moment";
@@ -48,11 +47,17 @@ function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
 
         <tbody className="bg-white">
           {reports.map((report, i) => (
-            <tr key={report.report_id} style={{
-              backgroundColor: i%2===0 ? "#d2d4d8" : "white"
-            }} className="w-full flex items-center justify-evenly whitespace-nowrap gap-x-10 md:gap-x-12 px-8  text-[9px] md:text-[10px] h-14 bg-white ">
+            <tr
+              key={report.report_id}
+              style={{
+                backgroundColor: i % 2 === 0 ? "#d2d4d8" : "white",
+              }}
+              className="w-full flex items-center justify-evenly whitespace-nowrap gap-x-10 md:gap-x-12 px-8  text-[9px] md:text-[10px] h-14 bg-white "
+            >
               <th className="flex items-center gap-x-2 w-8 md:w-10 justify-center">
-                <span className="text-xs">{String(i+1).padStart(2,"0")}.</span>
+                <span className="text-xs">
+                  {String(i + 1).padStart(2, "0")}.
+                </span>
               </th>
 
               <th className="flex items-center gap-x-2 w-36 md:w-40 justify-center">
@@ -71,24 +76,17 @@ function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
               </th>
 
               <th className="flex items-center gap-x-1 w-36 md:w-40 justify-center">
-                <span>
-                  {report.report_paddock} 
-                </span>
-                <span>
-                  /
-                </span>
+                <span>{report.report_paddock}</span>
+                <span>/</span>
 
-                <span>
-                {report.report_piezo}
-                </span>
+                <span>{report.report_piezo}</span>
               </th>
 
               <th className="flex items-center gap-x-2 w-8 md:w-10 justify-center">
                 <Link to={`/reports/piezometers/${report.report_id}`}>
-                <span className="text-[11px] md:text-xs text-orange-600  border-b border-orange-600  hover:text-orange-800 hover:border-orange-800 transition-all cursor-pointer">
-                  View
-                </span>
-                
+                  <span className="text-[11px] md:text-xs text-orange-600  border-b border-orange-600  hover:text-orange-800 hover:border-orange-800 transition-all cursor-pointer">
+                    View
+                  </span>
                 </Link>
               </th>
 
@@ -104,7 +102,6 @@ function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
               </th>
             </tr>
           ))}
-          
         </tbody>
       </table>
     </div>

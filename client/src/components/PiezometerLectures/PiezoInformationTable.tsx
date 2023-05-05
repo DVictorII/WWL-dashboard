@@ -8,12 +8,19 @@ import { monitoringMapStatusInfo } from "../../utils/monitoringMapStatusInfo";
 import { capitalizeName } from "../../utils/monitoringMapStatusInfo";
 import { useLocation } from "react-router-dom";
 import { useNewPiezoReportStateStore } from "../../store/NewPiezoReportStateStore";
+import SkeletonPiezoInformationTable from "../Skeletons/PiezometerLectures/SkeletonPiezoInformationTable";
 
 function PiezoInformationTable() {
-  const location = useLocation().pathname
+  const location = useLocation().pathname;
 
-  const paddock = location === "/piezometer-lectures" ? usePiezometerLecturesStateStore((s) => s.paddock):  useNewPiezoReportStateStore((state) => state.paddock);
-  const piezo =  location === "/piezometer-lectures" ? usePiezometerLecturesStateStore((s) => s.piezo):  useNewPiezoReportStateStore((state) => state.piezo);
+  const paddock =
+    location === "/piezometer-lectures"
+      ? usePiezometerLecturesStateStore((s) => s.paddock)
+      : useNewPiezoReportStateStore((state) => state.paddock);
+  const piezo =
+    location === "/piezometer-lectures"
+      ? usePiezometerLecturesStateStore((s) => s.piezo)
+      : useNewPiezoReportStateStore((state) => state.piezo);
 
   const { isLoading: piezometersAreLoading, data: piezometersData } = useQuery({
     queryKey: [`Onepiezometer_${paddock}_${piezo}`],
@@ -33,15 +40,8 @@ function PiezoInformationTable() {
     }
   );
 
-  if(piezometersAreLoading|| lastReadingsAreLoading) return (
-    <div className="w-full h-full flex items-center justify-center">
-              <FadeLoader
-                color="#BD9C45"
-                loading={piezometersAreLoading || lastReadingsAreLoading}
-                radius={50}
-              />
-    </div>
-  )
+  if (piezometersAreLoading || lastReadingsAreLoading)
+    return <SkeletonPiezoInformationTable />;
 
   const lastReading = lastReadings?.find(
     //@ts-ignore
@@ -55,23 +55,32 @@ function PiezoInformationTable() {
   const depthIsZero = Number(piezometersData[0].depth) == 0;
 
   //@ts-ignore
-  const statusStateObj = monitoringMapStatusInfo[piezometersData[0].status]
+  const statusStateObj = monitoringMapStatusInfo[piezometersData[0].status];
 
   return (
-    <div style={{
-      borderColor: statusStateObj.darkColor
-    }} className="max-w-[1000vh] h-[19rem] overflow-x-auto rounded-lg border-2  relative bg-white">
+    <div
+      style={{
+        borderColor: statusStateObj.darkColor,
+      }}
+      className="max-w-[1000vh] h-[19rem] overflow-x-auto rounded-lg border-2  relative bg-white"
+    >
       <table className="   select-none w-full border-collapse  bg-white">
         <tbody>
-          <tr style={{
-            backgroundColor: statusStateObj.lightColor
-          }} className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12   ">
+          <tr
+            style={{
+              backgroundColor: statusStateObj.lightColor,
+            }}
+            className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12   "
+          >
             <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px]">
-              <span >Location coordinates:</span>
+              <span>Location coordinates:</span>
             </th>
 
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span>{Number(piezometersData[0].lat).toFixed(8)}° / {Number(piezometersData[0].lon).toFixed(8)}°</span>
+              <span>
+                {Number(piezometersData[0].lat).toFixed(8)}° /{" "}
+                {Number(piezometersData[0].lon).toFixed(8)}°
+              </span>
             </th>
           </tr>
 
@@ -81,21 +90,40 @@ function PiezoInformationTable() {
             </th>
 
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span>{piezometersData[0].section}</span>
+              <span
+                className={`${
+                  piezometersData[0].section &&
+                  piezometersData[0].section !== "?" &&
+                  piezometersData[0].section !== "None"
+                    ? ""
+                    : "text-xl"
+                }`}
+              >
+                {piezometersData[0].section &&
+                piezometersData[0].section !== "?" &&
+                piezometersData[0].section !== "None"
+                  ? piezometersData[0].section
+                  : "-"}
+              </span>
             </th>
           </tr>
 
-          <tr style={{
-            backgroundColor: statusStateObj.lightColor
-          }} className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12  ">
+          <tr
+            style={{
+              backgroundColor: statusStateObj.lightColor,
+            }}
+            className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12  "
+          >
             <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px]">
               <span>Depth:</span>
             </th>
 
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span className={`${depthIsZero ? "text-2xl" : ""}`}>{depthIsZero
-                        ? "-"
-                        : `${Number(piezometersData[0].depth).toFixed(2)} m`}</span>
+              <span className={`${depthIsZero ? "text-xl" : ""}`}>
+                {depthIsZero
+                  ? "-"
+                  : `${Number(piezometersData[0].depth).toFixed(2)} m`}
+              </span>
             </th>
           </tr>
 
@@ -110,17 +138,23 @@ function PiezoInformationTable() {
             </th>
           </tr>
 
-          <tr style={{
-            backgroundColor: statusStateObj.lightColor
-          }} className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12  ">
+          <tr
+            style={{
+              backgroundColor: statusStateObj.lightColor,
+            }}
+            className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12  "
+          >
             <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px]">
               <span>Current PWP</span>
             </th>
 
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span className={`${lastReadingExists ? "" : "text-2xl"}`}> {lastReadingExists
-                        ? `${Number(lastReading.pressure).toFixed(3)} Kpa`
-                        : "-"}</span>
+              <span className={`${lastReadingExists ? "" : "text-xl"}`}>
+                {" "}
+                {lastReadingExists
+                  ? `${Number(lastReading.pressure).toFixed(3)} Kpa`
+                  : "-"}
+              </span>
             </th>
           </tr>
 
@@ -130,18 +164,19 @@ function PiezoInformationTable() {
             </th>
 
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span className={`${lastReadingExists ? "" : "text-2xl"}`}> 
-              {lastReadingExists
-                        ? lastReading.time
-                        : "-"}
+              <span className={`${lastReadingExists ? "" : "text-xl"}`}>
+                {lastReadingExists ? lastReading.time : "-"}
               </span>
             </th>
           </tr>
         </tbody>
       </table>
-      <div  style={{
-            backgroundColor: statusStateObj.lightColor
-          }} className="absolute top-0 left-1/2 w-[2px] h-[19rem] " />
+      <div
+        style={{
+          backgroundColor: statusStateObj.lightColor,
+        }}
+        className="absolute top-0 left-1/2 w-[2px] h-[19rem] "
+      />
     </div>
   );
 }

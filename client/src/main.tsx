@@ -1,10 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import {   createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import App from "./App";
-import ContentLayout from "./components/ContentLayout";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
 import "./index.css";
 import Index from "./components/pages/Index";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -23,97 +20,87 @@ import VisitDetails from "./components/pages/VisitDetails";
 import MediaPlayer from "./components/BVisits/MediaPlayer";
 
 import PageLayout from "./components/pages/PageLayout";
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const router = createBrowserRouter([
   {
     path: "/",
 
-    element:<PageLayout/>,
+    element: <PageLayout />,
 
-    children:[
+    children: [
       {
-        path:"",
-        element:<Index/>
+        path: "",
+        element: <Index />,
       },
 
       {
-        path:"piezometer-lectures",
-        element: <PaddockLectures/>
+        path: "piezometer-lectures",
+        element: <PaddockLectures />,
       },
 
       {
         path: "reports",
-        children:[
+        children: [
           {
-          path:"piezometers",  
-          children: [
-            {
-              path:"",
-              element:
-                <PiezoReports />
-              
-            },
-            {
-              path:"new-report",
-              element:
-                <NewPiezoReport />
-              
-            },
-            {
-              path:":id",
-              element:
-                  <PiezoReportDetails />
-               
-            }
-          ]
-        },
-        {
-          path:"incidents",  
-          children: [
-            {
-              path:"",
-              element:
-                     <IncidentReports  />
-                   
-            },
-            {
-              path:"new-incident",
-              element:
-              <NewIncidentReport />
-            
-            },
-            {
-              path:":id",
-              element:
-              <IncidentReportDetails />
-            
-            }
-          ]
-        }]
+            path: "piezometers",
+            children: [
+              {
+                path: "",
+                element: <PiezoReports />,
+              },
+              {
+                path: "new-report",
+                element: <NewPiezoReport />,
+              },
+              {
+                path: ":id",
+                element: <PiezoReportDetails />,
+              },
+            ],
+          },
+          {
+            path: "incidents",
+            children: [
+              {
+                path: "",
+                element: <IncidentReports />,
+              },
+              {
+                path: "new-incident",
+                element: <NewIncidentReport />,
+              },
+              {
+                path: ":id",
+                element: <IncidentReportDetails />,
+              },
+            ],
+          },
+        ],
       },
       {
-        path:"/biannual-visits/:id",
-        element:<BianualVisit />
+        path: "/biannual-visits/:id",
+        element: <BianualVisit />,
       },
       {
-        path:"/login",
-        element:<Login />
-      }
-    ]
+        path: "/login",
+        element: <Login />,
+      },
+    ],
   },
-  
 ]);
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient} contextSharing={true}>
-
-      <RouterProvider router={router} />
-    </QueryClientProvider>
-    
+    <SkeletonTheme baseColor="#d9d9d9" highlightColor="#c9c9c9">
+      <QueryClientProvider client={queryClient} contextSharing={true}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </SkeletonTheme>
   </React.StrictMode>
 );

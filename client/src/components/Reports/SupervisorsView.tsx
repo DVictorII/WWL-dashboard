@@ -1,8 +1,7 @@
 import React from "react";
 import { ReportDetails } from "../../types";
 
-
-function SupervisorsView({report}:{report:ReportDetails}) {
+function SupervisorsView({ report }: { report: ReportDetails }) {
   return (
     <div className="flex flex-col mt-8 ">
       <h2 className="font-bold text-sm 2xl:text-base">Supervisors</h2>
@@ -12,23 +11,20 @@ function SupervisorsView({report}:{report:ReportDetails}) {
       </p>
 
       <div className="mt-12 flex flex-col gap-y-8">
-    
-        {
-          report.report_supervisors.map((supervisor,i)=>(
+        {report.report_supervisors.map((supervisor, i) => (
           <div key={i} className="flex items-center gap-x-8 flex-wrap gap-y-4 ">
-            <span className="text-xs md:text-sm font-semibold">Supervisor {i+1}:</span>
+            <span className="text-xs md:text-sm font-semibold">
+              Supervisor {i + 1}:
+            </span>
 
             <div className="flex items-center gap-x-4">
               {/* <span className="text-xs md:text-sm font-semibold text-active-dark"></span> */}
-              <span className="text-xs md:text-sm fonte-semibold text-[#555]">{supervisor}</span>
+              <span className="text-xs md:text-sm fonte-semibold text-[#555]">
+                {supervisor}
+              </span>
             </div>
           </div>
-
-          ))
-        }
-
-
-    
+        ))}
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ import {
   capitalizeName,
   monitoringMapStatusInfo,
 } from "../../utils/monitoringMapStatusInfo";
+import SkeletonPiezoInformationTable from "../Skeletons/PiezometerLectures/SkeletonPiezoInformationTable";
 
 function ReportPiezoInformationTable({
   paddock,
@@ -38,15 +39,7 @@ function ReportPiezoInformationTable({
   );
 
   if (piezometersAreLoading || lastReadingsAreLoading || !piezometersData)
-    return (
-      <div className="w-full h-full flex items-center justify-center">
-        <FadeLoader
-          color="#BD9C45"
-          loading={piezometersAreLoading || lastReadingsAreLoading}
-          radius={50}
-        />
-      </div>
-    );
+    return <SkeletonPiezoInformationTable />;
 
   const lastReading = lastReadings?.find(
     //@ts-ignore

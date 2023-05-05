@@ -4,6 +4,8 @@ import { monitoringMapStatusInfo } from "../../utils/monitoringMapStatusInfo";
 import { useMonitoringMapStateStore } from "../../store/MonitoringMapStateStore";
 import { useQuery } from "react-query";
 import { fetchLastReadings, fetchPiezometersData } from "../../utils/map";
+import Skeleton from "react-loading-skeleton";
+import SkeletonPiezoListTable from "../Skeletons/MonitoringMap/SkeletonPiezoListTable";
 
 function PiezoListTable() {
   const status = useMonitoringMapStateStore((s) => s.status);
@@ -65,7 +67,7 @@ function PiezoListTable() {
   const filteredPiezoList = filterPiezometers(piezometersData);
 
   if (piezometersAreLoading || !filteredPiezoList || lastReadingsAreLoading)
-    return <h1>Loading...</h1>;
+    return <SkeletonPiezoListTable />;
 
   return (
     <div
@@ -138,29 +140,41 @@ function PiezoListTable() {
                   className="w-full flex items-center whitespace-nowrap  gap-x-10 md:gap-x-12 px-8  h-12  "
                 >
                   <th className="flex items-center gap-x-2 w-16 md:w-20 justify-center">
-                    <span className="text-[9px] md:text-[10px]">{piezometer.id}</span>
+                    <span className="text-[9px] md:text-[10px]">
+                      {piezometer.id}
+                    </span>
                   </th>
 
                   <th className="flex items-center gap-x-2 w-16 md:w-20 justify-center">
-                    <span className="text-[9px] md:text-[10px]">{piezometer.paddock}</span>
+                    <span className="text-[9px] md:text-[10px]">
+                      {piezometer.paddock}
+                    </span>
                   </th>
 
                   <th className="flex items-center gap-x-2 w-16 md:w-20 justify-center">
-                    <span className="text-[9px] md:text-[10px]">{piezometer.section}</span>
+                    <span className="text-[9px] md:text-[10px]">
+                      {piezometer.section}
+                    </span>
                   </th>
 
                   <th className="flex flex-col gap-y-1 items-center gap-x-2 w-24 md:w-28 justify-center">
                     <span className="text-[9px] md:text-[10px]">
                       {piezometer.lat},
                     </span>
-                    <span className="text-[9px] md:text-[10px]">{piezometer.lon}</span>
+                    <span className="text-[9px] md:text-[10px]">
+                      {piezometer.lon}
+                    </span>
                   </th>
 
                   <th
                     className="flex items-center gap-x-2 
                               w-16 md:w-20 justify-center"
                   >
-                    <span className={`${depthIsZero ? "text-2xl" : "text-[9px] md:text-[10px]"}`}>
+                    <span
+                      className={`${
+                        depthIsZero ? "text-2xl" : "text-[9px] md:text-[10px]"
+                      }`}
+                    >
                       {depthIsZero
                         ? "-"
                         : `${Number(piezometer.depth).toFixed(2)} m`}{" "}
@@ -168,7 +182,13 @@ function PiezoListTable() {
                   </th>
 
                   <th className="flex items-center gap-x-2 w-24 md:w-28 justify-center">
-                    <span className={`${lastReadingExists ? "text-[9px] md:text-[10px]" : "text-2xl"}`}>
+                    <span
+                      className={`${
+                        lastReadingExists
+                          ? "text-[9px] md:text-[10px]"
+                          : "text-2xl"
+                      }`}
+                    >
                       {lastReadingExists
                         ? `${Number(lastReading.pressure).toFixed(3)} Kpa`
                         : "-"}

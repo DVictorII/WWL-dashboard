@@ -26,6 +26,7 @@ import {
 import { FadeLoader } from "react-spinners";
 import { incidentIcon } from "../../utils/icons";
 import moment from "moment";
+import SkeletonIncidentLocationShowcaseMap from "../Skeletons/Incidents/SkeletonIncidentLocationShowcaseMap";
 
 function IncidentLocationShowcaseMap({
   information,
@@ -174,15 +175,7 @@ function IncidentLocationShowcaseMap({
   }, [sectionsAreLoading, paddocksAreLoading]);
 
   if (sectionsAreLoading || paddocksAreLoading)
-    return (
-      <div className=" w-full   h-[50vh]  rounded-[14px] overflow-hidden shadow-md relative z-[10] flex justify-center items-center">
-        <FadeLoader
-          color="#BD9C45"
-          loading={sectionsAreLoading || paddocksAreLoading}
-          radius={50}
-        />
-      </div>
-    );
+    return <SkeletonIncidentLocationShowcaseMap />;
 
   return (
     <div className="  w-full   h-[50vh]  rounded-[14px] overflow-hidden shadow-md relative z-[10]">

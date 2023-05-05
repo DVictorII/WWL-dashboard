@@ -2,7 +2,6 @@
 
 import MenuNavbar from "../MenuNavbar";
 
-
 import PaddockMapWrapper from "../PaddockMapWrapper";
 
 import LecturesLocationTable from "../PiezometerLectures/LecturesLocationTable";
@@ -48,7 +47,7 @@ function PaddockLectures() {
             <PiezoInformationTable />
           </div>
 
-          <div key={`${piezo}${paddock}`}>
+          <div key={`${piezo}${paddock}`} className="flex items-center">
             <PaddockMapWrapper />
           </div>
         </div>

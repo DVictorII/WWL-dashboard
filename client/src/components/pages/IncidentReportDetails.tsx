@@ -1,4 +1,3 @@
-
 import MenuNavbar from "../MenuNavbar";
 
 import { Link, useParams } from "react-router-dom";
@@ -13,6 +12,7 @@ import { useEffect } from "react";
 import IncidentSupervisorsView from "../Incidents/IncidentSupervisorsView";
 import IncidentMapDetailsTable from "../Incidents/IncidentMapDetailsTable";
 import { IncidentDetails } from "../../types";
+import SkeletonIncidentReportDetailsPage from "../Skeletons/Incidents/SkeletonIncidentReportDetailsPage";
 
 function IncidentReportDetails() {
   const { id } = useParams();
@@ -34,12 +34,7 @@ function IncidentReportDetails() {
     console.log("INCIDENT", incident);
   }, [incident]);
 
-  if (isLoading || !incident)
-    return (
-      <div className="w-full h-full flex items-center justify-center">
-        <FadeLoader color="#BD9C45" loading={isLoading} radius={50} />
-      </div>
-    );
+  if (isLoading || !incident) return <SkeletonIncidentReportDetailsPage />;
 
   return (
     <>
@@ -75,13 +70,21 @@ function IncidentReportDetails() {
       <div className="bg-backgroundWhite md:bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-12 md:shadow-lg ">
         <div className="bg-[#f5f5f5] border border-[#dfdfdf]  shadow-sm w-full sm:w-3/4 lg:w-1/2 min-h-[10rem] md:min-h-[12rem] 2xl:min-h-[14rem] max-h-[20rem]   rounded-lg flex items-center justify-center overflow-hidden cursor-pointer self-center">
           <img
-            src={`/media/incident_reports/${incident.incident_photo === "incident-default" ? "incident-default.png" : incident.incident_photo}`}
-            alt={`/media/incident_reports/${incident.incident_photo === "incident-default" ? "incident-default.png" : incident.incident_photo}`}
+            src={`/media/incident_reports/${
+              incident.incident_photo === "incident-default"
+                ? "incident-default.png"
+                : incident.incident_photo
+            }`}
+            alt={`/media/incident_reports/${
+              incident.incident_photo === "incident-default"
+                ? "incident-default.png"
+                : incident.incident_photo
+            }`}
             className="object-cover"
           />
         </div>
 
-        <IncidentMapDetailsTable incident={incident}/>
+        <IncidentMapDetailsTable incident={incident} />
 
         <IncidentSupervisorsView incident={incident} />
       </div>

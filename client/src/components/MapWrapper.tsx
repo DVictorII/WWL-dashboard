@@ -40,6 +40,7 @@ import { useChartStore } from "../store/ChartStateStore";
 import { useNavigate } from "react-router-dom";
 import { useMonitoringMapStateStore } from "../store/MonitoringMapStateStore";
 import { usePiezometerLecturesStateStore } from "../store/PiezometerLecturesStateStore";
+import SkeletonMapWrapper from "./Skeletons/MonitoringMap/SkeletonMapWrapper";
 
 function MapWrapper() {
   const status = useMonitoringMapStateStore((s) => s.status);
@@ -47,8 +48,12 @@ function MapWrapper() {
   const piezo = useMonitoringMapStateStore((s) => s.piezo);
   const date = useMonitoringMapStateStore((s) => s.date);
 
-  const changeChartPaddock = usePiezometerLecturesStateStore((state)=>state.changePaddock)
-  const changeChartPiezo = usePiezometerLecturesStateStore((state)=>state.changePiezo)
+  const changeChartPaddock = usePiezometerLecturesStateStore(
+    (state) => state.changePaddock
+  );
+  const changeChartPiezo = usePiezometerLecturesStateStore(
+    (state) => state.changePiezo
+  );
 
   const latlng = L.latLng(-22.450643, 15.031006);
   const current_zoom = 14;
@@ -224,27 +229,10 @@ function MapWrapper() {
     lastReadingsAreLoading ||
     !piezoDataFiltered
   )
-    return (
-      <div className="w-full   h-[60vh]  rounded-[14px] overflow-hidden shadow-md relative z-[10] flex justify-center items-center">
-        <FadeLoader
-          color="#BD9C45"
-          loading={
-            sectionsAreLoading ||
-            piezometersAreLoading ||
-            paddocksAreLoading ||
-            lastReadingsAreLoading ||
-            !piezoDataFiltered
-          }
-          radius={50}
-        />
-      </div>
-    );
+    return <SkeletonMapWrapper />;
 
   return (
-    <div
-      className=" w-full   h-[50vh]  rounded-lg overflow-hidden shadow-md relative z-[10]"
-      style={{ boxShadow: boxShadowSlight }}
-    >
+    <div className=" w-full   h-[50vh]  rounded-lg overflow-hidden shadow-md relative z-[10]">
       <div id="map"></div>
     </div>
   );

@@ -39,6 +39,7 @@ import {
   InitializeMap,
 } from "../utils/mapInitFunc";
 import { usePiezometerLecturesStateStore } from "../store/PiezometerLecturesStateStore";
+import SkeletonPaddockMapWrapper from "./Skeletons/PiezometerLectures/SkeletonPaddockMapWrapper";
 
 interface ChartState {
   paddock: string;
@@ -166,20 +167,7 @@ function PaddockMapWrapper() {
     paddocksAreLoading ||
     lastReadingsAreLoading
   )
-    return (
-      <div className="w-full   h-[50vh]  rounded-[14px] overflow-hidden shadow-md relative z-[10] flex justify-center items-center">
-        <FadeLoader
-          color="#BD9C45"
-          loading={
-            sectionsAreLoading ||
-            piezometersAreLoading ||
-            paddocksAreLoading ||
-            lastReadingsAreLoading
-          }
-          radius={50}
-        />
-      </div>
-    );
+    return <SkeletonPaddockMapWrapper />;
 
   return (
     <div
