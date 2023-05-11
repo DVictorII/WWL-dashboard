@@ -137,6 +137,7 @@ function PiezoListTable() {
                     backgroundColor:
                       i % 2 === 0 ? selectedStatus.lightColor : "#fff",
                   }}
+                  key={piezometer.id}
                   className="w-full flex items-center whitespace-nowrap  gap-x-10 md:gap-x-12 px-8  h-12  "
                 >
                   <th className="flex items-center gap-x-2 w-16 md:w-20 justify-center">

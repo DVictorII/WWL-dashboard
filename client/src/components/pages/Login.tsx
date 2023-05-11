@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 
 import { HiOutlineMail } from "react-icons/hi";
@@ -12,68 +11,10 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "../../utils/axios";
 import toast, { Toaster } from "react-hot-toast";
 
+import {useAuth0} from "@auth0/auth0-react"
 
 function Login() {
-  const [credentials, setCredentials] = useState({
-    username: "",
-    password: "",
-  });
-
-  const navigate = useNavigate();
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCredentials((credentials) => {
-      return {
-        ...credentials,
-        [e.target.name]: e.target.value,
-      };
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    try {
-      await toast.promise(
-        axios.post("/login", credentials),
-        {
-          loading: "Logging in...",
-          success: (data) => {
-            //@ts-ignore
-            return `Welcome, ${data.data.name}!`;
-          },
-          error: (err) => `Incorrect email or user`,
-        },
-        {
-          success: {
-            duration: 3000,
-
-            style: {
-              fontWeight: "500",
-              border: "2px solid #65a30d",
-              padding: "8px 16px",
-              color: "#1c1917",
-            },
-          },
-          error: {
-            duration: 3000,
-
-            style: {
-              fontWeight: "500",
-              border: "2px solid #b91c1c",
-              padding: "8px 16px",
-              color: "#1c1917",
-            },
-          },
-        }
-      );
-
-      navigate("/");
-    } catch (err) {
-      console.log("ERROR", err);
-    }
-  };
-
+  const {loginWithRedirect, logout} = useAuth0()
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -96,9 +37,8 @@ function Login() {
             Remote Sensing App
           </h1>
 
-          <form
+          {/* <form
             className="w-full 3xl:w-4/5 flex flex-col gap-y-8 mt-4"
-            onSubmit={handleSubmit}
           >
             <fieldset className="relative">
               <HiOutlineMail className="absolute left-4 top-[18px] w-6 h-6 2xl:w-8 2xl:h-8 text-bluePrimary " />
@@ -131,9 +71,16 @@ function Login() {
             <button className="w-full py-3 rounded-[20px] bg-[#333] text-white text-xl 2xl:text-2xl 2xl:py-5 font-semibold">
               Log in
             </button>
-          </form>
+          </form> */}
+
+          <button onClick={()=>loginWithRedirect()} className="w-full py-3 rounded-[20px] bg-[#333] text-white text-xl 2xl:text-2xl 2xl:py-5 font-semibold">
+            Log in  
+          </button>
+
+          <button onClick={()=>logout()} className="w-full py-3 rounded-[20px] bg-[#333] text-white text-xl 2xl:text-2xl 2xl:py-5 font-semibold">
+            Log out  
+          </button>
         </main>
-        
       </div>
       <Toaster position="top-right" />
     </motion.div>

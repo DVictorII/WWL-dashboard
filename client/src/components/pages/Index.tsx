@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import moment from "moment";
 import MenuNavbar from "../MenuNavbar";
 
@@ -8,6 +9,7 @@ import { toast } from "react-hot-toast";
 import IncidentMapMultiple from "../Incidents/IncidentMapMultiple";
 //@ts-ignore: Unreachable code error
 import axios from "../../utils/axios";
+import axios2 from "axios"
 
 import { AiOutlineDownload } from "react-icons/ai";
 import PiezoListTable from "../MonitoringMap/PiezoListTable";
@@ -21,7 +23,8 @@ import {
 } from "../../utils/monitoringMapStatusInfo";
 
 import path from "path"
-import { useEffect } from "react";
+import {useAuth0} from "@auth0/auth0-react"
+
 
 interface GlobalMapState {
   status: string | number;
@@ -36,9 +39,11 @@ const Index = () => {
   const piezo = useMonitoringMapStateStore((s) => s.piezo);
   const date = useMonitoringMapStateStore((s) => s.date);
 
+  const { user} = useAuth0()
+
   useEffect(()=>{
-    console.log()
-  },[])
+    console.log("USER", user);
+  },[user])
 
   const downloadReport = async () => {
     try {
@@ -76,7 +81,6 @@ const Index = () => {
         }
       );
 
-      console.log(res)
       const aTag = document.createElement("a");
       //@ts-ignore
       aTag.href = "/pyreport/report2.xlsx";

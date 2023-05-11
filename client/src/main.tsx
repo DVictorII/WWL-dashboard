@@ -24,6 +24,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { Auth0Provider } from "@auth0/auth0-react";
 
 const router = createBrowserRouter([
   {
@@ -97,10 +98,15 @@ const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
+    {/* @ts-ignore */}
+    <Auth0Provider domain="wwlengineering-jesus-rondon.au.auth0.com" clientId="U5BxS2JRGmYf5So0kpQlqv1pZLE8rGfP" redirectUri={window.location.origin} >
+
     <SkeletonTheme baseColor="#d9d9d9" highlightColor="#c9c9c9">
       <QueryClientProvider client={queryClient} contextSharing={true}>
         <RouterProvider router={router} />
       </QueryClientProvider>
     </SkeletonTheme>
+
+    </Auth0Provider>
   </React.StrictMode>
 );

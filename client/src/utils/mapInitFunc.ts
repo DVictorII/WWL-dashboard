@@ -289,7 +289,7 @@ export const DrawPrincipalMap = async ({
           : piezometersData[0]
         : undefined;
   }
-  console.log("FLAG", paddock, flag);
+  
   const myMap = L.map(mapDOM, {
     //@ts-ignore
     center:
