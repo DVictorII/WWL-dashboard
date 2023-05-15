@@ -12,14 +12,15 @@ BASEPATH = "clients.wwlengineering.com/public_html/"
 A,B,C = 1.4051*10**-3, 2.369*10**-4, 1.019*10**-7
 
 dbname = 'wwlengineering_rossing'
-user = 'wwlengineering_admin_rossing'
-password = 'yf=R(qH7Q#fG'
-host = 'localhost'
+user = 'WWL_ADMIN'
+password = 'WWL#2023'
+host = 'wwl-rossing.crnkanilun4m.ap-southeast-2.rds.amazonaws.com'
 dev = True
 
 def save_last_features(nodes_df):
     #base = os.getcwd()+"/"
-    cdf = pd.read_csv(BASEPATH+"data/calibration_data.csv",index_col='SNumber')
+    
+    cdf = pd.read_csv(os.path.abspath( "data/calibration_data.csv"),index_col='SNumber')
     # calculate temperature and pressure by piezometer
     for i in range(len(nodes_df)):
     #for i in range(1):
@@ -149,7 +150,9 @@ def copy_data(id,k,year,month):
         conn = dbconnect()
         cur = conn.cursor()
         table_name = 'node_'+str(id)+'_'+str(k)
-        file = BASEPATH+'download/node_%d_%d_%d_%02d.csv'%(id,k,year,month)
+        
+        file = os.path.abspath('download/node_%d_%d_%d_%02d.csv'%(id,k,year,month))
+        print("FILE", file)
         sub = pd.read_csv(file,parse_dates=['TIMESTAMP'])
         for _,row in sub.iterrows():
             query = "INSERT INTO "+table_name+" VALUES (%s,%s,%s,%s,%s,%s) "+\
@@ -161,7 +164,7 @@ def copy_data(id,k,year,month):
 
 def update_tables(mysql,id,k,year,month):
     try:
-        sub = pd.read_csv(BASEPATH+'download/node_'+str(id)+'_'+str(k)+'_'+str(year)+'_'+str(month)+'.csv',parse_dates=['TIMESTAMP'])
+        sub = pd.read_csv(os.path.abspath('download/node_'+str(id)+'_'+str(k)+'_'+str(year)+'_'+str(month)+'.csv'),parse_dates=['TIMESTAMP'])
         conn = mysql.connect()
         cursor = conn.cursor()
         query = "CREATE TABLE IF NOT EXISTS node_"+str(id)+"_"+str(k)+" (timestamp datetime not null primary key,atmpres decimal(10,4),freq decimal(20,5),thermR decimal(20,5),Temperature decimal(10,5),Pressure decimal(10,5));"
@@ -175,7 +178,11 @@ def update_tables(mysql,id,k,year,month):
         print("updated table %d %d"%(id,k))
     except Exception as e:
         print('error in file %d %d - %s'%(id,k,e))
-        
+
+def dict_helper(objlist):
+    result2 = [item.obj_to_dict() for item in objlist]
+    return result2
+     
 def download_data(gateway,year,month,option=False):
     # user log to server
     adm = ('admin','Aeros4uav')
@@ -183,15 +190,18 @@ def download_data(gateway,year,month,option=False):
     if option:
         base_url = "https://loadsensing.wocs3.com/"+str(gateway)+"/dataserver/csv/compacted/compacted-readings-"+str(gateway)+"-"
         url = base_url+str(year)+"-"+"%02d"%(month)+".dat"
+
+        print("LINK1", url)
     else:
         url = "https://loadsensing.wocs3.com/"+str(gateway)+"/dataserver/current/comp/"+str(gateway)
+        print("LINK2", url)
     # conecting to server
     print("connecting to server")
     print(url)
     response = requests.get(url=url,auth=adm,allow_redirects=True)
-    print("downloaded data from server")
+    print("downloaded data from server", response.text)
     # download data and save it as csv
-    open(BASEPATH+'data/data_compacted.csv','wb').write(response.content)
+    open(os.path.abspath('data/data_compacted.csv'),'wb').write(response.content)
     print("downloaded data to local")
 
 def get_features_from_data(file):
@@ -228,7 +238,8 @@ def get_features_from_data(file):
     return nodes_df
 
 def save_features(nodes_df,year,month):
-    cdf = pd.read_csv(BASEPATH+"data/calibration_data.csv",index_col='SNumber')
+    
+    cdf = pd.read_csv(os.path.abspath("data/calibration_data.csv"),index_col='SNumber')
     # calculate temperature and pressure by piezometer
     for i in range(len(nodes_df)):
     #for i in range(5):
@@ -255,7 +266,8 @@ def save_features(nodes_df,year,month):
                 sub['Temperature'] = sub.apply(lambda row : np.nan ,axis=1)
                 # get pressure
                 sub['Pressure'] = sub.apply(lambda row : np.nan ,axis=1)
-            file = BASEPATH+'download/node_%d_%d_%d_%02d.csv'%(idf,k,year,month)
+                
+            file = os.path.abspath('download/node_%d_%d_%d_%02d.csv'%(idf,k,year,month))
             sub.to_csv(file,date_format='%Y/%m/%d %H:%M:%S %t')
             copy_data(idf,k,year,month)
 
@@ -264,9 +276,10 @@ def get_data_from_server(mysql,year,month,option=1,cal_params=True):
     # read data and drop last column
     print("cleaning data")
     if option:
-        df = pd.read_csv(BASEPATH+"data/data_compacted.csv",skiprows=1,parse_dates=['TIMESTAMP'],index_col=0)
+        df = pd.read_csv(os.path.abspath("data/data_compacted.csv"),skiprows=1,parse_dates=['TIMESTAMP'],index_col=0)
     else:
-        name = BASEPATH+"data/compacted-readings-21545-%d-%02d.dat"%(year,month)
+        
+        name = os.path.abspath("data/compacted-readings-21545-%d-%02d.dat"%(year,month))
         df = pd.read_csv(name,skiprows=1,parse_dates=['TIMESTAMP'],index_col=0)
     df = df.iloc[:,:-1]
     # counting number of channels per node
@@ -297,7 +310,8 @@ def get_data_from_server(mysql,year,month,option=1,cal_params=True):
         j += x[i][1]
     # read piezometer features
     print("calculating parameters")
-    cdf = pd.read_csv(BASEPATH+"data/calibration_data.csv",index_col='SNumber')
+    
+    cdf = pd.read_csv(os.path.abspath("data/calibration_data.csv"),index_col='SNumber')
     # calculate temperature and pressure by piezometer
     for i in range(len(nodes_df)):
         idf = nodes_df[i][0]
