@@ -149,7 +149,7 @@ def getLectures(node,daysAgo):
 def get_geojson(folder,name):
     
         
-        name = os.path.abspath( 'data/'+folder+'/'+name.upper()+'.kml')
+        name = 'data/'+folder+'/'+name.upper()+'.kml'
         data = kml2geojson.main.convert(name)
         return jsonify({
             "data":data,
