@@ -151,6 +151,9 @@ def get_geojson(folder,name):
         
         name = os.path.abspath( 'data/'+folder+'/'+name.upper()+'.kml')
         data = kml2geojson.main.convert(name)
-        return jsonify(data)
+        return jsonify({
+            "data":data,
+            "name":name
+        })
     # else:
     #     return render_template('no_authorized.html')

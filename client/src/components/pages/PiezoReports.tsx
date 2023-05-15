@@ -22,7 +22,7 @@ function PiezoReports() {
     console.log(piezoReports);
   }, [piezoReports]);
 
-  if (isLoading) return <SkeletonPiezoReportsPage />;
+  if (isLoading || !piezoReports) return <SkeletonPiezoReportsPage />;
 
   return (
     <>

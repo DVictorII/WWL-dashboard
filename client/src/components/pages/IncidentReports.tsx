@@ -28,7 +28,7 @@ function IncidentReports() {
     console.log(incidents);
   }, [incidents]);
 
-  if (isLoading) return <SkeletonIncidentReportPage />;
+  if (isLoading || !incidents) return <SkeletonIncidentReportPage />;
 
   return (
     <>
