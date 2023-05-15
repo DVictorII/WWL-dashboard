@@ -81,7 +81,7 @@ def get_piezometers_data():
     return jsonify({
         "message":"success",
         "results": len(piezos),
-        "path":os.path.abspath( "pyreport/report.xlsx"),
+        "grret":"Hello!",
         "piezos": piezos
     })
 
