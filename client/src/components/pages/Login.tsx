@@ -11,10 +11,10 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "../../utils/axios";
 import toast, { Toaster } from "react-hot-toast";
 
-import {useAuth0} from "@auth0/auth0-react"
+
 
 function Login() {
-  const {loginWithRedirect, logout} = useAuth0()
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -72,14 +72,6 @@ function Login() {
               Log in
             </button>
           </form> */}
-
-          <button onClick={()=>loginWithRedirect()} className="w-full py-3 rounded-[20px] bg-[#333] text-white text-xl 2xl:text-2xl 2xl:py-5 font-semibold">
-            Log in  
-          </button>
-
-          <button onClick={()=>logout()} className="w-full py-3 rounded-[20px] bg-[#333] text-white text-xl 2xl:text-2xl 2xl:py-5 font-semibold">
-            Log out  
-          </button>
         </main>
       </div>
       <Toaster position="top-right" />

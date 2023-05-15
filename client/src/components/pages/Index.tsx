@@ -23,7 +23,6 @@ import {
 } from "../../utils/monitoringMapStatusInfo";
 
 import path from "path"
-import {useAuth0} from "@auth0/auth0-react"
 
 
 interface GlobalMapState {
@@ -38,12 +37,6 @@ const Index = () => {
   const paddock = useMonitoringMapStateStore((s) => s.paddock);
   const piezo = useMonitoringMapStateStore((s) => s.piezo);
   const date = useMonitoringMapStateStore((s) => s.date);
-
-  const { user} = useAuth0()
-
-  useEffect(()=>{
-    console.log("USER", user);
-  },[user])
 
   const downloadReport = async () => {
     try {
