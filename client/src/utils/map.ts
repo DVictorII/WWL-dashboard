@@ -49,6 +49,7 @@ export const fetchPiezometersData = async () => {
 
 export const fetchSectionsData = async () => {
   const result = await axios.get(`/get_geojson_sections-sections_bp`);
+  console.log("DATASections", result)
 
   return result.data[0].features;
 };

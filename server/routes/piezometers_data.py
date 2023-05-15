@@ -145,6 +145,7 @@ def getLectures(node,daysAgo):
 
 
 @piezometers_data_routes.route('/api/v1/get_geojson_<folder>-<name>', methods=['GET'])
+@cross_origin()
 def get_geojson(folder,name):
     
         
