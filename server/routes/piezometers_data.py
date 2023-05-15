@@ -4,6 +4,7 @@ from app import  db, dict_helper
 from datetime import datetime, timedelta, date
 from sqlalchemy import text
 import kml2geojson
+import os
 
 piezometers_data_routes = Blueprint('piezometers_data_routes', __name__)
 
@@ -146,7 +147,8 @@ def getLectures(node,daysAgo):
 @piezometers_data_routes.route('/api/v1/get_geojson_<folder>-<name>', methods=['GET'])
 def get_geojson(folder,name):
     
-        name = 'data/'+folder+'/'+name.upper()+'.kml'
+        
+        name = os.path.abspath( 'data/'+folder+'/'+name.upper()+'.kml')
         data = kml2geojson.main.convert(name)
         return jsonify(data)
     # else:
