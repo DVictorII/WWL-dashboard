@@ -3,10 +3,8 @@ import React, { useState, useEffect } from "react";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { useMobileMenuStore } from "../store/MobileMenuStore";
 
-import TabletSubLink from "./TabletSubLink";
+import { useLocation } from "react-router-dom";
 
-import { Router, useLocation } from "react-router-dom";
-import logoMenu from "../assets/wwl-black.png";
 
 function MenuNavbar() {
   const [currentPage, setCurrentPage] = useState("");
