@@ -1,9 +1,10 @@
 import React from "react";
 import { useSectionImgStore } from "../store/sectionImgStore";
-//@ts-ignore
-import BarChart from "./Barchart";
+
+
 
 import { AnimatePresence, motion } from "framer-motion";
+import BarChart from "./BarChart";
 
 interface Information {
   paddock: string;
