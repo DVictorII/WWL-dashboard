@@ -81,6 +81,7 @@ def get_piezometers_data():
     return jsonify({
         "message":"success",
         "results": len(piezos),
+        "path":os.path.abspath( "pyreport/report.xlsx"),
         "piezos": piezos
     })
 
@@ -150,6 +151,7 @@ def get_geojson(folder,name):
     try:
         name = 'data/'+folder+'/'+name.upper()+'.kml'
         data = kml2geojson.main.convert(name)
+        print(data)
         return jsonify({
             "data":data,
             "name":name
