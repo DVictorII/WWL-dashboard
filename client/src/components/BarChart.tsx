@@ -9,7 +9,7 @@ import FadeLoader from "react-spinners/FadeLoader";
 import FullScreenButton from "./PiezometerLectures/FullScreenButton";
 import ChartLegend from "./PiezometerLectures/ChartLegend";
 
-import { usePiezometerLecturesStateStore } from "./../store/PiezometerLecturesStateStore";
+import { usePiezometerLecturesStateStore } from "../store/PiezometerLecturesStateStore";
 import SkeletonBarChart from "./Skeletons/PiezometerLectures/SkeletonBarChart";
 
 // make sure parent container have a defined height when using
@@ -17,6 +17,7 @@ import SkeletonBarChart from "./Skeletons/PiezometerLectures/SkeletonBarChart";
 // no chart will be rendered.
 // website examples showcase many properties,
 // you'll often use just a few of them.
+//@ts-ignore
 const BarChart = ({ information }) => {
   const [piezoData, setPiezoData] = useState([]);
   const [piezoElevationData, setPiezoElevationData] = useState([]);
@@ -40,6 +41,7 @@ const BarChart = ({ information }) => {
   let datalogger = piezometersData?.datalogger;
   let channel = piezometersData?.channel;
 
+  //@ts-ignore
   const fetchChartLectures = async (datalogger, channel) => {
     const result = await axios.get(
       `/lectures/node_${datalogger}_${channel}/${days}`
@@ -62,6 +64,7 @@ const BarChart = ({ information }) => {
 
   useEffect(() => {
     if (lecturesData) {
+      //@ts-ignore
       const pressureDataFormat = lecturesData.map((data) => {
         return {
           x: moment(data.time).format("YYYY-MM-DD HH:MM:SS"),
@@ -69,6 +72,7 @@ const BarChart = ({ information }) => {
         };
       });
 
+      //@ts-ignore
       const elevationDataFormat = lecturesData.map((data) => {
         return {
           x: moment(data.time).format("YYYY-MM-DD HH:MM:SS"),
@@ -90,7 +94,9 @@ const BarChart = ({ information }) => {
         },
       ];
 
+      //@ts-ignore
       setPiezoElevationData(elevationChartData);
+      //@ts-ignore
       setPiezoData(pressureChartData);
     }
   }, [lecturesData]);
@@ -200,6 +206,7 @@ const BarChart = ({ information }) => {
                       tickRotation: -50,
                     }}
                     axisLeft={{
+                      //@ts-ignore
                       orient: "left",
                       tickSize: 5,
                       tickPadding: 5,
@@ -210,6 +217,7 @@ const BarChart = ({ information }) => {
                     }}
                     colors="#477C9A"
                     enablePoints={false}
+                    //@ts-ignore
                     lineWidth={piezoData > 500 ? 1 : 2}
                     pointSize={2}
                     pointColor={{ theme: "background" }}
@@ -264,6 +272,7 @@ const BarChart = ({ information }) => {
                       tickRotation: -50,
                     }}
                     axisLeft={{
+                      //@ts-ignore
                       orient: "left",
                       tickSize: 5,
                       tickPadding: 5,
@@ -274,6 +283,7 @@ const BarChart = ({ information }) => {
                     }}
                     colors="#831B1B"
                     enablePoints={false}
+                    //@ts-ignore
                     lineWidth={piezoElevationData > 500 ? 1 : 2}
                     pointSize={2}
                     pointColor={{ theme: "background" }}
