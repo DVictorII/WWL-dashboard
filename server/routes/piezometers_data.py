@@ -147,13 +147,20 @@ def getLectures(node,daysAgo):
 @piezometers_data_routes.route('/api/v1/get_geojson_<folder>-<name>', methods=['GET'])
 @cross_origin()
 def get_geojson(folder,name):
-    
-        
+    try:
         name = 'data/'+folder+'/'+name.upper()+'.kml'
         data = kml2geojson.main.convert(name)
         return jsonify({
             "data":data,
             "name":name
         })
+    
+    except Exception:
+        return jsonify({
+            "error":Exception
+        })
+
+        
+        
     # else:
     #     return render_template('no_authorized.html')
