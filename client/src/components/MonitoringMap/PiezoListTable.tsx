@@ -100,7 +100,7 @@ function PiezoListTable() {
             </th>
 
             <th className="flex items-center gap-x-2 w-24 md:w-28 justify-center">
-              <span className="text-[11px] md:text-xs">Coordinates</span>
+              <span className="text-[11px] md:text-xs">Current PWP</span>
               <BsArrowDownUp className="w-2" />
             </th>
 
@@ -110,7 +110,7 @@ function PiezoListTable() {
             </th>
 
             <th className="flex items-center gap-x-2 w-24 md:w-28 justify-center">
-              <span className="text-[11px] md:text-xs">Current PWP</span>
+              <span className="text-[11px] md:text-xs">Coordinates</span>
               <BsArrowDownUp className="w-2" />
             </th>
           </tr>
@@ -158,12 +158,17 @@ function PiezoListTable() {
                     </span>
                   </th>
 
-                  <th className="flex flex-col gap-y-1 items-center gap-x-2 w-24 md:w-28 justify-center">
-                    <span className="text-[9px] md:text-[10px]">
-                      {piezometer.lat},
-                    </span>
-                    <span className="text-[9px] md:text-[10px]">
-                      {piezometer.lon}
+                  <th className="flex items-center gap-x-2 w-24 md:w-28 justify-center">
+                    <span
+                      className={`${
+                        lastReadingExists
+                          ? "text-[9px] md:text-[10px]"
+                          : "text-2xl"
+                      }`}
+                    >
+                      {lastReadingExists
+                        ? `${Number(lastReading.pressure).toFixed(3)} Kpa`
+                        : "-"}
                     </span>
                   </th>
 
@@ -182,17 +187,12 @@ function PiezoListTable() {
                     </span>
                   </th>
 
-                  <th className="flex items-center gap-x-2 w-24 md:w-28 justify-center">
-                    <span
-                      className={`${
-                        lastReadingExists
-                          ? "text-[9px] md:text-[10px]"
-                          : "text-2xl"
-                      }`}
-                    >
-                      {lastReadingExists
-                        ? `${Number(lastReading.pressure).toFixed(3)} Kpa`
-                        : "-"}
+                  <th className="flex flex-col gap-y-1 items-center gap-x-2 w-24 md:w-28 justify-center">
+                    <span className="text-[9px] md:text-[10px]">
+                      {piezometer.lat},
+                    </span>
+                    <span className="text-[9px] md:text-[10px]">
+                      {piezometer.lon}
                     </span>
                   </th>
                 </tr>

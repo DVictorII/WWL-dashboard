@@ -36,6 +36,8 @@ function PaddockLectures() {
       <div className="bg-backgroundWhite md:bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-10 md:shadow-lg ">
         <LecturesLocationTable />
 
+        <PiezoLecturesComponent />
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 xl:gap-x-10 gap-y-8 xl:gap-y-10">
           <div className=" md:px-4 md:py-8 rounded-[14px] flex flex-col gap-y-4 ">
             <h2
@@ -52,7 +54,7 @@ function PaddockLectures() {
           </div>
         </div>
 
-        <PiezoLecturesComponent />
+        
       </div>
 
       <FullPageComps
