@@ -18,13 +18,17 @@ def update(year,month,op=True):
         conn = dbconnect()
         cur = conn.cursor()
         
+        query = ""
+        
         uf.download_data(21545,year,month,option=op)
         nodes = uf.get_features_from_data(uf.os.path.abspath('data/data_compacted.csv'))
         print("already got features")
-        uf.save_features(nodes,year,month, cur)
+        uf.save_features(nodes,year,month, cur, query)
         print("updated readings")
-        uf.save_last_features(nodes, cur)
+        uf.save_last_features(nodes, cur, query)
         print("updated last readings")
+
+        print("FINAL QUERY", query)
 
         conn.commit()
 
