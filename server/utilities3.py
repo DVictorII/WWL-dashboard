@@ -19,10 +19,11 @@ host = "wwl-rossing.crnkanilun4m.ap-southeast-2.rds.amazonaws.com"
 dev = True
 
 
-def save_last_features(nodes_df, cur, query):
+def save_last_features(nodes_df, cur):
     # base = os.getcwd()+"/"
 
     cdf = pd.read_csv(os.path.abspath("data/calibration_data.csv"), index_col="SNumber")
+    query = ""
     # calculate temperature and pressure by piezometer
     for i in range(len(nodes_df)):
         # for i in range(1):
@@ -63,15 +64,20 @@ def save_last_features(nodes_df, cur, query):
             row = np.array(sub)
 
             try:
-                data = tuple([idf, k, t, row[-1], row[-2]])
-                query += f" INSERT INTO last_readings VALUES ({data[0]},{data[1]},{data[2]},{data[3]},{data[4]}); "  # +\
+                data1 = tuple([idf, k, t, row[-1], row[-2]])
+                query += f" INSERT INTO last_readings VALUES ('{data1[0]}','{data1[1]}','{data1[2]}','{data1[3]}','{data1[4]}') ON CONFLICT(node, channel) DO NOTHING; "  # +\
+
+                data2 = tuple([t, row[-1], row[-2], idf, k])
+                query += f" UPDATE last_readings SET time = '{data2[0]}', pressure = '{data2[1]}', temperature = '{data2[2]}' WHERE node='{data2[3]}' AND channel='{data2[4]}' ; "
                 # "ON CONFLICT() DO NOTHING;"
 
             except:
                 data = tuple([t, row[-1], row[-2], idf, k])
-                query = ( f" UPDATE last_readings SET time = {data[0]}, pressure = {data[1]}, temperature = {data[2]} WHERE node={data[3]} AND channel={data[4]}; ")
+                query += f" UPDATE last_readings SET time = '{data[0]}', pressure = '{data[1]}', temperature = '{data[2]}' WHERE node='{data[3]}' AND channel='{data[4]}' ; "
 
                 # "ON CONFLICT() DO NOTHING;"
+
+    return query
 
 
 # def dbconnect():
@@ -79,17 +85,13 @@ def save_last_features(nodes_df, cur, query):
 #     return conn
 
 
-def create_table(id, k, cur, query):
+def create_table(id, k, cur):
     try:
+        query = ""
         # sub = pd.read_csv('download\\node_'+str(id)+'_'+str(k)+'_'+str(year)+'_'+str(month)+'.csv',parse_dates=['TIMESTAMP'])
         table_name = "node_" + str(id) + "_" + str(k)
-        query += (
-            " CREATE TABLE IF NOT EXISTS "
-            + table_name
-            + "(time timestamp NOT NULL PRIMARY KEY, atmpres numeric(10,4), "
-            + "freq numeric(20,5), thermR numeric(20,5), Temperature numeric(12,6), "
-            + "Pressure numeric(12,6)); "
-        )
+        query += f" CREATE TABLE IF NOT EXISTS {table_name} (time timestamp NOT NULL PRIMARY KEY, atmpres numeric(10,4), freq numeric(20,5), thermR numeric(20,5), Temperature numeric(12,6), Pressure numeric(12,6)); "
+        return query
     except Exception as e:
         print("error in file %d %d - %s" % (id, k, e))
 
@@ -146,20 +148,20 @@ def polynomial2(R, T, S, df):
     return val
 
 
-def copy_data(id, k, year, month, cur, query):
+def copy_data(id, k, year, month, cur):
     try:
+        query = ""
         # sub = pd.read_csv('download\\node_'+str(id)+'_'+str(k)+'_'+str(year)+'_'+str(month)+'.csv',parse_dates=['TIMESTAMP'])
-        create_table(id, k, cur, query)
+        query += create_table(id, k, cur)
         table_name = "node_" + str(id) + "_" + str(k)
 
         file = os.path.abspath("download/node_%d_%d_%d_%02d.csv" % (id, k, year, month))
         print("FILE", file)
         sub = pd.read_csv(file, parse_dates=["TIMESTAMP"])
         for _, row in sub.iterrows():
-            print("row", tuple(row))
             tuple_row = tuple(row)
-            query += (f" INSERT INTO {table_name} VALUES ({tuple_row[0]},{tuple_row[1]},{tuple_row[2]},{tuple_row[3]},{tuple_row[4]},{tuple_row[5]}) ON CONFLICT (time) DO NOTHING; "
-            )
+            query += f" INSERT INTO {table_name} VALUES ('{tuple_row[0]}','{tuple_row[1]}','{tuple_row[2]}','{tuple_row[3]}','{tuple_row[4]}','{tuple_row[5]}') ON CONFLICT (time) DO NOTHING; "
+        return query
     except Exception as e:
         print("error in file %d %d - %s" % (id, k, e))
 
@@ -273,8 +275,9 @@ def get_features_from_data(file):
     return nodes_df
 
 
-def save_features(nodes_df, year, month, cur, query):
+def save_features(nodes_df, year, month, cur):
     cdf = pd.read_csv(os.path.abspath("data/calibration_data.csv"), index_col="SNumber")
+    query = ""
     # calculate temperature and pressure by piezometer
     for i in range(len(nodes_df)):
         # for i in range(5):
@@ -316,7 +319,9 @@ def save_features(nodes_df, year, month, cur, query):
                 "download/node_%d_%d_%d_%02d.csv" % (idf, k, year, month)
             )
             sub.to_csv(file, date_format="%Y/%m/%d %H:%M:%S %t")
-            copy_data(idf, k, year, month, cur, query)
+            query += copy_data(idf, k, year, month, cur)
+
+    return query
 
 
 # download data and process
