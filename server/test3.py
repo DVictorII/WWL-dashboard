@@ -3,6 +3,7 @@ import utilities3 as uf
 import os
 import psycopg2
 
+
 dbname = "wwlengineering_rossing"
 user = "WWL_ADMIN"
 password = "WWL#2023"
@@ -23,7 +24,8 @@ def update(year, month, op=True):
         query = ""
 
         uf.download_data(21545, year, month, option=op)
-        nodes = uf.get_features_from_data(uf.os.path.abspath("data/data_compacted.csv"))
+        nodes = uf.get_features_from_data(os.path.abspath("data/data_compacted.csv"))
+        # print("NODES", nodes)
         print("already got features")
         query += uf.save_features(nodes, year, month, cur)
         print("updated readings")
@@ -42,11 +44,11 @@ def update(year, month, op=True):
             print("done %d %d"%(year,month))"""
     except Exception as e:
         print(e)
-        conn.rollback()
+        # conn.rollback()
 
 
 if __name__ == "__main__":
-    print(os.path.abspath("data/calibration_data.csv"))
+    # print(os.path.abspath("data/calibration_data.csv"))
     today = datetime.today()
     print("\n")
     print("job running: ", today)

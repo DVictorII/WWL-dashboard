@@ -5,6 +5,12 @@ os.environ["OPENBLAS_NUM_THREADS"] = "1"
 import numpy as np
 import pandas as pd
 import psycopg2
+import csv
+import zipfile
+import io
+import shutil
+
+from urllib.request import urlopen
 
 BASEPATH = "clients.wwlengineering.com/public_html/"
 # BASEPATH = os.getcwd()+"/"
@@ -232,12 +238,33 @@ def download_data(gateway, year, month, option=False):
         )
         print("LINK2", url)
     # conecting to server
-    print("connecting to server")
-    print(url)
     response = requests.get(url=url, auth=adm, allow_redirects=True)
-    print("downloaded data from server")
+
     # download data and save it as csv
+    print("CONTENT", response.content)
     open(os.path.abspath("data/data_compacted.csv"), "wb").write(response.content)
+
+    # url = 'https://loadsensing.wocs3.com/21545/dataserver/csv/compacted/compacted-readings-21545-2022-06.zip'
+    # print("connecting to server")
+    # print(url)
+    # res = requests.get(url=url, stream=True, auth=adm, allow_redirects=True)
+
+    # print("STATUS",res.status_code)
+    # if res.status_code == 200:
+    #     with open(os.path.abspath("data/zipped.zip"), 'wb') as fh:
+    #         res.raw.decode_content
+    #         shutil.copyfileobj(res.raw, fh)
+
+    # z = zipfile.ZipFile(os.path.abspath("data/zipped.zip"))
+    # z.extractall(os.path.abspath("data"))
+    # # # print("RESPONSE", r.content)
+    # print("downloaded data from server")
+    
+    # df = open(os.path.abspath("data/compacted-readings-21545-2022-06.dat")).read().encode()
+    # # print(df)
+    # open(os.path.abspath("data/data_compacted.csv"), "wb").write(df)
+    
+
     print("downloaded data to local")
 
 
