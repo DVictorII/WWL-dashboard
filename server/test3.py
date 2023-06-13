@@ -25,17 +25,17 @@ def update(year, month, op=True):
 
         uf.download_data(21545, year, month, option=op)
         nodes = uf.get_features_from_data(os.path.abspath("data/data_compacted.csv"))
-        # print("NODES", nodes)
+        print("NODES", len(nodes))
         print("already got features")
-        query += uf.save_features(nodes, year, month, cur)
-        print("updated readings")
-        query += uf.save_last_features(nodes, cur)
-        print("updated last readings")
+        # query += uf.save_features(nodes, year, month, cur)
+        # print("updated readings")
+        # query += uf.save_last_features(nodes, cur)
+        # print("updated last readings")
 
-        print("FINAL QUERY", query)
+        # print("FINAL QUERY", query)
 
-        cur.execute(query)
-        conn.commit()
+        # cur.execute(query)
+        # conn.commit()
 
         """else:
             name = "data\\compacted-readings-21545-%d-%02d.dat"%(year,month)
