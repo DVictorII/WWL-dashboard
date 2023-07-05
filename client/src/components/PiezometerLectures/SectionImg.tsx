@@ -13,11 +13,11 @@ function SectionImg() {
   const location = useLocation().pathname;
 
   const paddock =
-    location === "/piezometer-lectures"
+    location === "/piezometer-readings"
       ? usePiezometerLecturesStateStore((s) => s.paddock)
       : useNewPiezoReportStateStore((state) => state.paddock);
   const piezo =
-    location === "/piezometer-lectures"
+    location === "/piezometer-readings"
       ? usePiezometerLecturesStateStore((s) => s.piezo)
       : useNewPiezoReportStateStore((state) => state.piezo);
 

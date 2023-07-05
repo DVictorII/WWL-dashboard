@@ -53,7 +53,7 @@ function LocationTable() {
         />
       </div>
       <div className="flex flex-col gap-y-1">
-        <h3 className="text-[10px] xl:text-xs  font-bold text-[#666]">
+        <h3 className="text-[10px] xl:text-xs  font-semibold text-[#666]">
           Piezometer ID
         </h3>
 

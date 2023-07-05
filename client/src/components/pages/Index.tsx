@@ -142,25 +142,28 @@ const Index = () => {
 
         <PiezoFilterComp />
 
-        <div className="flex flex-col gap-y-4 bg-white p-4 rounded-xl shadow-sm">
-          <h2 className="font-semibold text-[#444] text-sm 2xl:text-base">
-            Piezometer list
-          </h2>
-          <PiezoListTable />
-        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-8 gap-y-8">
+          <div className="flex flex-col gap-y-4 bg-white p-4 rounded-xl shadow-sm">
+            <h2 className="font-semibold text-[#444] text-sm 2xl:text-base">
+              Piezometer list
+            </h2>
 
-        {/* <StateShowing/> */}
+            <PiezoListTable />
+          </div>
 
-        <div
-          className="flex flex-col gap-y-4 bg-white p-4 rounded-xl shadow-sm"
-          key={`${piezo}${paddock}${status}${date}`}
-        >
-          <h2 className="font-semibold text-[#444] text-sm 2xl:text-base">
-            {status !== 6
-              ? "Piezometers interactive map"
-              : "Incidents interactive map"}
-          </h2>
-          {status !== 6 ? <MapWrapper /> : <IncidentMapMultiple />}
+          {/* <StateShowing /> */}
+
+          <div
+            className="flex flex-col gap-y-4 bg-white p-4 rounded-xl shadow-sm"
+            key={`${piezo}${paddock}${status}${date}`}
+          >
+            <h2 className="font-semibold text-[#444] text-sm 2xl:text-base">
+              {status !== 6
+                ? "Piezometers interactive map"
+                : "Incidents interactive map"}
+            </h2>
+            {status !== 6 ? <MapWrapper /> : <IncidentMapMultiple />}
+          </div>
         </div>
       </div>
     </>

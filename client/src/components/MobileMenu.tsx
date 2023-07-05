@@ -8,20 +8,16 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 
-
 function MobileMenu() {
   const mobileMenuIsOpen = useMobileMenuStore(
     (state) => state.mobileMenuIsOpen
   );
   const closeMobileMenu = useMobileMenuStore((state) => state.closeMobileMenu);
 
-
   const location = useLocation();
 
   const currentPage = location.pathname;
 
-
-  
   return (
     <AnimatePresence>
       {mobileMenuIsOpen ? (
@@ -87,9 +83,9 @@ function MobileMenu() {
               <DesktopLink
                 title="Monitoring Chart"
                 icon="chart"
-                linkTo="/piezometer-lectures"
+                linkTo="/piezometer-readings"
                 hasSubLinks={false}
-                isCurrentPage={currentPage === "/piezometer-lectures"}
+                isCurrentPage={currentPage === "/piezometer-readings"}
               />
 
               <div>

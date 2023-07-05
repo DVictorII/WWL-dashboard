@@ -13,33 +13,31 @@ function DateTable() {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
-      <div className="flex flex-col gap-y-1 z-[50] relative justify-center w-full ">
-        <h3 className=" text-[10px] xl:text-xs  font-bold text-[#666] ">
-          Date
-        </h3>
+    <div className="flex flex-col gap-y-1 z-[50] relative justify-center w-full ">
+      <h3 className=" text-[10px] xl:text-xs  font-semibold text-[#666] ">
+        Date
+      </h3>
 
-        <Datepicker
-          containerClassName="shrink-0"
-          inputClassName="text-xs py-1 w-full  sm:text-sm  rounded-full dark:bg-[#333] shadow-sm"
-          useRange={false}
-          asSingle={true}
-          // showShortcuts={true}
-          // showFooter={true}
-          primaryColor={"orange"}
-          value={value}
-          onChange={(value) => {
-            console.log(value);
+      <Datepicker
+        containerClassName="shrink-0"
+        inputClassName="text-xs py-1 w-full  sm:text-sm  rounded-full dark:bg-[#333] shadow-sm"
+        useRange={false}
+        asSingle={true}
+        // showShortcuts={true}
+        // showFooter={true}
+        primaryColor={"orange"}
+        value={value}
+        onChange={(value) => {
+          console.log(value);
 
-            if (!value || value.startDate === null)
-              return changeDate(moment(Date.now()).format("YYYY-MM-DD"));
-            //@ts-ignore
-            changeDate(value.startDate);
-          }}
-          displayFormat={"MMM DD, YYYY"}
-          readOnly={true}
-        />
-      </div>
+          if (!value || value.startDate === null)
+            return changeDate(moment(Date.now()).format("YYYY-MM-DD"));
+          //@ts-ignore
+          changeDate(value.startDate);
+        }}
+        displayFormat={"MMM DD, YYYY"}
+        readOnly={true}
+      />
     </div>
   );
 }

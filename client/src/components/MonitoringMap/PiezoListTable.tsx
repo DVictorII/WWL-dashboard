@@ -6,7 +6,6 @@ import { useQuery } from "react-query";
 import { fetchLastReadings, fetchPiezometersData } from "../../utils/map";
 import Skeleton from "react-loading-skeleton";
 import SkeletonPiezoListTable from "../Skeletons/MonitoringMap/SkeletonPiezoListTable";
-import "../../table.css";
 
 function PiezoListTable() {
   const status = useMonitoringMapStateStore((s) => s.status);
@@ -71,43 +70,67 @@ function PiezoListTable() {
     return <SkeletonPiezoListTable />;
 
   return (
-    <div className="outer-wrapper">
+    <div className=" max-w-full max-h-fit ">
       <div
         style={{
           borderColor: selectedStatus.darkColor,
         }}
-        className={`table-wrapper `}
+        className={` overflow-y-scroll overflow-x-scroll h-fit max-h-96 mt-5 mb-4 mx-4 md:mx-0  pb-5  `}
       >
-        <table>
-          <thead>
-            <th>
-              <span className="text-[11px] md:text-xs">Piezo. ID</span>
-              <BsArrowDownUp className="w-2" />
+        <table className="min-w-max border-separate border-spacing-0">
+          <thead className="">
+            <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+              <div className="flex gap-x-2 justify-center items-center">
+                <span className="text-[11px] md:text-xs lg:text-sm ">
+                  Piezo. ID
+                </span>
+                <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
+              </div>
             </th>
 
-            <th>
-              <span className="text-[11px] md:text-xs">Paddock</span>
-              <BsArrowDownUp className="w-2" />
+            <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+              <div className="flex gap-x-2 justify-center items-center">
+                <span className="text-[11px] md:text-xs lg:text-sm ">
+                  Paddock
+                </span>
+                <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
+              </div>
             </th>
 
-            <th>
-              <span className="text-[11px] md:text-xs">Section</span>
-              <BsArrowDownUp className="w-2" />
+            <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+              <div className="flex gap-x-2 justify-center items-center">
+                <span className="text-[11px] md:text-xs lg:text-sm ">
+                  Section
+                </span>
+                <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
+              </div>
             </th>
 
-            <th>
-              <span className="text-[11px] md:text-xs">Current PWP</span>
-              <BsArrowDownUp className="w-2" />
+            <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+              <div className="flex gap-x-2 justify-center items-center">
+                <span className="text-[11px] md:text-xs lg:text-sm ">
+                  Current PWP
+                </span>
+                <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
+              </div>
             </th>
 
-            <th>
-              <span className="text-[11px] md:text-xs">Depth</span>
-              <BsArrowDownUp className="w-2" />
+            <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+              <div className="flex gap-x-2 justify-center items-center">
+                <span className="text-[11px] md:text-xs lg:text-sm ">
+                  Depth
+                </span>
+                <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
+              </div>
             </th>
 
-            <th>
-              <span className="text-[11px] md:text-xs">Coordinates</span>
-              <BsArrowDownUp className="w-2" />
+            <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+              <div className="flex gap-x-2 justify-center items-center">
+                <span className="text-[11px] md:text-xs lg:text-sm ">
+                  Coordinates
+                </span>
+                <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
+              </div>
             </th>
           </thead>
 
@@ -134,30 +157,30 @@ function PiezoListTable() {
                     }}
                     key={piezometer.id}
                   >
-                    <td>
-                      <span className="text-[9px] md:text-[10px]">
+                    <td className="px-4 py-2 lg:px-8 lg:py-3">
+                      <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center">
                         {piezometer.id}
                       </span>
                     </td>
 
-                    <td>
-                      <span className="text-[9px] md:text-[10px]">
+                    <td className="px-4 py-2 lg:px-8 lg:py-3">
+                      <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center">
                         {piezometer.paddock}
                       </span>
                     </td>
 
-                    <td>
-                      <span className="text-[9px] md:text-[10px]">
+                    <td className="px-4 py-2 lg:px-8 lg:py-3">
+                      <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center">
                         {piezometer.section}
                       </span>
                     </td>
 
-                    <td>
+                    <td className="px-4 py-2 lg:px-8 lg:py-3">
                       <span
                         className={`${
                           lastReadingExists
-                            ? "text-[9px] md:text-[10px]"
-                            : "text-2xl"
+                            ? "text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center"
+                            : "text-2xl flex justify-center items-center"
                         }`}
                       >
                         {lastReadingExists
@@ -166,10 +189,12 @@ function PiezoListTable() {
                       </span>
                     </td>
 
-                    <td>
+                    <td className="px-4 py-2 lg:px-8 lg:py-3">
                       <span
                         className={`${
-                          depthIsZero ? "text-2xl" : "text-[9px] md:text-[10px]"
+                          depthIsZero
+                            ? "text-2xl flex justify-center items-center"
+                            : "text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center"
                         }`}
                       >
                         {depthIsZero
@@ -178,13 +203,15 @@ function PiezoListTable() {
                       </span>
                     </td>
 
-                    <td>
-                      <span className="text-[9px] md:text-[10px]">
-                        {piezometer.lat},
-                      </span>
-                      <span className="text-[9px] md:text-[10px]">
-                        {piezometer.lon}
-                      </span>
+                    <td className="px-4 py-2 lg:px-8 lg:py-3">
+                      <div className="flex flex-col gap-y-1">
+                        <span className="text-[9px] md:text-[10px] lg:text-[11px]">
+                          {piezometer.lat},
+                        </span>
+                        <span className="text-[9px] md:text-[10px] lg:text-[11px]">
+                          {piezometer.lon}
+                        </span>
+                      </div>
                     </td>
                   </tr>
                 );

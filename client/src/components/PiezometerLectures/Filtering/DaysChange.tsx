@@ -4,10 +4,16 @@ import { useLocation } from "react-router-dom";
 import { useNewPiezoReportStateStore } from "../../../store/NewPiezoReportStateStore";
 
 function DaysChange() {
-  const location = useLocation().pathname
+  const location = useLocation().pathname;
 
-  const days = location === "/piezometer-lectures" ? usePiezometerLecturesStateStore((s) => s.days): useNewPiezoReportStateStore((s) => s.days);
-  const changeDays = location === "/piezometer-lectures" ? usePiezometerLecturesStateStore((s) => s.changeDays): useNewPiezoReportStateStore((s) => s.changeDays);
+  const days =
+    location === "/piezometer-readings"
+      ? usePiezometerLecturesStateStore((s) => s.days)
+      : useNewPiezoReportStateStore((s) => s.days);
+  const changeDays =
+    location === "/piezometer-readings"
+      ? usePiezometerLecturesStateStore((s) => s.changeDays)
+      : useNewPiezoReportStateStore((s) => s.changeDays);
 
   return (
     <input

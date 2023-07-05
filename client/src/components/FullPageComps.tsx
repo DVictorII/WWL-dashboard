@@ -1,8 +1,6 @@
 import React from "react";
 import { useSectionImgStore } from "../store/sectionImgStore";
 
-
-
 import { AnimatePresence, motion } from "framer-motion";
 import BarChart from "./BarChart";
 
@@ -35,6 +33,7 @@ function FullPageComps({ information }: { information: Information }) {
               onClick={closeSectionImg}
               className="absolute top-0 left-0 w-full h-full bg-[#222222] bg-opacity-50 backdrop-blur-sm cursor-pointer "
             />
+
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -43,9 +42,11 @@ function FullPageComps({ information }: { information: Information }) {
                 opacity: 0,
                 transition: { duration: 0.2, ease: "easeInOut" },
               }}
-              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-[700px] md:w-4/5 rounded-[14px] overflow-hidden shadow-sm shadow-sky-900  rotate-90 origin-center lg:rotate-0"
+              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-[700px] md:w-4/5    rotate-90 origin-center lg:rotate-0"
             >
-              <img className=" w-full " src={imgURL} />
+              <div className="p-5 bg-white rounded-xl shadow-sm ">
+                <img className=" w-full " src={imgURL} />
+              </div>
             </motion.div>
           </div>
         ) : null}
@@ -58,8 +59,10 @@ function FullPageComps({ information }: { information: Information }) {
               onClick={closeFullPageBarChart}
               className="absolute top-0 left-0 w-full h-full bg-[#222222] bg-opacity-50 backdrop-blur-sm blur-md cursor-pointer "
             />
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-[700px] md:w-4/5 rounded-[14px] h-1/2  shadow-sm shadow-sky-900  rotate-90 origin-center lg:rotate-0 ">
-              <BarChart information={information} />
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-[700px] md:w-4/5 ] h-1/2 rotate-90 origin-center lg:rotate-0 ">
+              <div className="p-5 bg-white rounded-xl shadow-sm">
+                <BarChart information={information} />
+              </div>
             </div>
           </div>
         ) : null}

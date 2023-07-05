@@ -19,16 +19,17 @@ const chartTypeOptions = [
   },
 ];
 
-
-
 function ChartTypeTable() {
+  const location = useLocation().pathname;
 
-  const location = useLocation().pathname
-
-  const chartType = location === "/piezometer-lectures" ? usePiezometerLecturesStateStore((s) => s.chartType):  useNewPiezoReportStateStore((state) => state.chartType);
-  const changeChartType = location === "/piezometer-lectures" ? usePiezometerLecturesStateStore((s) => s.changeChartType):  useNewPiezoReportStateStore((state) => state.changeChartType);
-
-
+  const chartType =
+    location === "/piezometer-readings"
+      ? usePiezometerLecturesStateStore((s) => s.chartType)
+      : useNewPiezoReportStateStore((state) => state.chartType);
+  const changeChartType =
+    location === "/piezometer-readings"
+      ? usePiezometerLecturesStateStore((s) => s.changeChartType)
+      : useNewPiezoReportStateStore((state) => state.changeChartType);
 
   return (
     <div>
@@ -36,7 +37,8 @@ function ChartTypeTable() {
         primaryColor="orange"
         value={{
           value: chartType,
-          label: chartTypeOptions.find(obj=>obj.value === chartType)?.label as string,
+          label: chartTypeOptions.find((obj) => obj.value === chartType)
+            ?.label as string,
         }}
         //@ts-ignore
         onChange={(e) => changeChartType(e.value)}

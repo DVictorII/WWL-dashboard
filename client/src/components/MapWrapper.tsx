@@ -232,7 +232,7 @@ function MapWrapper() {
     return <SkeletonMapWrapper />;
 
   return (
-    <div className=" w-full   h-[60vh]  rounded-md overflow-hidden shadow-md relative z-[10]">
+    <div className=" w-full   h-96  rounded-md overflow-hidden shadow-md relative z-[10]">
       <div id="map"></div>
     </div>
   );

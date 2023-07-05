@@ -11,6 +11,7 @@ import ChartLegend from "./PiezometerLectures/ChartLegend";
 
 import { usePiezometerLecturesStateStore } from "../store/PiezometerLecturesStateStore";
 import SkeletonBarChart from "./Skeletons/PiezometerLectures/SkeletonBarChart";
+import { chartPiezoListWithElevation } from "../utils/piezoList";
 
 // make sure parent container have a defined height when using
 // responsive component, otherwise height will be 0 and
@@ -21,6 +22,7 @@ import SkeletonBarChart from "./Skeletons/PiezometerLectures/SkeletonBarChart";
 const BarChart = ({ information }) => {
   const [piezoData, setPiezoData] = useState([]);
   const [piezoElevationData, setPiezoElevationData] = useState([]);
+  const [readingsWaterLevelData, setReadingsWaterLevelData] = useState([]);
 
   const paddock = information.paddock;
   const piezo = information.piezo;
@@ -73,6 +75,12 @@ const BarChart = ({ information }) => {
       });
 
       //@ts-ignore
+      const fullPiezoInfoObj = chartPiezoListWithElevation[paddock].find(
+        //@ts-ignore
+        (obj) => obj.id === piezo
+      );
+
+      //@ts-ignore
       const elevationDataFormat = lecturesData.map((data) => {
         return {
           x: moment(data.time).format("YYYY-MM-DD HH:MM:SS"),
@@ -80,7 +88,24 @@ const BarChart = ({ information }) => {
         };
       });
 
+      //@ts-ignore
+      const waterLevelDataFormat = lecturesData.map((data) => {
+        return {
+          x: moment(data.time).format("YYYY-MM-DD HH:MM:SS"),
+          y: fullPiezoInfoObj.piezoElevation + data.pressure / 10,
+        };
+      });
+
       const pressureChartData = [
+        // {
+        //   id: "pressureLimit",
+        //   data: pressureDataFormat.map((data) => {
+        //     return {
+        //       x: data.x,
+        //       y: ((pressureLimitObj.piezoElevation + 10) * 10) / 1000,
+        //     };
+        //   }),
+        // },
         {
           id: "pressureData",
           data: pressureDataFormat,
@@ -94,10 +119,19 @@ const BarChart = ({ information }) => {
         },
       ];
 
+      const waterElevationChartData = [
+        {
+          id: "waterElevationData",
+          data: waterLevelDataFormat,
+        },
+      ];
+
       //@ts-ignore
       setPiezoElevationData(elevationChartData);
       //@ts-ignore
       setPiezoData(pressureChartData);
+      //@ts-ignore
+      setReadingsWaterLevelData(waterElevationChartData);
     }
   }, [lecturesData]);
 
@@ -126,7 +160,7 @@ const BarChart = ({ information }) => {
 
         <div className="w-full flex justify-between gap-x-16 flex-wrap gap-y-8 ">
           <FullScreenButton comp={"chart"} />
-          <ChartLegend />
+          <ChartLegend chartType={chartType} />
         </div>
       </div>
     );
@@ -154,7 +188,7 @@ const BarChart = ({ information }) => {
 
         <div className="w-full flex justify-between gap-x-16 flex-wrap gap-y-8 ">
           <FullScreenButton comp={"chart"} />
-          <ChartLegend />
+          <ChartLegend chartType={chartType} />
         </div>
       </div>
     );
@@ -163,7 +197,7 @@ const BarChart = ({ information }) => {
     <div className="flex flex-col gap-y-4">
       <div className="h-[50vh] w-full">
         <AnimatePresence>
-          {chartType === "pressure" ? (
+          {chartType === "pressure" && (
             <>
               {piezoData && piezoData.length > 0 ? (
                 <motion.div
@@ -179,7 +213,7 @@ const BarChart = ({ information }) => {
                 >
                   <ResponsiveLine
                     data={piezoData}
-                    margin={{ top: 50, right: 30, bottom: 50, left: 60 }}
+                    margin={{ top: 50, right: 20, bottom: 50, left: 50 }}
                     xScale={{
                       type: "time",
                       format: "%Y-%m-%d %H:%M:%S",
@@ -211,7 +245,7 @@ const BarChart = ({ information }) => {
                       tickSize: 5,
                       tickPadding: 5,
                       tickRotation: 0,
-                      legend: "Pressure (KPa)",
+                      // legend: "Pressure (KPa)",
                       legendOffset: -45,
                       legendPosition: "middle",
                     }}
@@ -229,7 +263,9 @@ const BarChart = ({ information }) => {
                 </motion.div>
               ) : null}
             </>
-          ) : (
+          )}
+
+          {chartType === "wLevel" && (
             <>
               {piezoElevationData && piezoElevationData.length > 0 ? (
                 <motion.div
@@ -245,7 +281,7 @@ const BarChart = ({ information }) => {
                 >
                   <ResponsiveLine
                     data={piezoElevationData}
-                    margin={{ top: 50, right: 30, bottom: 50, left: 60 }}
+                    margin={{ top: 50, right: 20, bottom: 50, left: 50 }}
                     xScale={{
                       type: "time",
                       format: "%Y-%m-%d %H:%M:%S",
@@ -277,11 +313,79 @@ const BarChart = ({ information }) => {
                       tickSize: 5,
                       tickPadding: 5,
                       tickRotation: 0,
-                      legend: "Elevation (m)",
+                      // legend: "Elevation (m)",
                       legendOffset: -45,
                       legendPosition: "middle",
                     }}
-                    colors="#831B1B"
+                    colors="#BD6A1C"
+                    enablePoints={false}
+                    //@ts-ignore
+                    lineWidth={piezoElevationData > 500 ? 1 : 2}
+                    pointSize={2}
+                    pointColor={{ theme: "background" }}
+                    pointBorderWidth={2}
+                    pointBorderColor={{ from: "serieColor" }}
+                    pointLabelYOffset={-12}
+                    useMesh={true}
+                  />
+                </motion.div>
+              ) : null}
+            </>
+          )}
+
+          {chartType === "wElevation" && (
+            <>
+              {readingsWaterLevelData && readingsWaterLevelData.length > 0 ? (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  exit={{
+                    opacity: 0,
+                    transition: { duration: 0.2, ease: "easeInOut" },
+                  }}
+                  key="waterElevation-chart"
+                  className="w-full h-[50vh] bg-white rounded-[12px]"
+                >
+                  <ResponsiveLine
+                    data={readingsWaterLevelData}
+                    margin={{ top: 50, right: 20, bottom: 50, left: 50 }}
+                    xScale={{
+                      type: "time",
+                      format: "%Y-%m-%d %H:%M:%S",
+                      precision: "minute",
+                    }}
+                    xFormat="time:%Y-%m-%d %H:%M"
+                    yScale={{
+                      type: "linear",
+                      min: "auto",
+                      max: "auto",
+                      stacked: false,
+                      reverse: false,
+                    }}
+                    yFormat=" >-.2f"
+                    curve="catmullRom"
+                    enableArea={true}
+                    axisTop={null}
+                    axisRight={null}
+                    axisBottom={{
+                      format: "%d-%m-%y",
+                      tickValues: `every ${Math.ceil(days / 20)} days`,
+                      legend: "time scale",
+                      legendOffset: -12,
+                      tickRotation: -50,
+                    }}
+                    axisLeft={{
+                      //@ts-ignore
+                      orient: "left",
+                      tickSize: 5,
+                      tickPadding: 5,
+                      tickRotation: 0,
+                      // legend: "Water Elevation (RLm)",
+                      legendOffset: -45,
+                      legendPosition: "middle",
+                    }}
+                    colors="#7B8831"
                     enablePoints={false}
                     //@ts-ignore
                     lineWidth={piezoElevationData > 500 ? 1 : 2}
@@ -300,7 +404,7 @@ const BarChart = ({ information }) => {
       </div>
       <div className="w-full flex justify-between gap-x-16 flex-wrap gap-y-8 ">
         <FullScreenButton comp={"chart"} />
-        <ChartLegend />
+        <ChartLegend chartType={chartType} />
       </div>
     </div>
   );

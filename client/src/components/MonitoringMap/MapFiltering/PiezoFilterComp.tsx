@@ -6,11 +6,14 @@ import StatusTable from "./StatusTable";
 function PiezoFilterComp() {
   return (
     <div className="flex flex-col gap-y-8">
-      <div className="flex flex-col gap-y-8 ">
+      <div className="flex flex-col gap-y-8 lg:grid lg:grid-cols-2 gap-x-8">
         <StatusTable />
 
-        <DateTable />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 lg:grid-cols-1">
+          <DateTable />
+        </div>
       </div>
+
       <LocationTable />
     </div>
   );

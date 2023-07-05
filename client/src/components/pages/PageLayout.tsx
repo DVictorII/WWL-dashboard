@@ -30,14 +30,14 @@ function PageLayout() {
         key={location.pathname}
         className="text-[#333] px-2 sm:px-8 py-8 md:px-8  lg:p-12  2xl:p-16  bg-[#f5f5f5] grow  "
       >
-        {/* <MobileMenu /> */}
+        <MobileMenu />
 
         <Outlet />
       </motion.div>
 
-      {/* {logOutModalIsOpen ? <LogOutConfirmationModal /> : null}
+      {logOutModalIsOpen ? <LogOutConfirmationModal /> : null}
 
-      <Toaster position="top-right" /> */}
+      <Toaster position="top-right" />
     </main>
   );
 }
