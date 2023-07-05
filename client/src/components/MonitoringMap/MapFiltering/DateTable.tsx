@@ -1,4 +1,3 @@
-
 import Datepicker from "react-tailwindcss-datepicker";
 
 import moment from "moment";
@@ -14,12 +13,15 @@ function DateTable() {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 xl:gap-x-10 z-[50] relative">
-      <div className="flex flex-col gap-y-1">
-        <h3 className=" text-[10px] xl:text-xs  font-bold text-[#555] ">Date</h3>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
+      <div className="flex flex-col gap-y-1 z-[50] relative justify-center w-full ">
+        <h3 className=" text-[10px] xl:text-xs  font-bold text-[#666] ">
+          Date
+        </h3>
 
         <Datepicker
-          inputClassName="text-xs sm:text-sm py-4 rounded-lg dark:bg-[#18212f]"
+          containerClassName="shrink-0"
+          inputClassName="text-xs py-1 w-full  sm:text-sm  rounded-full dark:bg-[#333] shadow-sm"
           useRange={false}
           asSingle={true}
           // showShortcuts={true}

@@ -8,7 +8,7 @@ function PiezoLecturesComponent() {
     <div className=" flex flex-col gap-y-10 rounded-xl py-8">
       <h2 className="flex items-center gap-x-2 md:gap-x-4 flex-wrap gap-y-2">
         <span className="text-sm md:text-base font-semibold">
-          Piezometer lectures / Last
+          Piezometer Readings / Last
         </span>
         <DaysChange />
         <span className="text-sm md:text-base font-semibold">days</span>

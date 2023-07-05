@@ -6,6 +6,7 @@ import { useQuery } from "react-query";
 import { fetchLastReadings, fetchPiezometersData } from "../../utils/map";
 import Skeleton from "react-loading-skeleton";
 import SkeletonPiezoListTable from "../Skeletons/MonitoringMap/SkeletonPiezoListTable";
+import "../../table.css";
 
 function PiezoListTable() {
   const status = useMonitoringMapStateStore((s) => s.status);
@@ -70,423 +71,128 @@ function PiezoListTable() {
     return <SkeletonPiezoListTable />;
 
   return (
-    <div
-      style={{
-        borderColor: selectedStatus.darkColor,
-      }}
-      className={`max-w-[1000vh] h-[21rem] md:h-[24rem] overflow-x-auto rounded-lg border-2 bg-white shadow-sm`}
-    >
-      <table className="select-none w-full border-collapse bg-white">
-        <thead>
-          <tr
-            style={{
-              backgroundColor: selectedStatus.darkColor,
-            }}
-            className={`w-full flex items-center px-8 whitespace-nowrap   gap-x-10 md:gap-x-12 justify-evenly   text-xs h-12  font-medium text-white`}
-          >
-            <th className="flex items-center gap-x-2 w-16 md:w-20 justify-center ">
+    <div className="outer-wrapper">
+      <div
+        style={{
+          borderColor: selectedStatus.darkColor,
+        }}
+        className={`table-wrapper `}
+      >
+        <table>
+          <thead>
+            <th>
               <span className="text-[11px] md:text-xs">Piezo. ID</span>
               <BsArrowDownUp className="w-2" />
             </th>
 
-            <th className="flex items-center gap-x-2 w-16 md:w-20 justify-center">
+            <th>
               <span className="text-[11px] md:text-xs">Paddock</span>
               <BsArrowDownUp className="w-2" />
             </th>
 
-            <th className="flex items-center gap-x-2 w-16 md:w-20 justify-center">
+            <th>
               <span className="text-[11px] md:text-xs">Section</span>
               <BsArrowDownUp className="w-2" />
             </th>
 
-            <th className="flex items-center gap-x-2 w-24 md:w-28 justify-center">
+            <th>
               <span className="text-[11px] md:text-xs">Current PWP</span>
               <BsArrowDownUp className="w-2" />
             </th>
 
-            <th className="flex items-center gap-x-2 w-16 md:w-20 justify-center">
+            <th>
               <span className="text-[11px] md:text-xs">Depth</span>
               <BsArrowDownUp className="w-2" />
             </th>
 
-            <th className="flex items-center gap-x-2 w-24 md:w-28 justify-center">
+            <th>
               <span className="text-[11px] md:text-xs">Coordinates</span>
               <BsArrowDownUp className="w-2" />
             </th>
-          </tr>
-        </thead>
+          </thead>
 
-        <tbody className="bg-white">
-          {
-            //@ts-ignore
-            filteredPiezoList.map((piezometer, i) => {
-              const lastReading = lastReadings.find(
-                //@ts-ignore
-                (reading) =>
-                  reading.node === piezometer.datalogger &&
-                  reading.channel === piezometer.channel
-              );
+          <tbody className="bg-white text-[#444]">
+            {
+              //@ts-ignore
+              filteredPiezoList.map((piezometer, i) => {
+                const lastReading = lastReadings.find(
+                  //@ts-ignore
+                  (reading) =>
+                    reading.node === piezometer.datalogger &&
+                    reading.channel === piezometer.channel
+                );
 
-              const lastReadingExists = lastReading && lastReading.pressure;
+                const lastReadingExists = lastReading && lastReading.pressure;
 
-              const depthIsZero = Number(piezometer.depth) == 0;
+                const depthIsZero = Number(piezometer.depth) == 0;
 
-              return (
-                <tr
-                  style={{
-                    backgroundColor:
-                      i % 2 === 0 ? selectedStatus.lightColor : "#fff",
-                  }}
-                  key={piezometer.id}
-                  className="w-full flex items-center whitespace-nowrap  gap-x-10 md:gap-x-12 px-8  h-12  "
-                >
-                  <th className="flex items-center gap-x-2 w-16 md:w-20 justify-center">
-                    <span className="text-[9px] md:text-[10px]">
-                      {piezometer.id}
-                    </span>
-                  </th>
-
-                  <th className="flex items-center gap-x-2 w-16 md:w-20 justify-center">
-                    <span className="text-[9px] md:text-[10px]">
-                      {piezometer.paddock}
-                    </span>
-                  </th>
-
-                  <th className="flex items-center gap-x-2 w-16 md:w-20 justify-center">
-                    <span className="text-[9px] md:text-[10px]">
-                      {piezometer.section}
-                    </span>
-                  </th>
-
-                  <th className="flex items-center gap-x-2 w-24 md:w-28 justify-center">
-                    <span
-                      className={`${
-                        lastReadingExists
-                          ? "text-[9px] md:text-[10px]"
-                          : "text-2xl"
-                      }`}
-                    >
-                      {lastReadingExists
-                        ? `${Number(lastReading.pressure).toFixed(3)} Kpa`
-                        : "-"}
-                    </span>
-                  </th>
-
-                  <th
-                    className="flex items-center gap-x-2 
-                              w-16 md:w-20 justify-center"
+                return (
+                  <tr
+                    style={{
+                      backgroundColor:
+                        i % 2 === 0 ? selectedStatus.lightColor : "#fff",
+                    }}
+                    key={piezometer.id}
                   >
-                    <span
-                      className={`${
-                        depthIsZero ? "text-2xl" : "text-[9px] md:text-[10px]"
-                      }`}
-                    >
-                      {depthIsZero
-                        ? "-"
-                        : `${Number(piezometer.depth).toFixed(2)} m`}{" "}
-                    </span>
-                  </th>
-
-                  <th className="flex flex-col gap-y-1 items-center gap-x-2 w-24 md:w-28 justify-center">
-                    <span className="text-[9px] md:text-[10px]">
-                      {piezometer.lat},
-                    </span>
-                    <span className="text-[9px] md:text-[10px]">
-                      {piezometer.lon}
-                    </span>
-                  </th>
-                </tr>
-              );
-            })
-          }
-          {/* <tr className='w-full flex items-center whitespace-nowrap  gap-x-10 md:gap-x-12 px-8 text-[10px] h-12 bg-white '>
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>VW-YB-01</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>Y1/Y2</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>Section-17</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-24 md:w-28 justify-center'>
-                <span>-22.29382918,<br/>
-    -15.82938212</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>14.0 m</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-24 md:w-28 justify-center'>
-                <span className="text-2xl">-</span>
-                    
-                </th>
-                
-                
-                
-                
-            </tr>
-
-
-
-
-            <tr style={{
-                backgroundColor:selectedStatus.lightColor,
-            }} className={`w-full flex items-center whitespace-nowrap  gap-x-10 md:gap-x-12 px-8 text-[10px] h-12  bg-opacity-30  `}>
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>VW-YB-01</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>Y1/Y2</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>Section-17</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-24 md:w-28 justify-center'>
-                <span>-22.29382918,<br/>
-    -15.82938212</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>14.0 m</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-24 md:w-28 justify-center'>
-                <span className="text-2xl">-</span>
-                    
-                </th>
-                
-                
-                
-                
-            </tr>
-
-
-
-
-            <tr className='w-full flex items-center whitespace-nowrap  gap-x-10 md:gap-x-12 px-8 text-[10px] h-12 bg-white  '>
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>VW-YB-01</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>Y1/Y2</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>Section-17</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-24 md:w-28 justify-center'>
-                <span>-22.29382918,<br/>
-    -15.82938212</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>14.0 m</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-24 md:w-28 justify-center'>
-                <span className="text-2xl">-</span>
-                    
-                </th>
-                
-                
-                
-                
-            </tr>
-
-
-
-
-
-            <tr style={{
-                backgroundColor:selectedStatus.lightColor,
-            }} className={`w-full flex items-center whitespace-nowrap  gap-x-10 md:gap-x-12 px-8 text-[10px] h-12  bg-opacity-30  `}>
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>VW-YB-01</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>Y1/Y2</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>Section-17</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-24 md:w-28 justify-center'>
-                <span>-22.29382918,<br/>
-    -15.82938212</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>14.0 m</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-24 md:w-28 justify-center'>
-                <span className="text-2xl">-</span>
-                    
-                </th>
-                
-                
-                
-                
-            </tr>
-
-
-
-
-
-            <tr className='w-full flex items-center whitespace-nowrap  gap-x-10 md:gap-x-12 px-8 text-[10px] h-12 bg-white  '>
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>VW-YB-01</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>Y1/Y2</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>Section-17</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-24 md:w-28 justify-center'>
-                <span>-22.29382918,<br/>
-    -15.82938212</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>14.0 m</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-24 md:w-28 justify-center'>
-                <span className="text-2xl">-</span>
-                    
-                </th>
-                
-                
-                
-                
-            </tr>
-
-
-
-
-
-            <tr style={{
-                backgroundColor:selectedStatus.lightColor,
-            }} className={`w-full flex items-center whitespace-nowrap  gap-x-10 md:gap-x-12 px-8 text-[10px] h-12  bg-opacity-30  `}>
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>VW-YB-01</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>Y1/Y2</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>Section-17</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-24 md:w-28 justify-center'>
-                <span>-22.29382918,<br/>
-    -15.82938212</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>14.0 m</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-24 md:w-28 justify-center'>
-                <span className="text-2xl">-</span>
-                    
-                </th>
-                
-                
-                
-                
-            </tr>
-
-
-
-
-
-            <tr className='w-full flex items-center whitespace-nowrap  gap-x-10 md:gap-x-12 px-8 text-[10px] h-12 bg-white  '>
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>VW-YB-01</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>Y1/Y2</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>Section-17</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-24 md:w-28 justify-center'>
-                <span>-22.29382918,<br/>
-    -15.82938212</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-20 justify-center'>
-                <span>14.0 m</span>
-                    
-                </th>
-
-                <th className='flex items-center gap-x-2 w-24 md:w-28 justify-center'>
-                <span className="text-2xl">-</span>
-                    
-                </th>
-                
-                
-                
-                
-            </tr> */}
-        </tbody>
-      </table>
+                    <td>
+                      <span className="text-[9px] md:text-[10px]">
+                        {piezometer.id}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span className="text-[9px] md:text-[10px]">
+                        {piezometer.paddock}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span className="text-[9px] md:text-[10px]">
+                        {piezometer.section}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span
+                        className={`${
+                          lastReadingExists
+                            ? "text-[9px] md:text-[10px]"
+                            : "text-2xl"
+                        }`}
+                      >
+                        {lastReadingExists
+                          ? `${Number(lastReading.pressure).toFixed(3)} Kpa`
+                          : "-"}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span
+                        className={`${
+                          depthIsZero ? "text-2xl" : "text-[9px] md:text-[10px]"
+                        }`}
+                      >
+                        {depthIsZero
+                          ? "-"
+                          : `${Number(piezometer.depth).toFixed(2)} m`}{" "}
+                      </span>
+                    </td>
+
+                    <td>
+                      <span className="text-[9px] md:text-[10px]">
+                        {piezometer.lat},
+                      </span>
+                      <span className="text-[9px] md:text-[10px]">
+                        {piezometer.lon}
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })
+            }
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

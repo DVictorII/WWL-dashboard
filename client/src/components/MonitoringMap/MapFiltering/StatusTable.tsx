@@ -17,11 +17,16 @@ function StatusTable() {
   );
   return (
     <div className="flex flex-col gap-y-1">
-      <h3 className="text-[10px] xl:text-xs  font-bold text-[#555] justify-self-end">Piezometer status</h3>
+      <h3 className="text-[10px] xl:text-xs  font-semibold text-[#666] justify-self-end">
+        Piezometer status
+      </h3>
 
-      <div style={{
-        borderColor: selectedStatus.darkColor,
-      }} className="py-2 flex items-center w-full justify-evenly border-2  rounded-lg shadow-sm">
+      <div
+        // style={{
+        //   shadowColor: selectedStatus.darkColor,
+        // }}
+        className="py-2 flex items-center w-full justify-between px-2 sm:px-4 gap-x-2 bg-white  rounded-xl shadow-sm shadow-"
+      >
         <div className="relative group">
           <button
             onClick={() => {
@@ -33,8 +38,8 @@ function StatusTable() {
           >
             <span className="font-semibold text-sm">All</span>
           </button>
-          <span className="absolute w-auto px-3 py-2  min-w-max left-2 -bottom-12  rounded-md shadow-md text-xs text-white bg-[#222] border-2 border-gray-500  font-semibold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
-            All piezometers
+          <span className="absolute w-auto px-3 py-2  min-w-max left-2 -bottom-12  rounded-md shadow-md text-xs text-white bg-[#333] border border-gray-500  font-semibold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
+            All piezo.
           </span>
         </div>
 
@@ -49,8 +54,8 @@ function StatusTable() {
           >
             <AiOutlineCheck className=" w-4 h-4 xl:w-5 xl:h-5 text-[#477C9A]" />
           </div>
-          <span className="absolute w-auto px-3 py-2  min-w-max left-2 -bottom-12  rounded-md shadow-md text-xs text-white bg-[#222] border-2 border-active-dark  font-semibold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
-            Active piezometers
+          <span className="absolute w-auto px-3 py-2  min-w-max left-2 -bottom-12  rounded-md shadow-md text-xs text-white bg-[#333] border border-active-dark  font-semibold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
+            Active piezo.
           </span>
         </div>
 
@@ -67,8 +72,8 @@ function StatusTable() {
           >
             <FiAlertTriangle className=" w-4 h-4 xl:w-5 xl:h-5 text-[#B41818]" />
           </div>
-          <span className="absolute w-auto px-3 py-2  min-w-max left-2 -bottom-12  rounded-md shadow-md text-xs text-white bg-[#222] border-2 border-damaged-dark  font-semibold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
-            Damaged piezometers
+          <span className="absolute w-auto px-3 py-2  min-w-max left-2 -bottom-12  rounded-md shadow-md text-xs text-white bg-[#333] border border-damaged-dark  font-semibold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
+            Damaged piezo.
           </span>
         </div>
 
@@ -85,8 +90,8 @@ function StatusTable() {
           >
             <VscDebugDisconnect className=" w-4 h-4 xl:w-5 xl:h-5 text-[#C5B317]" />
           </div>
-          <span className="absolute w-auto px-3 py-2  min-w-max left-2 -bottom-12  rounded-md shadow-md text-xs text-white bg-[#222] border-2 border-disconnected-dark  font-semibold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
-            Disconnected piezometers
+          <span className="absolute w-auto px-3 py-2  min-w-max left-2 -bottom-12  rounded-md shadow-md text-xs text-white bg-[#333] border border-disconnected-dark  font-semibold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
+            Disconnected piezo.
           </span>
         </div>
 
@@ -103,8 +108,8 @@ function StatusTable() {
           >
             <BsLightbulb className=" w-4 h-4 xl:w-5 xl:h-5 text-[#7B8831]" />
           </div>
-          <span className="absolute w-auto px-3 py-2  min-w-max left-2 -bottom-12  rounded-md shadow-md text-xs text-white bg-[#222] border-2 border-proposed-dark  font-semibold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
-            Proposed piezometers
+          <span className="absolute w-auto px-3 py-2  min-w-max left-2 -bottom-12  rounded-md shadow-md text-xs text-white bg-[#333] border border-proposed-dark  font-semibold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
+            Proposed piezo.
           </span>
         </div>
 
@@ -119,7 +124,7 @@ function StatusTable() {
           >
             <SiFlood className=" w-4 h-4 xl:w-5 xl:h-5 text-[#2C8A5D]" />
           </div>
-          <span className="absolute w-auto px-3 py-2  min-w-max left-2 -bottom-12  rounded-md shadow-md text-xs text-white bg-[#222] border-2 border-tarp-dark font-semibold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
+          <span className="absolute w-auto px-3 py-2  min-w-max left-2 -bottom-12  rounded-md shadow-md text-xs text-white bg-[#333] border border-tarp-dark font-semibold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
             TARPS
           </span>
         </div>
@@ -137,7 +142,7 @@ function StatusTable() {
           >
             <FiAlertOctagon className=" w-4 h-4 xl:w-5 xl:h-5 text-[#831B1B]" />
           </div>
-          <span className="absolute w-auto px-3 py-2  min-w-max left-2 -bottom-12  rounded-md shadow-md text-xs text-white bg-[#222] border-2 border-incident-dark  font-semibold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
+          <span className="absolute w-auto px-3 py-2  min-w-max left-2 -bottom-12  rounded-md shadow-md text-xs text-white bg-[#333] border border-incident-dark  font-semibold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
             Incidents
           </span>
         </div>

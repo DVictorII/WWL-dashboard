@@ -1,6 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 
 import "./index.css";
 import Index from "./components/pages/Index";
@@ -25,7 +29,6 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -35,11 +38,15 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
+        element: <Navigate to="/monitoring-map" />,
+      },
+      {
+        path: "monitoring-map",
         element: <Index />,
       },
 
       {
-        path: "piezometer-lectures",
+        path: "piezometer-readings",
         element: <PaddockLectures />,
       },
 
@@ -104,6 +111,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <RouterProvider router={router} />
       </QueryClientProvider>
     </SkeletonTheme>
-
   </React.StrictMode>
 );

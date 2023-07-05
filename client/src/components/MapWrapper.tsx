@@ -153,7 +153,7 @@ function MapWrapper() {
     changeChartPaddock(paddock);
     changeChartPiezo(piezo);
 
-    navigate("/piezometer-lectures");
+    navigate("/piezometer-readings");
   };
 
   // @ts-ignore
@@ -232,7 +232,7 @@ function MapWrapper() {
     return <SkeletonMapWrapper />;
 
   return (
-    <div className=" w-full   h-[50vh]  rounded-lg overflow-hidden shadow-md relative z-[10]">
+    <div className=" w-full   h-[60vh]  rounded-md overflow-hidden shadow-md relative z-[10]">
       <div id="map"></div>
     </div>
   );

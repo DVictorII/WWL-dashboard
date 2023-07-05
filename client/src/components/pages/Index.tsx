@@ -9,7 +9,7 @@ import { toast } from "react-hot-toast";
 import IncidentMapMultiple from "../Incidents/IncidentMapMultiple";
 //@ts-ignore: Unreachable code error
 import axios from "../../utils/axios";
-import axios2 from "axios"
+import axios2 from "axios";
 
 import { AiOutlineDownload } from "react-icons/ai";
 import PiezoListTable from "../MonitoringMap/PiezoListTable";
@@ -22,8 +22,7 @@ import {
   monitoringMapStatusInfo,
 } from "../../utils/monitoringMapStatusInfo";
 
-import path from "path"
-
+import path from "path";
 
 interface GlobalMapState {
   status: string | number;
@@ -40,7 +39,6 @@ const Index = () => {
 
   const downloadReport = async () => {
     try {
-      
       const res = await toast.promise(
         axios.post("/modify_excel"),
         {
@@ -51,6 +49,9 @@ const Index = () => {
           error: (err) => `There was an error!`,
         },
         {
+          style: {
+            fontWeight: "500",
+          },
           success: {
             duration: 3000,
 
@@ -98,24 +99,30 @@ const Index = () => {
     <>
       <MenuNavbar />
 
-      <div className="flex items-center justify-between gap-x-8 gap-y-8 flex-wrap mt-12 md:mt-0">
-        <h1 className="md:text-lg 2xl:text-xl font-bold">
-          Monitoring Map (92 Piezometers)
+      <div className="mt-12 md:hidden" />
+
+      <div className="flex items-center justify-between gap-x-8 gap-y-8 flex-wrap bg-white p-4 rounded-xl shadow-sm">
+        <h1 className="flex flex-col gap-y-1 ">
+          <span className="font-bold">Monitoring Map</span>
+          <span className="text-xs font-semibold text-[#666]">
+            (92 Piezometers - 49 active)
+          </span>
         </h1>
         <button
           onClick={downloadReport}
-          className="flex items-center gap-x-2 md:gap-x-3 lg:gap-x-4 px-4 py-2 bg-[#1E293B] text-white rounded-xl"
+          className="flex items-center gap-x-1   px-2  py-2 sm:px-4  bg-[#333] text-[#f1f1f1] rounded-full"
         >
-          <AiOutlineDownload className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
-          <span className="text-sm md:text-base lg:text-lg">
+          <AiOutlineDownload className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
+          <span className="text-xs sm:text-sm   font-medium hidden sm:block">
             Generate report
           </span>
         </button>
       </div>
 
+      <div className="mt-12" />
 
-      <div className=" bg-backgroundWhite md:bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-8 md:shadow-lg ">
-        <h2 className="font-semibold flex gap-x-8 items-end">
+      <div className="  flex flex-col gap-y-8  ">
+        {/* <h2 className="font-semibold flex gap-x-8 items-end">
           <span className="font-semibold text-sm 2xl:text-base">
             {selectedStatus.name === "incident"
               ? "Incidents"
@@ -131,21 +138,24 @@ const Index = () => {
           >
             {selectedStatus.number}
           </span>
-        </h2>
+        </h2> */}
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 xl:gap-x-10 gap-y-8 xl:gap-y-10">
+        <PiezoFilterComp />
+
+        <div className="flex flex-col gap-y-4 bg-white p-4 rounded-xl shadow-sm">
+          <h2 className="font-semibold text-[#444] text-sm 2xl:text-base">
+            Piezometer list
+          </h2>
           <PiezoListTable />
-
-          <PiezoFilterComp />
         </div>
 
         {/* <StateShowing/> */}
 
         <div
-          className="flex flex-col gap-y-4 mt-8"
+          className="flex flex-col gap-y-4 bg-white p-4 rounded-xl shadow-sm"
           key={`${piezo}${paddock}${status}${date}`}
         >
-          <h2 className="font-semibold text-sm 2xl:text-base">
+          <h2 className="font-semibold text-[#444] text-sm 2xl:text-base">
             {status !== 6
               ? "Piezometers interactive map"
               : "Incidents interactive map"}

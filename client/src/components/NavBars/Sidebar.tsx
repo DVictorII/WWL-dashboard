@@ -21,7 +21,6 @@ import { useMenuStore } from "../../store/DesktopSidebarStore";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogOutStore } from "../../store/LogOutStore";
 
-
 function Sidebar() {
   const menuIsOpen = useMenuStore((state) => state.menuIsOpen);
   const closeMenu = useMenuStore((state) => state.closeMenu);
@@ -36,26 +35,21 @@ function Sidebar() {
     navigate(destiny);
   };
 
-
-
   return (
-    <div  className="z-[1000] hidden md:block">
+    <>
       <div
-        className="fixed top-0 left-0 h-screen pt-8 pb-12 
-                        w-20 lg:w-24  2xl:w-28 m-0 flex flex-col 
-                        bg-all-normal text-white justify-between  z-[400]"
+        className="sticky top-0 left-0 h-screen pt-8 pb-12 
+                        w-20 lg:w-24  2xl:w-28  md:flex flex-col 
+                        bg-all-normal text-white justify-between  z-[400] hidden shrink-0 "
       >
         <div className="flex flex-col items-center gap-y-6 2xl:gap-y-10 ">
           <div className="w-full relative h-20">
             <img
               className="object-contain w-full"
               src="/media/img/photos/logo_white.png"
-              
               alt="rossing-logo"
             />
           </div>
-
-          
 
           <div
             onClick={openMenu}
@@ -162,7 +156,7 @@ function Sidebar() {
                   className="flex flex-col gap-y-12"
                 >
                   <div
-                    onClick={() => navigateTo("/")}
+                    onClick={() => navigateTo("/monitoring-map")}
                     className=" whitespace-nowrap flex items-center gap-x-4 relative py-2 group cursor-pointer hover:text-orange-500 transition-all"
                   >
                     <TfiMapAlt className="w-6 h-6 lg:w-7 lg:h-7 shrink-0" />
@@ -171,11 +165,11 @@ function Sidebar() {
                   </div>
 
                   <div
-                    onClick={() => navigateTo("/piezometer-lectures")}
+                    onClick={() => navigateTo("/piezometer-readings")}
                     className="whitespace-nowrap flex items-center gap-x-4 relative py-2 group cursor-pointer hover:text-orange-500 transition-all"
                   >
                     <AiOutlineBarChart className="w-6 h-6 lg:w-7 lg:h-7 shrink-0" />
-                    <span className="lg:text-lg">Piezometer Lectures</span>
+                    <span className="lg:text-lg">Piezometer Readings</span>
                     <div className="w-2 h-full bg-transparent group-hover:bg-orange-500 transition-all absolute top-0 -right-10 rounded-l-xl " />
                   </div>
 
@@ -225,7 +219,7 @@ function Sidebar() {
           </>
         ) : null}
       </AnimatePresence>
-    </div>
+    </>
   );
 }
 

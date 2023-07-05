@@ -58,16 +58,12 @@ def get_data():
             }
         )
 
-    print("new_data", new_data)
     return new_data
 
 
 @excel_routes.route("/api/v1/excel-data", methods=["GET"])
 @cross_origin()
 def get_excel_data():
-    # print(BASEPATH)
-    # print("UWU")
-
     # tdata = get_data()
     print(os.path.abspath("pyreport/report.xlsx"))
     data = get_data()
@@ -88,14 +84,12 @@ def read_excel():
     # filename = BASEPATH + "/pyreport/report.xlsx"
     print(filename)
 
-    # print(piezo_data)
     wb = load_workbook(filename)
-    print(wb)
+
     sh = wb.active
     i = 14
     j = 7
     for data in tdata:
-        print(data)
         sh.cell(row=i, column=3).value = data["piezo_paddock"]
         sh.cell(row=i, column=5).value = data["piezo_name"]
         sh.cell(row=i, column=16).value = data["piezo_depth"]
@@ -109,10 +103,12 @@ def read_excel():
         #     sh.cell(row=i,column=4+j).value = float(data[j])
         j = 7
         i += 1
+
+    print("today:", date.today())
     sh.cell(row=5, column=13).value = date.today()
 
     wb.save(os.path.abspath("../client/public/pyreport/report2.xlsx"))
-    return i
+    return os.path.abspath("../client/public/pyreport/report2.xlsx")
 
 
 @excel_routes.route("/api/v1/modify_excel", methods=["POST"])
@@ -121,5 +117,9 @@ def modify_excel():
     now = datetime.now()
     dt_string = now.strftime("%Y/%m/%d %H:%M:%S")
     data = read_excel()
+    print("file saved on:", data)
     print("report download by %s at %s" % (session.get("user_id"), dt_string))
-    return jsonify({"filename": os.path.abspath("pyreport/report2.xlsx")})
+    return jsonify(
+        {"filename": os.path.abspath("../client/public/pyreport/report2.xlsx")}
+    )
+    # return jsonify({"filename": os.path.abspath("pyreport/report2.xlsx")})

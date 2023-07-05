@@ -25,7 +25,7 @@ function PaddockLectures() {
       <MenuNavbar />
       <div className="mt-12 md:mt-0 flex flex-col gap-y-6 justify-between">
         <h1 className="md:text-lg 2xl:text-xl font-bold ">
-          Monitoring of Paddock - dashboard
+          Paddock Monitoring - Dashboard
         </h1>
         <p className="text-sm font-medium">
           Use the interactive chart below to explore piezometer readings from
@@ -53,8 +53,6 @@ function PaddockLectures() {
             <PaddockMapWrapper />
           </div>
         </div>
-
-        
       </div>
 
       <FullPageComps

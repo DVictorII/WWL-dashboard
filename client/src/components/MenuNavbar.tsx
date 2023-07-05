@@ -5,7 +5,6 @@ import { useMobileMenuStore } from "../store/MobileMenuStore";
 
 import { useLocation } from "react-router-dom";
 
-
 function MenuNavbar() {
   const [currentPage, setCurrentPage] = useState("");
   const openMobileMenu = useMobileMenuStore((state) => state.openMobileMenu);
@@ -18,7 +17,7 @@ function MenuNavbar() {
 
   return (
     <nav className="flex justify-between items-center md:hidden">
-      <div className="w-28  relative rounded-md overflow-hidden">
+      <div className="w-24  relative ">
         <img
           src="/media/img/photos/logo_normal.png"
           className="w-full  object-contain"
@@ -26,7 +25,7 @@ function MenuNavbar() {
       </div>
 
       <div className="md:hidden" onClick={openMobileMenu}>
-        <HiMenuAlt2 className="text-4xl" />
+        <HiMenuAlt2 className="text-3xl" />
       </div>
     </nav>
   );
