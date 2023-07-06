@@ -8,13 +8,13 @@ import { FadeLoader } from "react-spinners";
 import { useGloblalUserStore } from "../store/GlobalUserStore";
 
 function ProtectedRoute({ children }: { children: JSX.Element }) {
-  const updateUser = useGloblalUserStore((state) => state.updateUser);
+  const updateUserID = useGloblalUserStore((state) => state.updateUserID);
   const updateWholeUser = useGloblalUserStore((state) => state.updateWholeUser);
 
   const check_user = async () => {
     try {
       const result = await axios.get("/current-user");
-      updateUser(result.data.id);
+      updateUserID(result.data.id);
       updateWholeUser(result.data);
       return result.data;
     } catch (err) {

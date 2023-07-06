@@ -11,7 +11,7 @@ interface UserI {
 interface GlobalUserStoreState {
   userID: number;
   currentUser: UserI | null;
-  updateUser: (id: number) => void;
+  updateUserID: (id: number) => void;
 
   updateWholeUser: (user: UserI) => void;
 }
@@ -20,6 +20,6 @@ export const useGloblalUserStore = create<GlobalUserStoreState>((set) => ({
   userID: 12,
   currentUser: null,
 
-  updateUser: (id) => set((state) => ({ ...state, userID: id })),
+  updateUserID: (id) => set((state) => ({ ...state, userID: id })),
   updateWholeUser: (user) => set((state) => ({ ...state, currentUser: user })),
 }));

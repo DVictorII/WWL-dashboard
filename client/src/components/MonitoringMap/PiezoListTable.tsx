@@ -9,6 +9,16 @@ import SkeletonPiezoListTable from "../Skeletons/MonitoringMap/SkeletonPiezoList
 
 function PiezoListTable() {
   const status = useMonitoringMapStateStore((s) => s.status);
+
+  const options = {
+    0: "All piezometers",
+    1: "Active piezometers",
+    2: "Damaged piezometers",
+    3: "Disconnected piezometers",
+    4: "Proposed piezometers",
+    5: "TARPS",
+  };
+
   //@ts-ignore
   const selectedStatus = monitoringMapStatusInfo[status];
 
@@ -33,7 +43,11 @@ function PiezoListTable() {
 
   //@ts-ignore
   const filterPiezometers = (fullPiezoList) => {
+    //@ts-ignore
     let filtered = [];
+
+    //@ts-ignore
+    if (!fullPiezoList) return filtered;
 
     if (status === 0 || status === 6) {
       if (paddock === "All") {
@@ -70,157 +84,194 @@ function PiezoListTable() {
     return <SkeletonPiezoListTable />;
 
   return (
-    <div className=" max-w-full max-h-fit ">
-      <div
-        style={{
-          borderColor: selectedStatus.darkColor,
-        }}
-        className={` overflow-y-scroll overflow-x-scroll h-fit max-h-96 mt-5 mb-4 mx-4 md:mx-0  pb-5  `}
-      >
-        <table className="min-w-max border-separate border-spacing-0">
-          <thead className="">
-            <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
-              <div className="flex gap-x-2 justify-center items-center">
-                <span className="text-[11px] md:text-xs lg:text-sm ">
-                  Piezo. ID
-                </span>
-                <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
-              </div>
-            </th>
+    <>
+      <div className={`${status !== 6 ? "mt-8" : "mt-4"}`} />
 
-            <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
-              <div className="flex gap-x-2 justify-center items-center">
-                <span className="text-[11px] md:text-xs lg:text-sm ">
-                  Paddock
-                </span>
-                <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
-              </div>
-            </th>
+      <div className="flex flex-col gap-y-1 2xl:gap-y-3">
+        {status !== 6 && (
+          <div className=" flex items-end md:items-center gap-x-8 md:gap-x-16 lg:gap-x-8">
+            <div className="flex gap-x-3 md:flex-col lg:flex-row md:gap-y-2">
+              {paddock !== "All" && (
+                <div className="flex gap-x-3">
+                  <span className="font-semibold text-sm sm:text-base  2xl:text-lg">
+                    {paddock}
+                  </span>
+                  <span className="font-semibold text-sm sm:text-base  2xl:text-lg">
+                    /
+                  </span>
+                </div>
+              )}
+              <span className="font-semibold text-sm sm:text-base  2xl:text-lg">
+                {/* @ts-ignore */}
+                {options[status]}
+              </span>
+            </div>
+            <span
+              style={{
+                //@ts-ignore
+                color: monitoringMapStatusInfo[status].normalColor,
+              }}
+              className="text-xl sm:text-2xl lg:text-3xl font-semibold"
+            >
+              {filteredPiezoList.length}
+            </span>
+          </div>
+        )}
 
-            <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
-              <div className="flex gap-x-2 justify-center items-center">
-                <span className="text-[11px] md:text-xs lg:text-sm ">
-                  Section
-                </span>
-                <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
-              </div>
-            </th>
+        <div className=" max-w-full max-h-fit ">
+          <div
+            style={{
+              borderColor: selectedStatus.darkColor,
+            }}
+            className={` overflow-y-scroll overflow-x-scroll h-fit max-h-96 mt-5 mb-4 mx-4 md:mx-0  pb-5  `}
+          >
+            <table className="min-w-max border-separate border-spacing-0">
+              <thead className="">
+                <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+                  <div className="flex gap-x-2 justify-center items-center">
+                    <span className="text-[11px] md:text-xs lg:text-sm ">
+                      Piezo. ID
+                    </span>
+                    <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
+                  </div>
+                </th>
 
-            <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
-              <div className="flex gap-x-2 justify-center items-center">
-                <span className="text-[11px] md:text-xs lg:text-sm ">
-                  Current PWP
-                </span>
-                <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
-              </div>
-            </th>
+                <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+                  <div className="flex gap-x-2 justify-center items-center">
+                    <span className="text-[11px] md:text-xs lg:text-sm ">
+                      Paddock
+                    </span>
+                    <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
+                  </div>
+                </th>
 
-            <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
-              <div className="flex gap-x-2 justify-center items-center">
-                <span className="text-[11px] md:text-xs lg:text-sm ">
-                  Depth
-                </span>
-                <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
-              </div>
-            </th>
+                <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+                  <div className="flex gap-x-2 justify-center items-center">
+                    <span className="text-[11px] md:text-xs lg:text-sm ">
+                      Section
+                    </span>
+                    <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
+                  </div>
+                </th>
 
-            <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
-              <div className="flex gap-x-2 justify-center items-center">
-                <span className="text-[11px] md:text-xs lg:text-sm ">
-                  Coordinates
-                </span>
-                <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
-              </div>
-            </th>
-          </thead>
+                <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+                  <div className="flex gap-x-2 justify-center items-center">
+                    <span className="text-[11px] md:text-xs lg:text-sm ">
+                      Current PWP
+                    </span>
+                    <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
+                  </div>
+                </th>
 
-          <tbody className="bg-white text-[#444]">
-            {
-              //@ts-ignore
-              filteredPiezoList.map((piezometer, i) => {
-                const lastReading = lastReadings.find(
+                <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+                  <div className="flex gap-x-2 justify-center items-center">
+                    <span className="text-[11px] md:text-xs lg:text-sm ">
+                      Depth
+                    </span>
+                    <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
+                  </div>
+                </th>
+
+                <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+                  <div className="flex gap-x-2 justify-center items-center">
+                    <span className="text-[11px] md:text-xs lg:text-sm ">
+                      Coordinates
+                    </span>
+                    <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
+                  </div>
+                </th>
+              </thead>
+
+              <tbody className="bg-white text-[#444]">
+                {
                   //@ts-ignore
-                  (reading) =>
-                    reading.node === piezometer.datalogger &&
-                    reading.channel === piezometer.channel
-                );
+                  filteredPiezoList.map((piezometer, i) => {
+                    const lastReading = lastReadings.find(
+                      //@ts-ignore
+                      (reading) =>
+                        reading.node === piezometer.datalogger &&
+                        reading.channel === piezometer.channel
+                    );
 
-                const lastReadingExists = lastReading && lastReading.pressure;
+                    const lastReadingExists =
+                      lastReading && lastReading.pressure;
 
-                const depthIsZero = Number(piezometer.depth) == 0;
+                    const depthIsZero = Number(piezometer.depth) == 0;
 
-                return (
-                  <tr
-                    style={{
-                      backgroundColor:
-                        i % 2 === 0 ? selectedStatus.lightColor : "#fff",
-                    }}
-                    key={piezometer.id}
-                  >
-                    <td className="px-4 py-2 lg:px-8 lg:py-3">
-                      <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center">
-                        {piezometer.id}
-                      </span>
-                    </td>
-
-                    <td className="px-4 py-2 lg:px-8 lg:py-3">
-                      <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center">
-                        {piezometer.paddock}
-                      </span>
-                    </td>
-
-                    <td className="px-4 py-2 lg:px-8 lg:py-3">
-                      <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center">
-                        {piezometer.section}
-                      </span>
-                    </td>
-
-                    <td className="px-4 py-2 lg:px-8 lg:py-3">
-                      <span
-                        className={`${
-                          lastReadingExists
-                            ? "text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center"
-                            : "text-2xl flex justify-center items-center"
-                        }`}
+                    return (
+                      <tr
+                        style={{
+                          backgroundColor:
+                            i % 2 === 0 ? selectedStatus.lightColor : "#fff",
+                        }}
+                        key={piezometer.id}
                       >
-                        {lastReadingExists
-                          ? `${Number(lastReading.pressure).toFixed(3)} Kpa`
-                          : "-"}
-                      </span>
-                    </td>
+                        <td className="px-4 py-2 lg:px-8 lg:py-3">
+                          <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-semibold">
+                            {piezometer.id}
+                          </span>
+                        </td>
 
-                    <td className="px-4 py-2 lg:px-8 lg:py-3">
-                      <span
-                        className={`${
-                          depthIsZero
-                            ? "text-2xl flex justify-center items-center"
-                            : "text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center"
-                        }`}
-                      >
-                        {depthIsZero
-                          ? "-"
-                          : `${Number(piezometer.depth).toFixed(2)} m`}{" "}
-                      </span>
-                    </td>
+                        <td className="px-4 py-2 lg:px-8 lg:py-3">
+                          <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-semibold">
+                            {piezometer.paddock}
+                          </span>
+                        </td>
 
-                    <td className="px-4 py-2 lg:px-8 lg:py-3">
-                      <div className="flex flex-col gap-y-1">
-                        <span className="text-[9px] md:text-[10px] lg:text-[11px]">
-                          {piezometer.lat},
-                        </span>
-                        <span className="text-[9px] md:text-[10px] lg:text-[11px]">
-                          {piezometer.lon}
-                        </span>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })
-            }
-          </tbody>
-        </table>
+                        <td className="px-4 py-2 lg:px-8 lg:py-3">
+                          <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-semibold">
+                            {piezometer.section}
+                          </span>
+                        </td>
+
+                        <td className="px-4 py-2 lg:px-8 lg:py-3">
+                          <span
+                            className={`${
+                              lastReadingExists
+                                ? "text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-semibold"
+                                : "text-2xl flex justify-center items-center font-semibold"
+                            }`}
+                          >
+                            {lastReadingExists
+                              ? `${Number(lastReading.pressure).toFixed(3)} Kpa`
+                              : "-"}
+                          </span>
+                        </td>
+
+                        <td className="px-4 py-2 lg:px-8 lg:py-3">
+                          <span
+                            className={`${
+                              depthIsZero
+                                ? "text-2xl flex justify-center items-center font-semibold"
+                                : "text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-semibold"
+                            }`}
+                          >
+                            {depthIsZero
+                              ? "-"
+                              : `${Number(piezometer.depth).toFixed(2)} m`}{" "}
+                          </span>
+                        </td>
+
+                        <td className="px-4 py-2 lg:px-8 lg:py-3">
+                          <div className="flex flex-col gap-y-1">
+                            <span className="text-[9px] md:text-[10px] lg:text-[11px] font-semibold">
+                              {piezometer.lat},
+                            </span>
+                            <span className="text-[9px] md:text-[10px] lg:text-[11px] font-semibold">
+                              {piezometer.lon}
+                            </span>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

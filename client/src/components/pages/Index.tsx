@@ -23,6 +23,8 @@ import {
 } from "../../utils/monitoringMapStatusInfo";
 
 import path from "path";
+import PiezoInformationTable from "../PiezometerLectures/PiezoInformationTable";
+import MonMapPiezoInformationTable from "../MonitoringMap/MonMapPiezoInformationTable";
 
 interface GlobalMapState {
   status: string | number;
@@ -105,7 +107,7 @@ const Index = () => {
         <h1 className="flex flex-col gap-y-1 ">
           <span className="font-bold">Monitoring Map</span>
           <span className="text-xs font-semibold text-[#666]">
-            (92 Piezometers - 49 active)
+            (92 Piezometers)
           </span>
         </h1>
         <button
@@ -122,42 +124,28 @@ const Index = () => {
       <div className="mt-12" />
 
       <div className="  flex flex-col gap-y-8  ">
-        {/* <h2 className="font-semibold flex gap-x-8 items-end">
-          <span className="font-semibold text-sm 2xl:text-base">
-            {selectedStatus.name === "incident"
-              ? "Incidents"
-              : selectedStatus.name === "tarp"
-              ? "TARPS"
-              : `${capitalizeName(selectedStatus.name)} piezometers`}
-          </span>
-          <span
-            style={{
-              color: selectedStatus.normalColor,
-            }}
-            className={`text-2xl lg:text-3xl 2xl:text-4xl `}
-          >
-            {selectedStatus.number}
-          </span>
-        </h2> */}
-
         <PiezoFilterComp />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-8 gap-y-8">
-          <div className="flex flex-col gap-y-4 bg-white p-4 rounded-xl shadow-sm">
-            <h2 className="font-semibold text-[#444] text-sm 2xl:text-base">
-              Piezometer list
+        <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-6 lg:gap-x-8 gap-y-8">
+          <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm">
+            <h2 className="font-semibold text-[#555] text-sm 2xl:text-base">
+              Piezometer Information
             </h2>
 
-            <PiezoListTable />
+            {paddock !== "All" && piezo !== "All" ? (
+              <MonMapPiezoInformationTable />
+            ) : (
+              <PiezoListTable />
+            )}
           </div>
 
           {/* <StateShowing /> */}
 
           <div
-            className="flex flex-col gap-y-4 bg-white p-4 rounded-xl shadow-sm"
+            className="flex flex-col gap-y-4 bg-white p-4 2xl:p-6 rounded-xl shadow-sm"
             key={`${piezo}${paddock}${status}${date}`}
           >
-            <h2 className="font-semibold text-[#444] text-sm 2xl:text-base">
+            <h2 className="font-semibold text-[#555] text-sm 2xl:text-base">
               {status !== 6
                 ? "Piezometers interactive map"
                 : "Incidents interactive map"}

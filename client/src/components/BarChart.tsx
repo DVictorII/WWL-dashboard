@@ -74,83 +74,84 @@ const BarChart = ({ information }) => {
   });
 
   useEffect(() => {
-    if (lecturesData) {
+    if (!lecturesData) return;
+    //@ts-ignore
+    const pressureDataFormat = lecturesData.map((data) => {
+      return {
+        x: moment(data.time).format("YYYY-MM-DD HH:MM:SS"),
+        y: data.pressure,
+      };
+    });
+
+    const pressureLimitFlag =
       //@ts-ignore
-      const pressureDataFormat = lecturesData.map((data) => {
-        return {
-          x: moment(data.time).format("YYYY-MM-DD HH:MM:SS"),
-          y: data.pressure,
-        };
-      });
+      lecturesData.filter((data) => data.pressure > CHART_PRESSURE_LIMIT)
+        .length > 0;
 
-      const pressureLimitFlag =
-        lecturesData.filter((data) => data.pressure > CHART_PRESSURE_LIMIT)
-          .length > 0;
+    pressureLimitFlag ? setLimitAlert(true) : setLimitAlert(false);
 
-      pressureLimitFlag ? setLimitAlert(true) : setLimitAlert(false);
+    //@ts-ignore
+    const pressureArray = lecturesData.map((data) => data.pressure);
 
-      const pressureArray = lecturesData.map((data) => data.pressure);
+    const maxLimit = Math.max(...pressureArray);
+    const minLimit = Math.min(...pressureArray);
 
-      const maxLimit = Math.max(...pressureArray);
-      const minLimit = Math.min(...pressureArray);
+    const chartMargin = (maxLimit - minLimit) / 5;
 
-      const chartMargin = (maxLimit - minLimit) / 5;
+    setLimits({
+      max: maxLimit + chartMargin,
+      min: minLimit - chartMargin,
+    });
 
-      setLimits({
-        max: maxLimit + chartMargin,
-        min: minLimit - chartMargin,
-      });
-
+    //@ts-ignore
+    const fullPiezoInfoObj = chartPiezoListWithElevation[paddock].find(
       //@ts-ignore
-      const fullPiezoInfoObj = chartPiezoListWithElevation[paddock].find(
-        //@ts-ignore
-        (obj) => obj.id === piezo
-      );
+      (obj) => obj.id === piezo
+    );
 
-      //@ts-ignore
-      const elevationDataFormat = lecturesData.map((data) => {
-        return {
-          x: moment(data.time).format("YYYY-MM-DD HH:MM:SS"),
-          y: data.pressure / 10,
-        };
-      });
+    //@ts-ignore
+    const elevationDataFormat = lecturesData.map((data) => {
+      return {
+        x: moment(data.time).format("YYYY-MM-DD HH:MM:SS"),
+        y: data.pressure / 10,
+      };
+    });
 
-      //@ts-ignore
-      const waterLevelDataFormat = lecturesData.map((data) => {
-        return {
-          x: moment(data.time).format("YYYY-MM-DD HH:MM:SS"),
-          y: fullPiezoInfoObj.piezoElevation + data.pressure / 10,
-        };
-      });
+    //@ts-ignore
+    const waterLevelDataFormat = lecturesData.map((data) => {
+      return {
+        x: moment(data.time).format("YYYY-MM-DD HH:MM:SS"),
+        y: fullPiezoInfoObj.piezoElevation + data.pressure / 10,
+      };
+    });
 
-      const pressureChartData = [
-        {
-          id: "pressureData",
-          data: pressureDataFormat,
-        },
-      ];
+    const pressureChartData = [
+      {
+        id: "pressureData",
+        data: pressureDataFormat,
+      },
+    ];
 
-      const elevationChartData = [
-        {
-          id: "elevationData",
-          data: elevationDataFormat,
-        },
-      ];
+    const elevationChartData = [
+      {
+        id: "elevationData",
+        data: elevationDataFormat,
+      },
+    ];
 
-      const waterElevationChartData = [
-        {
-          id: "waterElevationData",
-          data: waterLevelDataFormat,
-        },
-      ];
+    const waterElevationChartData = [
+      {
+        id: "waterElevationData",
+        data: waterLevelDataFormat,
+      },
+    ];
 
-      //@ts-ignore
-      setPiezoElevationData(elevationChartData);
-      //@ts-ignore
-      setPiezoData(pressureChartData);
-      //@ts-ignore
-      setReadingsWaterLevelData(waterElevationChartData);
-    }
+    //@ts-ignore
+    setPiezoElevationData(elevationChartData);
+    //@ts-ignore
+    setPiezoData(pressureChartData);
+    //@ts-ignore
+    setReadingsWaterLevelData(waterElevationChartData);
   }, [lecturesData]);
 
   if (piezometersAreLoading || lecturesAreLoading) return <SkeletonBarChart />;

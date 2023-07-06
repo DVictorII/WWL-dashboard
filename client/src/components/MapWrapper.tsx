@@ -105,7 +105,11 @@ function MapWrapper() {
 
   //@ts-ignore
   const filterPiezometers = (fullPiezoList) => {
+    //@ts-ignore
     let filtered = [];
+
+    //@ts-ignore
+    if (!fullPiezoList) return filtered;
 
     if (status === 0) {
       if (paddock === "All") {
@@ -137,11 +141,10 @@ function MapWrapper() {
   };
 
   useEffect(() => {
-    if (piezometersData) {
-      //@ts-ignore
-      const filtered = filterPiezometers(piezometersData);
-      setPiezoDataFiltered(filtered);
-    }
+    if (!piezometersData) return;
+    //@ts-ignore
+    const filtered = filterPiezometers(piezometersData);
+    setPiezoDataFiltered(filtered);
   }, [piezometersAreLoading]);
 
   const markers = L.markerClusterGroup();
@@ -232,7 +235,7 @@ function MapWrapper() {
     return <SkeletonMapWrapper />;
 
   return (
-    <div className=" w-full   h-96  rounded-md overflow-hidden shadow-md relative z-[10]">
+    <div className=" w-full   h-96 md:h-[26rem] lg:h-[28rem]  rounded-md overflow-hidden shadow-md relative z-[10]">
       <div id="map"></div>
     </div>
   );

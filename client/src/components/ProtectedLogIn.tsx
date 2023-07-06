@@ -42,7 +42,7 @@ function ProtectedLogIn({ children }: { children: JSX.Element }) {
 
     return (
       <>
-        <Navigate to="/" />
+        <Navigate to="/monitoring-map" />
         <Toaster position="top-right" />
       </>
     );

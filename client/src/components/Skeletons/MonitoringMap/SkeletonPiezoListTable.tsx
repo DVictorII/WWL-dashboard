@@ -5,103 +5,134 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 function SkeletonPiezoListTable() {
   return (
-    <div
-      className={`max-w-[1000vh] h-[21rem] md:h-[24rem] overflow-x-auto rounded-lg border-2 border-[#333] bg-white shadow-sm`}
-    >
-      <table className="select-none w-full border-collapse bg-white">
-        <thead>
-          <tr
-            className={`w-full flex items-center px-8 whitespace-nowrap   gap-x-10 md:gap-x-12 justify-evenly   text-xs h-12  font-medium text-white bg-[#222]`}
+    <>
+      <div className="mt-8" />
+
+      <div className="flex flex-col gap-y-1">
+        <div className=" flex items-end gap-x-8">
+          <Skeleton height={20} width={60} />
+          <Skeleton height={20} width={60} />
+        </div>
+
+        <div className=" max-w-full max-h-fit ">
+          <div
+            className={` overflow-y-scroll overflow-x-scroll h-fit max-h-96 mt-5 mb-4 mx-4 md:mx-0  pb-5  `}
           >
-            <th className="flex items-center gap-x-2 w-16 md:w-20 justify-center ">
-              <span className="text-[11px] md:text-xs">Piezo. ID</span>
-              <BsArrowDownUp className="w-2" />
-            </th>
+            <table className="min-w-max border-separate border-spacing-0">
+              <thead>
+                <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+                  <div className="flex gap-x-2 justify-center items-center">
+                    <span className="text-[11px] md:text-xs lg:text-sm ">
+                      Piezo. ID
+                    </span>
+                    <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
+                  </div>
+                </th>
 
-            <th className="flex items-center gap-x-2 w-16 md:w-20 justify-center">
-              <span className="text-[11px] md:text-xs">Paddock</span>
-              <BsArrowDownUp className="w-2" />
-            </th>
+                <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+                  <div className="flex gap-x-2 justify-center items-center">
+                    <span className="text-[11px] md:text-xs lg:text-sm ">
+                      Paddock
+                    </span>
+                    <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
+                  </div>
+                </th>
 
-            <th className="flex items-center gap-x-2 w-16 md:w-20 justify-center">
-              <span className="text-[11px] md:text-xs">Section</span>
-              <BsArrowDownUp className="w-2" />
-            </th>
+                <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+                  <div className="flex gap-x-2 justify-center items-center">
+                    <span className="text-[11px] md:text-xs lg:text-sm ">
+                      Section
+                    </span>
+                    <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
+                  </div>
+                </th>
 
-            <th className="flex items-center gap-x-2 w-24 md:w-28 justify-center">
-              <span className="text-[11px] md:text-xs">Coordinates</span>
-              <BsArrowDownUp className="w-2" />
-            </th>
+                <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+                  <div className="flex gap-x-2 justify-center items-center">
+                    <span className="text-[11px] md:text-xs lg:text-sm ">
+                      Current PWP
+                    </span>
+                    <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
+                  </div>
+                </th>
 
-            <th className="flex items-center gap-x-2 w-16 md:w-20 justify-center">
-              <span className="text-[11px] md:text-xs">Depth</span>
-              <BsArrowDownUp className="w-2" />
-            </th>
+                <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+                  <div className="flex gap-x-2 justify-center items-center">
+                    <span className="text-[11px] md:text-xs lg:text-sm ">
+                      Depth
+                    </span>
+                    <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
+                  </div>
+                </th>
 
-            <th className="flex items-center gap-x-2 w-24 md:w-28 justify-center">
-              <span className="text-[11px] md:text-xs">Current PWP</span>
-              <BsArrowDownUp className="w-2" />
-            </th>
-          </tr>
-        </thead>
+                <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+                  <div className="flex gap-x-2 justify-center items-center">
+                    <span className="text-[11px] md:text-xs lg:text-sm ">
+                      Coordinates
+                    </span>
+                    <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
+                  </div>
+                </th>
+              </thead>
 
-        <tbody className="bg-white">
-          {
-            //@ts-ignore
-            Array(7)
-              .fill(0)
-              .map((_, i) => {
-                return (
-                  <tr
-                    style={{
-                      backgroundColor: i % 2 === 0 ? "#E7E8EA" : "#fff",
-                    }}
-                    key={i}
-                    className="w-full flex items-center whitespace-nowrap  gap-x-10 md:gap-x-12 px-8  h-12  "
-                  >
-                    <th className="flex items-center gap-x-2 w-16 md:w-20 justify-center">
-                      <Skeleton width={60} height={20} />
-                    </th>
+              <tbody className="bg-white">
+                {
+                  //@ts-ignore
+                  Array(7)
+                    .fill(0)
+                    .map((_, i) => {
+                      return (
+                        <tr
+                          style={{
+                            backgroundColor: i % 2 === 0 ? "#E7E8EA" : "#fff",
+                          }}
+                          key={i}
+                        >
+                          <td className="px-4 py-2 lg:px-8 lg:py-3">
+                            <span className="text-[9px] md:text-[10px]">
+                              <Skeleton width={60} height={20} />
+                            </span>
+                          </td>
 
-                    <th className="flex items-center gap-x-2 w-16 md:w-20 justify-center">
-                      <span className="text-[9px] md:text-[10px]">
-                        <Skeleton width={60} height={20} />
-                      </span>
-                    </th>
+                          <td className="px-4 py-2 lg:px-8 lg:py-3">
+                            <span className="text-[9px] md:text-[10px]">
+                              <Skeleton width={60} height={20} />
+                            </span>
+                          </td>
 
-                    <th className="flex items-center gap-x-2 w-16 md:w-20 justify-center">
-                      <span className="text-[9px] md:text-[10px]">
-                        <Skeleton width={60} height={20} />
-                      </span>
-                    </th>
+                          <td className="px-4 py-2 lg:px-8 lg:py-3">
+                            <span className="text-[9px] md:text-[10px]">
+                              <Skeleton width={60} height={20} />
+                            </span>
+                          </td>
 
-                    <th className="flex flex-col gap-y-1 items-center gap-x-2 w-24 md:w-28 justify-center">
-                      <span className="text-[9px] md:text-[10px]">
-                        <Skeleton width={60} height={20} count={2} />
-                      </span>
-                    </th>
+                          <td className="px-4 py-2 lg:px-8 lg:py-3">
+                            <span className="text-[9px] md:text-[10px]">
+                              <Skeleton width={60} height={20} />
+                            </span>
+                          </td>
 
-                    <th
-                      className="flex items-center gap-x-2 
-                          w-16 md:w-20 justify-center"
-                    >
-                      <span className={"text-[9px] md:text-[10px]"}>
-                        <Skeleton width={60} height={20} />
-                      </span>
-                    </th>
+                          <td className="px-4 py-2 lg:px-8 lg:py-3">
+                            <span className={"text-[9px] md:text-[10px]"}>
+                              <Skeleton width={60} height={20} />
+                            </span>
+                          </td>
 
-                    <th className="flex items-center gap-x-2 w-24 md:w-28 justify-center">
-                      <span className="text-[9px] md:text-[10px]">
-                        <Skeleton width={60} height={20} />
-                      </span>
-                    </th>
-                  </tr>
-                );
-              })
-          }
-        </tbody>
-      </table>
-    </div>
+                          <td className="px-4 py-2 lg:px-8 lg:py-3">
+                            <span className="text-[9px] md:text-[10px]">
+                              <Skeleton width={60} height={20} />
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 
