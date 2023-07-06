@@ -7,7 +7,7 @@ import { useNewPiezoReportStateStore } from "../../../store/NewPiezoReportStateS
 const chartTypeOptions = [
   {
     value: "pressure",
-    label: "Pressure (Kpa)",
+    label: "Pressure (KPa)",
   },
   {
     value: "wLevel",
