@@ -12,6 +12,7 @@ import ChartLegend from "./PiezometerLectures/ChartLegend";
 import { usePiezometerLecturesStateStore } from "../store/PiezometerLecturesStateStore";
 import SkeletonBarChart from "./Skeletons/PiezometerLectures/SkeletonBarChart";
 import { chartPiezoListWithElevation } from "../utils/piezoList";
+import { FiAlertTriangle } from "react-icons/fi";
 
 // make sure parent container have a defined height when using
 // responsive component, otherwise height will be 0 and
@@ -23,6 +24,14 @@ const BarChart = ({ information }) => {
   const [piezoData, setPiezoData] = useState([]);
   const [piezoElevationData, setPiezoElevationData] = useState([]);
   const [readingsWaterLevelData, setReadingsWaterLevelData] = useState([]);
+  const [limits, setLimits] = useState({
+    max: 0,
+    min: 0,
+  });
+
+  const [limitAlert, setLimitAlert] = useState(false);
+
+  const CHART_PRESSURE_LIMIT = 53;
 
   const paddock = information.paddock;
   const piezo = information.piezo;
@@ -74,6 +83,24 @@ const BarChart = ({ information }) => {
         };
       });
 
+      const pressureLimitFlag =
+        lecturesData.filter((data) => data.pressure > CHART_PRESSURE_LIMIT)
+          .length > 0;
+
+      pressureLimitFlag ? setLimitAlert(true) : setLimitAlert(false);
+
+      const pressureArray = lecturesData.map((data) => data.pressure);
+
+      const maxLimit = Math.max(...pressureArray);
+      const minLimit = Math.min(...pressureArray);
+
+      const chartMargin = (maxLimit - minLimit) / 5;
+
+      setLimits({
+        max: maxLimit + chartMargin,
+        min: minLimit - chartMargin,
+      });
+
       //@ts-ignore
       const fullPiezoInfoObj = chartPiezoListWithElevation[paddock].find(
         //@ts-ignore
@@ -97,15 +124,6 @@ const BarChart = ({ information }) => {
       });
 
       const pressureChartData = [
-        // {
-        //   id: "pressureLimit",
-        //   data: pressureDataFormat.map((data) => {
-        //     return {
-        //       x: data.x,
-        //       y: ((pressureLimitObj.piezoElevation + 10) * 10) / 1000,
-        //     };
-        //   }),
-        // },
         {
           id: "pressureData",
           data: pressureDataFormat,
@@ -195,6 +213,14 @@ const BarChart = ({ information }) => {
 
   return (
     <div className="flex flex-col gap-y-4">
+      {limitAlert ? (
+        <div className="mt-6 text-red-700 flex items-center gap-x-2 2xl:gap-x-3 ">
+          <FiAlertTriangle className="2xl:w-5 2xl:h-5" />
+          <span className="font-medium text-sm 2xl:text-base">
+            Alert: Pressure limit exceeded
+          </span>
+        </div>
+      ) : null}
       <div className="h-[50vh] w-full">
         <AnimatePresence>
           {chartType === "pressure" && (
@@ -222,8 +248,8 @@ const BarChart = ({ information }) => {
                     xFormat="time:%Y-%m-%d %H:%M"
                     yScale={{
                       type: "linear",
-                      min: "auto",
-                      max: "auto",
+                      min: limits.min,
+                      max: limits.max,
                       stacked: false,
                       reverse: false,
                     }}
@@ -241,6 +267,7 @@ const BarChart = ({ information }) => {
                     }}
                     axisLeft={{
                       //@ts-ignore
+
                       orient: "left",
                       tickSize: 5,
                       tickPadding: 5,
@@ -249,6 +276,20 @@ const BarChart = ({ information }) => {
                       legendOffset: -45,
                       legendPosition: "middle",
                     }}
+                    markers={[
+                      {
+                        axis: "y",
+                        value: CHART_PRESSURE_LIMIT,
+                        legend: "pressure limit",
+                        lineStyle: {
+                          stroke: "red",
+                        },
+                        textStyle: {
+                          fontWeight: 600,
+                          fill: "red",
+                        },
+                      },
+                    ]}
                     colors="#477C9A"
                     enablePoints={false}
                     //@ts-ignore
