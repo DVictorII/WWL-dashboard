@@ -17,7 +17,7 @@ function MonMapPiezoInformationTable() {
     queryKey: [`Onepiezometer_${paddock}_${piezo}`],
     queryFn: () =>
       fetchPiezometerData({
-        paddock: paddock,
+        paddock: paddock.replaceAll("/", "-"),
         piezo: piezo,
       }),
     refetchOnWindowFocus: false,
