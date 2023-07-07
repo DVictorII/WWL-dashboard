@@ -1,3 +1,4 @@
+import { PiezometerDataI } from "../types";
 import { chartPiezoList } from "./../utils/piezoList";
 import { create } from "zustand";
 
@@ -12,6 +13,8 @@ interface PiezometerLecturesStateStore {
   changePiezo: (newPiezo: string) => void;
   changeDays: (newDays: number) => void;
   changeChartType: (newChartType: string) => void;
+
+  changePaddockAndPiezo: (newPaddock: string, newPiezo: string) => void;
 }
 
 export const usePiezometerLecturesStateStore =
@@ -38,4 +41,14 @@ export const usePiezometerLecturesStateStore =
     changeDays: (newDays) => set((state) => ({ ...state, days: newDays })),
     changeChartType: (newChartType) =>
       set((state) => ({ ...state, chartType: newChartType })),
+
+    changePaddockAndPiezo: (newPaddock, newPiezo) =>
+      set((state) => ({
+        ...state,
+        paddock: newPaddock,
+        //@ts-ignore
+        piezo: newPiezo,
+        //@ts-ignore
+        piezoList: chartPiezoList[newPaddock],
+      })),
   }));

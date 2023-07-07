@@ -14,7 +14,7 @@ function PiezoFilterComp() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-x-8 ">
+      <div className="grid grid-cols-1  gap-x-8 ">
         <LocationTable />
       </div>
     </div>

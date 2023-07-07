@@ -3,21 +3,21 @@ import { img360Data } from "../../utils/img360Data";
 import { useBiannualVisitStateStore } from "../../store/BiannualVisitStateStore";
 
 function MediaPlayer() {
-  const mediaID = useBiannualVisitStateStore((state)=>state.mediaID)
+  const mediaID = useBiannualVisitStateStore((state) => state.mediaID);
 
   const data = img360Data.find((d) => d.id === Number(mediaID));
 
   return (
-    <div className="w-full h-screen sm:px-4  sm:py-8">
+    <div className="w-full h-[50vh]   ">
       {location.pathname.startsWith("/biannual-visits") ? (
-        <a className="block photo360 w-full h-full rounded-[18px] overflow-hidden">
+        <a className="block photo360 w-full h-full rounded-xl overflow-hidden">
           {/* @ts-ignore */}
           <a-scene embedded>
             {/* @ts-ignore */}
             <a-sky
-              src={`/media/img/360/${data?.type === "photo" ? "img" : "video"}_${
-                data?.id
-              }.${data?.type === "photo" ? "jpg" : "mp4"}`}
+              src={`/media/img/360/${
+                data?.type === "photo" ? "img" : "video"
+              }_${data?.id}.${data?.type === "photo" ? "jpg" : "mp4"}`}
 
               //@ts-ignore
             ></a-sky>

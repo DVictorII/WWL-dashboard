@@ -47,12 +47,8 @@ function MapWrapper() {
   const paddock = useMonitoringMapStateStore((s) => s.paddock);
   const piezo = useMonitoringMapStateStore((s) => s.piezo);
   const date = useMonitoringMapStateStore((s) => s.date);
-
-  const changeChartPaddock = usePiezometerLecturesStateStore(
-    (state) => state.changePaddock
-  );
-  const changeChartPiezo = usePiezometerLecturesStateStore(
-    (state) => state.changePiezo
+  const changeChartPaddockAndPiezo = usePiezometerLecturesStateStore(
+    (state) => state.changePaddockAndPiezo
   );
 
   const latlng = L.latLng(-22.450643, 15.031006);
@@ -153,8 +149,7 @@ function MapWrapper() {
 
   //@ts-ignore
   const goToLectures = (paddock, piezo) => {
-    changeChartPaddock(paddock);
-    changeChartPiezo(piezo);
+    changeChartPaddockAndPiezo(paddock, piezo);
 
     navigate("/piezometer-readings");
   };

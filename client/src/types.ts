@@ -6,7 +6,7 @@ export interface Information {
 }
 
 export interface ReportDetails {
-  report_photo:string;
+  report_photo: string;
   report_date: string;
   report_description: string;
   report_id: string;
@@ -21,12 +21,12 @@ export interface ReportDetails {
 }
 
 export interface IncidentDetails {
-  incident_photo:string;
+  incident_photo: string;
   incident_date: string;
   incident_description: string;
   incident_id: string;
   incident_paddock: string;
-  
+
   incident_latitude: number | string;
   incident_longitude: number | string;
   incident_elevation: number | string;
@@ -38,4 +38,26 @@ export interface IncidentDetails {
   user_name: string;
   user_picture: string;
   user_username: string;
+}
+
+export interface PiezometerDataI {
+  channel: number;
+  cptu: string;
+  datalogger: number;
+  depth: string;
+  id: string;
+  lat: string;
+  lon: string;
+  paddock: string;
+  section: string;
+  serial: number;
+  status: number;
+}
+
+export interface LastReadingsI {
+  channel: number;
+  node: number;
+  pressure: string;
+  temperature: string;
+  time: string;
 }

@@ -28,23 +28,25 @@ function BianualVisit() {
       </div>
 
       <div className="bg-backgroundWhite md:bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-12 md:gap-y-8 md:shadow-lg ">
-       
-          <div className="flex items-center justify-between gap-x-16 flex-wrap gap-y-8">
-            <BVisitSelector/>
+        <div className="flex items-center justify-between gap-x-16 flex-wrap gap-y-8">
+          <BVisitSelector />
 
-            <button className="flex items-center gap-x-2 px-3 xl:px-4 py-2 bg-all-normal text-white rounded-[8px] hover:bg-orange-800 transition-all">
-              <BsPlusSquare className="w-3 h-3 xl:w-4 xl:h-4 opacity-70" />
-              <span className="text-xs xl:text-sm font-bold">Register new visit</span>
-            </button>
-          </div>
+          <button className="flex items-center gap-x-2 px-3 xl:px-4 py-2 bg-all-normal text-white rounded-[8px] hover:bg-orange-800 transition-all">
+            <BsPlusSquare className="w-3 h-3 xl:w-4 xl:h-4 opacity-70" />
+            <span className="text-xs xl:text-sm font-bold">
+              Register new visit
+            </span>
+          </button>
+        </div>
 
-          <BVisitMapShowcase/>
+        <div className="flex flex-col md:grid md:grid-cols-2 md:gap-x-8 2xl:gap-x-12">
+          <BVisitMapShowcase />
 
-          <BVisitMediaPlayer/>
+          <BVisitMediaPlayer />
+        </div>
       </div>
     </>
   );
 }
 
 export default BianualVisit;
-

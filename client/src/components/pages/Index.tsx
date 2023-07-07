@@ -25,6 +25,8 @@ import {
 import path from "path";
 import PiezoInformationTable from "../PiezometerLectures/PiezoInformationTable";
 import MonMapPiezoInformationTable from "../MonitoringMap/MonMapPiezoInformationTable";
+import { fetchLastReadings, fetchPiezometersData } from "../../utils/map";
+import { useQuery } from "react-query";
 
 interface GlobalMapState {
   status: string | number;
@@ -39,6 +41,32 @@ const Index = () => {
   const piezo = useMonitoringMapStateStore((s) => s.piezo);
   const date = useMonitoringMapStateStore((s) => s.date);
 
+  const setPiezometersDataAndLastReadings = useMonitoringMapStateStore(
+    (s) => s.setPiezometersDataAndLastReadings
+  );
+
+  const { isLoading: piezoDataIsLoading, data: fetchedPiezoData } = useQuery(
+    "piezometers",
+    fetchPiezometersData,
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  const { isLoading: lastReadingsAreLoading, data: lastReadings } = useQuery(
+    "last_readings",
+    fetchLastReadings,
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  useEffect(() => {
+    if (!fetchedPiezoData || !lastReadings) return;
+
+    setPiezometersDataAndLastReadings(fetchedPiezoData, lastReadings);
+  }, [piezoDataIsLoading, lastReadingsAreLoading]);
+
   const downloadReport = async () => {
     try {
       const res = await toast.promise(
@@ -46,6 +74,22 @@ const Index = () => {
         {
           loading: "Generating report...",
           success: (data) => {
+            console.log("DOWNLOAD FILE", data.data.filename);
+
+            const aTag = document.createElement("a");
+            //@ts-ignore
+            aTag.href = "/pyreport/report2.xlsx";
+
+            aTag.target = "_blank";
+            aTag.setAttribute(
+              "download",
+              `report_${moment(Date.now()).format("YYYY_MM_DD_hh_mm_ss")}.xlsx`
+            );
+
+            document.body.appendChild(aTag);
+            aTag.click();
+            aTag.remove();
+
             return `Generated! Downloading...`;
           },
           error: (err) => `There was an error!`,
@@ -76,19 +120,6 @@ const Index = () => {
           },
         }
       );
-
-      const aTag = document.createElement("a");
-      //@ts-ignore
-      aTag.href = "/pyreport/report2.xlsx";
-      aTag.target = "_blank";
-      aTag.setAttribute(
-        "download",
-        `report_${moment(Date.now()).format("YYYY_MM_DD_hh_mm_ss")}.xlsx`
-      );
-
-      document.body.appendChild(aTag);
-      aTag.click();
-      aTag.remove();
     } catch (err) {
       console.log("ERROR", err);
     }
@@ -96,6 +127,8 @@ const Index = () => {
 
   //@ts-ignore
   const selectedStatus = monitoringMapStatusInfo[status];
+
+  if (piezoDataIsLoading || lastReadingsAreLoading) return <h1>Loading...</h1>;
 
   return (
     <>

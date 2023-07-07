@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 
-
-
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "../../MarkerCluster.css";
@@ -43,17 +41,25 @@ function VisitMap({ media }: VisitMapProps) {
   // @ts-ignore: Unreachable code error
   let piezometers = [];
 
-  const updateMediaID = useBiannualVisitStateStore((state)=>state.updateMediaID)
+  const updateMediaID = useBiannualVisitStateStore(
+    (state) => state.updateMediaID
+  );
 
   //@ts-ignore
   const displayMedia = (id) => {
-    updateMediaID(id)
+    updateMediaID(id);
   };
 
   const fetchSectionsData = async () => {
-    const result = await axios.get("/get_geojson_sections-sections_bp");
+    try {
+      const result = await axios.get("/get_geojson_sections-sections_bp");
 
-    return result.data[0].features;
+      if (!result.data[0].features) return;
+
+      return result.data[0].features;
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const { isLoading: sectionsAreLoading, data: sectionsData } = useQuery(
@@ -79,16 +85,17 @@ function VisitMap({ media }: VisitMapProps) {
     // adding circles to the map
     // @ts-ignore
     piezoList.map((piezometer, i) => {
-      console.log("PIEZOMETER", piezometer)
+      console.log("PIEZOMETER", piezometer);
       let icon = piezometer.type === "photo" ? photoIcon : videoIcon;
 
       const circle = L.marker([piezometer.latitude, piezometer.longitude], {
         icon: icon,
       });
 
-      const popup = L.popup()
-      .setLatLng([piezometer.latitude, piezometer.longitude])
-      .setContent(`
+      const popup = L.popup().setLatLng([
+        piezometer.latitude,
+        piezometer.longitude,
+      ]).setContent(`
         <div class="flex flex-col gap-y-4">
           <div class="font-semibold text-lg">
             <span>${
@@ -110,17 +117,19 @@ function VisitMap({ media }: VisitMapProps) {
         </div>
       `);
 
-      circle.bindPopup(popup,{
-        interactive:true,
+      circle.bindPopup(popup, {
+        interactive: true,
       });
-  
-      popup.on('add',(e)=>{
-        const title = document.querySelectorAll(`.media-${piezometer.id}`)
-        title?.forEach(t=>t.addEventListener('click', () => {
-         displayMedia(piezometer.id)
-          console.log(piezometer.id)
-        }))
-      })
+
+      popup.on("add", (e) => {
+        const title = document.querySelectorAll(`.media-${piezometer.id}`);
+        title?.forEach((t) =>
+          t.addEventListener("click", () => {
+            displayMedia(piezometer.id);
+            console.log(piezometer.id);
+          })
+        );
+      });
 
       markers.addLayer(circle);
       piezometers.push(circle);
@@ -158,8 +167,6 @@ function VisitMap({ media }: VisitMapProps) {
 
     // @ts-ignore
     baselayer = L.control.layers(baseMaps).addTo(myMap);
-
-    await addSections();
 
     // @ts-ignore
     myMap.on("baselayerchange", function (event) {
@@ -212,26 +219,24 @@ function VisitMap({ media }: VisitMapProps) {
 
   // @ts-ignore
   const init = async (piezoList) => {
-    //Re - initialize the map
-    await clearMap();
     await InitializeMap();
+
+    await addSections();
 
     //Draw piezometers using the filtered list
     await drawPiezometers(piezoList);
   };
 
   useEffect(() => {
-    if (sectionsData) init(media);
+    if (!sectionsAreLoading && !myMap) init(media);
   }, []);
 
   useEffect(() => {
-    if (sectionsData) init(media);
-  }, [sectionsData]);
+    if (!sectionsAreLoading && !myMap) init(media);
+  }, [sectionsAreLoading]);
 
   return (
-    <div
-      className="  w-full   h-[50vh]  rounded-lg overflow-hidden shadow-md relative z-[10]"
-    >
+    <div className="  w-full   h-[50vh]  rounded-xl overflow-hidden shadow-md relative z-[10]">
       <div id="map5"></div>
     </div>
   );

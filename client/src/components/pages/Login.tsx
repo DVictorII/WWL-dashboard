@@ -35,6 +35,7 @@ function Login() {
         {
           loading: "Logging in...",
           success: (data) => {
+            navigate("/monitoring-map");
             return `Welcome, ${data.data.name}`;
           },
           error: (err) => `Bad credentials!`,
@@ -65,8 +66,6 @@ function Login() {
           },
         }
       );
-
-      navigate("/monitoring-map");
     } catch (err) {
       console.log("ERROR", err);
     }

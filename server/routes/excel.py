@@ -7,6 +7,7 @@ from flask_cors import cross_origin
 import os
 from openpyxl import load_workbook
 from datetime import datetime, date
+import random
 
 excel_routes = Blueprint("excel_routes", __name__)
 
@@ -70,7 +71,8 @@ def get_excel_data():
 
     return jsonify(
         {
-            "excel-data": data,
+            # "excel-data": data,
+            "today": date.today(),
             "path_to_empty_file": os.path.abspath("pyreport/report.xlsx"),
             "path_to_target": os.path.abspath("../client/public/pyreport/report2.xlsx"),
         }
@@ -106,6 +108,8 @@ def read_excel():
 
     print("today:", date.today())
     sh.cell(row=5, column=13).value = date.today()
+    sh.cell(row=75, column=2).value = "test"
+    sh.cell(row=75, column=3).value = random.randint(0, 100)
 
     wb.save(os.path.abspath("../client/public/pyreport/report2.xlsx"))
     return os.path.abspath("../client/public/pyreport/report2.xlsx")

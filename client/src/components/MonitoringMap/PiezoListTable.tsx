@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BsArrowDownUp } from "react-icons/bs";
 import { monitoringMapStatusInfo } from "../../utils/monitoringMapStatusInfo";
 import { useMonitoringMapStateStore } from "../../store/MonitoringMapStateStore";
@@ -7,17 +7,19 @@ import { fetchLastReadings, fetchPiezometersData } from "../../utils/map";
 import Skeleton from "react-loading-skeleton";
 import SkeletonPiezoListTable from "../Skeletons/MonitoringMap/SkeletonPiezoListTable";
 
+const options = {
+  0: "All piezometers",
+  1: "Active piezometers",
+  2: "Damaged piezometers",
+  3: "Disconnected piezometers",
+  4: "Proposed piezometers",
+  5: "TARPS",
+};
+
 function PiezoListTable() {
   const status = useMonitoringMapStateStore((s) => s.status);
-
-  const options = {
-    0: "All piezometers",
-    1: "Active piezometers",
-    2: "Damaged piezometers",
-    3: "Disconnected piezometers",
-    4: "Proposed piezometers",
-    5: "TARPS",
-  };
+  const lastReadings = useMonitoringMapStateStore((s) => s.lastReadings);
+  const piezometersData = useMonitoringMapStateStore((s) => s.piezometersData);
 
   //@ts-ignore
   const selectedStatus = monitoringMapStatusInfo[status];
@@ -25,20 +27,8 @@ function PiezoListTable() {
   const paddock = useMonitoringMapStateStore((s) => s.paddock);
   const piezo = useMonitoringMapStateStore((s) => s.piezo);
 
-  const { isLoading: piezometersAreLoading, data: piezometersData } = useQuery(
-    "piezometers",
-    fetchPiezometersData,
-    {
-      refetchOnWindowFocus: false,
-    }
-  );
-
-  const { isLoading: lastReadingsAreLoading, data: lastReadings } = useQuery(
-    "last_readings",
-    fetchLastReadings,
-    {
-      refetchOnWindowFocus: false,
-    }
+  const changePaddockAndPiezo = useMonitoringMapStateStore(
+    (s) => s.changePaddockAndPiezo
   );
 
   //@ts-ignore
@@ -80,8 +70,7 @@ function PiezoListTable() {
 
   const filteredPiezoList = filterPiezometers(piezometersData);
 
-  if (piezometersAreLoading || !filteredPiezoList || lastReadingsAreLoading)
-    return <SkeletonPiezoListTable />;
+  if (!filteredPiezoList) return <SkeletonPiezoListTable />;
 
   return (
     <>
@@ -175,6 +164,15 @@ function PiezoListTable() {
                 <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
                   <div className="flex gap-x-2 justify-center items-center">
                     <span className="text-[11px] md:text-xs lg:text-sm ">
+                      Status
+                    </span>
+                    <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
+                  </div>
+                </th>
+
+                <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+                  <div className="flex gap-x-2 justify-center items-center">
+                    <span className="text-[11px] md:text-xs lg:text-sm ">
                       Coordinates
                     </span>
                     <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
@@ -207,9 +205,23 @@ function PiezoListTable() {
                         key={piezometer.id}
                       >
                         <td className="px-4 py-2 lg:px-8 lg:py-3">
-                          <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-semibold">
+                          <button
+                            style={{
+                              color:
+                                //@ts-ignore
+                                monitoringMapStatusInfo[piezometer.status]
+                                  .normalColor,
+                            }}
+                            onClick={() => {
+                              changePaddockAndPiezo(
+                                piezometer.paddock,
+                                piezometer.id
+                              );
+                            }}
+                            className={`text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-bold  hover:scale-105 transition-all`}
+                          >
                             {piezometer.id}
-                          </span>
+                          </button>
                         </td>
 
                         <td className="px-4 py-2 lg:px-8 lg:py-3">
@@ -249,6 +261,13 @@ function PiezoListTable() {
                             {depthIsZero
                               ? "-"
                               : `${Number(piezometer.depth).toFixed(2)} m`}{" "}
+                          </span>
+                        </td>
+
+                        <td className="px-4 py-2 lg:px-8 lg:py-3">
+                          <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-semibold">
+                            {/* @ts-ignore */}
+                            {monitoringMapStatusInfo[piezometer.status].name}
                           </span>
                         </td>
 

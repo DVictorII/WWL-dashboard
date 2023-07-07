@@ -7,11 +7,29 @@ import {
   capitalizeName,
   monitoringMapStatusInfo,
 } from "../../utils/monitoringMapStatusInfo";
+import { AiOutlineLineChart } from "react-icons/ai";
+import { usePiezometerLecturesStateStore } from "../../store/PiezometerLecturesStateStore";
+import { useNavigate } from "react-router-dom";
 
 function MonMapPiezoInformationTable() {
   const paddock = useMonitoringMapStateStore((s) => s.paddock);
   const piezo = useMonitoringMapStateStore((s) => s.piezo);
   const status = useMonitoringMapStateStore((s) => s.status);
+
+  const lastReadings = useMonitoringMapStateStore((s) => s.lastReadings);
+
+  const changeChartPaddockAndPiezo = usePiezometerLecturesStateStore(
+    (state) => state.changePaddockAndPiezo
+  );
+
+  const navigate = useNavigate();
+
+  //@ts-ignore
+  const goToLectures = (paddock, piezo) => {
+    changeChartPaddockAndPiezo(paddock, piezo);
+
+    navigate("/piezometer-readings");
+  };
 
   const { isLoading: piezometersAreLoading, data: piezometersData } = useQuery({
     queryKey: [`Onepiezometer_${paddock}_${piezo}`],
@@ -23,15 +41,7 @@ function MonMapPiezoInformationTable() {
     refetchOnWindowFocus: false,
   });
 
-  const { isLoading: lastReadingsAreLoading, data: lastReadings } = useQuery(
-    "last_readings",
-    fetchLastReadings,
-    {
-      refetchOnWindowFocus: false,
-    }
-  );
-
-  if (piezometersAreLoading || lastReadingsAreLoading)
+  if (piezometersAreLoading)
     return <SkeletonPiezoInformationTable monitoringMap />;
 
   const lastReading = lastReadings?.find(
@@ -188,6 +198,24 @@ function MonMapPiezoInformationTable() {
           />
         </div>
       </div>
+
+      {status !== 6 && piezometersData[0].status !== 4 && (
+        <>
+          <div className="mt-6" />
+
+          <button
+            style={{
+              color: statusStateObj.normalColor,
+            }}
+            onClick={() => goToLectures(paddock, piezo)}
+            className="flex w-max items-center gap-x-2"
+          >
+            <AiOutlineLineChart className="w-5 h-5" />
+
+            <span className="text-sm font-semibold">Check piezo. readings</span>
+          </button>
+        </>
+      )}
     </>
   );
 }
