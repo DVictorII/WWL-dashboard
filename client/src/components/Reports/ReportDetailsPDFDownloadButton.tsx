@@ -182,8 +182,10 @@ function ReportDetailsPDFDownloadButton() {
         }
       );
 
+      console.log("PDF DATA", res.data);
+
       //@ts-ignore
-      const filename = res.data.filename;
+      const filename = res.data.pdf_filename;
 
       const aTag = document.createElement("a");
       aTag.href = `/report_pdf/${filename}`;

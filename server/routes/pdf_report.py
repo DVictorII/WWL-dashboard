@@ -72,7 +72,7 @@ def create_chart(paddock, piezo, days, initial_pressure, dates):
     print("FILENAME", filename)
 
     plt.savefig(filename)
-    return chart_filename
+    return {"chart_path": filename, "chart_filename": chart_filename}
 
 
 def create_pdf(
@@ -213,7 +213,7 @@ def create_pdf(
     download_filename = f"{paddock}_{piezo}_{days}_{dt_string}.pdf"
     pdf.output(save_filename)
 
-    return download_filename
+    return {"pdfFile_path": save_filename, "download_filename": download_filename}
 
 
 @pdf_report_routes.route("/api/v1/create-pdf", methods=["POST"])
@@ -250,10 +250,8 @@ def save_pdf():
     # print("lecturesDates", lecturesDates)
 
     if len(lecturesDates) != 0 and len(lecturesPressure) != 0:
-        chart_filename = create_chart(
-            paddock, piezo, days, lecturesPressure, lecturesDates
-        )
-        filename = create_pdf(
+        chart_obj = create_chart(paddock, piezo, days, lecturesPressure, lecturesDates)
+        pdfObj = create_pdf(
             title,
             description,
             paddock,
@@ -262,20 +260,22 @@ def save_pdf():
             averagePWP,
             inoperativeDates,
             days,
-            chart_filename,
+            chart_obj["chart_filename"],
             sectionURL,
             lecturesDates,
         )
 
         return jsonify(
             {
-                "filename": filename,
-                # "chart_filename": chart_filename
+                "pdf_filename": pdfObj["download_filename"],
+                "pdf_path": pdfObj["pdfFile_path"],
+                "chart_filename": chart_obj["chart_filename"],
+                "chart_path": chart_obj["chart_filename"],
             }
         )
     else:
         chart_filename = "None"
-        filename = create_pdf(
+        pdfObj = create_pdf(
             title,
             description,
             paddock,
@@ -290,6 +290,8 @@ def save_pdf():
         )
         return jsonify(
             {
-                "filename": filename,
+                "pdf_filename": pdfObj["download_filename"],
+                "pdf_path": pdfObj["pdfFile_path"],
+                "chart_filename": chart_filename,
             }
         )
