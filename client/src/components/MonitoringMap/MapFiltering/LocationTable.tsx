@@ -65,18 +65,19 @@ function LocationTable() {
           }}
         />
       </div>
+
       <div className="flex flex-col gap-y-1">
         <h3 className="text-[10px] xl:text-xs  font-semibold text-[#666]">
-          Piezometer ID
+          Section
         </h3>
 
         <Select
           primaryColor="orange"
           //@ts-ignore
-          value={{ value: piezo, label: piezo }}
+          value={{ value: section, label: section }}
           //@ts-ignore
-          onChange={(e) => changePiezo(e.value)}
-          options={piezoOptions}
+          onChange={(e) => selectSection(e.value)}
+          options={sectionOptions}
           //@ts-ignore
           classNames={{
             //@ts-ignore
@@ -92,16 +93,16 @@ function LocationTable() {
 
       <div className="flex flex-col gap-y-1">
         <h3 className="text-[10px] xl:text-xs  font-semibold text-[#666]">
-          Section
+          Piezometer ID
         </h3>
 
         <Select
           primaryColor="orange"
           //@ts-ignore
-          value={{ value: section, label: section }}
+          value={{ value: piezo, label: piezo }}
           //@ts-ignore
-          onChange={(e) => selectSection(e.value)}
-          options={sectionOptions}
+          onChange={(e) => changePiezo(e.value)}
+          options={piezoOptions}
           //@ts-ignore
           classNames={{
             //@ts-ignore
