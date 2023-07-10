@@ -13,11 +13,20 @@ function LocationTable() {
   const piezoList = useMonitoringMapStateStore((state) => state.piezoList);
   const paddock = useMonitoringMapStateStore((state) => state.paddock);
   const piezo = useMonitoringMapStateStore((state) => state.piezo);
+  const sectionsList = useMonitoringMapStateStore(
+    (state) => state.sectionsList
+  );
+
+  const section = useMonitoringMapStateStore((state) => state.section);
 
   const changePaddock = useMonitoringMapStateStore(
     (state) => state.changePaddock
   );
   const changePiezo = useMonitoringMapStateStore((state) => state.changePiezo);
+
+  const selectSection = useMonitoringMapStateStore(
+    (state) => state.selectSection
+  );
 
   const paddockOptions = Object.keys(mapPiezoList).map((paddock) => {
     return { value: paddock, label: paddock };
@@ -25,6 +34,10 @@ function LocationTable() {
 
   const piezoOptions = piezoList.map((piezo) => {
     return { value: piezo, label: piezo };
+  });
+
+  const sectionOptions = sectionsList.map((section) => {
+    return { value: section, label: section };
   });
 
   return (
@@ -85,10 +98,10 @@ function LocationTable() {
         <Select
           primaryColor="orange"
           //@ts-ignore
-          value={{ value: piezo, label: piezo }}
+          value={{ value: section, label: section }}
           //@ts-ignore
-          onChange={(e) => changePiezo(e.value)}
-          options={piezoOptions}
+          onChange={(e) => selectSection(e.value)}
+          options={sectionOptions}
           //@ts-ignore
           classNames={{
             //@ts-ignore

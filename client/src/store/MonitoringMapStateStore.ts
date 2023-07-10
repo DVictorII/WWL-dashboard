@@ -9,6 +9,7 @@ interface MonitoringMapStateStore {
   piezo: string;
   date: string;
   piezoList: string[];
+  section: string;
 
   piezometersData: PiezometerDataI[];
   sectionsList: string[];
@@ -24,6 +25,8 @@ interface MonitoringMapStateStore {
     fetchedData: PiezometerDataI[],
     fetchedLastReadings: LastReadingsI[]
   ) => void;
+
+  selectSection: (newSection: string) => void;
 }
 
 export const useMonitoringMapStateStore = create<MonitoringMapStateStore>(
@@ -33,6 +36,8 @@ export const useMonitoringMapStateStore = create<MonitoringMapStateStore>(
     piezo: "All",
     date: moment(Date.now()).format("YYYY-MM-DD"),
     piezoList: mapPiezoList["All"],
+
+    section: "All",
 
     piezometersData: [],
     sectionsList: [],
@@ -47,22 +52,41 @@ export const useMonitoringMapStateStore = create<MonitoringMapStateStore>(
         ...state,
         paddock: newPaddock,
         piezo: "All",
+        //@ts-ignore
         piezoList: mapPiezoList[`${newPaddock}`],
+
+        sectionsList: [
+          "All",
+          ...new Set(
+            state.piezometersData
+              .filter((piezometer) =>
+                newPaddock === "All" ? true : piezometer.paddock === newPaddock
+              )
+              .map((piezometer) => String(piezometer.section))
+          ),
+        ],
+
+        section: "All",
       })),
 
     changePiezo: (newPiezo) =>
-      set((state) => ({ ...state, piezo: newPiezo, status: 0 })),
+      set((state) => ({
+        ...state,
+        piezo: newPiezo,
+        status: 0,
+        section: "All",
+      })),
 
     changeDate: (newDate) => set((state) => ({ ...state, date: newDate })),
 
     //@ts-ignore
     selectPiezoFromTableRow: (obj) =>
-      //@ts-ignore
       set((state) => ({
         ...state,
         paddock: obj.paddock,
         piezo: obj.piezo,
         status: obj.status,
+        //@ts-ignore
         piezoList: mapPiezoList[obj.paddock],
       })),
 
@@ -72,18 +96,35 @@ export const useMonitoringMapStateStore = create<MonitoringMapStateStore>(
         paddock: newPaddock,
         piezo: newPiezo,
         status: 0,
+        //@ts-ignore
         piezoList: mapPiezoList[`${newPaddock}`],
       })),
 
     setPiezometersDataAndLastReadings: (fetchedData, fetchedLastReadings) => {
       set((state) => ({
         ...state,
-        piezometersData: fetchedData,
+        piezometersData: fetchedData.map((data) =>
+          data.section == null ? { ...data, section: "?" } : data
+        ),
         sectionsList: [
-          ...new Set(fetchedData.map((piezometer) => piezometer.section)),
+          "All",
+          ...new Set(
+            fetchedData
+              .map((data) =>
+                data.section == null ? { ...data, section: "?" } : data
+              )
+              .map((piezometer) => String(piezometer.section))
+          ),
         ],
         lastReadings: fetchedLastReadings,
       }));
     },
+
+    selectSection: (newSection) =>
+      set((state) => ({
+        ...state,
+        section: newSection,
+        piezo: "All",
+      })),
   })
 );

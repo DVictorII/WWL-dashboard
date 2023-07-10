@@ -6,6 +6,7 @@ import { useQuery } from "react-query";
 import { fetchLastReadings, fetchPiezometersData } from "../../utils/map";
 import Skeleton from "react-loading-skeleton";
 import SkeletonPiezoListTable from "../Skeletons/MonitoringMap/SkeletonPiezoListTable";
+import { PiezometerDataI } from "../../types";
 
 const options = {
   0: "All piezometers",
@@ -20,6 +21,7 @@ function PiezoListTable() {
   const status = useMonitoringMapStateStore((s) => s.status);
   const lastReadings = useMonitoringMapStateStore((s) => s.lastReadings);
   const piezometersData = useMonitoringMapStateStore((s) => s.piezometersData);
+  const section = useMonitoringMapStateStore((s) => s.section);
 
   //@ts-ignore
   const selectedStatus = monitoringMapStatusInfo[status];
@@ -41,27 +43,55 @@ function PiezoListTable() {
 
     if (status === 0 || status === 6) {
       if (paddock === "All") {
-        filtered = fullPiezoList;
-      } else {
-        if (piezo === "All") {
-          //@ts-ignore
-          filtered = fullPiezoList.filter((p) => p.paddock === paddock);
+        if (section === "All") {
+          filtered = fullPiezoList;
         } else {
           filtered = fullPiezoList.filter(
-            //@ts-ignore
-            (p) => p.paddock === paddock && p.id === piezo
+            (p: PiezometerDataI) => p.section == section
+          );
+        }
+      } else {
+        if (piezo === "All") {
+          if (section === "All") {
+            filtered = fullPiezoList.filter(
+              (p: PiezometerDataI) => p.paddock === paddock
+            );
+          } else {
+            filtered = fullPiezoList.filter(
+              (p: PiezometerDataI) =>
+                p.section == section && p.paddock === paddock
+            );
+          }
+        } else {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) => p.paddock === paddock && p.id === piezo
           );
         }
       }
     } else {
       if (paddock === "All") {
-        //@ts-ignore
-        filtered = fullPiezoList.filter((p) => p.status == status);
+        if (section === "All") {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) => p.status == status
+          );
+        } else {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) => p.section == section && p.status == status
+          );
+        }
       } else {
-        filtered = fullPiezoList.filter(
-          //@ts-ignore
-          (p) => p.status == status && p.paddock === paddock
-        );
+        if (section === "All") {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) => p.status == status && p.paddock === paddock
+          );
+        } else {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) =>
+              p.section == section &&
+              p.status == status &&
+              p.paddock === paddock
+          );
+        }
       }
     }
 
@@ -90,6 +120,18 @@ function PiezoListTable() {
                   </span>
                 </div>
               )}
+
+              {section !== "All" && (
+                <div className="flex gap-x-3">
+                  <span className="font-semibold text-sm sm:text-base  2xl:text-lg">
+                    {section}
+                  </span>
+                  <span className="font-semibold text-sm sm:text-base  2xl:text-lg">
+                    /
+                  </span>
+                </div>
+              )}
+
               <span className="font-semibold text-sm sm:text-base  2xl:text-lg">
                 {/* @ts-ignore */}
                 {options[status]}

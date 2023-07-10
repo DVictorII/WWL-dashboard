@@ -40,6 +40,7 @@ const Index = () => {
   const paddock = useMonitoringMapStateStore((s) => s.paddock);
   const piezo = useMonitoringMapStateStore((s) => s.piezo);
   const date = useMonitoringMapStateStore((s) => s.date);
+  const section = useMonitoringMapStateStore((s) => s.section);
 
   const setPiezometersDataAndLastReadings = useMonitoringMapStateStore(
     (s) => s.setPiezometersDataAndLastReadings
@@ -176,7 +177,7 @@ const Index = () => {
 
           <div
             className="flex flex-col gap-y-4 bg-white p-4 2xl:p-6 rounded-xl shadow-sm"
-            key={`${piezo}${paddock}${status}${date}`}
+            key={`${piezo}${paddock}${status}${date}${section}`}
           >
             <h2 className="font-semibold text-[#555] text-sm 2xl:text-base">
               {status !== 6

@@ -41,15 +41,20 @@ import { useNavigate } from "react-router-dom";
 import { useMonitoringMapStateStore } from "../store/MonitoringMapStateStore";
 import { usePiezometerLecturesStateStore } from "../store/PiezometerLecturesStateStore";
 import SkeletonMapWrapper from "./Skeletons/MonitoringMap/SkeletonMapWrapper";
+import { PiezometerDataI } from "../types";
 
 function MapWrapper() {
   const status = useMonitoringMapStateStore((s) => s.status);
   const paddock = useMonitoringMapStateStore((s) => s.paddock);
   const piezo = useMonitoringMapStateStore((s) => s.piezo);
   const date = useMonitoringMapStateStore((s) => s.date);
+  const section = useMonitoringMapStateStore((s) => s.section);
   const changeChartPaddockAndPiezo = usePiezometerLecturesStateStore(
     (state) => state.changePaddockAndPiezo
   );
+
+  const lastReadings = useMonitoringMapStateStore((s) => s.lastReadings);
+  const piezometersData = useMonitoringMapStateStore((s) => s.piezometersData);
 
   const latlng = L.latLng(-22.450643, 15.031006);
   const current_zoom = 14;
@@ -75,22 +80,6 @@ function MapWrapper() {
     }
   );
 
-  const { isLoading: piezometersAreLoading, data: piezometersData } = useQuery(
-    "piezometers",
-    fetchPiezometersData,
-    {
-      refetchOnWindowFocus: false,
-    }
-  );
-
-  const { isLoading: lastReadingsAreLoading, data: lastReadings } = useQuery(
-    "last_readings",
-    fetchLastReadings,
-    {
-      refetchOnWindowFocus: false,
-    }
-  );
-
   const { isLoading: paddocksAreLoading, data: paddockData } = useQuery({
     queryKey: [`paddock-${paddock ? paddock : "None"}`],
     queryFn: () => fetchPaddockGeometry({ paddock }),
@@ -107,29 +96,57 @@ function MapWrapper() {
     //@ts-ignore
     if (!fullPiezoList) return filtered;
 
-    if (status === 0) {
+    if (status === 0 || status === 6) {
       if (paddock === "All") {
-        filtered = fullPiezoList;
-      } else {
-        if (piezo === "All") {
-          //@ts-ignore
-          filtered = fullPiezoList.filter((p) => p.paddock === paddock);
+        if (section === "All") {
+          filtered = fullPiezoList;
         } else {
           filtered = fullPiezoList.filter(
-            //@ts-ignore
-            (p) => p.paddock === paddock && p.id === piezo
+            (p: PiezometerDataI) => p.section == section
+          );
+        }
+      } else {
+        if (piezo === "All") {
+          if (section === "All") {
+            filtered = fullPiezoList.filter(
+              (p: PiezometerDataI) => p.paddock === paddock
+            );
+          } else {
+            filtered = fullPiezoList.filter(
+              (p: PiezometerDataI) =>
+                p.section == section && p.paddock === paddock
+            );
+          }
+        } else {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) => p.paddock === paddock && p.id === piezo
           );
         }
       }
     } else {
       if (paddock === "All") {
-        //@ts-ignore
-        filtered = fullPiezoList.filter((p) => p.status == status);
+        if (section === "All") {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) => p.status == status
+          );
+        } else {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) => p.section == section && p.status == status
+          );
+        }
       } else {
-        filtered = fullPiezoList.filter(
-          //@ts-ignore
-          (p) => p.status == status && p.paddock === paddock
-        );
+        if (section === "All") {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) => p.status == status && p.paddock === paddock
+          );
+        } else {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) =>
+              p.section == section &&
+              p.status == status &&
+              p.paddock === paddock
+          );
+        }
       }
     }
 
@@ -141,7 +158,7 @@ function MapWrapper() {
     //@ts-ignore
     const filtered = filterPiezometers(piezometersData);
     setPiezoDataFiltered(filtered);
-  }, [piezometersAreLoading]);
+  }, [piezometersData]);
 
   const markers = L.markerClusterGroup();
 
@@ -193,9 +210,7 @@ function MapWrapper() {
   useEffect(() => {
     if (
       !sectionsAreLoading &&
-      !piezometersAreLoading &&
       !paddocksAreLoading &&
-      !lastReadingsAreLoading &&
       !myMap &&
       piezoDataFiltered
     )
@@ -205,28 +220,14 @@ function MapWrapper() {
   useEffect(() => {
     if (
       !sectionsAreLoading &&
-      !piezometersAreLoading &&
       !paddocksAreLoading &&
-      !lastReadingsAreLoading &&
       !myMap &&
       piezoDataFiltered
     )
       init(piezoDataFiltered);
-  }, [
-    sectionsAreLoading,
-    piezometersAreLoading,
-    paddocksAreLoading,
-    lastReadingsAreLoading,
-    piezoDataFiltered,
-  ]);
+  }, [sectionsAreLoading, paddocksAreLoading, piezoDataFiltered]);
 
-  if (
-    sectionsAreLoading ||
-    piezometersAreLoading ||
-    paddocksAreLoading ||
-    lastReadingsAreLoading ||
-    !piezoDataFiltered
-  )
+  if (sectionsAreLoading || paddocksAreLoading || !piezoDataFiltered)
     return <SkeletonMapWrapper />;
 
   return (
