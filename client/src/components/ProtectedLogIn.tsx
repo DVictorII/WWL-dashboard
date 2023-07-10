@@ -17,7 +17,6 @@ function ProtectedLogIn({ children }: { children: JSX.Element }) {
   };
 
   const { isLoading, data: user } = useQuery("user", check_user, {
-    cacheTime: 0,
     refetchOnWindowFocus: false,
   });
 
@@ -28,7 +27,7 @@ function ProtectedLogIn({ children }: { children: JSX.Element }) {
       </div>
     );
 
-  if (user) {
+  if (!isLoading && user) {
     toast("Already logged in!", {
       duration: 3000,
 
