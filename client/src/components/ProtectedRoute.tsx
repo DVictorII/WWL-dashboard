@@ -23,7 +23,6 @@ function ProtectedRoute({ children }: { children: JSX.Element }) {
   };
 
   const { isLoading, data: user } = useQuery("user", check_user, {
-    cacheTime: 0,
     refetchOnWindowFocus: false,
   });
 
@@ -34,7 +33,7 @@ function ProtectedRoute({ children }: { children: JSX.Element }) {
       </div>
     );
 
-  if (!user) {
+  if (!isLoading && !user) {
     toast("Please, log in", {
       duration: 3000,
 

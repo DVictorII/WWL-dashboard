@@ -1,22 +1,26 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNewPiezoReportStateStore } from "../../store/NewPiezoReportStateStore";
 import { useReportInfoTablesDaysSpanStore } from "../../store/ReportInfoTablesDaysSpanStore";
 import { useQuery } from "react-query";
-import { fetchChartLectures, fetchPiezometerData, fetchSingleReport } from "../../utils/reportsFetchFunctions";
+import {
+  fetchChartLectures,
+  fetchPiezometerData,
+  fetchSingleReport,
+} from "../../utils/reportsFetchFunctions";
 import moment from "moment";
 
 //@ts-ignore
 import { getInoperativeDates } from "../../utils/getInoperativeDates";
 //@ts-ignore
-import axios from "../../utils/axios"
+import axios from "../../utils/axios";
 import { toast } from "react-hot-toast";
 import { FadeLoader } from "react-spinners";
 import { BsDownload } from "react-icons/bs";
 import { FaSpinner } from "react-icons/fa";
 
 function ReportDetailsPDFDownloadButton() {
-    const { id } = useParams();
+  const { id } = useParams();
 
   const days = useNewPiezoReportStateStore((state) => state.days);
   const chartType = useNewPiezoReportStateStore((state) => state.chartType);
@@ -31,15 +35,18 @@ function ReportDetailsPDFDownloadButton() {
     {
       refetchOnWindowFocus: false,
     }
-  )
+  );
 
-  const paddock = report?.report_paddock
-  const piezo = report?.report_piezo
-
+  const paddock = report?.report_paddock;
+  const piezo = report?.report_piezo;
 
   const { isLoading: piezometersAreLoading, data: piezometersData } = useQuery({
     queryKey: [`ReportPiezo-${paddock}-${piezo}`, paddock, piezo],
-    queryFn: () => fetchPiezometerData({ paddock, piezo } as {paddock: string, piezo: string}),
+    queryFn: () =>
+      fetchPiezometerData({ paddock, piezo } as {
+        paddock: string;
+        piezo: string;
+      }),
     // The query will not execute until the userId exists
     enabled: !!paddock,
     refetchOnWindowFocus: false,
@@ -79,14 +86,13 @@ function ReportDetailsPDFDownloadButton() {
     ? getInoperativeDates(lecturesDates)
     : undefined;
 
-  useEffect(()=>{
-    console.log("report", report)
-  },[report])
-
+  useEffect(() => {
+    console.log("report", report);
+  }, [report]);
 
   if (isLoading || !report || piezometersAreLoading || lecturesAreLoading)
     return (
-        <button
+      <button
         className="flex items-center gap-x-2 md:gap-x-3 lg:gap-x-4 px-4 py-2 bg-all-normal hover:bg-orange-800 transition-all text-white rounded-lg shadow-sm disabled:bg-[#555]"
         disabled
       >
@@ -97,6 +103,30 @@ function ReportDetailsPDFDownloadButton() {
 
   const downloadReport = async () => {
     try {
+      console.log("DOWNLOADING REPORT", {
+        title: report.report_title || "",
+        description: report.report_description || "",
+        paddock: report.report_paddock || "",
+        piezo: report.report_piezo || "",
+        date: report.report_date || "",
+        days: daysSpan || 200,
+        photo: report.report_photo || "piezoreport-default.png",
+        supervisors: String(report.report_supervisors) || "[]",
+        averagePWP: lecturesPressure
+          ? Number(
+              lecturesPressure.reduce(
+                //@ts-ignore
+                (acc, val) => acc + Number(val) / lecturesPressure.length,
+                0
+              )
+            ).toFixed(3)
+          : 0,
+        inoperativeDates: inoperativeDates || [],
+        lecturesDates: lecturesDates || [],
+        lecturesPressure: lecturesPressure || [],
+        sectionURL: `${piezometersData.section}.png` || "None",
+      });
+
       const res = await toast.promise(
         axios.post("/create-pdf", {
           title: report.report_title || "",
@@ -105,7 +135,7 @@ function ReportDetailsPDFDownloadButton() {
           piezo: report.report_piezo || "",
           date: report.report_date || "",
           days: daysSpan || 200,
-          photo:report.report_photo || "piezoreport-default.png",
+          photo: report.report_photo || "piezoreport-default.png",
           supervisors: String(report.report_supervisors) || "[]",
           averagePWP: lecturesPressure
             ? Number(
@@ -158,10 +188,7 @@ function ReportDetailsPDFDownloadButton() {
       const aTag = document.createElement("a");
       aTag.href = `/report_pdf/${filename}`;
       aTag.target = "_blank";
-      aTag.setAttribute(
-        "download",
-        `report_${filename}`
-      );
+      aTag.setAttribute("download", `report_${filename}`);
 
       document.body.appendChild(aTag);
       aTag.click();

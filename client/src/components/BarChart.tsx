@@ -20,7 +20,7 @@ import { FiAlertTriangle } from "react-icons/fi";
 // website examples showcase many properties,
 // you'll often use just a few of them.
 //@ts-ignore
-const BarChart = ({ information }) => {
+const BarChart = ({ information, fullPage = false }) => {
   const [piezoData, setPiezoData] = useState([]);
   const [piezoElevationData, setPiezoElevationData] = useState([]);
   const [readingsWaterLevelData, setReadingsWaterLevelData] = useState([]);
@@ -444,10 +444,20 @@ const BarChart = ({ information }) => {
           )}
         </AnimatePresence>
       </div>
-      <div className="w-full flex justify-between gap-x-16 flex-wrap gap-y-8 ">
-        <FullScreenButton comp={"chart"} />
-        <ChartLegend chartType={chartType} />
-      </div>
+      {fullPage ? (
+        <>
+          <div className="mt-4" />
+
+          <div className="w-full flex justify-end gap-x-16 flex-wrap gap-y-8 ">
+            <ChartLegend chartType={chartType} />
+          </div>
+        </>
+      ) : (
+        <div className="w-full flex justify-between gap-x-16 flex-wrap gap-y-8 ">
+          <FullScreenButton comp={"chart"} />
+          <ChartLegend chartType={chartType} />
+        </div>
+      )}
     </div>
   );
 };

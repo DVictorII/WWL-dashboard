@@ -61,7 +61,7 @@ function FullPageComps({ information }: { information: Information }) {
             />
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-[700px] md:w-4/5 ] h-1/2 rotate-90 origin-center lg:rotate-0 ">
               <div className="p-5 bg-white rounded-xl shadow-sm">
-                <BarChart information={information} />
+                <BarChart information={information} fullPage />
               </div>
             </div>
           </div>
