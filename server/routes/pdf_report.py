@@ -249,49 +249,49 @@ def save_pdf():
 
     # print("lecturesDates", lecturesDates)
 
-    if len(lecturesDates) != 0 and len(lecturesPressure) != 0:
-        chart_obj = create_chart(paddock, piezo, days, lecturesPressure, lecturesDates)
-        pdfObj = create_pdf(
-            title,
-            description,
-            paddock,
-            piezo,
-            date,
-            averagePWP,
-            inoperativeDates,
-            days,
-            chart_obj["chart_filename"],
-            sectionURL,
-            lecturesDates,
-        )
+    # if len(lecturesDates) != 0 and len(lecturesPressure) != 0:
+    #     chart_obj = create_chart(paddock, piezo, days, lecturesPressure, lecturesDates)
+    #     pdfObj = create_pdf(
+    #         title,
+    #         description,
+    #         paddock,
+    #         piezo,
+    #         date,
+    #         averagePWP,
+    #         inoperativeDates,
+    #         days,
+    #         chart_obj["chart_filename"],
+    #         sectionURL,
+    #         lecturesDates,
+    #     )
 
-        return jsonify(
-            {
-                "pdf_filename": pdfObj["download_filename"],
-                "pdf_path": pdfObj["pdfFile_path"],
-                "chart_filename": chart_obj["chart_filename"],
-                "chart_path": chart_obj["chart_filename"],
-            }
-        )
-    else:
-        chart_filename = "None"
-        pdfObj = create_pdf(
-            title,
-            description,
-            paddock,
-            piezo,
-            date,
-            averagePWP,
-            inoperativeDates,
-            days,
-            chart_filename,
-            sectionURL,
-            lecturesDates,
-        )
-        return jsonify(
-            {
-                "pdf_filename": pdfObj["download_filename"],
-                "pdf_path": pdfObj["pdfFile_path"],
-                "chart_filename": chart_filename,
-            }
-        )
+    #     return jsonify(
+    #         {
+    #             "pdf_filename": pdfObj["download_filename"],
+    #             "pdf_path": pdfObj["pdfFile_path"],
+    #             "chart_filename": chart_obj["chart_filename"],
+    #             "chart_path": chart_obj["chart_path"],
+    #         }
+    #     )
+    # else:
+    chart_filename = "None"
+    pdfObj = create_pdf(
+        title,
+        description,
+        paddock,
+        piezo,
+        date,
+        averagePWP,
+        inoperativeDates,
+        days,
+        chart_filename,
+        sectionURL,
+        lecturesDates,
+    )
+    return jsonify(
+        {
+            "pdf_filename": pdfObj["download_filename"],
+            "pdf_path": pdfObj["pdfFile_path"],
+            "chart_filename": chart_filename,
+        }
+    )
