@@ -111,6 +111,8 @@ def read_excel():
     sh.cell(row=75, column=2).value = "test"
     sh.cell(row=75, column=3).value = random.randint(0, 100)
 
+    wb.template = False
+
     wb.save(os.path.abspath("../client/public/pyreport/report3.xlsx"))
     return os.path.abspath("../client/public/pyreport/report3.xlsx")
 
