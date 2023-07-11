@@ -74,7 +74,7 @@ def get_excel_data():
             # "excel-data": data,
             "today": date.today(),
             "path_to_empty_file": os.path.abspath("pyreport/report.xlsx"),
-            "path_to_target": os.path.abspath("../client/public/pyreport/report2.xlsx"),
+            "path_to_target": os.path.abspath("../client/public/pyreport/report3.xlsx"),
         }
     )
 
@@ -111,19 +111,22 @@ def read_excel():
     sh.cell(row=75, column=2).value = "test"
     sh.cell(row=75, column=3).value = random.randint(0, 100)
 
-    wb.save(os.path.abspath("../client/public/pyreport/report2.xlsx"))
-    return os.path.abspath("../client/public/pyreport/report2.xlsx")
+    wb.save(os.path.abspath("../client/public/pyreport/report3.xlsx"))
+    return os.path.abspath("../client/public/pyreport/report3.xlsx")
 
 
 @excel_routes.route("/api/v1/modify_excel", methods=["POST"])
 @cross_origin()
 def modify_excel():
-    now = datetime.now()
-    dt_string = now.strftime("%Y/%m/%d %H:%M:%S")
-    data = read_excel()
-    print("file saved on:", data)
-    print("report download by %s at %s" % (session.get("user_id"), dt_string))
-    return jsonify(
-        {"filename": os.path.abspath("../client/public/pyreport/report2.xlsx")}
-    )
+    try:
+        now = datetime.now()
+        dt_string = now.strftime("%Y/%m/%d %H:%M:%S")
+        data = read_excel()
+        print("file saved on:", data)
+        print("report download by %s at %s" % (session.get("user_id"), dt_string))
+        return jsonify(
+            {"filename": os.path.abspath("../client/public/pyreport/report3.xlsx")}
+        )
+    except Exception:
+        return jsonify({"error": Exception})
     # return jsonify({"filename": os.path.abspath("pyreport/report2.xlsx")})

@@ -79,7 +79,7 @@ const Index = () => {
 
             const aTag = document.createElement("a");
             //@ts-ignore
-            aTag.href = "/pyreport/report2.xlsx";
+            aTag.href = "/pyreport/report3.xlsx";
 
             aTag.target = "_blank";
             aTag.setAttribute(

@@ -154,6 +154,17 @@ function ReportDetailsPDFDownloadButton() {
         {
           loading: "Generating report...",
           success: (data) => {
+            //@ts-ignore
+            const filename = data.data.pdf_filename;
+
+            const aTag = document.createElement("a");
+            aTag.href = `/report_pdf/${filename}`;
+            aTag.target = "_blank";
+            aTag.setAttribute("download", `report_${filename}`);
+
+            document.body.appendChild(aTag);
+            aTag.click();
+            aTag.remove();
             return `Generated! Downloading...`;
           },
           error: (err) => `There was an error!`,
@@ -183,18 +194,6 @@ function ReportDetailsPDFDownloadButton() {
       );
 
       console.log("PDF DATA", res.data);
-
-      //@ts-ignore
-      const filename = res.data.pdf_filename;
-
-      const aTag = document.createElement("a");
-      aTag.href = `/report_pdf/${filename}`;
-      aTag.target = "_blank";
-      aTag.setAttribute("download", `report_${filename}`);
-
-      document.body.appendChild(aTag);
-      aTag.click();
-      aTag.remove();
     } catch (err) {
       console.log("ERROR", err);
     }

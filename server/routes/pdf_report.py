@@ -17,26 +17,26 @@ import os
 pdf_report_routes = Blueprint("pdf_report_routes", __name__)
 
 
-class PDF(FPDF):
-    def header(self):
-        self.image(
-            os.path.abspath("../client/public/media/img/photos/rossing_logo.png"),
-            10,
-            8,
-            30,
-        )
+# class PDF(FPDF):
+#     def header(self):
+#         self.image(
+#             os.path.abspath("../client/public/media/img/photos/rossing_logo.png"),
+#             10,
+#             8,
+#             30,
+#         )
 
-        self.image(
-            os.path.abspath("../client/public/media/img/photos/wwl-black.png"),
-            (self.w - 40),
-            14,
-            30,
-        )
+#         self.image(
+#             os.path.abspath("../client/public/media/img/photos/wwl-black.png"),
+#             (self.w - 40),
+#             14,
+#             30,
+#         )
 
-        self.ln(40)
+#         self.ln(40)
 
 
-last_node = 0
+# last_node = 0
 
 
 def create_chart(paddock, piezo, days, initial_pressure, dates):
@@ -88,7 +88,8 @@ def create_pdf(
     sectionURL,
     lecturesDates,
 ):
-    pdf = PDF("P", "mm", "Letter")
+    # pdf = PDF("P", "mm", "Letter")
+    pdf = FPDF()
 
     pdf.set_auto_page_break(auto=True, margin=15)
     # Add a page
@@ -175,19 +176,19 @@ def create_pdf(
 
     pdf.ln(500)
 
-    if chart_filename != "None":
-        # SUBTITLE
-        pdf.set_font("helvetica", "U", 16)
-        pdf.cell(0, 10, f"Latest piezometer lectures ( last {days} days )")
-        pdf.ln(20)
+    # if chart_filename != "None":
+    #     # SUBTITLE
+    #     pdf.set_font("helvetica", "U", 16)
+    #     pdf.cell(0, 10, f"Latest piezometer lectures ( last {days} days )")
+    #     pdf.ln(20)
 
-        pdf.image(
-            os.path.abspath(f"../client/public/media/charts/{chart_filename}"),
-            10,
-            60,
-            pdf.w - 20,
-        )
-        pdf.ln(500)
+    #     pdf.image(
+    #         os.path.abspath(f"../client/public/media/charts/{chart_filename}"),
+    #         10,
+    #         60,
+    #         pdf.w - 20,
+    #     )
+    #     pdf.ln(500)
 
     if sectionURL != "None":
         # SUBTITLE
