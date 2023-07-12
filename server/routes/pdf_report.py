@@ -16,27 +16,29 @@ import os
 
 pdf_report_routes = Blueprint("pdf_report_routes", __name__)
 
-
-# class PDF(FPDF):
-#     def header(self):
-#         self.image(
-#             os.path.abspath("../client/public/media/img/photos/rossing_logo.png"),
-#             10,
-#             8,
-#             30,
-#         )
-
-#         self.image(
-#             os.path.abspath("../client/public/media/img/photos/wwl-black.png"),
-#             (self.w - 40),
-#             14,
-#             30,
-#         )
-
-#         self.ln(40)
+mode = os.environ.get("MODE")
 
 
-# last_node = 0
+class PDF(FPDF):
+    def header(self):
+        self.image(
+            os.path.abspath("../client/public/media/img/photos/rossing_logo.png"),
+            10,
+            8,
+            30,
+        )
+
+        self.image(
+            os.path.abspath("../client/public/media/img/photos/wwl-black.png"),
+            (self.w - 40),
+            14,
+            30,
+        )
+
+        self.ln(40)
+
+
+last_node = 0
 
 
 def create_chart(paddock, piezo, days, initial_pressure, dates):
@@ -66,13 +68,23 @@ def create_chart(paddock, piezo, days, initial_pressure, dates):
     dt_string = now.strftime("%Y%m%d%H%M%S")
 
     filename = os.path.abspath(
+        f"../client/dist/media/charts/{paddock}_{piezo}_{days}_{dt_string}.png"
+    )
+
+    public_filename = os.path.abspath(
         f"../client/public/media/charts/{paddock}_{piezo}_{days}_{dt_string}.png"
     )
+
     chart_filename = f"{paddock}_{piezo}_{days}_{dt_string}.png"
     print("FILENAME", filename)
 
     plt.savefig(filename)
-    return {"chart_path": filename, "chart_filename": chart_filename}
+
+    plt.savefig(public_filename)
+    return {
+        "chart_path": filename if mode == "PRODUCTION" else public_filename,
+        "chart_filename": chart_filename,
+    }
 
 
 def create_pdf(
@@ -176,19 +188,21 @@ def create_pdf(
 
     pdf.ln(500)
 
-    # if chart_filename != "None":
-    #     # SUBTITLE
-    #     pdf.set_font("helvetica", "U", 16)
-    #     pdf.cell(0, 10, f"Latest piezometer lectures ( last {days} days )")
-    #     pdf.ln(20)
+    if chart_filename != "None":
+        # SUBTITLE
+        pdf.set_font("helvetica", "U", 16)
+        pdf.cell(0, 10, f"Latest piezometer lectures ( last {days} days )")
+        pdf.ln(20)
 
-    #     pdf.image(
-    #         os.path.abspath(f"../client/public/media/charts/{chart_filename}"),
-    #         10,
-    #         60,
-    #         pdf.w - 20,
-    #     )
-    #     pdf.ln(500)
+        pdf.image(
+            os.path.abspath(
+                f"../client/{'dist' if mode == 'PRODUCTION' else 'public'}/media/charts/{chart_filename}"
+            ),
+            10,
+            60,
+            pdf.w - 20,
+        )
+        pdf.ln(500)
 
     if sectionURL != "None":
         # SUBTITLE
@@ -209,12 +223,23 @@ def create_pdf(
     dt_string = now.strftime("%Y%m%d%H%M%S")
 
     save_filename = os.path.abspath(
+        f"../client/dist/report_pdf/{paddock}_{piezo}_{days}_{dt_string}.pdf"
+    )
+
+    save_filename_public = os.path.abspath(
         f"../client/public/report_pdf/{paddock}_{piezo}_{days}_{dt_string}.pdf"
     )
+
     download_filename = f"{paddock}_{piezo}_{days}_{dt_string}.pdf"
+
     pdf.output(save_filename)
 
-    return {"pdfFile_path": save_filename, "download_filename": download_filename}
+    pdf.output(save_filename_public)
+
+    return {
+        "pdfFile_path": save_filename if mode == "PRODUCTION" else save_filename_public,
+        "download_filename": download_filename,
+    }
 
 
 @pdf_report_routes.route("/api/v1/create-pdf", methods=["POST"])
@@ -250,49 +275,49 @@ def save_pdf():
 
     # print("lecturesDates", lecturesDates)
 
-    # if len(lecturesDates) != 0 and len(lecturesPressure) != 0:
-    #     chart_obj = create_chart(paddock, piezo, days, lecturesPressure, lecturesDates)
-    #     pdfObj = create_pdf(
-    #         title,
-    #         description,
-    #         paddock,
-    #         piezo,
-    #         date,
-    #         averagePWP,
-    #         inoperativeDates,
-    #         days,
-    #         chart_obj["chart_filename"],
-    #         sectionURL,
-    #         lecturesDates,
-    #     )
+    if len(lecturesDates) != 0 and len(lecturesPressure) != 0:
+        chart_obj = create_chart(paddock, piezo, days, lecturesPressure, lecturesDates)
+        pdfObj = create_pdf(
+            title,
+            description,
+            paddock,
+            piezo,
+            date,
+            averagePWP,
+            inoperativeDates,
+            days,
+            chart_obj["chart_filename"],
+            sectionURL,
+            lecturesDates,
+        )
 
-    #     return jsonify(
-    #         {
-    #             "pdf_filename": pdfObj["download_filename"],
-    #             "pdf_path": pdfObj["pdfFile_path"],
-    #             "chart_filename": chart_obj["chart_filename"],
-    #             "chart_path": chart_obj["chart_path"],
-    #         }
-    #     )
-    # else:
-    chart_filename = "None"
-    pdfObj = create_pdf(
-        title,
-        description,
-        paddock,
-        piezo,
-        date,
-        averagePWP,
-        inoperativeDates,
-        days,
-        chart_filename,
-        sectionURL,
-        lecturesDates,
-    )
-    return jsonify(
-        {
-            "pdf_filename": pdfObj["download_filename"],
-            "pdf_path": pdfObj["pdfFile_path"],
-            "chart_filename": chart_filename,
-        }
-    )
+        return jsonify(
+            {
+                "pdf_filename": pdfObj["download_filename"],
+                "pdf_path": pdfObj["pdfFile_path"],
+                "chart_filename": chart_obj["chart_filename"],
+                "chart_path": chart_obj["chart_path"],
+            }
+        )
+    else:
+        chart_filename = "None"
+        pdfObj = create_pdf(
+            title,
+            description,
+            paddock,
+            piezo,
+            date,
+            averagePWP,
+            inoperativeDates,
+            days,
+            chart_filename,
+            sectionURL,
+            lecturesDates,
+        )
+        return jsonify(
+            {
+                "pdf_filename": pdfObj["download_filename"],
+                "pdf_path": pdfObj["pdfFile_path"],
+                "chart_filename": chart_filename,
+            }
+        )

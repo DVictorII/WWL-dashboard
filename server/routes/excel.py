@@ -116,6 +116,11 @@ def read_excel():
     # wb.save(os.path.abspath("../client/public/pyreport/report3.xlsx"))
     wb.save(os.path.abspath("../client/dist/pyreport/report3.xlsx"))
 
+    # SAVING FILE ALSO ON MAIN FILESYSTEM
+    filename2 = os.path.abspath("../client/dist/pyreport/report3.xlsx")
+    wb2 = load_workbook(filename2)
+    wb2.save(os.path.abspath("../client/public/pyreport/report3.xlsx"))
+
     return os.path.abspath("../client/dist/pyreport/report3.xlsx")
 
 
