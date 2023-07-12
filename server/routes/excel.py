@@ -74,7 +74,7 @@ def get_excel_data():
             # "excel-data": data,
             "today": date.today(),
             "path_to_empty_file": os.path.abspath("pyreport/report.xlsx"),
-            "path_to_target": os.path.abspath("../client/public/pyreport/report3.xlsx"),
+            "path_to_target": os.path.abspath("../client/dist/pyreport/report3.xlsx"),
         }
     )
 
@@ -113,8 +113,10 @@ def read_excel():
 
     wb.template = False
 
-    wb.save(os.path.abspath("../client/public/pyreport/report3.xlsx"))
-    return os.path.abspath("../client/public/pyreport/report3.xlsx")
+    # wb.save(os.path.abspath("../client/public/pyreport/report3.xlsx"))
+    wb.save(os.path.abspath("../client/dist/pyreport/report3.xlsx"))
+
+    return os.path.abspath("../client/dist/pyreport/report3.xlsx")
 
 
 @excel_routes.route("/api/v1/modify_excel", methods=["POST"])
@@ -127,7 +129,7 @@ def modify_excel():
         print("file saved on:", data)
         print("report download by %s at %s" % (session.get("user_id"), dt_string))
         return jsonify(
-            {"filename": os.path.abspath("../client/public/pyreport/report3.xlsx")}
+            {"filename": os.path.abspath("../client/dist/pyreport/report3.xlsx")}
         )
     except Exception:
         return jsonify({"error": Exception})
