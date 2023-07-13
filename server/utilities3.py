@@ -85,11 +85,25 @@ def save_last_features(nodes_df, cur):
 
     return query
 
-
-# def dbconnect():
-#     conn = psycopg2.connect(host=host, database=dbname, user=user, password=password)
-#     return conn
-
+def update_status():
+    """
+    Update the status according to 2 conditions:
+       Longer than 7 days (disconnected:3)
+       Wrong measures (damaged:2)
+       Active (1)
+    """
+    
+    query = """
+    UPDATE piezometer_details
+    SET status = CASE
+	    WHEN (CURRENT_DATE - last_readings.time) > INTERVAL '7 days' THEN 3
+	    WHEN last_readings.pressure > 0 AND last_readings.pressure / 10 > piezometer_details.depth * 1.1 THEN 2
+	    ELSE 1
+	    END
+    FROM last_readings
+    WHERE piezometer_details.datalogger=last_readings.node AND piezometer_details.channel=last_readings.channel;
+    """
+    return query
 
 def create_table(id, k, cur):
     try:

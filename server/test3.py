@@ -37,6 +37,14 @@ def update(year, month, op=True):
         cur.execute(query)
         conn.commit()
 
+        #Start state updating
+        query = uf.update_status()
+        cur.execute(query)
+        conn.commit()
+
+        cur.close()
+        conn.close()
+
         """else:
             name = "data\\compacted-readings-21545-%d-%02d.dat"%(year,month)
             nodes = uf.get_features_from_data(name)
