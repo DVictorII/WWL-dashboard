@@ -61,7 +61,6 @@ function LecturesLocationTable() {
             //@ts-ignore
             onChange={(e) => changePiezo(e.value)}
             options={piezoOptions}
-            
             classNames={{
               //@ts-ignore
               menuButton: ({ isDisabled }) =>

@@ -53,7 +53,11 @@ function PaddockMapWrapper() {
   const basemap = useMapStore((state) => state.basemap);
   const changeBasemap = useMapStore((state) => state.changeBasemap);
 
-  const paddock = usePiezometerLecturesStateStore((s) => s.paddock);
+  const paddock = usePiezometerLecturesStateStore((s) => s.paddock).replaceAll(
+    "/",
+    "-"
+  );
+
   const piezo = usePiezometerLecturesStateStore((s) => s.piezo);
 
   let sentinelHub: L.Layer;

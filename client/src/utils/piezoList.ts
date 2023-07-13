@@ -46,6 +46,8 @@ export const piezoList = {
 
     "VW-27",
     "VW-28",
+
+    "ST-23-01",
   ],
 
   RDS: [
@@ -170,6 +172,7 @@ export const chartPiezoList = {
 
     "VW-27",
     "VW-28",
+    "ST-23-01",
   ],
 
   RDS: [
@@ -201,7 +204,7 @@ export const chartPiezoList = {
     "VW-CN-03",
   ],
 
-  "Y1-Y2": ["YA-1", "YA-2", "VW-YB-01", "VW-Y2-02"],
+  "Y1/Y2": ["YA-1", "YA-2", "VW-YB-01", "VW-Y2-02"],
   Y3: [
     "VW-38",
     "VW-39",
@@ -224,7 +227,7 @@ export const chartPiezoList = {
     "Z1-3",
     "Z1-4",
   ],
-  "E1-E2": [
+  "E1/E2": [
     "E1-3",
     "E1-4",
     "E2-1",
@@ -417,6 +420,10 @@ export const chartPiezoListWithElevation = {
 
     {
       id: "VW-28",
+      piezoElevation: 590,
+    },
+    {
+      id: "ST-23-01",
       piezoElevation: 590,
     },
   ],

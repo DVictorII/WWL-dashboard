@@ -14,11 +14,8 @@ import SkeletonBarChart from "./Skeletons/PiezometerLectures/SkeletonBarChart";
 import { chartPiezoListWithElevation } from "../utils/piezoList";
 import { FiAlertTriangle } from "react-icons/fi";
 
-// make sure parent container have a defined height when using
-// responsive component, otherwise height will be 0 and
-// no chart will be rendered.
-// website examples showcase many properties,
-// you'll often use just a few of them.
+const CHART_PRESSURE_LIMIT = 80;
+
 //@ts-ignore
 const BarChart = ({ information, fullPage = false }) => {
   const [piezoData, setPiezoData] = useState([]);
@@ -31,9 +28,7 @@ const BarChart = ({ information, fullPage = false }) => {
 
   const [limitAlert, setLimitAlert] = useState(false);
 
-  const CHART_PRESSURE_LIMIT = 53;
-
-  const paddock = information.paddock;
+  const paddock = information.paddock.replace("/", "-");
   const piezo = information.piezo;
   const days = information.days;
   const chartType = information.chartType;
@@ -217,9 +212,13 @@ const BarChart = ({ information, fullPage = false }) => {
       {limitAlert ? (
         <div className="mt-6 text-red-700 flex items-center gap-x-2 2xl:gap-x-3 ">
           <FiAlertTriangle className="2xl:w-5 2xl:h-5" />
-          <span className="font-medium text-sm 2xl:text-base">
-            Alert: Pressure limit exceeded
-          </span>
+
+          <div className="flex gap-x-1 ">
+            <span className="font-medium text-sm 2xl:text-base">Alert:</span>
+            <span className="font-semibold text-sm 2xl:text-base ">
+              Pressure limit exceeded
+            </span>
+          </div>
         </div>
       ) : null}
       <div className="h-[50vh] w-full">
