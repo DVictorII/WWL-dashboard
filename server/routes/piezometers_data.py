@@ -5,6 +5,7 @@ from datetime import datetime, timedelta, date
 from sqlalchemy import text
 import kml2geojson
 import os
+import wwl_functions as wwl
 
 piezometers_data_routes = Blueprint("piezometers_data_routes", __name__)
 
@@ -146,6 +147,24 @@ def get_geojson(folder, name):
         data = kml2geojson.main.convert(name)
         # print(data)
         return jsonify({"data": data, "name": name})
+
+    except Exception:
+        return jsonify({"error": Exception})
+
+    # else:
+    #     return render_template('no_authorized.html')
+
+
+@piezometers_data_routes.route("/api/v1/get_graphics_<node>-<channel>", methods=["GET"])
+@cross_origin()
+def get_graphics(node, channel):
+    try:
+        natural_ground = "data/sections/natural_ground/"
+        new_ground = "data/sections/new_ground/"
+
+        pizometers,levels = wwl.get_data_by_section(node,channel,natural_ground,new_ground)
+        
+        return jsonify({"data": pizometers, "name": levels})
 
     except Exception:
         return jsonify({"error": Exception})
