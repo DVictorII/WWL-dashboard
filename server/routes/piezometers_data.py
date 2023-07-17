@@ -152,3 +152,21 @@ def get_geojson(folder, name):
 
     # else:
     #     return render_template('no_authorized.html')
+
+
+@piezometers_data_routes.route("/api/v1/get_graphics_<node>-<channel>", methods=["GET"])
+@cross_origin()
+def get_graphics(node, channel):
+    try:
+        natural_ground = "data/graphics/natural_ground/"
+        new_ground = "data/graphics/new_ground/"
+
+        pizometers,levels = get_data_by_section(node,channel,natural_ground,new_ground)
+        
+        return jsonify({"data": pizometers, "name": levels})
+
+    except Exception:
+        return jsonify({"error": Exception})
+
+    # else:
+    #     return render_template('no_authorized.html')
