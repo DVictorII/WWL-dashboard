@@ -249,7 +249,7 @@ def get_data_by_section(datalogger,channel,na_ground,new_ground):
     cur = conn.cursor()
     interval=5
     lstart=None
-    lend = np.array([400, 0])
+    lend = None
     
    # Given specific piezometer (datalogger, channel)
     query = """
@@ -283,6 +283,7 @@ def get_data_by_section(datalogger,channel,na_ground,new_ground):
         return None,None
     
     lstart=dict_pizometer[piezometer_section+'.txt'][0]
+    lend=dict_pizometer[piezometer_section+'.txt'][1]
     
    # Get information on the selected piezometer
     query = """
