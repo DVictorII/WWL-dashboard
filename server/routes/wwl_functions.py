@@ -323,7 +323,7 @@ def get_data_by_section(datalogger,channel,na_ground,new_ground):
         if row[0] != piezometer_id:
             output.append([row[0],int(row[1]),coordinates_projections(lstart,lend,float(row[3]),float(row[4])),float(row[2])])
             coordinates= coordinates_projections(lstart,lend,float(row[3]),float(row[4]))
-            if float(row[5]) != 0 and not np.isnan(piezometer_pressure) and int(row[1]) != 2:
+            if float(row[5]) != 0 and not np.isnan(float(row[5])) and int(row[1]) != 2:
                 valuee3 = float(row[2]) + float(row[5]/10)
                 e3.append([coordinates,valuee3])
     
