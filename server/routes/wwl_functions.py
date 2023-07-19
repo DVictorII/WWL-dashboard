@@ -343,6 +343,5 @@ def get_data_by_section(datalogger,channel,na_ground,new_ground):
     
     #Add to the final output the values of e3
     for i in range(len(output2)):
-        dict_graph[piezometer_section+'.txt'][i].append(output2[i][1])
-    
+        dict_graph[piezometer_section+'.txt'][i].append(output2[i][1]
     return output,dict_graph[piezometer_section+'.txt']
