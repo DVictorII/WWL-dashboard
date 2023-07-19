@@ -147,14 +147,16 @@ function PiezoReportForm() {
         </div>
 
         <div className="flex flex-col gap-y-4  bg-white p-4 rounded-xl shadow-sm">
-          <h2 className="font-bold text-sm 2xl:text-base">Report details</h2>
+          <h2 className="font-bold text-sm 2xl:text-base">
+            Piezometer details
+          </h2>
 
-          <h2
+          {/* <h2
             className="text-sm md:text-base font-bold"
             key={`${paddock}${piezo}`}
           >
             {paddock} / {piezo}
-          </h2>
+          </h2> */}
           <PiezoInformationTable />
         </div>
       </div>

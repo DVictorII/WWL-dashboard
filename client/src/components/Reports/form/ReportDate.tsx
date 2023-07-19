@@ -18,13 +18,13 @@ function ReportDate() {
 
   return (
     <div className=" flex flex-col gap-y-1  xl:grid xl:grid-cols-3 gap-x-4">
-      <span className="text-[10px] xl:text-xs 2xl:text-sm font-bold text-[#555] justify-self-end">
+      <span className="text-[10px] xl:text-xs  font-semibold text-[#666] justify-self-end">
         Report date
       </span>
 
       <div className="xl:col-span-2">
         <Datepicker
-          inputClassName=" text-xs sm:text-sm py-4 rounded-xl dark:bg-all-normal"
+          inputClassName=" text-xs sm:text-sm py-3 rounded-[500px] dark:bg-all-normal"
           useRange={false}
           asSingle={true}
           // showShortcuts={true}

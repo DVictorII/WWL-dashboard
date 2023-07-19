@@ -29,7 +29,9 @@ function PhotoUploader() {
         ) : (
           <div className="flex flex-col items-center gap-y-2">
             <AiOutlineCamera className="w-6 h-6 md:w-7 md:h-7" />
-            <span className="font-semibold md:text-xl">Upload Photo</span>
+            <span className="font-semibold md:text-xl">
+              Upload Photo (optional)
+            </span>
           </div>
         )}
 

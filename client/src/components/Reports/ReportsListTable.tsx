@@ -18,7 +18,7 @@ function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
   return (
     <div className=" max-w-full max-h-fit ">
       <div
-        className={` overflow-y-scroll overflow-x-scroll h-fit max-h-96 mt-5 mb-4   pb-5  `}
+        className={` overflow-y-scroll overflow-x-scroll h-fit max-h-96 min-h-[18rem] mt-5 mb-4   pb-5  `}
       >
         <table className="min-w-max border-separate border-spacing-0">
           <thead>
