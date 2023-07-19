@@ -41,7 +41,7 @@ function LocationTable() {
   });
 
   return (
-    <div className="grid grid-cols-3 gap-x-4 xl:gap-x-10 z-[40]">
+    <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-6 xl:gap-x-10 z-[40] lg:col-span-2">
       <div className="flex flex-col gap-y-1">
         <h3 className="text-[10px] xl:text-xs  font-semibold text-[#666]">
           Paddock

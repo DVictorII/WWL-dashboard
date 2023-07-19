@@ -28,35 +28,43 @@ function PaddockLectures() {
   return (
     <>
       <MenuNavbar />
-      <div className="mt-12 md:mt-0 flex flex-col gap-y-6 justify-between">
-        <h1 className="md:text-lg 2xl:text-xl font-bold ">
-          Paddock Monitoring - Dashboard
-        </h1>
-        <p className="text-sm font-medium">
+
+      <div className="mt-12 md:hidden" />
+
+      <div className="  flex flex-col gap-y-4 justify-between bg-white p-4 rounded-xl shadow-sm">
+        <h1 className=" font-bold ">Paddock Monitoring - Dashboard</h1>
+        <p className="text-xs font-semibold text-[#666]">
           Use the interactive chart below to explore piezometer readings from
           Paddock{" "}
         </p>
       </div>
 
-      <div className="bg-backgroundWhite md:bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-10 md:shadow-lg ">
-        <LecturesLocationTable />
+      <div className="mt-12" />
+
+      <div className=" flex flex-col gap-y-8 ">
+        <div className="grid grid-cols-1 lg:grid-cols-3   ">
+          <LecturesLocationTable />
+        </div>
 
         <div key={`${paddock}${piezo}`}>
           <PiezoLecturesComponent />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 xl:gap-x-10 gap-y-8 xl:gap-y-10">
-          <div className=" md:px-4 md:py-8 rounded-[14px] flex flex-col gap-y-4 ">
-            <h2
+        <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-6 xl:gap-x-8 gap-y-8 ">
+          <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center ">
+            {/* <h2
               className="text-sm md:text-base font-semibold"
               key={`${paddock}${piezo}`}
             >
               {paddock} / {piezo}
-            </h2>
+            </h2> */}
             <PiezoInformationTable />
           </div>
 
-          <div key={`${piezo}${paddock}`} className="flex items-center">
+          <div
+            key={`${piezo}${paddock}`}
+            className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center "
+          >
             <PaddockMapWrapper />
           </div>
         </div>

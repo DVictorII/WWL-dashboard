@@ -38,7 +38,12 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <Navigate to="/login" />,
+        element:
+          process.env.NODE_ENV === "production" ? (
+            <Navigate to="/login" />
+          ) : (
+            <Navigate to="/monitoring-map" />
+          ),
       },
       {
         path: "monitoring-map",

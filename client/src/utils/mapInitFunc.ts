@@ -15,10 +15,8 @@ import "../MarkerCluster.Default.css";
 import "leaflet.markercluster";
 import { satelliteMap, sentinelMap, statusOptions } from "./map";
 
-import {useChartStore} from "../store/ChartStateStore"
+import { useChartStore } from "../store/ChartStateStore";
 import { IncidentDetails } from "../types";
-
-
 
 export async function drawPiezometers({
   piezometers,
@@ -26,19 +24,14 @@ export async function drawPiezometers({
   piezoList,
   markers,
   lastReadings,
-  page="none",
-  goToLectures 
+  page = "none",
+  goToLectures,
 }: any) {
-  
   // adding circles to the map
   // @ts-ignore
   piezoList.map((piezometer) => {
     let icon;
     //console.log(i,s[i])
-
-    
-
-    
 
     switch (piezometer.status) {
       case 1:
@@ -69,12 +62,14 @@ export async function drawPiezometers({
         reading.channel === piezometer.channel
     );
 
-
-      const popup = L.popup()
-      .setLatLng([piezometer.lat, piezometer.lon])
+    const popup = L.popup().setLatLng([piezometer.lat, piezometer.lon])
       .setContent(`
       <div class="flex flex-col gap-y-4">
-        <div class="font-semibold text-lg ${page==="dashboard" ? `${piezometer.id} w-max pb-1 border-b-2 border-[#222] border-transparent lg:hover:border-[#222]`:""}  " >
+        <div class="font-semibold text-lg ${
+          page === "dashboard"
+            ? `${piezometer.id} w-max pb-1 border-b-2 border-[#222] border-transparent lg:hover:border-[#222]`
+            : ""
+        }  " >
           <span>${piezometer.paddock}</span> / <span>${piezometer.id}</span>
         </div>
 
@@ -86,8 +81,8 @@ export async function drawPiezometers({
         <div class="flex flex-col gap-y-2" >
           <span class="font-semibold text-xs" >Location coordinates: </span>
           <span>${Number(piezometer.lat).toFixed(8)}° / ${Number(
-    piezometer.lon
-  ).toFixed(8)}°</span>
+      piezometer.lon
+    ).toFixed(8)}°</span>
         </div>
 
         <div class="flex items-center gap-x-4">
@@ -107,7 +102,7 @@ export async function drawPiezometers({
         </div>
 
         ${
-          lastReading && lastReading.pressure
+          lastReading && lastReading.pressure && Number(lastReading.pressure)
             ? `
         
           <div class="flex items-center gap-x-4">
@@ -126,32 +121,34 @@ export async function drawPiezometers({
         }
 
         ${
-          page==="dashboard" ? `<div class="${piezometer.id} mt-6">
+          page === "dashboard"
+            ? `<div class="${piezometer.id} mt-6">
           <span class="text-sm  text-sky-800 font-semibold pb-1 border-b-2 border-sky-800 lg:border-transparent lg:hover:border-sky-800">Check piezo. lectures &rarr;</span>
 
-        </div>`:""
+        </div>`
+            : ""
         }
         
       
       </div>
       
-    `
+    `);
     //@ts-ignore
-    )
-      
-    circle.bindPopup(popup,{
-      interactive:true,
+
+    circle.bindPopup(popup, {
+      interactive: true,
     });
 
-    popup.on('add',(e)=>{
-      const title = document.querySelectorAll(`.${piezometer.id}`)
-      title?.forEach(t=>t.addEventListener('click', () => {
-        if(page==="dashboard") goToLectures(piezometer.paddock,piezometer.id)
-        console.log(piezometer.id)
-      }))
-    })
-
-    
+    popup.on("add", (e) => {
+      const title = document.querySelectorAll(`.${piezometer.id}`);
+      title?.forEach((t) =>
+        t.addEventListener("click", () => {
+          if (page === "dashboard")
+            goToLectures(piezometer.paddock, piezometer.id);
+          console.log(piezometer.id);
+        })
+      );
+    });
 
     markers.addLayer(circle);
     piezometers.push(circle);
@@ -167,17 +164,23 @@ export async function drawIncidents({
 }: {
   piezometers: any[];
   map: any;
-    piezoList: IncidentDetails[];
-    markers: any;
+  piezoList: IncidentDetails[];
+  markers: any;
 }) {
   // adding circles to the map
   // @ts-ignore
   piezoList.map((piezometer) => {
     let icon = incidentIcon;
 
-    const circle = L.marker([Number(piezometer.incident_latitude), Number(piezometer.incident_longitude)], {
-      icon: icon,
-    });
+    const circle = L.marker(
+      [
+        Number(piezometer.incident_latitude),
+        Number(piezometer.incident_longitude),
+      ],
+      {
+        icon: icon,
+      }
+    );
     circle.bindPopup(`
         <div class="flex flex-col gap-y-4">
           <div class="font-semibold">
@@ -256,13 +259,16 @@ async function DrawIncidentsMap({
   current_zoom,
   mapDOM,
 }: {
-  basemap:any
-  incidentList:IncidentDetails[]
-  current_zoom:number
-  mapDOM:any
+  basemap: any;
+  incidentList: IncidentDetails[];
+  current_zoom: number;
+  mapDOM: any;
 }) {
   const myMap = L.map(mapDOM, {
-    center: L.latLng(Number(incidentList[0].incident_latitude), Number(incidentList[0].incident_longitude)),
+    center: L.latLng(
+      Number(incidentList[0].incident_latitude),
+      Number(incidentList[0].incident_longitude)
+    ),
     zoom: current_zoom,
     layers: basemap,
     fadeAnimation: true,
@@ -289,7 +295,7 @@ export const DrawPrincipalMap = async ({
           : piezometersData[0]
         : undefined;
   }
-  
+
   const myMap = L.map(mapDOM, {
     //@ts-ignore
     center:

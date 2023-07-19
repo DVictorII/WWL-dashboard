@@ -85,6 +85,7 @@ def save_last_features(nodes_df, cur):
 
     return query
 
+
 def update_status():
     """
     Update the status according to 2 conditions:
@@ -92,7 +93,7 @@ def update_status():
        Wrong measures (damaged:2)
        Active (1)
     """
-    
+
     query = """
     UPDATE piezometer_details
     SET status = CASE
@@ -104,6 +105,7 @@ def update_status():
     WHERE piezometer_details.datalogger=last_readings.node AND piezometer_details.channel=last_readings.channel;
     """
     return query
+
 
 def create_table(id, k, cur):
     try:
@@ -273,11 +275,10 @@ def download_data(gateway, year, month, option=False):
     # z.extractall(os.path.abspath("data"))
     # # # print("RESPONSE", r.content)
     # print("downloaded data from server")
-    
+
     # df = open(os.path.abspath("data/compacted-readings-21545-2022-06.dat")).read().encode()
     # # print(df)
     # open(os.path.abspath("data/data_compacted.csv"), "wb").write(df)
-    
 
     print("downloaded data to local")
 

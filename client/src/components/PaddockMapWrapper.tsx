@@ -53,7 +53,11 @@ function PaddockMapWrapper() {
   const basemap = useMapStore((state) => state.basemap);
   const changeBasemap = useMapStore((state) => state.changeBasemap);
 
-  const paddock = usePiezometerLecturesStateStore((s) => s.paddock);
+  const paddock = usePiezometerLecturesStateStore((s) => s.paddock).replaceAll(
+    "/",
+    "-"
+  );
+
   const piezo = usePiezometerLecturesStateStore((s) => s.piezo);
 
   let sentinelHub: L.Layer;
@@ -171,7 +175,7 @@ function PaddockMapWrapper() {
 
   return (
     <div
-      className=" w-full h-[50vh] rounded-lg overflow-hidden shadow-md relative z-[10]"
+      className=" w-full h-[40vh] rounded-lg overflow-hidden shadow-md relative z-[10]"
       style={{ boxShadow: boxShadowSlight }}
     >
       <div id="map2"></div>

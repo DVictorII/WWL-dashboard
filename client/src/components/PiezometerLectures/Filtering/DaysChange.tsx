@@ -25,7 +25,7 @@ function DaysChange() {
         if (!(Number(e.target.value) > Number(e.target.max)))
           return changeDays(Number(e.target.value));
       }}
-      className="px-2 md:px-3 py-1 text-sm md:text-base rounded-lg bg-all-normal text-white font-bold w-24 focus:bg-orange-800 focus:outline-none transition-all"
+      className="px-2 md:px-3 py-1 text-sm  rounded-lg bg-all-normal text-white font-bold w-20 focus:bg-orange-800 focus:outline-none transition-all"
     />
   );
 }

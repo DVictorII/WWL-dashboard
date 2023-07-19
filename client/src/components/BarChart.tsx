@@ -14,11 +14,8 @@ import SkeletonBarChart from "./Skeletons/PiezometerLectures/SkeletonBarChart";
 import { chartPiezoListWithElevation } from "../utils/piezoList";
 import { FiAlertTriangle } from "react-icons/fi";
 
-// make sure parent container have a defined height when using
-// responsive component, otherwise height will be 0 and
-// no chart will be rendered.
-// website examples showcase many properties,
-// you'll often use just a few of them.
+const CHART_PRESSURE_LIMIT = 80;
+
 //@ts-ignore
 const BarChart = ({ information, fullPage = false }) => {
   const [piezoData, setPiezoData] = useState([]);
@@ -31,9 +28,7 @@ const BarChart = ({ information, fullPage = false }) => {
 
   const [limitAlert, setLimitAlert] = useState(false);
 
-  const CHART_PRESSURE_LIMIT = 53;
-
-  const paddock = information.paddock;
+  const paddock = information.paddock.replace("/", "-");
   const piezo = information.piezo;
   const days = information.days;
   const chartType = information.chartType;
@@ -159,7 +154,7 @@ const BarChart = ({ information, fullPage = false }) => {
   if (piezometersData.status === 4)
     return (
       <div className="flex flex-col gap-y-4">
-        <div className="h-[50vh] w-full">
+        <div className={`${fullPage ? "h-[50vh]" : "h-[30vh]"}  w-full`}>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -187,7 +182,7 @@ const BarChart = ({ information, fullPage = false }) => {
   if (!lecturesData || lecturesData.length === 0)
     return (
       <div className="flex flex-col gap-y-4">
-        <div className="h-[50vh] w-full">
+        <div className={`${fullPage ? "h-[50vh]" : "h-[30vh]"}  w-full`}>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -217,12 +212,16 @@ const BarChart = ({ information, fullPage = false }) => {
       {limitAlert ? (
         <div className="mt-6 text-red-700 flex items-center gap-x-2 2xl:gap-x-3 ">
           <FiAlertTriangle className="2xl:w-5 2xl:h-5" />
-          <span className="font-medium text-sm 2xl:text-base">
-            Alert: Pressure limit exceeded
-          </span>
+
+          <div className="flex gap-x-1 ">
+            <span className="font-medium text-sm 2xl:text-base">Alert:</span>
+            <span className="font-semibold text-sm 2xl:text-base ">
+              Pressure limit exceeded
+            </span>
+          </div>
         </div>
       ) : null}
-      <div className="h-[50vh] w-full">
+      <div className={`${fullPage ? "h-[50vh]" : "h-[30vh]"}  w-full`}>
         <AnimatePresence>
           {chartType === "pressure" && (
             <>
@@ -319,7 +318,9 @@ const BarChart = ({ information, fullPage = false }) => {
                     transition: { duration: 0.2, ease: "easeInOut" },
                   }}
                   key="elevation-chart"
-                  className="w-full h-[50vh] bg-white rounded-[12px]"
+                  className={`${
+                    fullPage ? "h-[50vh]" : "h-[30vh]"
+                  }  w-full bg-white rounded-xl`}
                 >
                   <ResponsiveLine
                     data={piezoElevationData}
@@ -387,11 +388,13 @@ const BarChart = ({ information, fullPage = false }) => {
                     transition: { duration: 0.2, ease: "easeInOut" },
                   }}
                   key="waterElevation-chart"
-                  className="w-full h-[50vh] bg-white rounded-[12px]"
+                  className={`${
+                    fullPage ? "h-[50vh]" : "h-[30vh]"
+                  }  w-full bg-white rounded-xl`}
                 >
                   <ResponsiveLine
                     data={readingsWaterLevelData}
-                    margin={{ top: 50, right: 20, bottom: 50, left: 50 }}
+                    margin={{ top: 20, right: 0, bottom: 50, left: 50 }}
                     xScale={{
                       type: "time",
                       format: "%Y-%m-%d %H:%M:%S",

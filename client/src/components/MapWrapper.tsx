@@ -166,6 +166,7 @@ function MapWrapper() {
 
   //@ts-ignore
   const goToLectures = (paddock, piezo) => {
+    // const changedPaddock = paddock.replaceAll("/", "-");
     changeChartPaddockAndPiezo(paddock, piezo);
 
     navigate("/piezometer-readings");

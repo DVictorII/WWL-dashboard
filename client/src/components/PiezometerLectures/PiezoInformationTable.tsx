@@ -15,8 +15,11 @@ function PiezoInformationTable() {
 
   const paddock =
     location === "/piezometer-readings"
-      ? usePiezometerLecturesStateStore((s) => s.paddock)
-      : useNewPiezoReportStateStore((state) => state.paddock);
+      ? usePiezometerLecturesStateStore((s) => s.paddock).replaceAll("/", "-")
+      : useNewPiezoReportStateStore((state) => state.paddock).replaceAll(
+          "/",
+          "-"
+        );
   const piezo =
     location === "/piezometer-readings"
       ? usePiezometerLecturesStateStore((s) => s.piezo)
@@ -50,7 +53,8 @@ function PiezoInformationTable() {
       reading.channel === piezometersData[0].channel
   );
 
-  const lastReadingExists = lastReading && lastReading.pressure;
+  const lastReadingExists =
+    lastReading && lastReading.pressure && Number(lastReading.pressure);
 
   const depthIsZero = Number(piezometersData[0].depth) == 0;
 

@@ -141,7 +141,7 @@ const Index = () => {
         <h1 className="flex flex-col gap-y-1 ">
           <span className="font-bold">Monitoring Map</span>
           <span className="text-xs font-semibold text-[#666]">
-            (92 Piezometers)
+            ({fetchedPiezoData.length} Piezometers)
           </span>
         </h1>
         <button
