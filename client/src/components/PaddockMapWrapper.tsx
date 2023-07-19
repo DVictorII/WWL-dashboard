@@ -175,7 +175,7 @@ function PaddockMapWrapper() {
 
   return (
     <div
-      className=" w-full h-[50vh] rounded-lg overflow-hidden shadow-md relative z-[10]"
+      className=" w-full h-[40vh] rounded-lg overflow-hidden shadow-md relative z-[10]"
       style={{ boxShadow: boxShadowSlight }}
     >
       <div id="map2"></div>

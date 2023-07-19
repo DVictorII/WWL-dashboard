@@ -154,7 +154,7 @@ function PiezoListTable() {
             style={{
               borderColor: selectedStatus.darkColor,
             }}
-            className={` overflow-y-scroll overflow-x-scroll h-fit max-h-96 mt-5 mb-4 mx-4 md:mx-0  pb-5  `}
+            className={` overflow-y-scroll overflow-x-scroll h-fit max-h-96 mt-5 mb-4    pb-5  `}
           >
             <table className="min-w-max border-separate border-spacing-0">
               <thead className="">
@@ -234,7 +234,9 @@ function PiezoListTable() {
                     );
 
                     const lastReadingExists =
-                      lastReading && lastReading.pressure;
+                      lastReading &&
+                      lastReading.pressure &&
+                      Number(lastReading.pressure);
 
                     const depthIsZero = Number(piezometer.depth) == 0;
 
@@ -260,7 +262,7 @@ function PiezoListTable() {
                                 piezometer.id
                               );
                             }}
-                            className={`text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-bold  hover:scale-105 transition-all`}
+                            className={`text-[9px] md:text-[10px] lg:text-[11px] flex justify-center w-full items-center font-bold  hover:scale-105 transition-all`}
                           >
                             {piezometer.id}
                           </button>

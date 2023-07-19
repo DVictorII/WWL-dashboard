@@ -204,7 +204,7 @@ export const chartPiezoList = {
     "VW-CN-03",
   ],
 
-  "Y1/Y2": ["YA-1", "YA-2", "VW-YB-01", "VW-Y2-02"],
+  "Y1/Y2": ["YA-1", "YA-2", "YA-3", "VW-YB-01", "VW-Y2-02"],
   Y3: [
     "VW-38",
     "VW-39",
@@ -544,6 +544,11 @@ export const chartPiezoListWithElevation = {
     },
     {
       id: "YA-2",
+      piezoElevation: 0,
+    },
+
+    {
+      id: "YA-3",
       piezoElevation: 0,
     },
     {

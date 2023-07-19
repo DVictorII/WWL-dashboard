@@ -53,7 +53,8 @@ function PiezoInformationTable() {
       reading.channel === piezometersData[0].channel
   );
 
-  const lastReadingExists = lastReading && lastReading.pressure;
+  const lastReadingExists =
+    lastReading && lastReading.pressure && Number(lastReading.pressure);
 
   const depthIsZero = Number(piezometersData[0].depth) == 0;
 

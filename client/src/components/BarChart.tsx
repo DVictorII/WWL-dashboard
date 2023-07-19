@@ -154,7 +154,7 @@ const BarChart = ({ information, fullPage = false }) => {
   if (piezometersData.status === 4)
     return (
       <div className="flex flex-col gap-y-4">
-        <div className="h-[50vh] w-full">
+        <div className={`${fullPage ? "h-[50vh]" : "h-[30vh]"}  w-full`}>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -182,7 +182,7 @@ const BarChart = ({ information, fullPage = false }) => {
   if (!lecturesData || lecturesData.length === 0)
     return (
       <div className="flex flex-col gap-y-4">
-        <div className="h-[50vh] w-full">
+        <div className={`${fullPage ? "h-[50vh]" : "h-[30vh]"}  w-full`}>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -221,7 +221,7 @@ const BarChart = ({ information, fullPage = false }) => {
           </div>
         </div>
       ) : null}
-      <div className="h-[50vh] w-full">
+      <div className={`${fullPage ? "h-[50vh]" : "h-[30vh]"}  w-full`}>
         <AnimatePresence>
           {chartType === "pressure" && (
             <>
@@ -318,7 +318,9 @@ const BarChart = ({ information, fullPage = false }) => {
                     transition: { duration: 0.2, ease: "easeInOut" },
                   }}
                   key="elevation-chart"
-                  className="w-full h-[50vh] bg-white rounded-[12px]"
+                  className={`${
+                    fullPage ? "h-[50vh]" : "h-[30vh]"
+                  }  w-full bg-white rounded-xl`}
                 >
                   <ResponsiveLine
                     data={piezoElevationData}
@@ -386,11 +388,13 @@ const BarChart = ({ information, fullPage = false }) => {
                     transition: { duration: 0.2, ease: "easeInOut" },
                   }}
                   key="waterElevation-chart"
-                  className="w-full h-[50vh] bg-white rounded-[12px]"
+                  className={`${
+                    fullPage ? "h-[50vh]" : "h-[30vh]"
+                  }  w-full bg-white rounded-xl`}
                 >
                   <ResponsiveLine
                     data={readingsWaterLevelData}
-                    margin={{ top: 50, right: 20, bottom: 50, left: 50 }}
+                    margin={{ top: 20, right: 0, bottom: 50, left: 50 }}
                     xScale={{
                       type: "time",
                       format: "%Y-%m-%d %H:%M:%S",
