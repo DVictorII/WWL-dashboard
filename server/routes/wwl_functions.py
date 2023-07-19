@@ -16,53 +16,150 @@ def dbconnect():
 
 def get_data_by_section(datalogger,channel,na_ground,new_ground):
     """
+    Input
+        Datalogger,channel
+        Natural Ground: path where is located the .txt files
+        New Ground: path where is located the .txt files
     Return an array to graph the:
         pizometer [[id,Lp,ep,ept],...] >> output
         natural and artificial level [L,nl,al,e3] >> dict_graph[<section.txt>]
     """
+
+    """
+    FUNCTIONS
+    """
+    def correct_e3_version2(items,graph):
+              
+        def find_closest_index(items, graph, index, direction):
+            if index < 0 or index >= len(items):
+                return None
+            xpos = int(items[index][0]/5)
+            minrange, maxrange = graph[xpos][1],graph[xpos][2]
+            if items[index][1] >= minrange-10 and items[index][1] <= maxrange:
+                return index
+            new_index = index + direction
+            return find_closest_index(items, graph, new_index, direction)
+
+        def closest_item_with_good_value(items, graph, index=0):
+            if index >= len(items):
+                return items
+            xpos = int(items[index][0]/5)
+            minrange, maxrange = graph[xpos][1],graph[xpos][2]
+
+            if items[index][1] < minrange-10 or items[index][1] > maxrange:
+                left_index = find_closest_index(items, graph, index - 1, -1)
+                right_index = find_closest_index(items, graph, index + 1, 1)
+
+                if left_index is not None and right_index is not None:
+                    closest_index = left_index if abs(index - left_index) <= abs(index - right_index) else right_index
+                elif left_index is not None:
+                    closest_index = left_index
+                elif right_index is not None:
+                    closest_index = right_index
+                else:
+                    closest_index = None
+
+                if closest_index is not None:
+                    npos = int(items[closest_index][0]/5)
+                    value = items[closest_index][1]
+                    n_minrange,n_maxrange = graph[npos][1],graph[npos][2]
+                    relation = (value-n_minrange)/(n_maxrange-n_minrange)
+                    items[index][1] = minrange + relation * (abs(maxrange-minrange))
+                    #items[index][1] = items[closest_index][1]
+
+            return closest_item_with_good_value(items, graph, index + 1)
+        
+        updated_list = closest_item_with_good_value(items,graph)
+        return updated_list
+    
     def coordinates_generatee3(points):
-        #Conditions
+        #Generate the line e3
         output = []
+        
+        if len(points) == 0:
+            for i in range(0,401,5):
+                output.append([i,graph[int(i/5)][1]+0.25])
+            return output 
+            
+        # If there is only one pizometer, project the hall list from only one point
+        #         
         if len(points) == 1:
             _,xmax=find_closest_numbers(points[0][0],5)
+            npos= int(xmax/5)
+            n_minrange,n_maxrange = graph[npos][1],graph[npos][2]
+            relation = (points[0][1]-n_minrange)/(n_maxrange-n_minrange)
+            
             for i in range(0,401,5):
-                if i<=xmax:
-                    output.append([i,points[0][1]])
+                if i != xmax:
+                    minrange,maxrange = graph[int(i/5)][1],graph[int(i/5)][2]
+                    distance = relation * abs(maxrange-minrange)
+                    output.append([i,minrange+distance])
                 else:
-                    output.append([i,0])
+                    output.append([i,points[0][1]])
+            
+            if points[0][0] != xmax:
+                output.append([points[0][0],points[0][1]])
+            
+            sorted_points = sorted(output, key=lambda p: p[0])
+            x = [p[0] for p in output]
+            y = [p[1] for p in output]
+            
+            interp_func = interp1d(x, y, kind='linear')
+            xnew = list(range(0,401,5))
+            ynew = interp_func(xnew)
+            output=[]
+            for i in range(0,401,5):
+                output.append([i,round(ynew[int(i/5)],3)])
+          
             return output  
-        
-        if len(points) ==0:
-            print("No value")
-            return None    
-        
-        #Begin processing
+          
+        # If there are more than 02 piezometers per section
+        # 1st: Create an array with projected values at the left and right of the last values.
+        # 2nd: Interpolate and create a list with the possible values.
+        """
+        1st step
+        """
         sorted_points = sorted(points, key=lambda p: p[0])
         x = [p[0] for p in sorted_points]
-        y = []
-        for p in sorted_points:
-            if math.isnan(p[1]):
-                y.append(0)
-            else:
-                y.append(p[1])
-
+        y = [p[1] for p in sorted_points]
         xmin,_ = find_closest_numbers(x[0],5)
         _,xmax = find_closest_numbers(x[-1],5)
-        x[0] = xmin
-        x[-1] = xmax
-        interp_func = interp1d(x, y, kind='linear')
-        x_new = list(range(xmin, xmax+1, 5))
-        y_new = interp_func(x_new)
-        
-        j=1
+        print(xmin,xmax)
         for i in range(0,401,5):
-            if i <= xmin:
-                output.append([i,y_new[0]])
-            elif i >= xmax:
-                output.append([i,y_new[-1]])
-            else:
-                output.append([i,y_new[j]])
-                j+=1
+            if i in x:
+                output.append([i,y[x.index(i)]])                
+            elif i < xmin:
+                npos= int(xmin/5)
+                n_minrange,n_maxrange = graph[npos][1],graph[npos][2]
+                relation = (y[0]-n_minrange)/(n_maxrange-n_minrange)
+                minrange,maxrange = graph[int(i/5)][1],graph[int(i/5)][2]
+                distance = relation * abs(maxrange-minrange)
+                output.append([i,minrange+distance])
+            elif i > xmax:
+                npos= int(xmax/5)
+                n_minrange,n_maxrange = graph[npos][1],graph[npos][2]
+                relation = (y[-1]-n_minrange)/(n_maxrange-n_minrange)
+                minrange,maxrange = graph[int(i/5)][1],graph[int(i/5)][2]
+                distance = relation * abs(maxrange-minrange)
+                output.append([i,minrange+distance])
+                
+        for i in range(len(x)):
+            if x[i] % 5 != 0:
+                output.append([x[i],y[i]])
+        
+        """
+        2nd step
+        """
+        sorted_points = sorted(output, key=lambda p: p[0])
+        print(sorted_points)
+        x = [p[0] for p in sorted_points]
+        y = [p[1] for p in sorted_points]
+        interp_func = interp1d(x, y, kind='linear')
+        x_new = list(range(0,401, 5))
+        y_new = interp_func(x_new)
+        output=[]
+        for i in range(0,401,5):
+            output.append([i,round(y_new[int(i/5)],3)])
         return output
 
     def coordinates_norm(diag0,diag):
@@ -74,16 +171,15 @@ def get_data_by_section(datalogger,channel,na_ground,new_ground):
         return x_project
 
     def coordinates_projections(l_start,l_end,xp,yp):
+        # Calculate the projection of each point, and return the x value in the graphics
         point = np.array([xp, yp])
-        line_start = l_start 
-        line_end = l_end
-        point_vector = point - line_start
-        line_vector = line_end - line_start
-        projection = line_start + np.dot(point_vector, line_vector) / np.dot(line_vector, line_vector) * line_vector    
-        return coordinates_norm(line_start,projection)
+        point_vector = point - l_start
+        line_vector = l_end - l_start
+        projection = l_start + np.dot(point_vector, line_vector) / np.dot(line_vector, line_vector) * line_vector    
+        return coordinates_norm(l_start,projection)
 
-    def coordinates_generateept(y1,y2,x1,point):
-        interval = 5
+    def coordinates_generateept(y1,y2,x1,point,interval):
+        #Calculate the value of ept for given a value in x
         if point < x1:
             print("Error: the point must be greater than x1")
             return None    
@@ -92,6 +188,11 @@ def get_data_by_section(datalogger,channel,na_ground,new_ground):
         return round(y_interpol,2)
 
     def find_closest_numbers(number, interval):
+        # Given a <number> return the interval [min,max]
+        if number >= 400:
+            return 395,400
+        if number <=0:
+            return 0,5
         closest_min = number - (number % interval)
         closest_max = closest_min + interval
         return closest_min, closest_max
@@ -100,72 +201,90 @@ def get_data_by_section(datalogger,channel,na_ground,new_ground):
         diagonal = []
         flag = True
         #e1
-        with open(filename,'r') as fp:
-            for line in fp:
-                coordinates = line.strip().split(',')
-                # Convert coordinates to float
-                if flag==True:
-                    l0 = np.array((float(coordinates[0]),float(coordinates[1])))
-                    z= float(coordinates[2])
-                    flag=False
-                    diagonal.append([0,z])
-                else:
-                    l1 = np.array((float(coordinates[0]),float(coordinates[1])))
-                    z= float(coordinates[2])
-                    diagonal.append([coordinates_norm(l0,l1),z])
-        #e2
-        with open(filename2,'r') as fp:
-            for count,line in enumerate(fp):
-                coordinates = line.strip().split(',')
-                z= float(coordinates[2])
-                diagonal[count].append(z)
+        # Given the files with information on natural and artificial levels, the function returns the [L, Natural_Level, New_Level]
         
-        return diagonal,[l0,l1]
+        try:
+            with open(filename,'r') as fp:
+                for line in fp:
+                    coordinates = line.strip().split(',')
+                    if flag==True: #Point 0
+                        l0 = np.array((float(coordinates[0]),float(coordinates[1])))
+                        z= float(coordinates[2])
+                        diagonal.append([0,z])
+                        flag=False
+                    else:
+                        l1 = np.array((float(coordinates[0]),float(coordinates[1])))
+                        z= float(coordinates[2])
+                        diagonal.append([coordinates_norm(l0,l1),z])
+            
+            #New Level added
+            with open(filename2,'r') as fp:
+                for count,line in enumerate(fp):
+                    coordinates = line.strip().split(',')
+                    z= float(coordinates[2])
+                    diagonal[count].append(z)
+            return diagonal,[l0,l1]
+        except FileNotFoundError as e:
+            print("File not found: ", str(e))
+            return [],[]
+        except IOError as e:
+            print("I/O error occurred:", str(e))
+            return [],[]
+        except Exception as e:
+            print("An error occurred:", str(e))
+            return [],[]
 
     def graph_createdictionarypersection(na_g,new_g,i):
         dict_graphsection={}
         dict_graphpizometer={}
-        name=na_g
-        name2=new_g
-        #name='./natural_ground/'
-        #name2='./new_ground/'
-        #for i in os.listdir('./natural_ground'):
-        dict_graphsection[i],dict_graphpizometer[i]=graph_coordinates_calculate(name + i,name2 + i)
+        l1,l2 = graph_coordinates_calculate(na_g + i,new_g + i)
+        if bool(l1) and bool(l2):
+            dict_graphsection[i],dict_graphpizometer[i]=graph_coordinates_calculate(na_g + i,new_g + i)
         return dict_graphsection,dict_graphpizometer
     
+    """
+    DB Connection and global variables
+    """
     conn = dbconnect()
     cur = conn.cursor()
     interval=5
-    # Given specific pizometer (datalogger, channel)
+    lstart=None
+    lend = np.array([400, 0])
     
+   # Given specific piezometer (datalogger, channel)
     query = """
-    SELECT id, section, depth, serial, lat, lon
+    SELECT id, section, status, elevation, east_utm, north_utm
     FROM piezometer_details
     WHERE datalogger = %s AND channel = %s
     """
     cur.execute(query, (datalogger, channel))
-    
     row = cur.fetchone()
+    
     # Validate
     if row is None:
-        print('Not found in DB')
+        print('Not found piezometer in DB')
         cur.close()
         conn.close()
-        return None
+        return None,None
+        
     #Save information
     piezometer_id = row[0]
     piezometer_section = row[1]
-    piezometer_depth = row[2]
+    piezometer_status = int(row[2])
     piezometer_elevation = row[3]
-    piezometer_ccmlat = row[4]
-    piezometer_ccmlon = row[5] 
+    piezometer_eastutm = row[4]
+    piezometer_northutm = row[5]  
     # Information to calculate the projections (vectors)
     dict_graph,dict_pizometer = graph_createdictionarypersection(na_ground,new_ground,piezometer_section+'.txt')
     
+    if not (bool(dict_graph) and bool(dict_pizometer)):
+        print('No information about the section coordinates')
+        print('Check .txt files')
+        return None,None
+    
     lstart=dict_pizometer[piezometer_section+'.txt'][0]
-    lend = np.array([400, 0])
-
-    # Get information of the selected pizometer
+    
+   # Get information on the selected piezometer
     query = """
     SELECT pressure
     FROM last_readings
@@ -174,23 +293,16 @@ def get_data_by_section(datalogger,channel,na_ground,new_ground):
     cur.execute(query, (datalogger, channel))
     row = cur.fetchone()
     #Validation
-    if row is None:
-        print('Not found in DB')
-        cur.close()
-        conn.close()
-        return None
-    # Save information
-    piezometer_pressure = float(row[0])
-
-    #Artificial_data: Expecting update BD
-    piezometer_cx = 503519.09
-    piezometer_cy= 7517616.47
-
-    #Obtain information of related pizometers in the same section
+    if row is None or piezometer_status==2:
+        piezometer_pressure = 0
+    else:
+        piezometer_pressure = float(row[0])
+    
+    #Obtain information on related piezometers in the same section
     query = """
-    SELECT piezometer_details.id, piezometer_details.depth, piezometer_details.serial, piezometer_details.lat, piezometer_details.lon, last_readings.pressure
+    SELECT piezometer_details.id, piezometer_details.status, piezometer_details.elevation, piezometer_details.east_utm, piezometer_details.north_utm, COALESCE(last_readings.pressure, 0) AS pressure
     FROM piezometer_details
-    JOIN last_readings ON piezometer_details.datalogger = last_readings.node AND piezometer_details.channel = last_readings.channel
+    LEFT JOIN last_readings ON piezometer_details.datalogger = last_readings.node AND piezometer_details.channel = last_readings.channel
     WHERE piezometer_details.section = %s
     """
     #BD Over
@@ -198,23 +310,38 @@ def get_data_by_section(datalogger,channel,na_ground,new_ground):
     rows = cur.fetchall()
     cur.close()
     conn.close()
+    e3 = []
 
     # Generate output [id,Lp,ep,ept]
-    output = [[piezometer_id,coordinates_projections(lstart,lend,piezometer_cx,piezometer_cy),float(piezometer_depth)]]
-    e3 = [[coordinates_projections(lstart,lend,piezometer_cx,piezometer_cy),piezometer_pressure]]
+    output = [[piezometer_id,piezometer_status,coordinates_projections(lstart,lend,float(piezometer_eastutm),float(piezometer_northutm)),float(piezometer_elevation)]]
+    coordinates= coordinates_projections(lstart,lend,float(piezometer_eastutm),float(piezometer_northutm))
+    if piezometer_pressure != 0 and not np.isnan(piezometer_pressure):
+        valuee3 = float(piezometer_elevation) + piezometer_pressure/10
+        e3.append([coordinates,valuee3])
     for row in rows:
-        if row!= (piezometer_id,piezometer_depth):
-            output.append([row[0],coordinates_projections(lstart,lend,piezometer_cx,piezometer_cy),float(row[1])])
-            e3.append([coordinates_projections(lstart,lend,piezometer_cx,piezometer_cy),float(row[5])])
+        if row[0] != piezometer_id:
+            output.append([row[0],int(row[1]),coordinates_projections(lstart,lend,float(row[3]),float(row[4])),float(row[2])])
+            coordinates= coordinates_projections(lstart,lend,float(row[3]),float(row[4]))
+            if float(row[5]) != 0 and not np.isnan(piezometer_pressure) and int(row[1]) != 2:
+                valuee3 = float(row[2]) + float(row[5]/10)
+                e3.append([coordinates,valuee3])
+    
     for i in range(len(output)):
-        x3 = output[i][1]
+        x3 = output[i][2]
         x1,x2 = find_closest_numbers(x3,interval)
         y1,y2 = dict_graph[piezometer_section+'.txt'][int(x1/5)][2],dict_graph[piezometer_section+'.txt'][int(x2/5)][2] 
-        y3 = coordinates_generateept(y1,y2,x1,x3)
+        y3 = coordinates_generateept(y1,y2,x1,x3,interval)
         output[i].append(y3)
 
-    #Calculate e3 and update the information of Graph (Natural and Artificial Level)
-    output2 = coordinates_generatee3(e3)
+    #In case there are more than 1 pizometer and the value of e3 is outside the range, the value is corrected accordingly their neighbors
+    if len(e3)>1:
+        e3 = sorted(e3, key=lambda p: p[0])
+        e3 = correct_e3_version2(e3,dict_graph[piezometer_section+'.txt'])
+    
+    #Generate arrange of e3 for the 80 points
+    output2 = coordinates_generatee3(e3,dict_graph[piezometer_section+'.txt'])
+    
+    #Add to the final output the values of e3
     for i in range(len(output2)):
         dict_graph[piezometer_section+'.txt'][i].append(output2[i][1])
     
