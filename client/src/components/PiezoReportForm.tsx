@@ -10,12 +10,17 @@ import PhotoUploader from "./Reports/PhotoUploader";
 import { useNewPiezoReportStateStore } from "../store/NewPiezoReportStateStore";
 import PiezoInformationTable from "./PiezometerLectures/PiezoInformationTable";
 
-import ReportLocationTable from "./Reports/ReportLocationTable";
-import ReportDateTable from "./Reports/ReportDateTable";
+import ReportLocationTable from "./Reports/form/ReportPiezo";
+
 import PiezoLecturesComponent from "./PiezometerLectures/PiezoLecturesComponent";
 import SupervisorsComponent from "./Reports/SupervisorsComponent";
-import ReportTitleDescription from "./Reports/ReportTitleDescription";
+import ReportTitleDescription from "./Reports/form/ReportDescription";
 import ReportState from "./Reports/ReportState";
+import ReportTitle from "./Reports/form/ReportTitle";
+import ReportDescription from "./Reports/form/ReportDescription";
+import ReportDate from "./Reports/form/ReportDate";
+import ReportPaddock from "./Reports/form/ReportPaddock";
+import ReportPiezo from "./Reports/form/ReportPiezo";
 
 interface reportState {
   title: string;
@@ -123,50 +128,51 @@ function PiezoReportForm() {
     <form
       encType="multipart/form-data"
       onSubmit={handleSubmit}
-      className="flex flex-col gap-y-20"
+      className="flex flex-col gap-y-8"
     >
-      <PhotoUploader />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-8 bg-white p-4 rounded-xl shadow-sm">
+        <ReportTitle />
+        <ReportDescription />
 
-      {/* <ReportState/> */}
+        <ReportPiezo />
 
-      <div className="flex flex-col gap-y-8 md:gap-y-4">
-        <h2 className="font-bold text-sm 2xl:text-base">Report details</h2>
+        <ReportPaddock />
 
-        <div className="md:px-4 grid grid-cols-1 lg:grid-cols-2 gap-x-8 xl:gap-x-10 gap-y-8 md:gap-y-0 lg:gap-y-8 xl:gap-y-10">
-          <div className=" md:py-8 flex flex-col gap-y-4 ">
-            <h2
-              className="text-sm md:text-base font-semibold"
-              key={`${paddock}${piezo}`}
-            >
-              {paddock} / {piezo}
-            </h2>
-            <PiezoInformationTable />
-          </div>
+        <ReportDate />
+      </div>
 
-          <div className=" md:py-8 flex flex-col gap-y-8">
-            <ReportTitleDescription />
+      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-6 lg:gap-x-8 gap-y-8">
+        <div className="bg-white p-4 rounded-xl shadow-sm flex items-center ">
+          <PhotoUploader />
+        </div>
 
-            <ReportDateTable />
+        <div className="flex flex-col gap-y-4  bg-white p-4 rounded-xl shadow-sm">
+          <h2 className="font-bold text-sm 2xl:text-base">Report details</h2>
 
-            <ReportLocationTable />
-          </div>
+          <h2
+            className="text-sm md:text-base font-bold"
+            key={`${paddock}${piezo}`}
+          >
+            {paddock} / {piezo}
+          </h2>
+          <PiezoInformationTable />
         </div>
       </div>
 
       <PiezoLecturesComponent />
 
-      <div className="flex flex-col">
+      <div className="flex flex-col bg-white p-4 rounded-xl shadow-sm">
         <h2 className="font-bold text-sm 2xl:text-base">
           Supervisors (optional)
         </h2>
-        <p className="mt-4 text-sm font-medium">
+        <p className="mt-4 text-sm font-medium text-[#666]">
           Add the email of the supervisors who will receive a detailed report.
         </p>
 
         <SupervisorsComponent />
       </div>
 
-      <button className="w-max py-3 px-6 bg-[#333] rounded-[14px] text-white  flex items-center justify-center gap-x-2 shadow-sm">
+      <button className="w-max py-2 px-6 bg-[#333] rounded-full text-white  flex items-center justify-center gap-x-2 shadow-sm">
         <IoSaveOutline className="w-6 h-6 " />
         <span className="text-lg font-semibold">Save</span>
       </button>

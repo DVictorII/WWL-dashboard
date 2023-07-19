@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import { useNewPiezoReportStateStore } from "../../store/NewPiezoReportStateStore";
+import { useNewPiezoReportStateStore } from "../../../store/NewPiezoReportStateStore";
 import Datepicker from "react-tailwindcss-datepicker";
 import moment from "moment";
 
-function ReportDateTable() {
+function ReportDate() {
   const date = useNewPiezoReportStateStore((state) => state.date);
   const changeDate = useNewPiezoReportStateStore((state) => state.changeDate);
 
@@ -17,12 +17,12 @@ function ReportDateTable() {
   };
 
   return (
-    <div className="flex flex-col sz500:w-4/5 md:w-5/6 lg:w-full sz500:self-center sz500:grid sz500:grid-cols-4 md:grid-cols-3  gap-y-1 sz500:gap-y-8 gap-x-8 z-[50] relative">
+    <div className=" flex flex-col gap-y-1  xl:grid xl:grid-cols-3 gap-x-4">
       <span className="text-[10px] xl:text-xs 2xl:text-sm font-bold text-[#555] justify-self-end">
         Report date
       </span>
 
-      <div className="sz500:col-span-3 md:col-span-2">
+      <div className="xl:col-span-2">
         <Datepicker
           inputClassName=" text-xs sm:text-sm py-4 rounded-xl dark:bg-all-normal"
           useRange={false}
@@ -47,4 +47,4 @@ function ReportDateTable() {
   );
 }
 
-export default ReportDateTable;
+export default ReportDate;
