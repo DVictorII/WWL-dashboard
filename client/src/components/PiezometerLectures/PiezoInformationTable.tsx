@@ -43,7 +43,12 @@ function PiezoInformationTable() {
     }
   );
 
-  if (piezometersAreLoading || lastReadingsAreLoading)
+  if (
+    piezometersAreLoading ||
+    lastReadingsAreLoading ||
+    !piezometersData ||
+    !lastReadings
+  )
     return <SkeletonPiezoInformationTable />;
 
   const lastReading = lastReadings?.find(

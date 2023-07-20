@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { useLogOutStore } from "../../store/LogOutStore";
 
@@ -9,11 +9,42 @@ import MobileMenu from "../MobileMenu";
 import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "../ProtectedRoute";
 import ProtectedLogIn from "../ProtectedLogIn";
+import { useMonitoringMapStateStore } from "../../store/MonitoringMapStateStore";
+import { useQuery } from "react-query";
+import { fetchLastReadings, fetchPiezometersData } from "../../utils/map";
 
 function PageLayout() {
   const location = useLocation();
 
   const logOutModalIsOpen = useLogOutStore((state) => state.logOutModalIsOpen);
+
+  const setPiezometersDataAndLastReadings = useMonitoringMapStateStore(
+    (s) => s.setPiezometersDataAndLastReadings
+  );
+
+  const { isLoading: piezoDataIsLoading, data: fetchedPiezoData } = useQuery(
+    "piezometers",
+    fetchPiezometersData,
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  const { isLoading: lastReadingsAreLoading, data: lastReadings } = useQuery(
+    "last_readings",
+    fetchLastReadings,
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  useEffect(() => {
+    if (!fetchedPiezoData || !lastReadings) return;
+
+    setPiezometersDataAndLastReadings(fetchedPiezoData, lastReadings);
+  }, [piezoDataIsLoading, lastReadingsAreLoading]);
+
+  if (piezoDataIsLoading || lastReadingsAreLoading) return <h1>Loading...</h1>;
 
   if (process.env.NODE_ENV === "production") {
     return location.pathname === "/login" ? (

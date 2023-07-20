@@ -17,11 +17,6 @@ import { useEffect } from "react";
 function PaddockLectures() {
   const paddock = usePiezometerLecturesStateStore((s) => s.paddock);
   const piezo = usePiezometerLecturesStateStore((s) => s.piezo);
-
-  useEffect(() => {
-    console.log(paddock, piezo);
-  }, [paddock, piezo]);
-
   const days = usePiezometerLecturesStateStore((s) => s.days);
   const chartType = usePiezometerLecturesStateStore((s) => s.chartType);
 

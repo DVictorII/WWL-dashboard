@@ -130,7 +130,7 @@ def get_data_by_section(datalogger, channel, na_ground, new_ground):
         y = [p[1] for p in sorted_points]
         xmin, _ = find_closest_numbers(x[0], 5)
         _, xmax = find_closest_numbers(x[-1], 5)
-        print(xmin, xmax)
+        # print(xmin, xmax)
         for i in range(0, 401, 5):
             if i in x:
                 output.append([i, y[x.index(i)]])
@@ -157,7 +157,7 @@ def get_data_by_section(datalogger, channel, na_ground, new_ground):
         2nd step
         """
         sorted_points = sorted(output, key=lambda p: p[0])
-        print(sorted_points)
+        # print(sorted_points)
         x = [p[0] for p in sorted_points]
         y = [p[1] for p in sorted_points]
         interp_func = interp1d(x, y, kind="linear")

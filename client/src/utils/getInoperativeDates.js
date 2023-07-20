@@ -5,17 +5,19 @@
 //   "2020-06-15 13:00:00",
 // ];
 
+import moment from "moment";
+
 export const getInoperativeDates = (values) => {
   const inoperativeDates = [];
 
-  values.map((date, i) => {
+  [...values, moment(Date.now()).format("YYYY-MM-DD")].map((date, i) => {
     if (i === 0) return date;
 
     const intervalInDays = Math.round(
       (new Date(values[i]) - new Date(values[i - 1])) / (1000 * 60 * 60 * 24)
     );
 
-    if (intervalInDays > 2) {
+    if (intervalInDays > 1) {
       inoperativeDates.push({
         currentDate: values[i - 1],
         nextDate: values[i],

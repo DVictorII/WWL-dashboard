@@ -21,6 +21,8 @@ import ReportDescription from "./Reports/form/ReportDescription";
 import ReportDate from "./Reports/form/ReportDate";
 import ReportPaddock from "./Reports/form/ReportPaddock";
 import ReportPiezo from "./Reports/form/ReportPiezo";
+import ReportTimeSpan from "./Reports/form/ReportTimeSpan";
+import ReportPiezoInformationTable from "./Reports/ReportPiezoInformationTable";
 
 interface reportState {
   title: string;
@@ -138,7 +140,8 @@ function PiezoReportForm() {
 
         <ReportPaddock />
 
-        <ReportDate />
+        {/* <ReportDate /> */}
+        <ReportTimeSpan />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-6 lg:gap-x-8 gap-y-8">
@@ -157,7 +160,7 @@ function PiezoReportForm() {
           >
             {paddock} / {piezo}
           </h2> */}
-          <PiezoInformationTable />
+          <ReportPiezoInformationTable />
         </div>
       </div>
 

@@ -1,0 +1,14 @@
+Posibles nuevas funcionalidades para la página:
+
+
+(/piezometer-readings):
+- Añadir una función para que el cliente pueda escoger el rango de fechas para ver las lecturas (ejemplo: 01-01-2021 / 31-12-2021)
+
+
+(/reports/piezometers/new-report):
+- Añadir timeSpan "custom", para elegir la fecha libremente 
+
+
+(global alerts):
+
+- enviar una alerta cuando un piezómetro está a punto de pasar a ser desconectado, o cuando está arrojando lecturas incorrectas

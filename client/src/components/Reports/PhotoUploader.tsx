@@ -8,10 +8,10 @@ function PhotoUploader() {
   const uploadPhoto = useNewPiezoReportStateStore((state) => state.uploadPhoto);
   const deletePhoto = useNewPiezoReportStateStore((state) => state.deletePhoto);
 
-  useEffect(() => {
-    console.log("PHOTO");
-    console.log(photo);
-  }, [photo]);
+  // useEffect(() => {
+  //   console.log("PHOTO");
+  //   console.log(photo);
+  // }, [photo]);
 
   return (
     <div className="flex flex-col items-center gap-y-4 w-full">

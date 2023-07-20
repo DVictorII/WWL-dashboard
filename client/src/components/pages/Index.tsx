@@ -42,31 +42,7 @@ const Index = () => {
   const date = useMonitoringMapStateStore((s) => s.date);
   const section = useMonitoringMapStateStore((s) => s.section);
 
-  const setPiezometersDataAndLastReadings = useMonitoringMapStateStore(
-    (s) => s.setPiezometersDataAndLastReadings
-  );
-
-  const { isLoading: piezoDataIsLoading, data: fetchedPiezoData } = useQuery(
-    "piezometers",
-    fetchPiezometersData,
-    {
-      refetchOnWindowFocus: false,
-    }
-  );
-
-  const { isLoading: lastReadingsAreLoading, data: lastReadings } = useQuery(
-    "last_readings",
-    fetchLastReadings,
-    {
-      refetchOnWindowFocus: false,
-    }
-  );
-
-  useEffect(() => {
-    if (!fetchedPiezoData || !lastReadings) return;
-
-    setPiezometersDataAndLastReadings(fetchedPiezoData, lastReadings);
-  }, [piezoDataIsLoading, lastReadingsAreLoading]);
+  const piezometersData = useMonitoringMapStateStore((s) => s.piezometersData);
 
   const downloadReport = async () => {
     try {
@@ -129,8 +105,6 @@ const Index = () => {
   //@ts-ignore
   const selectedStatus = monitoringMapStatusInfo[status];
 
-  if (piezoDataIsLoading || lastReadingsAreLoading) return <h1>Loading...</h1>;
-
   return (
     <>
       <MenuNavbar />
@@ -141,7 +115,7 @@ const Index = () => {
         <h1 className="flex flex-col gap-y-1 ">
           <span className="font-bold">Monitoring Map</span>
           <span className="text-xs font-semibold text-[#666]">
-            ({fetchedPiezoData.length} Piezometers)
+            ({piezometersData.length} Piezometers)
           </span>
         </h1>
         <button
