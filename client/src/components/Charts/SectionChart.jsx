@@ -3,12 +3,14 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
+  BubbleController,
   PointElement,
   LineElement,
   Title,
   Tooltip,
   Legend,
   Filler,
+  // ChartType
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 
@@ -69,6 +71,8 @@ const piezoLine = {
 
 ChartJS.register(
   CategoryScale,
+  BubbleController,
+  
   LinearScale,
   PointElement,
   LineElement,
@@ -150,7 +154,7 @@ const Y3WaterLvl = chartCoordinates.map((arr) => arr[3]);
         hoverBorderWidth: i === 0 ? 3 : 2,
         borderWidth: i === 0 ? 3 : 2,
         radius: i === 0 ? 14 : 7,
-        type: "bubble",
+        type: "bubble" ,
         
         data: [
           {
