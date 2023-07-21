@@ -22,7 +22,8 @@ import ReportDate from "./Reports/form/ReportDate";
 import ReportPaddock from "./Reports/form/ReportPaddock";
 import ReportPiezo from "./Reports/form/ReportPiezo";
 import ReportTimeSpan from "./Reports/form/ReportTimeSpan";
-import ReportPiezoInformationTable from "./Reports/ReportPiezoInformationTable";
+import ReportPiezoInformationTable from "./Reports/form/ReportPiezoInformationTable";
+import ReportPiezoTableWithInoperativeDates from "./Reports/form/ReportPiezoTableWithInoperativeDates";
 
 interface reportState {
   title: string;
@@ -160,7 +161,7 @@ function PiezoReportForm() {
           >
             {paddock} / {piezo}
           </h2> */}
-          <ReportPiezoInformationTable />
+          <ReportPiezoTableWithInoperativeDates />
         </div>
       </div>
 

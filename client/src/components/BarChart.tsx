@@ -167,7 +167,7 @@ const BarChart = ({ information, fullPage = false }) => {
             className="h-full w-full flex justify-center items-center bg-white md:bg-[#f5f5f5] rounded-[12px] px-4"
           >
             <span className="font-semibold">
-              Proposed piezometer. No lectures yet!
+              Proposed piezometer. No readings yet!
             </span>
           </motion.div>
         </div>

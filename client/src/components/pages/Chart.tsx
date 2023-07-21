@@ -85,7 +85,7 @@ function Chart() {
         <LecturesLocationTable />
       </div>
 
-      <div className="h-[30vh] sm:h-[40vh] lg:h-[50vh] w-full md:w-3/4 border p-4">
+      <div className="h-[30vh] sm:h-[40vh] lg:h-[60vh] w-full  border p-4">
         <SectionChart
           chartCoordinates={chartCoordinates}
           chartPiezometers={chartPiezometers}

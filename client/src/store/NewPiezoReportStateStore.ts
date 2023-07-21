@@ -3,8 +3,8 @@ import { chartPiezoList } from "./../utils/piezoList";
 import { create } from "zustand";
 
 export interface Lecture {
-  pressure: string;
-  time: string;
+  pressure: string | undefined;
+  time: string | undefined;
 }
 
 interface InoperativeDate {
@@ -19,6 +19,7 @@ interface LecturesInformation {
   lecturesAvg: number;
   lecturesMax: number;
   lecturesMin: number;
+  lastReading: Lecture;
 }
 
 interface NewPiezoReportStateStore {
@@ -76,6 +77,10 @@ export const useNewPiezoReportStateStore = create<NewPiezoReportStateStore>(
       lecturesAvg: 0,
       lecturesMax: 0,
       lecturesMin: 0,
+      lastReading: {
+        pressure: "0",
+        time: moment(Date.now()).format("YYYY-MM-DD"),
+      },
     },
 
     resetState: () =>

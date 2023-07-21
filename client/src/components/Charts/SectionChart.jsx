@@ -23,7 +23,7 @@ import {monitoringMapStatusInfo} from "../../utils/monitoringMapStatusInfo"
 
 const piezoLine = {
   id: "piezoLine",
-  beforeDraw(chart, args, options) {
+  beforeDatasetsDraw(chart, args, options) {
     const piezometersData = options.piezometersData;
     const XValues = options.XValues;
     const YTopValues = options.YTopValues;
@@ -34,32 +34,34 @@ const piezoLine = {
       scales: { x, y },
     } = chart;
 
-    // console.log(y)
-    // console.log(y.getPixelForValue(562))
 
     let piezometer;
     for (let i = 0; i <= piezometersData.length - 1; i++) {
         piezometer = piezometersData[i];
+        // console.log(piezometer)
       if(piezometer[3] !== 0){
 
-        
-  
-        // console.log(piezometer);
-        // console.log(XValues.findIndex((el) => el === piezometer[1]));
-  
-        // console.log(y.getPixelForValue(YTopValues.findIndex((el) => el === piezometer[1])))
-  
-        ctx.save();
-        // console.log(ctx)
-  
-        ctx.strokeStyle = "#333";
-        
 
   
+        ctx.save();
+
+  
+        ctx.strokeStyle = piezometer[0] === "VW-CD3-03" ? "#008000" : "#333";
+        
+
+       
+        // ctx.strokeRect(
+        //   x.getPixelForValue( XValues.findIndex((p)=>p === piezometer[2]) ),
+        //   y.getPixelForValue(piezometer[4]) ,
+        //   0,
+        //   y.getPixelForValue(piezometer[3]) - y.getPixelForValue(piezometer[4])
+        // );
+
         ctx.strokeRect(
-          x.getPixelForValue(XValues.findIndex((el) => el === piezometer[2])),
+          x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) )  ,
+          
           y.getPixelForValue(piezometer[4]) ,
-          0,
+          0 ,
           y.getPixelForValue(piezometer[3]) - y.getPixelForValue(piezometer[4])
         );
   
@@ -67,6 +69,50 @@ const piezoLine = {
       }
     }
   },
+  // beforeDraw(chart, args, options) {
+  //   const piezometersData = options.piezometersData;
+  //   const XValues = options.XValues;
+  //   const YTopValues = options.YTopValues;
+
+  //   const {
+  //     ctx,
+  //     chartArea: { top, right, bottom, left, width, height },
+  //     scales: { x, y },
+  //   } = chart;
+
+  //   console.log("XVALUES",XValues)
+
+  //   let piezometer;
+  //   for (let i = 0; i <= piezometersData.length - 1; i++) {
+  //       piezometer = piezometersData[i];
+  //     if(piezometer[3] !== 0){
+
+  
+  //       ctx.save();
+
+  
+  //       ctx.strokeStyle = piezometer[0] === "VW-CD3-01" ? "#008000" : "#333";
+        
+
+       
+  //       // ctx.strokeRect(
+  //       //   x.getPixelForValue( XValues.findIndex((p)=>p === piezometer[2]) ),
+  //       //   y.getPixelForValue(piezometer[4]) ,
+  //       //   0,
+  //       //   y.getPixelForValue(piezometer[3]) - y.getPixelForValue(piezometer[4])
+  //       // );
+
+  //       ctx.strokeRect(
+  //         x.getPixelForValue( XValues.findIndex((p)=>p === piezometer[2]) ),
+  //         y.getPixelForValue(piezometer[4]) ,
+  //         0,
+  //         y.getPixelForValue(piezometer[3]) - y.getPixelForValue(piezometer[4])
+  //       );
+  
+  //       ctx.restore();
+  //     }
+  //   }
+  // },
 };
 
 ChartJS.register(
@@ -89,22 +135,20 @@ function SectionChart({chartCoordinates, chartPiezometers}) {
   const isTablet = useMediaQuery({ query: "(max-width: 1023px)" });
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
 
-  console.log(chartCoordinates);
-  console.log(chartPiezometers);
+
+  
 
   const XChainage = chartCoordinates.map((arr) => arr[0]);
 const Y1GroundLvl = chartCoordinates.map((arr) => arr[1]);
 const Y2SurveyLvl = chartCoordinates.map((arr) => arr[2]);
 const Y3WaterLvl = chartCoordinates.map((arr) => arr[3]);
 
+
   const labels = XChainage;
 
-  
-
   const data = {
-  labels: [ ...new Set( [...labels, ...chartPiezometers.map((arr) => arr[2])].sort(
-    (a, b) => a - b
-  ))],
+  labels ,
+  
   datasets: [
     {
       label: "Ground lvl (RLm)",
@@ -139,11 +183,10 @@ const Y3WaterLvl = chartCoordinates.map((arr) => arr[3]);
     ...chartPiezometers.filter((piezoData)=>piezoData[3] !== 0).map((piezoData,i) => {
       const name = piezoData[0];
       const XPosition = piezoData[2];
-      // console.log(XPosition);
+      
       const YPosition = piezoData[3];
       const YIntersection = piezoData[4];
 
-      const isSelected = name === "Piezo 1";
 
        return {
         label: "none",
@@ -170,11 +213,13 @@ const Y3WaterLvl = chartCoordinates.map((arr) => arr[3]);
 
   const options = {
     responsive: true,
+    
     animation:{
       duration:0
     },
     maintainAspectRatio: false,
     plugins: {
+      
       legend: {
       //   position: "top" ,
       //   labels: {
@@ -201,19 +246,19 @@ const Y3WaterLvl = chartCoordinates.map((arr) => arr[3]);
       },
       piezoLine: {
         piezometersData: chartPiezometers,
-        XValues: [ ...new Set( [...labels, ...chartPiezometers.map((arr) => arr[2])].sort(
-          (a, b) => a - b
-        ))],
+        XValues: labels,
         YTopValues: Y2SurveyLvl
       },
     },
 
     scales: {
       x: {
+        
         ticks: {
           font: {
             size: isMobile ? 8 : isTablet ? 10 : 12,
           },
+          // maxTicksLimit: 20
         },
 
         grid: {
@@ -225,6 +270,7 @@ const Y3WaterLvl = chartCoordinates.map((arr) => arr[3]);
         
       },
       y: {
+        
         ticks: {
           font: {
             size: isMobile ? 8 : isTablet ? 10 : 12,

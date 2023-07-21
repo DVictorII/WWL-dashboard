@@ -12,7 +12,7 @@ import moment from "moment";
 //@ts-ignore
 import { getInoperativeDates } from "../../utils/getInoperativeDates";
 import { FadeLoader } from "react-spinners";
-import ReportPiezoInformationTable from "./ReportPiezoInformationTable";
+import ReportPiezoInformationTable from "./form/ReportPiezoInformationTable";
 import SkeletonPiezoInfoWithInoperativeDaysTable from "../Skeletons/Reports/SkeletonPiezoInfoWithInoperativeDaysTable";
 
 function PiezoInfoWithInoperativeDaysTable({

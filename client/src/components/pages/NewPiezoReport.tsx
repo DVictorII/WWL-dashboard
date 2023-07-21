@@ -26,20 +26,20 @@ function NewPiezoReport() {
     navigate("/reports/piezometers");
   };
 
-  const { isLoading: piezometersAreLoading, data: piezometersData } = useQuery({
-    queryKey: [`Onepiezometer_${paddock}_${piezo}`],
-    queryFn: () =>
-      fetchPiezometerData({
-        paddock: paddock,
-        piezo: piezo,
-      }),
-    refetchOnWindowFocus: false,
-  });
+  // const { isLoading: piezometersAreLoading, data: piezometersData } = useQuery({
+  //   queryKey: [`Onepiezometer_${paddock}_${piezo}`],
+  //   queryFn: () =>
+  //     fetchPiezometerData({
+  //       paddock: paddock,
+  //       piezo: piezo,
+  //     }),
+  //   refetchOnWindowFocus: false,
+  // });
 
-  if (piezometersAreLoading) return <h1>Loading...</h1>;
+  // if (piezometersAreLoading) return <h1>Loading...</h1>;
 
-  const node = piezometersData[0].datalogger;
-  const channel = piezometersData[0]?.channel;
+  // const node = piezometersData[0].datalogger;
+  // const channel = piezometersData[0]?.channel;
 
   return (
     <>

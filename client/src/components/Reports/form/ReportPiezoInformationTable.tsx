@@ -2,23 +2,27 @@ import React, { useEffect } from "react";
 import { useQuery } from "react-query";
 
 import { FadeLoader } from "react-spinners";
-import { fetchLastReadings, fetchPiezometerData } from "../../utils/map";
+import { fetchLastReadings, fetchPiezometerData } from "../../../utils/map";
 import {
   capitalizeName,
   monitoringMapStatusInfo,
-} from "../../utils/monitoringMapStatusInfo";
-import SkeletonPiezoInformationTable from "../Skeletons/PiezometerLectures/SkeletonPiezoInformationTable";
+} from "../../../utils/monitoringMapStatusInfo";
+import SkeletonPiezoInformationTable from "../../Skeletons/PiezometerLectures/SkeletonPiezoInformationTable";
 import { useLocation } from "react-router-dom";
 import {
   Lecture,
   useNewPiezoReportStateStore,
-} from "../../store/NewPiezoReportStateStore";
-import { useMonitoringMapStateStore } from "../../store/MonitoringMapStateStore";
-import axios from "../../utils/axios";
+} from "../../../store/NewPiezoReportStateStore";
+import { useMonitoringMapStateStore } from "../../../store/MonitoringMapStateStore";
+import axios from "../../../utils/axios";
 import moment from "moment";
 
 //@ts-ignore
-import { getInoperativeDates } from "../../utils/getInoperativeDates";
+import { getInoperativeDates } from "../../../utils/getInoperativeDates";
+import {
+  fetchReportLectures,
+  processLecturesData,
+} from "../../../utils/reportsFetchFunctions";
 
 function ReportPiezoInformationTable() {
   const location = useLocation().pathname;
@@ -46,93 +50,6 @@ function ReportPiezoInformationTable() {
   const currentPiezometer = piezometersData.find(
     (p) => p.paddock === paddock && p.id === piezo
   );
-
-  console.log(currentPiezometer);
-
-  const fetchReportLectures = async (
-    datalogger: number,
-    channel: number,
-    days: number
-  ) => {
-    const result = await axios.get(
-      `/lectures/node_${datalogger}_${channel}/${days}`
-    );
-
-    return result.data.lectures;
-  };
-
-  const processLecturesData = (lecturesData: Lecture[]) => {
-    console.log(lastReadings);
-    const lecturesDates = lecturesData.map((lecture) => {
-      return moment(lecture.time).format("YYYY-MM-DD HH:mm:ss");
-    });
-
-    //@ts-ignore
-    const lecturesPressure = lecturesData.map((lecture) => {
-      return lecture.pressure;
-    });
-
-    const inoperativeDates = getInoperativeDates(lecturesDates);
-
-    //AÑADIR LAST READING!!
-    const lastReading = lastReadings.find(
-      (r) =>
-        currentPiezometer?.datalogger === r.node &&
-        currentPiezometer?.channel === r.channel
-    );
-
-    const maxLecture = Number(
-      Math.max(...lecturesPressure.map((l) => Number(l))).toFixed(3)
-    );
-    const minLecture = Number(
-      Math.min(...lecturesPressure.map((l) => Number(l))).toFixed(3)
-    );
-    console.log(inoperativeDates);
-    const avgPWP =
-      lecturesPressure.length === 0
-        ? 0
-        : Number(
-            (
-              lecturesPressure
-                .map((p: string) => Number(p))
-                .reduce((a: number, b: number) => a + b) /
-              lecturesPressure.length
-            ).toFixed(3)
-          );
-
-    return {
-      lectures: lecturesData,
-      inoperativeDates,
-      lecturesAvg: avgPWP,
-      lecturesMax: maxLecture,
-      lecturesMin: minLecture,
-    };
-  };
-
-  const { isLoading: lecturesAreLoading, data: lecturesData } = useQuery({
-    queryKey: [
-      `lecturesData-node_${currentPiezometer?.datalogger}_${currentPiezometer?.channel}-${DAYS_SPAN}`,
-      currentPiezometer?.datalogger,
-      currentPiezometer?.channel,
-    ],
-    queryFn: () =>
-      fetchReportLectures(
-        currentPiezometer?.datalogger as number,
-        currentPiezometer?.channel as number,
-        DAYS_SPAN
-      ),
-    onSuccess(data) {
-      const processedLectures = processLecturesData(data);
-      setLecturesInformation(processedLectures);
-    },
-    // The query will not execute until the userId exists
-    enabled: !!currentPiezometer?.datalogger && !!currentPiezometer?.channel,
-    refetchOnWindowFocus: false,
-  });
-
-  if (lecturesAreLoading) return <h1>Loading...</h1>;
-
-  console.log(lecturesInformation);
 
   // const lastReading = lastReadings?.find(
   //   //@ts-ignore
