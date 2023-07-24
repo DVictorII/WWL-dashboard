@@ -3,7 +3,7 @@ import Skeleton from "react-loading-skeleton";
 
 function SkeletonSectionImg() {
   return (
-    <div className="flex flex-col gap-y-4 self-center">
+    <div className="flex flex-col gap-y-4 self-center w-full">
       <div className="flex justify-center items-center h-52 bg-[#f5f5f5] rounded-xl font-semibold">
         <Skeleton
           width={"100%"}

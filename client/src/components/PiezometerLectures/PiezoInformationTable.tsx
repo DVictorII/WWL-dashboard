@@ -9,67 +9,46 @@ import { capitalizeName } from "../../utils/monitoringMapStatusInfo";
 import { useLocation } from "react-router-dom";
 import { useNewPiezoReportStateStore } from "../../store/NewPiezoReportStateStore";
 import SkeletonPiezoInformationTable from "../Skeletons/PiezometerLectures/SkeletonPiezoInformationTable";
+import { useMonitoringMapStateStore } from "../../store/MonitoringMapStateStore";
+import moment from "moment"
 
 function PiezoInformationTable() {
-  const location = useLocation().pathname;
+  const paddock = usePiezometerLecturesStateStore((s) => s.paddock);
 
-  const paddock =
-    location === "/piezometer-readings"
-      ? usePiezometerLecturesStateStore((s) => s.paddock).replaceAll("/", "-")
-      : useNewPiezoReportStateStore((state) => state.paddock).replaceAll(
-          "/",
-          "-"
-        );
-  const piezo =
-    location === "/piezometer-readings"
-      ? usePiezometerLecturesStateStore((s) => s.piezo)
-      : useNewPiezoReportStateStore((state) => state.piezo);
+  const piezo = usePiezometerLecturesStateStore((s) => s.piezo);
 
-  const { isLoading: piezometersAreLoading, data: piezometersData } = useQuery({
-    queryKey: [`Onepiezometer_${paddock}_${piezo}`],
-    queryFn: () =>
-      fetchPiezometerData({
-        paddock: paddock,
-        piezo: piezo,
-      }),
-    refetchOnWindowFocus: false,
-  });
+  const piezometersData = useMonitoringMapStateStore((s) => s.piezometersData);
+  const lastReadings = useMonitoringMapStateStore((s) => s.lastReadings);
 
-  const { isLoading: lastReadingsAreLoading, data: lastReadings } = useQuery(
-    "last_readings",
-    fetchLastReadings,
-    {
-      refetchOnWindowFocus: false,
-    }
+  const currentPiezometer = piezometersData.find(
+    (p) => p.paddock === paddock && p.id === piezo
   );
 
-  if (
-    piezometersAreLoading ||
-    lastReadingsAreLoading ||
-    !piezometersData ||
-    !lastReadings
-  )
-    return <SkeletonPiezoInformationTable />;
 
   const lastReading = lastReadings?.find(
     //@ts-ignore
     (reading) =>
-      reading.node === piezometersData[0].datalogger &&
-      reading.channel === piezometersData[0].channel
+      reading.node === currentPiezometer?.datalogger &&
+      reading.channel === currentPiezometer?.channel
   );
 
   const lastReadingExists =
     lastReading && lastReading.pressure && Number(lastReading.pressure);
 
-  const depthIsZero = Number(piezometersData[0].depth) == 0;
+  const depthIsZero = Number(currentPiezometer?.depth) == 0;
 
   //@ts-ignore
-  const statusStateObj = monitoringMapStatusInfo[piezometersData[0].status];
+  const statusStateObj = monitoringMapStatusInfo[currentPiezometer?.status];
+
+  if (
+    !currentPiezometer 
+  )
+    return <SkeletonPiezoInformationTable />;
 
   return (
     <div
       style={{
-        borderColor: statusStateObj.darkColor,
+        // borderColor: statusStateObj.darkColor,
       }}
       className="max-w-[1000vh] h-[19rem] overflow-x-auto rounded-lg border-2  relative bg-white"
     >
@@ -87,8 +66,8 @@ function PiezoInformationTable() {
 
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
               <span>
-                {Number(piezometersData[0].lat).toFixed(8)}° /{" "}
-                {Number(piezometersData[0].lon).toFixed(8)}°
+                {Number(currentPiezometer?.lat).toFixed(8)}° /{" "}
+                {Number(currentPiezometer?.lon).toFixed(8)}°
               </span>
             </th>
           </tr>
@@ -101,17 +80,17 @@ function PiezoInformationTable() {
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
               <span
                 className={`${
-                  piezometersData[0].section &&
-                  piezometersData[0].section !== "?" &&
-                  piezometersData[0].section !== "None"
+                  currentPiezometer?.section &&
+                  currentPiezometer?.section !== "?" &&
+                  currentPiezometer?.section !== "None"
                     ? ""
                     : "text-xl"
                 }`}
               >
-                {piezometersData[0].section &&
-                piezometersData[0].section !== "?" &&
-                piezometersData[0].section !== "None"
-                  ? piezometersData[0].section
+                {currentPiezometer?.section &&
+                currentPiezometer?.section !== "?" &&
+                currentPiezometer?.section !== "None"
+                  ? currentPiezometer?.section
                   : "-"}
               </span>
             </th>
@@ -131,7 +110,7 @@ function PiezoInformationTable() {
               <span className={`${depthIsZero ? "text-xl" : ""}`}>
                 {depthIsZero
                   ? "-"
-                  : `${Number(piezometersData[0].depth).toFixed(2)} m`}
+                  : `${Number(currentPiezometer?.depth).toFixed(2)} m`}
               </span>
             </th>
           </tr>
@@ -142,7 +121,7 @@ function PiezoInformationTable() {
             </th>
 
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              {/* @ts-ignore */}
+              
               <span>{capitalizeName(statusStateObj.name)}</span>
             </th>
           </tr>
@@ -174,13 +153,13 @@ function PiezoInformationTable() {
 
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
               <span className={`${lastReadingExists ? "" : "text-xl"}`}>
-                {lastReadingExists ? lastReading.time : "-"}
+                {lastReadingExists ? moment(lastReading.time).format("YYYY-MM-DD HH:mm:ss") : "-"}
               </span>
             </th>
           </tr>
         </tbody>
-      </table>
-      <div
+      </table> 
+       <div
         style={{
           backgroundColor: statusStateObj.lightColor,
         }}

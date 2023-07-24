@@ -31,12 +31,12 @@ function BianualVisit() {
         <div className="flex items-center justify-between gap-x-16 flex-wrap gap-y-8">
           <BVisitSelector />
 
-          <button className="flex items-center gap-x-2 px-3 xl:px-4 py-2 bg-all-normal text-white rounded-[8px] hover:bg-orange-800 transition-all">
+          {/* <button className="flex items-center gap-x-2 px-3 xl:px-4 py-2 bg-all-normal text-white rounded-[8px] hover:bg-orange-800 transition-all">
             <BsPlusSquare className="w-3 h-3 xl:w-4 xl:h-4 opacity-70" />
             <span className="text-xs xl:text-sm font-bold">
               Register new visit
             </span>
-          </button>
+          </button> */}
         </div>
 
         <div className="flex flex-col md:grid md:grid-cols-2 md:gap-x-8 2xl:gap-x-12">

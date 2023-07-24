@@ -75,9 +75,15 @@ function Chart() {
       </div>
     );
 
-  const chartPiezometers = sectionData.data;
+  const chartPiezometers = sectionData.data.map((arr)=>{
+    const fixedXCoordinate = Math.round(arr[2]/5)*5
 
-  const chartCoordinates = sectionData.name;
+    console.log(fixedXCoordinate)
+
+    return [arr[0], arr[1], fixedXCoordinate, arr[3], arr[4]]
+  });
+
+  const chartCoordinates = sectionData.name ;
 
   return (
     <div className="flex flex-col justify-center  gap-y-8  px-2 sm:px-8 md:px-0 ">

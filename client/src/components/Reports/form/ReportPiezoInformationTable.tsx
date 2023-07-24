@@ -24,58 +24,42 @@ import {
   processLecturesData,
 } from "../../../utils/reportsFetchFunctions";
 
+
 function ReportPiezoInformationTable() {
-  const location = useLocation().pathname;
-
-  const paddock = useNewPiezoReportStateStore(
-    (state) => state.paddock
-  ).replaceAll("/", "-");
-  const piezo = useNewPiezoReportStateStore((state) => state.piezo);
-  const timeSpan = useNewPiezoReportStateStore((state) => state.timeSpan);
-
-  const DAYS_SPAN =
-    timeSpan === "weekly" ? 7 : timeSpan === "monthly" ? 31 : 92;
-
-  const piezometersData = useMonitoringMapStateStore((s) => s.piezometersData);
-  const lastReadings = useMonitoringMapStateStore((s) => s.lastReadings);
-
-  const setLecturesInformation = useNewPiezoReportStateStore(
-    (state) => state.setLecturesInformation
-  );
-
   const lecturesInformation = useNewPiezoReportStateStore(
     (state) => state.lecturesInformation
   );
+
+  const paddock = useNewPiezoReportStateStore((state) => state.paddock);
+  const piezo = useNewPiezoReportStateStore((state) => state.piezo);
+
+  const piezometersData = useMonitoringMapStateStore((s) => s.piezometersData);
 
   const currentPiezometer = piezometersData.find(
     (p) => p.paddock === paddock && p.id === piezo
   );
 
-  // const lastReading = lastReadings?.find(
-  //   //@ts-ignore
-  //   (reading) =>
-  //     reading.node === piezometersData[0].datalogger &&
-  //     reading.channel === piezometersData[0].channel
-  // );
+  
+  const { inoperativeDates } = lecturesInformation;
 
-  // const lastReadingExists =
-  //   lastReading && lastReading.pressure && Number(lastReading.pressure);
+  const timeSpan = useNewPiezoReportStateStore((state) => state.timeSpan);
 
-  // const depthIsZero = Number(piezometersData[0].depth) == 0;
 
-  // //@ts-ignore
-  // const statusStateObj = monitoringMapStatusInfo[piezometersData[0].status];
+
+
+  //@ts-ignore
+  const statusStateObj = monitoringMapStatusInfo[piezometersData[0].status];
 
   return (
     <div
       style={
         {
-          // borderColor: statusStateObj.darkColor,
+          borderColor: statusStateObj.darkColor,
         }
       }
       className="max-w-[1000vh] h-[19rem] overflow-x-auto rounded-lg border-2  relative bg-white"
     >
-      {/* <table className="   select-none w-full border-collapse  bg-white">
+      <table className="   select-none w-full border-collapse  bg-white">
         <tbody>
           <tr
             style={{
@@ -126,26 +110,25 @@ function ReportPiezoInformationTable() {
             className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12  "
           >
             <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px]">
-              <span>Depth:</span>
+              <span>Avg. PWP ({timeSpan} report):</span>
             </th>
 
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span className={`${depthIsZero ? "text-xl" : ""}`}>
-                {depthIsZero
-                  ? "-"
-                  : `${Number(piezometersData[0].depth).toFixed(2)} m`}
+              <span className={lecturesInformation.lecturesAvg === 0 ? "text-xl" : ""}>
+                {lecturesInformation.lecturesAvg === 0 ? "-" : `${lecturesInformation.lecturesAvg} KPa`}
               </span>
             </th>
           </tr>
 
           <tr className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12 bg-white ">
             <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px]">
-              <span>Status:</span>
+              <span>Max. PWP ({timeSpan} report)</span>
             </th>
 
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
               
-              <span>{capitalizeName(statusStateObj.name)}</span>
+              <span className={lecturesInformation.lecturesMax === 0 ? "text-xl" : ""}>
+                {lecturesInformation.lecturesMax === 0 ? "-" : `${lecturesInformation.lecturesMax} KPa`}</span>
             </th>
           </tr>
 
@@ -156,22 +139,19 @@ function ReportPiezoInformationTable() {
             className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12  "
           >
             <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px]">
-              <span>Current PWP</span>
+              <span>Min. PWP ({timeSpan} report)</span>
             </th>
 
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span className={`${lastReadingExists ? "" : "text-xl"}`}>
-                {" "}
-                {lastReadingExists
-                  ? `${Number(lastReading.pressure).toFixed(3)} Kpa`
-                  : "-"}
+              <span className={lecturesInformation.lecturesMin === 0 ? "text-xl" : ""}>
+                {lecturesInformation.lecturesMin === 0 ? "-" : `${lecturesInformation.lecturesMin} KPa`}
               </span>
             </th>
           </tr>
 
-          <tr className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12 bg-white ">
+          {/* <tr className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12 bg-white ">
             <th className="flex items-center gap-x-2 w-20 justify-center font-bold  text-[11px]">
-              <span>Last reading at:</span>
+              <span>Report time interval</span>
             </th>
 
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
@@ -179,7 +159,7 @@ function ReportPiezoInformationTable() {
                 {lastReadingExists ? lastReading.time : "-"}
               </span>
             </th>
-          </tr>
+          </tr> */}
         </tbody>
       </table>
       <div
@@ -187,7 +167,7 @@ function ReportPiezoInformationTable() {
           backgroundColor: statusStateObj.lightColor,
         }}
         className="absolute top-0 left-1/2 w-[2px] h-[19rem] "
-      /> */}
+      />
     </div>
   );
 }

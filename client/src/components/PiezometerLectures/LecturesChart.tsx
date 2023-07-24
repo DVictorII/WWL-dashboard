@@ -30,10 +30,12 @@ function LecturesChart() {
       : useNewPiezoReportStateStore((state) => state.chartType);
 
   return (
-    <div className="flex flex-col gap-y-4">
+    <div className="flex flex-col gap-y-4 ">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 xl:grid-cols-2">
         <ChartTypeTable />
       </div>
+
+      
 
       <BarChart
         information={{
@@ -43,6 +45,8 @@ function LecturesChart() {
           chartType,
         }}
       />
+      
+
     </div>
   );
 }

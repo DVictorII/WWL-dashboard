@@ -49,22 +49,12 @@ function PiezoLecturesComponent() {
 
         <LecturesChart />
       </div>
-      <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center ">
+      <div className="flex flex-col justify-between  bg-white p-4 2xl:p-6 rounded-xl shadow-sm  font-semibold  ">
         <h2 className="flex items-center gap-x-2 flex-wrap gap-y-2">
-          <span className="  font-semibold text-lg md:text-xl lg:text-2xl ">
-            {paddock}
-          </span>
-
-          <span className="  font-semibold text-lg md:text-xl lg:text-2xl ">
-            -
-          </span>
-
-          <span className="  font-semibold text-lg md:text-xl lg:text-2xl ">
-            {piezo}
-          </span>
+          Section profile view
         </h2>
 
-        <div className="mt-8" />
+        
         <SectionImg />
       </div>
     </div>

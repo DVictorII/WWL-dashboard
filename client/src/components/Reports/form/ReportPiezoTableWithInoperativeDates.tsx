@@ -11,7 +11,8 @@ import {
 import moment from "moment";
 
 function ReportPiezoTableWithInoperativeDates() {
-  const [displaying, setDisplaying] = useState("inoperativeDates");
+  // const [displaying, setDisplaying] = useState("inoperativeDates");
+  const [displaying, setDisplaying] = useState("piezoInfo");
 
   const paddock = useNewPiezoReportStateStore((state) => state.paddock);
   const piezo = useNewPiezoReportStateStore((state) => state.piezo);

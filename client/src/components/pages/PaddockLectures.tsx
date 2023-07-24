@@ -46,19 +46,16 @@ function PaddockLectures() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-6 xl:gap-x-8 gap-y-8 ">
-          <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center ">
-            {/* <h2
-              className="text-sm md:text-base font-semibold"
-              key={`${paddock}${piezo}`}
-            >
-              {paddock} / {piezo}
-            </h2> */}
+          <div className="flex flex-col  bg-white p-4 gap-y-4 rounded-xl shadow-sm justify-center ">
+          <h2 className="font-bold text-sm 2xl:text-base">
+            Piezometer details
+          </h2>
             <PiezoInformationTable />
           </div>
 
           <div
             key={`${piezo}${paddock}`}
-            className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center "
+            className="flex flex-col  bg-white p-4 gap-y-4 rounded-xl shadow-sm justify-center "
           >
             <PaddockMapWrapper />
           </div>

@@ -135,6 +135,8 @@ function SectionChart({chartCoordinates, chartPiezometers}) {
   const isTablet = useMediaQuery({ query: "(max-width: 1023px)" });
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
 
+  console.log("COORDINATES", chartCoordinates)
+  console.log("PIEZOMETERS", chartPiezometers)
 
   
 
@@ -153,14 +155,14 @@ const Y3WaterLvl = chartCoordinates.map((arr) => arr[3]);
     {
       label: "Ground lvl (RLm)",
       data: Y1GroundLvl,
-      borderColor: "rgb(38, 142, 0)",
-      backgroundColor: "rgba(38, 142, 0, 0.5)",
+      borderColor: "rgb(123,136,49)",
+      backgroundColor: "rgba(123,136,49, 0.5)",
       pointRadius: 0,
       pointHitRadius: 0,
       order:1,
     },
     {
-      label: "2020 Survey lvl (RLm)",
+      label: "2022 Survey lvl (RLm)",
       data: Y2SurveyLvl,
       borderColor: "rgb(135, 101, 56)",
       backgroundColor: "rgba(135, 101, 56, 0.5)",
@@ -256,7 +258,7 @@ const Y3WaterLvl = chartCoordinates.map((arr) => arr[3]);
         
         ticks: {
           font: {
-            size: isMobile ? 8 : isTablet ? 10 : 12,
+            size: isMobile ? 8 : 10,
           },
           // maxTicksLimit: 20
         },
@@ -273,7 +275,7 @@ const Y3WaterLvl = chartCoordinates.map((arr) => arr[3]);
         
         ticks: {
           font: {
-            size: isMobile ? 8 : isTablet ? 10 : 12,
+            size: isMobile ? 8 : 10,
           },
         },
 

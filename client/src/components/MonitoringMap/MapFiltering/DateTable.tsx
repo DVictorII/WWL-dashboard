@@ -19,8 +19,8 @@ function DateTable() {
       </h3>
 
       <Datepicker
-        containerClassName="shrink-0"
-        inputClassName="text-xs py-1 w-full  sm:text-sm  rounded-full dark:bg-[#333] shadow-sm"
+        containerClassName="shrink-0 "
+        inputClassName="text-xs py-1 w-full  sm:text-sm  rounded-full bg-[#333]  dark:bg-[#333] shadow-sm"
         useRange={false}
         asSingle={true}
         // showShortcuts={true}

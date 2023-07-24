@@ -100,11 +100,11 @@ export const processLecturesData = (
   const maxLecture =
     lecturesData.length === 0
       ? 0
-      : Number(Math.max(...lecturesPressure.map((l) => Number(l))).toFixed(3));
+      : Number(Math.max(...lecturesPressure.map((l) => Number(l))).toFixed(2));
   const minLecture =
     lecturesData.length === 0
       ? 0
-      : Number(Math.min(...lecturesPressure.map((l) => Number(l))).toFixed(3));
+      : Number(Math.min(...lecturesPressure.map((l) => Number(l))).toFixed(2));
 
   const avgPWP =
     lecturesData.length === 0
@@ -114,7 +114,7 @@ export const processLecturesData = (
             lecturesPressure
               .map((p: string | undefined) => Number(p))
               .reduce((a: number, b: number) => a + b) / lecturesPressure.length
-          ).toFixed(3)
+          ).toFixed(2)
         );
 
   return {

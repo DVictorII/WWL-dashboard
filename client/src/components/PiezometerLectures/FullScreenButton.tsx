@@ -17,7 +17,7 @@ function FullScreenButton({comp="chart", url}:{comp:string; url?:string}) {
 
          
       
-      }} className="flex items-center gap-x-2 cursor-pointer w-max">
+      }} className="flex items-center gap-x-2 cursor-pointer w-max shrink-0">
       <span className="text-xs font-semibold">Watch full screen</span>
       <AiFillEye />
     </button>

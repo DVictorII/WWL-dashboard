@@ -179,6 +179,8 @@ function PaddockMapWrapper() {
       style={{ boxShadow: boxShadowSlight }}
     >
       <div id="map2"></div>
+
+      
     </div>
   );
 }

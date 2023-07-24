@@ -8,54 +8,120 @@ import { useSectionImgStore } from "../../store/sectionImgStore";
 import { useLocation } from "react-router-dom";
 import { useNewPiezoReportStateStore } from "../../store/NewPiezoReportStateStore";
 import SkeletonSectionImg from "../Skeletons/PiezometerLectures/SkeletonSectionImg";
+import { useMonitoringMapStateStore } from "../../store/MonitoringMapStateStore";
+import axios from "../../utils/axios";
+import LecturesLocationTable from "./LecturesLocationTable";
+import SectionChart from "../Charts/SectionChart";
+import SectionLegend from "./SectionLegend";
 
-function SectionImg() {
+const fetchSectionByPiezometer = async ({
+  node,
+  channel,
+}: {
+  node: number;
+  channel: number;
+}) => {
+  try {
+    const res = await axios.get(`/get_graphics_${node}-${channel}`);
+
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+function SectionImg({fullPage = false }) {
   const location = useLocation().pathname;
 
   const paddock =
     location === "/piezometer-readings"
-      ? usePiezometerLecturesStateStore((s) => s.paddock).replaceAll("/", "-")
-      : useNewPiezoReportStateStore((state) => state.paddock).replaceAll(
-          "/",
-          "-"
-        );
+      ? usePiezometerLecturesStateStore((s) => s.paddock)
+      : useNewPiezoReportStateStore((state) => state.paddock)
   const piezo =
     location === "/piezometer-readings"
       ? usePiezometerLecturesStateStore((s) => s.piezo)
       : useNewPiezoReportStateStore((state) => state.piezo);
 
-  const { isLoading: piezometersAreLoading, data: piezometersData } = useQuery({
-    queryKey: [`Onepiezometer_${paddock}_${piezo}`],
+  console.log(paddock, piezo);
+
+  const piezometersData = useMonitoringMapStateStore((s) => s.piezometersData);
+
+  const currentPiezometer = piezometersData.find(
+    (p) => p.paddock === paddock && p.id === piezo
+  );
+  console.log(currentPiezometer);
+
+  //   console.log("PIEZOINFO", piezoInfo);
+
+  const { isLoading: sectionDataIsLoading, data: sectionData } = useQuery({
+    queryKey: [`Section-data-${paddock}-${piezo}`],
     queryFn: () =>
-      fetchPiezometerData({
-        paddock: paddock,
-        piezo: piezo,
+      fetchSectionByPiezometer({
+        node: currentPiezometer.datalogger,
+        channel: currentPiezometer.channel,
       }),
+    enabled:
+      !!currentPiezometer &&
+      !!currentPiezometer.datalogger &&
+      !!currentPiezometer.channel &&
+      !!currentPiezometer.section &&
+      currentPiezometer.section !== "?",
     refetchOnWindowFocus: false,
   });
 
-  if (piezometersAreLoading || !piezometersData || piezometersData.length === 0)
-    return <SkeletonSectionImg />;
+  if (sectionDataIsLoading)
+    return (
+      <div className="flex flex-col justify-center  gap-y-8  px-2 sm:px-8 md:px-0 ">
+        <h1>Loading...</h1>
+      </div>
+    );
+
+  if (!sectionData)
+    return (
+
+      <div className="flex flex-col gap-y-4  w-full ">
+      <div className="overflow-scroll">
+        <div className={` ${fullPage ? "h-[50vh]" : "h-[30vh] "}     min-w-[36rem] max-w-full  p-4 flex justify-center items-center bg-[#f1f1f1]`}>
+        <h1>Piezometer dont belong to any section!!</h1>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-y-6 3xl:flex-row-reverse 3xl:justify-between w-full">
+        <SectionLegend />
+        <FullScreenButton comp={"section"} />
+      </div>
+    </div>
+      
+    );
+
+  const chartPiezometers = sectionData.data.map((arr) => {
+    const fixedXCoordinate = Math.round(arr[2] / 5) * 5;
+
+    console.log(fixedXCoordinate);
+
+    return [arr[0], arr[1], fixedXCoordinate, arr[3], arr[4]];
+  });
+
+  const chartCoordinates = sectionData.name;
 
   return (
-    <div className="flex flex-col gap-y-4 self-center">
-      {piezometersData[0].section && piezometersData[0].section != "?" ? (
-        <>
-          <img
-            className="rounded-[12px]"
-            src={`/media/img/sections/${piezometersData[0].section}.png`}
+    <div className="flex flex-col gap-y-4  w-full ">
+      <div className="overflow-scroll">
+        <div className={`${fullPage ? "h-[50vh]" : "h-[30vh] "}    min-w-[36rem] max-w-full  p-4`}>
+          <SectionChart
+            chartCoordinates={chartCoordinates}
+            chartPiezometers={chartPiezometers}
           />
-
-          <FullScreenButton
-            comp="section"
-            url={`/media/img/sections/${piezometersData[0].section}.png`}
-          />
-        </>
-      ) : (
-        <div className="flex justify-center items-center h-52 bg-[#f5f5f5] rounded-xl font-semibold">
-          Piezometer don't belong to any section
         </div>
-      )}
+      </div>
+
+      <div className="flex flex-col gap-y-6 3xl:flex-row-reverse 3xl:justify-between w-full">
+        <SectionLegend />
+        {
+          !fullPage && <FullScreenButton comp={"section"} />
+        }
+        
+      </div>
     </div>
   );
 }
