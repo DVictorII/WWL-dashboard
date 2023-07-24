@@ -70,9 +70,11 @@ class Piezometer_report(db.Model):
     piezo= db.Column(db.String(length=20), nullable=False)
     date= db.Column(db.String(length=20), nullable=False)
     description= db.Column(db.String(length=150), nullable=False)
+    time_span = db.Column(db.String(length=30), nullable=False)
+    readings_information = db.Column(db.Text, nullable=False)
     supervisors= db.Column(db.ARRAY(db.String(length=40)))
 
-    def __init__(self, id, from_user,photo, title, paddock, piezo, date, description, supervisors ):
+    def __init__(self, id, from_user,photo, title, paddock, piezo, date, description, time_span,readings_information, supervisors ):
         self.id = id
         self.from_user = from_user
         self.photo = photo
@@ -82,6 +84,8 @@ class Piezometer_report(db.Model):
         self.piezo = piezo
         self.date = date
         self.description=description
+        self.time_span= time_span
+        self.readings_information = readings_information
         self.supervisors=supervisors
 
     def obj_to_dict(self):
@@ -94,6 +98,8 @@ class Piezometer_report(db.Model):
             "piezo":self.piezo,
             "date":self.date,
             "description":self.description,
+            "time_span": self.time_span,
+            "readings_information": self.readings_information,
             "supervisors":self.supervisors,
         }
         
@@ -205,6 +211,9 @@ def new_piezometer_report():
     piezo= request.form["piezo"]
     date= request.form["date"]
     description=request.form["description"]
+
+    time_span= request.form["time_span"]
+    readings_information = request.form["readings_information"]
     
     supervisors=request.form["supervisors"].split(",")
     print("supervisors",supervisors)
@@ -214,7 +223,7 @@ def new_piezometer_report():
     
     report_id = uuid4()
     
-    new_report = Piezometer_report(report_id, from_user, photo_db, title, paddock, piezo, date, description, supervisors)
+    new_report = Piezometer_report(report_id, from_user, photo_db, title, paddock, piezo, date, description,time_span, readings_information, supervisors)
 
     db.session.add( new_report )
     db.session.commit()

@@ -1,5 +1,5 @@
 import MenuNavbar from "../MenuNavbar";
-import PiezoReportForm from "../PiezoReportForm";
+import PiezoReportForm from "../Reports/PiezoReportForm";
 
 import { useNavigate } from "react-router-dom";
 

@@ -1,29 +1,29 @@
 //@ts-ignore
-import axios from "../utils/axios";
+import axios from "../../utils/axios";
 import React, { useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { IoSaveOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import { useGloblalUserStore } from "../store/GlobalUserStore";
+import { useGloblalUserStore } from "../../store/GlobalUserStore";
 
-import PhotoUploader from "./Reports/PhotoUploader";
-import { useNewPiezoReportStateStore } from "../store/NewPiezoReportStateStore";
-import PiezoInformationTable from "./PiezometerLectures/PiezoInformationTable";
+import PhotoUploader from "./PhotoUploader";
+import { useNewPiezoReportStateStore } from "../../store/NewPiezoReportStateStore";
+import PiezoInformationTable from "../PiezometerLectures/PiezoInformationTable";
 
-import ReportLocationTable from "./Reports/form/ReportPiezo";
+import ReportLocationTable from "./form/ReportPiezo";
 
-import PiezoLecturesComponent from "./PiezometerLectures/PiezoLecturesComponent";
-import SupervisorsComponent from "./Reports/SupervisorsComponent";
-import ReportTitleDescription from "./Reports/form/ReportDescription";
-import ReportState from "./Reports/ReportState";
-import ReportTitle from "./Reports/form/ReportTitle";
-import ReportDescription from "./Reports/form/ReportDescription";
-import ReportDate from "./Reports/form/ReportDate";
-import ReportPaddock from "./Reports/form/ReportPaddock";
-import ReportPiezo from "./Reports/form/ReportPiezo";
-import ReportTimeSpan from "./Reports/form/ReportTimeSpan";
-import ReportPiezoInformationTable from "./Reports/form/ReportPiezoInformationTable";
-import ReportPiezoTableWithInoperativeDates from "./Reports/form/ReportPiezoTableWithInoperativeDates";
+import PiezoLecturesComponent from "../PiezometerLectures/PiezoLecturesComponent";
+import SupervisorsComponent from "./SupervisorsComponent";
+import ReportTitleDescription from "./form/ReportDescription";
+import ReportState from "./ReportState";
+import ReportTitle from "./form/ReportTitle";
+import ReportDescription from "./form/ReportDescription";
+import ReportDate from "./form/ReportDate";
+import ReportPaddock from "./form/ReportPaddock";
+import ReportPiezo from "./form/ReportPiezo";
+import ReportTimeSpan from "./form/ReportTimeSpan";
+import ReportPiezoInformationTable from "./form/ReportPiezoInformationTable";
+import ReportPiezoTableWithInoperativeDates from "./form/ReportPiezoTableWithInoperativeDates";
 
 interface reportState {
   title: string;
@@ -55,6 +55,11 @@ function PiezoReportForm() {
   const days = useNewPiezoReportStateStore((state) => state.days);
   const chartType = useNewPiezoReportStateStore((state) => state.chartType);
   const userID = useGloblalUserStore((state) => state.userID);
+  const timeSpan = useNewPiezoReportStateStore((state) => state.timeSpan);
+
+  const lecturesInformation = useNewPiezoReportStateStore(
+    (state) => state.lecturesInformation
+  );
 
   const resetState = useNewPiezoReportStateStore((state) => state.resetState);
 
@@ -84,6 +89,8 @@ function PiezoReportForm() {
             supervisors: String(filteredSupervisors),
             paddock,
             piezo,
+            time_span: timeSpan,
+            readings_information: JSON.stringify(lecturesInformation)
           },
           {
             headers: {
@@ -136,10 +143,10 @@ function PiezoReportForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-8 bg-white p-4 rounded-xl shadow-sm">
         <ReportTitle />
         <ReportDescription />
+        <ReportPaddock />
 
         <ReportPiezo />
 
-        <ReportPaddock />
 
         {/* <ReportDate /> */}
         <ReportTimeSpan />
@@ -151,7 +158,7 @@ function PiezoReportForm() {
         </div>
 
         <div className="flex flex-col gap-y-4  bg-white p-4 rounded-xl shadow-sm">
-          <h2 className="font-bold text-sm 2xl:text-base">
+          <h2 className="font-semibold text-sm 2xl:text-base">
             Piezometer details
           </h2>
 
@@ -168,7 +175,7 @@ function PiezoReportForm() {
       <PiezoLecturesComponent />
 
       <div className="flex flex-col bg-white p-4 rounded-xl shadow-sm">
-        <h2 className="font-bold text-sm 2xl:text-base">
+        <h2 className="font-semibold text-sm 2xl:text-base">
           Supervisors (optional)
         </h2>
         <p className="mt-4 text-sm font-medium text-[#666]">

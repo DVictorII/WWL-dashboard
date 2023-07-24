@@ -12,3 +12,7 @@ Posibles nuevas funcionalidades para la página:
 (global alerts):
 
 - enviar una alerta cuando un piezómetro está a punto de pasar a ser desconectado, o cuando está arrojando lecturas incorrectas
+
+
+(global):
+- 404 y Error pages

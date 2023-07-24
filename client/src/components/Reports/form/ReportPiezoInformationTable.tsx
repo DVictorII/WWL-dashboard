@@ -48,7 +48,7 @@ function ReportPiezoInformationTable() {
 
 
   //@ts-ignore
-  const statusStateObj = monitoringMapStatusInfo[piezometersData[0].status];
+  const statusStateObj = monitoringMapStatusInfo[currentPiezometer.status];
 
   return (
     <div
@@ -73,8 +73,8 @@ function ReportPiezoInformationTable() {
 
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
               <span>
-                {Number(piezometersData[0].lat).toFixed(8)}° /{" "}
-                {Number(piezometersData[0].lon).toFixed(8)}°
+                {Number(currentPiezometer?.lat).toFixed(8)}° /{" "}
+                {Number(currentPiezometer?.lon).toFixed(8)}°
               </span>
             </th>
           </tr>
@@ -87,17 +87,17 @@ function ReportPiezoInformationTable() {
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
               <span
                 className={`${
-                  piezometersData[0].section &&
-                  piezometersData[0].section !== "?" &&
-                  piezometersData[0].section !== "None"
+                  currentPiezometer?.section &&
+                  currentPiezometer?.section !== "?" &&
+                  currentPiezometer?.section !== "None"
                     ? ""
                     : "text-xl"
                 }`}
               >
-                {piezometersData[0].section &&
-                piezometersData[0].section !== "?" &&
-                piezometersData[0].section !== "None"
-                  ? piezometersData[0].section
+                {currentPiezometer?.section &&
+                currentPiezometer?.section !== "?" &&
+                currentPiezometer?.section !== "None"
+                  ? currentPiezometer?.section
                   : "-"}
               </span>
             </th>

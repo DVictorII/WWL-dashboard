@@ -47,10 +47,10 @@ const router = createBrowserRouter([
           ),
       },
 
-      {
-        path: "chart",
-        element: <Chart />,
-      },
+      // {
+      //   path: "chart",
+      //   element: <Chart />,
+      // },
 
       {
         path: "monitoring-map",
