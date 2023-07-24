@@ -11,6 +11,7 @@ import SkeletonSectionImg from "../Skeletons/PiezometerLectures/SkeletonSectionI
 import { useMonitoringMapStateStore } from "../../store/MonitoringMapStateStore";
 import axios from "../../utils/axios";
 import LecturesLocationTable from "./LecturesLocationTable";
+//@ts-ignore
 import SectionChart from "../Charts/SectionChart";
 import SectionLegend from "./SectionLegend";
 
@@ -57,7 +58,9 @@ function SectionImg({fullPage = false }) {
     queryKey: [`Section-data-${paddock}-${piezo}`],
     queryFn: () =>
       fetchSectionByPiezometer({
+        //@ts-ignore
         node: currentPiezometer.datalogger,
+        //@ts-ignore
         channel: currentPiezometer.channel,
       }),
     enabled:
@@ -94,6 +97,8 @@ function SectionImg({fullPage = false }) {
       
     );
 
+
+//@ts-ignore
   const chartPiezometers = sectionData.data.map((arr) => {
     const fixedXCoordinate = Math.round(arr[2] / 5) * 5;
 

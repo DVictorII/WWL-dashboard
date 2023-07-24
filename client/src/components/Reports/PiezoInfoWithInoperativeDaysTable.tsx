@@ -82,6 +82,7 @@ function PiezoInfoWithInoperativeDaysTable({
           >
             {paddock} / {piezo}
           </h2>
+          {/* @ts-ignore */}
           <ReportPiezoInformationTable paddock={paddock} piezo={piezo} />
         </div>
 

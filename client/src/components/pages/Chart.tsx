@@ -75,6 +75,7 @@ function Chart() {
       </div>
     );
 
+    //@ts-ignore
   const chartPiezometers = sectionData.data.map((arr)=>{
     const fixedXCoordinate = Math.round(arr[2]/5)*5
 
