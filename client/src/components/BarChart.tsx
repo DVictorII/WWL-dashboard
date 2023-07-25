@@ -14,7 +14,7 @@ import SkeletonBarChart from "./Skeletons/PiezometerLectures/SkeletonBarChart";
 import { chartPiezoListWithElevation } from "../utils/piezoList";
 import { FiAlertTriangle } from "react-icons/fi";
 
-const CHART_PRESSURE_LIMIT = 80;
+const CHART_PRESSURE_LIMIT = 50;
 
 //@ts-ignore
 const BarChart = ({ information, fullPage = false }) => {
