@@ -31,26 +31,26 @@ const fetchSectionByPiezometer = async ({
   }
 };
 
-function SectionImg({fullPage = false }) {
+function SectionImg({ fullPage = false }) {
   const location = useLocation().pathname;
 
   const paddock =
     location === "/piezometer-readings"
       ? usePiezometerLecturesStateStore((s) => s.paddock)
-      : useNewPiezoReportStateStore((state) => state.paddock)
+      : useNewPiezoReportStateStore((state) => state.paddock);
   const piezo =
     location === "/piezometer-readings"
       ? usePiezometerLecturesStateStore((s) => s.piezo)
       : useNewPiezoReportStateStore((state) => state.piezo);
 
-  console.log(paddock, piezo);
+  // console.log(paddock, piezo);
 
   const piezometersData = useMonitoringMapStateStore((s) => s.piezometersData);
 
   const currentPiezometer = piezometersData.find(
     (p) => p.paddock === paddock && p.id === piezo
   );
-  console.log(currentPiezometer);
+  // console.log(currentPiezometer);
 
   //   console.log("PIEZOINFO", piezoInfo);
 
@@ -81,28 +81,29 @@ function SectionImg({fullPage = false }) {
 
   if (!sectionData)
     return (
-
       <div className="flex flex-col gap-y-4  w-full ">
-      <div className="overflow-scroll">
-        <div className={` ${fullPage ? "h-[50vh]" : "h-[30vh] "}     min-w-[36rem] max-w-full  p-4 flex justify-center items-center bg-[#f1f1f1]`}>
-        <h1>Piezometer dont belong to any section!!</h1>
+        <div className="overflow-scroll">
+          <div
+            className={` ${
+              fullPage ? "h-[50vh]" : "h-[30vh] "
+            }     min-w-[36rem] max-w-full  p-4 flex justify-center items-center bg-[#f1f1f1]`}
+          >
+            <h1>Piezometer dont belong to any section!!</h1>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-y-6 3xl:flex-row-reverse 3xl:justify-between w-full">
+          <SectionLegend />
+          <FullScreenButton comp={"section"} />
         </div>
       </div>
-
-      <div className="flex flex-col gap-y-6 3xl:flex-row-reverse 3xl:justify-between w-full">
-        <SectionLegend />
-        <FullScreenButton comp={"section"} />
-      </div>
-    </div>
-      
     );
 
-
-//@ts-ignore
+  //@ts-ignore
   const chartPiezometers = sectionData.data.map((arr) => {
     const fixedXCoordinate = Math.round(arr[2] / 5) * 5;
 
-    console.log(fixedXCoordinate);
+    // console.log(fixedXCoordinate);
 
     return [arr[0], arr[1], fixedXCoordinate, arr[3], arr[4]];
   });
@@ -111,8 +112,12 @@ function SectionImg({fullPage = false }) {
 
   return (
     <div className="flex flex-col gap-y-4  w-full ">
-      <div className="overflow-scroll">
-        <div className={`${fullPage ? "h-[50vh]" : "h-[30vh] "}    min-w-[36rem] max-w-full  p-4`}>
+      <div className="overflow-scroll lg:overflow-auto">
+        <div
+          className={`${
+            fullPage ? "h-[50vh]" : "h-[30vh] "
+          }    min-w-[36rem] max-w-full  p-4`}
+        >
           <SectionChart
             chartCoordinates={chartCoordinates}
             chartPiezometers={chartPiezometers}
@@ -122,10 +127,7 @@ function SectionImg({fullPage = false }) {
 
       <div className="flex flex-col gap-y-6 3xl:flex-row-reverse 3xl:justify-between w-full">
         <SectionLegend />
-        {
-          !fullPage && <FullScreenButton comp={"section"} />
-        }
-        
+        {!fullPage && <FullScreenButton comp={"section"} />}
       </div>
     </div>
   );

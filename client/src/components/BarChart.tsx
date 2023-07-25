@@ -222,7 +222,7 @@ const BarChart = ({ information, fullPage = false }) => {
         </div>
       ) : null}
 
-      <div className="overflow-scroll py-4">
+      <div className="overflow-scroll  2xl:overflow-visible">
         <div className="min-w-[36rem] max-w-full">
           <div className={`${fullPage ? "h-[50vh]" : "h-[30vh]"}  w-full`}>
             <AnimatePresence>

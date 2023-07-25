@@ -261,13 +261,14 @@ const Y3WaterLvl = chartCoordinates.map((arr) => arr[3]);
             size: isMobile ? 8 : 10,
           },
           // maxTicksLimit: 20
+          stepSize: 50
         },
 
         grid: {
-          display: false,
-          
+          display: true,
+          order:1,
           // drawTicks: true,
-          // color: "#eee"
+          color: "#f1f1f1"
         }
         
       },
@@ -277,13 +278,15 @@ const Y3WaterLvl = chartCoordinates.map((arr) => arr[3]);
           font: {
             size: isMobile ? 8 : 10,
           },
+          
         },
 
         grid: {
-          display: false,
+          display: true,
+          order:1,
           
           // drawTicks: true,
-          // color: "#eee"
+          color: "#f1f1f1"
         }
       },
 

@@ -13,8 +13,8 @@ import toast, { Toaster } from "react-hot-toast";
 
 function Login() {
   const [credentials, setCredentials] = useState({
-    username: "silvia.q",
-    password: "rossing#2022",
+    username: "",
+    password: "",
   });
 
   const navigate = useNavigate();

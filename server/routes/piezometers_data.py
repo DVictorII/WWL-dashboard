@@ -26,6 +26,14 @@ class piezometer_details(db.Model):
     lon = db.Column(db.Numeric(20, 14))
     status = db.Column(db.Integer(), nullable=False)
 
+
+    east_utm = db.Column(db.Numeric(12,3))
+    north_utm = db.Column(db.Numeric(12,3))
+    elevation = db.Column(db.Numeric(10,3))
+    initial_depth = db.Column(db.Numeric(10,5))
+    tarps_value = db.Column(db.Numeric(12,6))
+    time_threshold_wrong = db.Column(db.String(length=50))
+
     def obj_to_dict(self):
         return {
             "id": self.id,
@@ -39,6 +47,13 @@ class piezometer_details(db.Model):
             "lat": self.lat,
             "lon": self.lon,
             "status": self.status,
+
+            "east_utm": self.east_utm,
+            "north_utm": self.north_utm,
+            "elevation": self.elevation,
+            "initial_depth": self.initial_depth,
+            "tarps_value": self.tarps_value,
+            "time_threshold_wrong": self.time_threshold_wrong,
         }
 
     # def __repr__(self):

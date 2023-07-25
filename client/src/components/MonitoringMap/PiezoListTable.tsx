@@ -7,6 +7,7 @@ import { fetchLastReadings, fetchPiezometersData } from "../../utils/map";
 import Skeleton from "react-loading-skeleton";
 import SkeletonPiezoListTable from "../Skeletons/MonitoringMap/SkeletonPiezoListTable";
 import { PiezometerDataI } from "../../types";
+import moment from "moment";
 
 const options = {
   0: "All piezometers",
@@ -38,10 +39,39 @@ function PiezoListTable() {
     //@ts-ignore
     let filtered = [];
 
+    console.log("PIEZO DATA", fullPiezoList);
+
     //@ts-ignore
     if (!fullPiezoList) return filtered;
 
-    if (status === 0 || status === 6) {
+    if (status === 5) {
+      if (paddock === "All") {
+        if (section === "All") {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) => p.time_threshold_wrong != null
+          );
+        } else {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) =>
+              p.section == section && p.time_threshold_wrong != null
+          );
+        }
+      } else {
+        if (section === "All") {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) =>
+              p.time_threshold_wrong != null && p.paddock === paddock
+          );
+        } else {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) =>
+              p.section == section &&
+              p.time_threshold_wrong != null &&
+              p.paddock === paddock
+          );
+        }
+      }
+    } else if (status === 0 || status === 6) {
       if (paddock === "All") {
         if (section === "All") {
           filtered = fullPiezoList;
@@ -194,6 +224,17 @@ function PiezoListTable() {
                   </div>
                 </th>
 
+                {status === 5 && (
+                  <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+                    <div className="flex gap-x-2 justify-center items-center">
+                      <span className="text-[11px] md:text-xs lg:text-sm ">
+                        Initial flood date
+                      </span>
+                      <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
+                    </div>
+                  </th>
+                )}
+
                 <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
                   <div className="flex gap-x-2 justify-center items-center">
                     <span className="text-[11px] md:text-xs lg:text-sm ">
@@ -293,6 +334,16 @@ function PiezoListTable() {
                               : "-"}
                           </span>
                         </td>
+
+                        {status === 5 && (
+                          <td className="px-4 py-2 lg:px-8 lg:py-3">
+                            <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-semibold">
+                              {moment(piezometer.time_threshold_wrong).format(
+                                "YYYY-MM-DD HH:mm:ss"
+                              )}
+                            </span>
+                          </td>
+                        )}
 
                         <td className="px-4 py-2 lg:px-8 lg:py-3">
                           <span

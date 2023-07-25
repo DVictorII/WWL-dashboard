@@ -18,6 +18,8 @@ function PiezoLecturesComponent() {
       ? usePiezometerLecturesStateStore((s) => s.piezo)
       : useNewPiezoReportStateStore((state) => state.piezo);
 
+  const section = usePiezometerLecturesStateStore((s) => s.section);
+
   const timeSpan = useNewPiezoReportStateStore((state) => state.timeSpan);
 
   return (
@@ -49,12 +51,22 @@ function PiezoLecturesComponent() {
 
         <LecturesChart />
       </div>
-      <div className="flex flex-col justify-between  bg-white p-4 2xl:p-6 rounded-xl shadow-sm  font-semibold  ">
-        <h2 className="flex items-center gap-x-2 flex-wrap gap-y-2">
-          Section profile view
-        </h2>
+      <div className="flex flex-col gap-y-6  bg-white p-4 2xl:p-6 rounded-xl shadow-sm  font-semibold  ">
+        <div className="flex items-center gap-x-6">
+          <h2 className="flex items-center gap-x-2 flex-wrap gap-y-2">
+            Section profile view
+          </h2>
 
-        
+          {location === "/piezometer-readings" && (
+            <>
+              <span>/</span>
+              <span className="text-2xl">
+                {section === "?" ? "Indeterminate section" : section}
+              </span>
+            </>
+          )}
+        </div>
+
         <SectionImg />
       </div>
     </div>

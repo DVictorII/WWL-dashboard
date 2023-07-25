@@ -17,6 +17,10 @@ function LocationTable() {
     (state) => state.sectionsList
   );
 
+  const piezometersData = useMonitoringMapStateStore(
+    (state) => state.piezometersData
+  );
+
   const section = useMonitoringMapStateStore((state) => state.section);
 
   const changePaddock = useMonitoringMapStateStore(
@@ -32,9 +36,44 @@ function LocationTable() {
     return { value: paddock, label: paddock };
   });
 
-  const piezoOptions = piezoList.map((piezo) => {
-    return { value: piezo, label: piezo };
-  });
+  // const piezoOptions = piezoList.map((piezo) => {
+  //   return { value: piezo, label: piezo };
+  // });
+
+  const piezoOptions = [
+    { value: "All", label: "All" },
+    ...piezometersData
+      .filter((piezoObj) => {
+        if (section === "All") {
+          if (paddock === "All") {
+            return piezoObj;
+          } else return piezoObj.paddock === paddock;
+        }
+
+        if (section === "?") {
+          if (paddock === "All") {
+            return (
+              !piezoObj.section ||
+              piezoObj.section === "?" ||
+              piezoObj.section === "None"
+            );
+          } else
+            return (
+              (!piezoObj.section ||
+                piezoObj.section === "?" ||
+                piezoObj.section === "None") &&
+              piezoObj.paddock === paddock
+            );
+        }
+
+        if (paddock === "All") return piezoObj.section === section;
+
+        return piezoObj.paddock === paddock && piezoObj.section === section;
+      })
+      .map((piezoObj) => {
+        return { value: piezoObj.id, label: piezoObj.id };
+      }),
+  ];
 
   const sectionOptions = sectionsList.map((section) => {
     return { value: section, label: section };
@@ -75,8 +114,10 @@ function LocationTable() {
           primaryColor="orange"
           //@ts-ignore
           value={{ value: section, label: section }}
-          //@ts-ignore
-          onChange={(e) => selectSection(e.value)}
+          onChange={(e) => {
+            //@ts-ignore
+            selectSection(e.value);
+          }}
           options={sectionOptions}
           //@ts-ignore
           classNames={{

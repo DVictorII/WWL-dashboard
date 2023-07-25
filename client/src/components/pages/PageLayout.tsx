@@ -12,6 +12,7 @@ import ProtectedLogIn from "../ProtectedLogIn";
 import { useMonitoringMapStateStore } from "../../store/MonitoringMapStateStore";
 import { useQuery } from "react-query";
 import { fetchLastReadings, fetchPiezometersData } from "../../utils/map";
+import { usePiezometerLecturesStateStore } from "../../store/PiezometerLecturesStateStore";
 
 function PageLayout() {
   const location = useLocation();
@@ -21,6 +22,9 @@ function PageLayout() {
   const setPiezometersDataAndLastReadings = useMonitoringMapStateStore(
     (s) => s.setPiezometersDataAndLastReadings
   );
+
+  const PiezoReadingsSetPiezometersDataAndLastReadings =
+    usePiezometerLecturesStateStore((s) => s.setPiezometersDataAndLastReadings);
 
   const { isLoading: piezoDataIsLoading, data: fetchedPiezoData } = useQuery(
     "piezometers",
@@ -42,6 +46,10 @@ function PageLayout() {
     if (!fetchedPiezoData || !lastReadings) return;
 
     setPiezometersDataAndLastReadings(fetchedPiezoData, lastReadings);
+    PiezoReadingsSetPiezometersDataAndLastReadings(
+      fetchedPiezoData,
+      lastReadings
+    );
   }, [piezoDataIsLoading, lastReadingsAreLoading]);
 
   if (piezoDataIsLoading || lastReadingsAreLoading) return <h1>Loading...</h1>;
