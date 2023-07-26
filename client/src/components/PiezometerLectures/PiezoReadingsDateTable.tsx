@@ -1,11 +1,12 @@
 import Datepicker from "react-tailwindcss-datepicker";
-
 import moment from "moment";
-import { useMonitoringMapStateStore } from "../../../store/MonitoringMapStateStore";
+import { usePiezometerLecturesStateStore } from "../../store/PiezometerLecturesStateStore";
 
-function DateTable() {
-  const date = useMonitoringMapStateStore((state) => state.date);
-  const changeDate = useMonitoringMapStateStore((state) => state.changeDate);
+function PiezoReadingsDateTable() {
+  const date = usePiezometerLecturesStateStore((state) => state.date);
+  const changeDate = usePiezometerLecturesStateStore(
+    (state) => state.changeDate
+  );
 
   const value = {
     startDate: date,
@@ -13,14 +14,14 @@ function DateTable() {
   };
 
   return (
-    <div className="flex flex-col gap-y-1 z-[50] relative justify-center w-full ">
-      <h3 className=" text-[10px] xl:text-xs  font-semibold text-[#666] ">
+    <div className="flex flex-col gap-y-1 z-[50] relative justify-center  ">
+      {/* <h3 className=" text-[10px] xl:text-xs  font-semibold text-[#666] ">
         Date
-      </h3>
+      </h3> */}
 
       <Datepicker
         containerClassName="shrink-0 "
-        inputClassName="text-xs border-2 dark:border-[#333] w-full  sm:text-sm  rounded-full bg-[#333]  dark:bg-[#333] shadow-sm"
+        inputClassName="text-xs  w-full  sm:text-sm  rounded-full bg-[#333] border-2 dark:border-[#333]  dark:bg-[#333] shadow-sm"
         useRange={false}
         asSingle={true}
         // showShortcuts={true}
@@ -42,4 +43,4 @@ function DateTable() {
   );
 }
 
-export default DateTable;
+export default PiezoReadingsDateTable;

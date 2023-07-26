@@ -35,7 +35,9 @@ function IncidentReports() {
       <MenuNavbar />
 
       <div className="items-center flex flex-wrap justify-between mt-12 md:mt-0 gap-x-8 gap-y-4">
-        <h1 className=" md:text-lg 2xl:text-xl font-bold">Incident Reports</h1>
+        <h1 className="  font-bold xl:text-lg">
+          Operations - Incident Reports
+        </h1>
 
         <div className="flex items-center gap-x-4">
           <div className="w-8 h-8 xl:w-10 xl:h-10 bg-all-normal flex items-center justify-center rounded-full text-white ">
@@ -73,7 +75,9 @@ function IncidentReports() {
         </div>
 
         <div className="  flex flex-col  gap-y-4  ">
-          <h2 className="font-bold text-sm 2xl:text-base">Incidents Interactive Map</h2>
+          <h2 className="font-bold text-sm 2xl:text-base">
+            Incidents Interactive Map
+          </h2>
 
           <div className="grid grid-cols-1">
             <IncidentMapMultiple />

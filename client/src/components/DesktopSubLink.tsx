@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useLogOutStore } from "../store/LogOutStore";
+import { useConfirmationModalStore } from "../store/ConfirmationModalStore";
 
 import { useMobileMenuStore } from "../store/MobileMenuStore";
 
@@ -21,7 +21,9 @@ function DesktopSubLink({
   const closeMobileMenu = useMobileMenuStore((state) => state.closeMobileMenu);
   const navigate = useNavigate();
 
-  const openLogOutModal = useLogOutStore((state) => state.openLogOutModal);
+  const openLogOutModal = useConfirmationModalStore(
+    (state) => state.openLogOutModal
+  );
 
   const goToPage = (link: string) => {
     navigate(link);

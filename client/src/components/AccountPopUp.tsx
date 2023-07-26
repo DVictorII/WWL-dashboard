@@ -3,7 +3,7 @@ import { BiLogOut } from "react-icons/bi";
 import UserIDCard from "./UserIDCard";
 import popup from "../assets/accountPopUp.svg";
 import { Link, useNavigate } from "react-router-dom";
-import { useLogOutStore } from "../store/LogOutStore";
+import { useLogOutStore } from "../store/ConfirmationModalStore";
 
 interface AccountPopUpProps {
   isOpen: boolean;

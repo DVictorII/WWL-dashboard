@@ -34,6 +34,8 @@ const piezoLine = {
       scales: { x, y },
     } = chart;
 
+    console.log(ctx)
+
 
     let piezometer;
     for (let i = 0; i <= piezometersData.length - 1; i++) {
@@ -46,7 +48,9 @@ const piezoLine = {
         ctx.save();
 
   
-        ctx.strokeStyle = piezometer[0] === "VW-CD3-03" ? "#008000" : "#333";
+        // ctx.strokeStyle = i === 0 ? "#7B8831" : "#333";
+        ctx.strokeStyle = i === 0 ? "#7B8831" : "#333";
+        ctx.lineWidth = i === 0 ? 4 : 1;
         
 
        
@@ -198,8 +202,9 @@ const Y3WaterLvl = chartCoordinates.map((arr) => arr[3]);
         // hoverRadius:100,
         hoverBorderWidth: i === 0 ? 3 : 2,
         borderWidth: i === 0 ? 3 : 2,
-        radius: i === 0 ? 14 : 7,
+        radius: i === 0 ? 10 : 5,
         type: "bubble" ,
+        
         
         data: [
           {

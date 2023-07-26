@@ -27,9 +27,11 @@ function PiezoLecturesComponent() {
       <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm">
         {location === "/piezometer-readings" && (
           <h2 className="flex items-center gap-x-2 md:gap-x-4 flex-wrap gap-y-2">
-            <span className="  font-semibold">Piezometer Readings / Last</span>
+            <span className="  font-semibold text-[#555]">
+              Piezometer Readings / Last
+            </span>
             <DaysChange />
-            <span className="  font-semibold">days</span>
+            <span className="  font-semibold text-[#555]">days</span>
           </h2>
         )}
 
@@ -53,7 +55,7 @@ function PiezoLecturesComponent() {
       </div>
       <div className="flex flex-col gap-y-6  bg-white p-4 2xl:p-6 rounded-xl shadow-sm  font-semibold  ">
         <div className="flex items-center gap-x-6">
-          <h2 className="flex items-center gap-x-2 flex-wrap gap-y-2">
+          <h2 className="flex items-center gap-x-2 flex-wrap gap-y-2 text-[#555]">
             Section profile view
           </h2>
 

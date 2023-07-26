@@ -8,6 +8,7 @@ import Skeleton from "react-loading-skeleton";
 import SkeletonPiezoListTable from "../Skeletons/MonitoringMap/SkeletonPiezoListTable";
 import { PiezometerDataI } from "../../types";
 import moment from "moment";
+import { convertFloodDate } from "../../utils/convertFloodDate";
 
 const options = {
   0: "All piezometers",
@@ -38,8 +39,6 @@ function PiezoListTable() {
   const filterPiezometers = (fullPiezoList) => {
     //@ts-ignore
     let filtered = [];
-
-    console.log("PIEZO DATA", fullPiezoList);
 
     //@ts-ignore
     if (!fullPiezoList) return filtered;
@@ -228,7 +227,7 @@ function PiezoListTable() {
                   <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
                     <div className="flex gap-x-2 justify-center items-center">
                       <span className="text-[11px] md:text-xs lg:text-sm ">
-                        Initial flood date
+                        Flood time
                       </span>
                       <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
                     </div>
@@ -280,6 +279,10 @@ function PiezoListTable() {
                       Number(lastReading.pressure);
 
                     const depthIsZero = Number(piezometer.depth) == 0;
+
+                    const floodTime = convertFloodDate(
+                      piezometer.time_threshold_wrong
+                    );
 
                     return (
                       <tr
@@ -338,9 +341,7 @@ function PiezoListTable() {
                         {status === 5 && (
                           <td className="px-4 py-2 lg:px-8 lg:py-3">
                             <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-semibold">
-                              {moment(piezometer.time_threshold_wrong).format(
-                                "YYYY-MM-DD HH:mm:ss"
-                              )}
+                              {floodTime as string}
                             </span>
                           </td>
                         )}

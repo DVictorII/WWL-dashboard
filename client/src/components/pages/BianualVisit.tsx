@@ -17,7 +17,7 @@ function BianualVisit() {
       <MenuNavbar />
 
       <div className="mt-12 md:mt-0 flex flex-col gap-y-8 justify-between">
-        <h1 className="md:text-lg 2xl:text-xl font-bold ">Biannual Visits</h1>
+        <h1 className="font-bold ">Operations - Biannual Visits</h1>
 
         <div className="flex flex-col gap-y-4">
           <h2 className=" font-bold ">

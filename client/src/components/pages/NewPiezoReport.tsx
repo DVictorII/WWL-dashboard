@@ -57,7 +57,7 @@ function NewPiezoReport() {
       <div className="mt-4" />
 
       <div className="flex items-center justify-between gap-x-8 gap-y-8 flex-wrap bg-white p-4 rounded-xl shadow-sm">
-        <h1 className="md:text-lg 2xl:text-xl font-bold">New Report</h1>
+        <h1 className=" font-bold xl:text-lg">Operations - New Report</h1>
       </div>
 
       <div className="mt-4" />

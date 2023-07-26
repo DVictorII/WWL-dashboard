@@ -281,3 +281,16 @@ def delete_piezo_report(id):
     return jsonify({
         "message":"report deleted successfully",
     })
+
+
+@reports_routes.route('/api/v1/incident-reports/<id>', methods=['DELETE'])
+@cross_origin()
+def delete_incident_report(id):
+    print(f"DELETE FROM incident_reports as ir WHERE ir.id = '{id}';")
+
+    db.session.execute(text(f"DELETE FROM incident_reports as ir WHERE ir.id = '{id}';"))
+    db.session.commit()
+
+    return jsonify({
+        "message":"incident deleted successfully",
+    })

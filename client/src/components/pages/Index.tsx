@@ -113,8 +113,10 @@ const Index = () => {
 
       <div className="flex items-center justify-between gap-x-8 gap-y-8 flex-wrap bg-white p-4 rounded-xl shadow-sm">
         <h1 className="flex flex-col gap-y-1 ">
-          <span className="font-bold">Monitoring Map</span>
-          <span className="text-xs font-semibold text-[#666]">
+          <span className="font-bold xl:text-lg">
+            Operations - Monitoring Map
+          </span>
+          <span className="text-xs xl:text-sm font-semibold text-[#666]">
             ({piezometersData.length} Piezometers)
           </span>
         </h1>
@@ -137,7 +139,7 @@ const Index = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-6 lg:gap-x-8 gap-y-8">
           <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm">
             <h2 className="font-semibold text-[#555] text-sm 2xl:text-base">
-              Piezometer Information
+              Piezometers Overview
             </h2>
 
             {paddock !== "All" && piezo !== "All" ? (
@@ -155,8 +157,8 @@ const Index = () => {
           >
             <h2 className="font-semibold text-[#555] text-sm 2xl:text-base">
               {status !== 6
-                ? "Piezometers interactive map"
-                : "Incidents interactive map"}
+                ? "Piezometers location map"
+                : "Incidents location map"}
             </h2>
             {status !== 6 ? <MapWrapper /> : <IncidentMapMultiple />}
           </div>

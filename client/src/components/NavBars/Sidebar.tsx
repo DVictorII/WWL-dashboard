@@ -19,7 +19,7 @@ import { FaTools } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMenuStore } from "../../store/DesktopSidebarStore";
 import { Link, useNavigate } from "react-router-dom";
-import { useLogOutStore } from "../../store/LogOutStore";
+import { useConfirmationModalStore } from "../../store/ConfirmationModalStore";
 import { useGloblalUserStore } from "../../store/GlobalUserStore";
 import { BiLogOut } from "react-icons/bi";
 
@@ -30,7 +30,9 @@ function Sidebar() {
 
   const navigate = useNavigate();
 
-  const openLogOutModal = useLogOutStore((state) => state.openLogOutModal);
+  const openLogOutModal = useConfirmationModalStore(
+    (state) => state.openLogOutModal
+  );
 
   const currentUser = useGloblalUserStore((state) => state.currentUser);
 
@@ -57,11 +59,11 @@ function Sidebar() {
 
           <div
             onClick={openMenu}
-            className="bg-gradient-to-br to-[#7ea3b8] from-[#477c9a] border-2 border-[#477c9a]  w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12    flex items-center justify-center  bg-opacity-10 rounded-lg hover:text-[#222]  transition-all cursor-pointer duration-500 relative group"
+            className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 bg-gradient-to-br to-[#7ea3b8] from-[#477c9a] border-[#477c9a]  border-2  flex items-center justify-center  bg-opacity-40 rounded-lg hover:text-[#222] hover:bg-opacity-90 transition-all cursor-pointer duration-500 relative group"
           >
-            <FaTools className=" w-3 h-3 lg:w-4 lg:h-4 2xl:w-5 2xl:h-5" />
-            <span className="absolute  w-auto px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-[#222] border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
-              Logistics and machinery ( 100% )
+            <AiOutlineAreaChart className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6" />
+            <span className="absolute w-auto px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-[#222] border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
+              Operations ( 100% )
             </span>
           </div>
 
@@ -72,6 +74,13 @@ function Sidebar() {
             </span>
           </div>
 
+          <div className="bg-gradient-to-br to-[#d27474] from-[#bc2f2f]  border-2 border-[#bc2f2f]   w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12    flex items-center justify-center  bg-opacity-10 rounded-lg hover:text-[#222]  transition-all cursor-pointer duration-500 relative group">
+            <FaTools className=" w-3 h-3 lg:w-4 lg:h-4 2xl:w-5 2xl:h-5" />
+            <span className="absolute  w-auto px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-[#222] border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
+              Logistics and machinery (under construction) ( 70% )
+            </span>
+          </div>
+
           <div className="bg-gradient-to-br to-[#658293] from-[#9c3838] p-[2px] rounded-lg">
             <div className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 bg-gradient-to-br to-[#7ea3b8] from-[#c34646]  flex items-center justify-center  bg-opacity-40 rounded-lg hover:text-[#222] hover:bg-opacity-90 transition-all cursor-pointer duration-500 relative group">
               <AiOutlineUsergroupAdd className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6 " />
@@ -79,13 +88,6 @@ function Sidebar() {
                 Human resources (under construction) ( 80% )
               </span>
             </div>
-          </div>
-
-          <div className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 bg-gradient-to-br to-[#d27474] from-[#bc2f2f] border-2 border-[#bc2f2f] flex items-center justify-center  bg-opacity-40 rounded-lg hover:text-[#222] hover:bg-opacity-90 transition-all cursor-pointer duration-500 relative group">
-            <AiOutlineAreaChart className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6" />
-            <span className="absolute w-auto px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-[#222] border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
-              Operations (under construction) ( 70% )
-            </span>
           </div>
         </div>
 
@@ -224,7 +226,7 @@ function Sidebar() {
                     onClick={closeMenu}
                     className="cursor-pointer shrink-0"
                   />
-                  <span className="text-sm">Logistics and machinery</span>
+                  <span className="text-sm">Operations</span>
                 </motion.div>
 
                 <motion.div
