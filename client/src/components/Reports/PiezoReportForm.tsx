@@ -90,7 +90,7 @@ function PiezoReportForm() {
             paddock,
             piezo,
             time_span: timeSpan,
-            readings_information: JSON.stringify(lecturesInformation)
+            readings_information: JSON.stringify(lecturesInformation),
           },
           {
             headers: {
@@ -128,7 +128,7 @@ function PiezoReportForm() {
       );
 
       resetState();
-      navigate("/reports/piezometers");
+      navigate("/operations/reports/piezometers");
     } catch (err) {
       console.log(err);
     }
@@ -146,7 +146,6 @@ function PiezoReportForm() {
         <ReportPaddock />
 
         <ReportPiezo />
-
 
         {/* <ReportDate /> */}
         <ReportTimeSpan />

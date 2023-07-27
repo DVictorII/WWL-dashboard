@@ -76,16 +76,18 @@ function MobileMenu() {
               <DesktopLink
                 title="Dashboard"
                 icon="dashboard"
-                linkTo="/"
+                linkTo="/operations/monitoring-map"
                 hasSubLinks={false}
-                isCurrentPage={currentPage === "/"}
+                isCurrentPage={currentPage === "/operations/monitoring-map"}
               />
               <DesktopLink
                 title="Monitoring Chart"
                 icon="chart"
-                linkTo="/piezometer-readings"
+                linkTo="/operations/piezometer-readings"
                 hasSubLinks={false}
-                isCurrentPage={currentPage === "/piezometer-readings"}
+                isCurrentPage={
+                  currentPage === "/operations/piezometer-readings"
+                }
               />
 
               <div>
@@ -99,21 +101,25 @@ function MobileMenu() {
                 <div className="flex flex-col gap-y-6  mt-4">
                   <DesktopSubLink
                     title="Piezometers"
-                    linkTo="/reports/piezometers"
+                    linkTo="/operations/reports/piezometers"
                     isCurrentPage={currentPage.startsWith(
-                      "/reports/piezometers"
+                      "/operations/reports/piezometers"
                     )}
                   />
                   <DesktopSubLink
                     title="Incidents"
-                    linkTo="/reports/incidents"
-                    isCurrentPage={currentPage.startsWith("/reports/incidents")}
+                    linkTo="/operations/reports/incidents"
+                    isCurrentPage={currentPage.startsWith(
+                      "/operations/reports/incidents"
+                    )}
                   />
 
                   <DesktopSubLink
                     title="Visits"
-                    linkTo="/biannual-visits"
-                    isCurrentPage={currentPage.startsWith("/biannual-visits")}
+                    linkTo="/operations/biannual-visits/1"
+                    isCurrentPage={currentPage.startsWith(
+                      "/operations/biannual-visits/1"
+                    )}
                   />
                 </div>
               </div>

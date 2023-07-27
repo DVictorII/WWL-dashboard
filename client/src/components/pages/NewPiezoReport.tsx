@@ -23,7 +23,7 @@ function NewPiezoReport() {
 
   const cancelForm = () => {
     resetState();
-    navigate("/reports/piezometers");
+    navigate("/operations/reports/piezometers");
   };
 
   // const { isLoading: piezometersAreLoading, data: piezometersData } = useQuery({

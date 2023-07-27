@@ -44,7 +44,7 @@ function IncidentReports() {
             <BsBookmarkHeartFill className="w-3 h-3 xl:w-4 xl:h-4" />
           </div>
 
-          <Link to="/reports/incidents/new-incident">
+          <Link to="/operations/reports/incidents/new-incident">
             <button className="flex items-center gap-x-2 px-3 xl:px-4 py-2 bg-all-normal text-white rounded-[8px] hover:bg-orange-800 transition-all">
               <BsPlusSquare className="w-3 h-3 xl:w-4 xl:h-4" />
               <span className="text-xs xl:text-sm font-bold">new</span>

@@ -67,10 +67,13 @@ function Sidebar() {
             </span>
           </div>
 
-          <div className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 bg-gradient-to-br to-[#7ea3b8] from-[#477c9a] border-2 border-[#477c9a] flex items-center justify-center  bg-opacity-40 rounded-lg hover:text-[#222] hover:bg-opacity-90 transition-all cursor-pointer duration-500 relative group">
+          <div
+            onClick={() => navigateTo("/business/stocks-tracking")}
+            className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 bg-gradient-to-br to-[#7ea3b8] from-[#477c9a] border-2 border-[#477c9a] flex items-center justify-center  bg-opacity-40 rounded-lg hover:text-[#222] hover:bg-opacity-90 transition-all cursor-pointer duration-500 relative group"
+          >
             <AiOutlinePieChart className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6" />
             <span className="absolute w-auto px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-[#222] border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
-              Business (under construction) ( 100% )
+              Business ( 100% )
             </span>
           </div>
 
@@ -239,7 +242,7 @@ function Sidebar() {
                   className="flex flex-col gap-y-12"
                 >
                   <div
-                    onClick={() => navigateTo("/monitoring-map")}
+                    onClick={() => navigateTo("/operations/monitoring-map")}
                     className=" whitespace-nowrap flex items-center gap-x-4 relative py-2 group cursor-pointer hover:text-orange-500 transition-all"
                   >
                     <TfiMapAlt className="w-6 h-6 lg:w-7 lg:h-7 shrink-0" />
@@ -248,7 +251,9 @@ function Sidebar() {
                   </div>
 
                   <div
-                    onClick={() => navigateTo("/piezometer-readings")}
+                    onClick={() =>
+                      navigateTo("/operations/piezometer-readings")
+                    }
                     className="whitespace-nowrap flex items-center gap-x-4 relative py-2 group cursor-pointer hover:text-orange-500 transition-all"
                   >
                     <AiOutlineBarChart className="w-6 h-6 lg:w-7 lg:h-7 shrink-0" />
@@ -264,7 +269,9 @@ function Sidebar() {
 
                   <div className="flex flex-col gap-y-8 ml-12">
                     <div
-                      onClick={() => navigateTo("/reports/piezometers")}
+                      onClick={() =>
+                        navigateTo("/operations/reports/piezometers")
+                      }
                       className="whitespace-nowrap flex items-center gap-x-4 relative py-2 group cursor-pointer hover:text-orange-500 transition-all"
                     >
                       <AiOutlineSetting className="w-4 h-4 lg:w-5 lg:h-5 shrink-0" />
@@ -273,7 +280,9 @@ function Sidebar() {
                     </div>
 
                     <div
-                      onClick={() => navigateTo("/reports/incidents")}
+                      onClick={() =>
+                        navigateTo("/operations/reports/incidents")
+                      }
                       className="whitespace-nowrap flex items-center gap-x-4 relative py-2 group cursor-pointer hover:text-orange-500 transition-all"
                     >
                       <FiAlertTriangle className="w-4 h-4 lg:w-5 lg:h-5 shrink-0" />
@@ -283,7 +292,7 @@ function Sidebar() {
                   </div>
 
                   <div
-                    onClick={() => navigateTo("/biannual-visits/1")}
+                    onClick={() => navigateTo("/operations/biannual-visits/1")}
                     className="whitespace-nowrap flex items-center gap-x-4 relative py-2 group cursor-pointer hover:text-orange-500 transition-all"
                   >
                     <BsCalendarMonth className="w-6 h-6 shrink-0" />

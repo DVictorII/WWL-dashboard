@@ -67,7 +67,7 @@ function PiezoReportDetails() {
           <div className="flex items-center gap-x-8 flex-wrap gap-y-8">
             <ReportDetailsPDFDownloadButton />
 
-            <Link to="/reports/piezometers">
+            <Link to="/operations/reports/piezometers">
               <span className="cursor-pointer text-all-normal pb-1 border-b-2  border-all-normal hover:text-orange-800 hover:border-orange-800 transition-all w-max sz450:justify-self-end md:text-lg  font-semibold ">
                 &larr; Back
               </span>

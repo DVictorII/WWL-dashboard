@@ -123,7 +123,9 @@ function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
                 </td>
 
                 <td className="px-8 py-2  lg:py-3">
-                  <Link to={`/reports/piezometers/${report.report_id}`}>
+                  <Link
+                    to={`/operations/reports/piezometers/${report.report_id}`}
+                  >
                     <span className="text-[9px] md:text-[10px] lg:text-[11px]  font-semibold text-orange-600  border-b border-orange-600  hover:text-orange-800 hover:border-orange-800 transition-all cursor-pointer">
                       View
                     </span>

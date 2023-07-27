@@ -55,7 +55,7 @@ function IncidentReportDetails() {
               <span className="text-xs md:text-sm">Download report on PDF</span>
             </button> */}
 
-            <Link to="/reports/incidents">
+            <Link to="/operations/reports/incidents">
               <span className="cursor-pointer text-all-normal pb-1 border-b-2  border-all-normal hover:text-orange-800 hover:border-orange-800 transition-all w-max sz450:justify-self-end md:text-lg  font-semibold ">
                 &larr; Back
               </span>

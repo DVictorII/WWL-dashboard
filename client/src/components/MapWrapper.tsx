@@ -196,7 +196,7 @@ function MapWrapper() {
     // const changedPaddock = paddock.replaceAll("/", "-");
     changeChartPaddockAndPiezo(paddock, piezo);
 
-    navigate("/piezometer-readings");
+    navigate("/operations/piezometer-readings");
   };
 
   // @ts-ignore

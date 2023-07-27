@@ -151,6 +151,8 @@ const BarChart = ({ information, fullPage = false }) => {
 
   if (piezometersAreLoading || lecturesAreLoading) return <SkeletonBarChart />;
 
+  console.log("PIEZODATA", piezoData);
+
   if (piezometersData.status === 4)
     return (
       <div className="flex flex-col gap-y-4">
@@ -257,7 +259,7 @@ const BarChart = ({ information, fullPage = false }) => {
                           reverse: false,
                         }}
                         yFormat=" >-.2f"
-                        curve="catmullRom"
+                        curve="natural"
                         enableArea={true}
                         axisTop={null}
                         axisRight={null}
@@ -303,6 +305,7 @@ const BarChart = ({ information, fullPage = false }) => {
                         pointBorderColor={{ from: "serieColor" }}
                         pointLabelYOffset={-12}
                         useMesh={true}
+                        areaBaselineValue={limits.min}
                       />
                     </motion.div>
                   ) : null}
@@ -342,7 +345,7 @@ const BarChart = ({ information, fullPage = false }) => {
                           reverse: false,
                         }}
                         yFormat=" >-.2f"
-                        curve="catmullRom"
+                        curve="natural"
                         enableArea={true}
                         axisTop={null}
                         axisRight={null}
@@ -413,7 +416,7 @@ const BarChart = ({ information, fullPage = false }) => {
                           reverse: false,
                         }}
                         yFormat=" >-.2f"
-                        curve="catmullRom"
+                        curve="natural"
                         enableArea={true}
                         axisTop={null}
                         axisRight={null}

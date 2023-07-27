@@ -12,7 +12,11 @@ function IncidentReportCard({ incident }: { incident: IncidentDetails }) {
     >
       <div className="h-24 md:h-28  ">
         <img
-          src={`/media/incident_reports/${incident.incident_photo === "incident-default" ? "incident-default.png" : incident.incident_photo}`}
+          src={`/media/incident_reports/${
+            incident.incident_photo === "incident-default"
+              ? "incident-default.png"
+              : incident.incident_photo
+          }`}
           alt={incident.incident_title}
           className="w-full h-full object-cover"
         />
@@ -20,7 +24,7 @@ function IncidentReportCard({ incident }: { incident: IncidentDetails }) {
 
       <div className="bg-white p-2 md:p-3">
         <div className="flex justify-between gap-x-4 items-center">
-          <Link to={`/reports/incidents/${incident.incident_id}`}>
+          <Link to={`/operations/reports/incidents/${incident.incident_id}`}>
             <span className="text-xs md:text-base font-semibold line-clamp-2 h-[48px] hover:text-orange-800 cursor-pointer transition-all">
               {incident.incident_title}
             </span>
@@ -35,15 +39,18 @@ function IncidentReportCard({ incident }: { incident: IncidentDetails }) {
           {incident.incident_description}
         </p>
 
-
-
         <div className="w-full h-[2px] bg-all-normal bg-opacity-10 mt-4" />
 
         <div className="flex items-center justify-between mt-4">
           <div className="flex flex-col gap-y-1 md:gap-y-2">
             <div className=" text-[8px] md:text-[10px] font-semibold">
-              <span className=" font-semibold">{incident.incident_latitude}</span> /{" "}
-              <span className=" font-semibold">{incident.incident_longitude}</span>
+              <span className=" font-semibold">
+                {incident.incident_latitude}
+              </span>{" "}
+              /{" "}
+              <span className=" font-semibold">
+                {incident.incident_longitude}
+              </span>
             </div>
             <div className="flex items-center gap-x-1">
               <AiOutlineCalendar className="w-2 h-2 md:w-3 md:h-3" />

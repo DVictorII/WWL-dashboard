@@ -41,7 +41,7 @@ function PiezoReports() {
             <BsBookmarkHeartFill className="w-4 h-4  lg:w-5 lg:h-5 " />
           </div>
 
-          <Link to="/reports/piezometers/new-report">
+          <Link to="/operations/reports/piezometers/new-report">
             <button className="flex items-center gap-x-2 p-2 sm:px-4 rounded-full bg-all-normal text-white  hover:bg-orange-800 transition-all">
               <AiOutlinePlus className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
               <span className="text-xs sm:text-sm   font-medium hidden sm:block">

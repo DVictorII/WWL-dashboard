@@ -28,7 +28,7 @@ function MonMapPiezoInformationTable() {
   const goToLectures = (paddock, piezo) => {
     changeChartPaddockAndPiezo(paddock, piezo);
 
-    navigate("/piezometer-readings");
+    navigate("/operations/piezometer-readings");
   };
 
   const { isLoading: piezometersAreLoading, data: piezometersData } = useQuery({

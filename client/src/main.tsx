@@ -29,6 +29,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Chart from "./components/pages/Chart";
+import Stocks_tracking from "./components/pages/business/Stocks_tracking";
 
 const router = createBrowserRouter([
   {
@@ -43,68 +44,78 @@ const router = createBrowserRouter([
           process.env.NODE_ENV === "production" ? (
             <Navigate to="/login" />
           ) : (
-            <Navigate to="/monitoring-map" />
+            <Navigate to="/operations/monitoring-map" />
           ),
       },
 
-      // {
-      //   path: "chart",
-      //   element: <Chart />,
-      // },
-
       {
-        path: "monitoring-map",
-        element: <Index />,
-      },
-
-      {
-        path: "piezometer-readings",
-        element: <PaddockLectures />,
-      },
-
-      {
-        path: "reports",
+        path: "operations",
         children: [
           {
-            path: "piezometers",
+            path: "monitoring-map",
+            element: <Index />,
+          },
+
+          {
+            path: "piezometer-readings",
+            element: <PaddockLectures />,
+          },
+
+          {
+            path: "reports",
             children: [
               {
-                path: "",
-                element: <PiezoReports />,
+                path: "piezometers",
+                children: [
+                  {
+                    path: "",
+                    element: <PiezoReports />,
+                  },
+                  {
+                    path: "new-report",
+                    element: <NewPiezoReport />,
+                  },
+                  {
+                    path: ":id",
+                    element: <PiezoReportDetails />,
+                  },
+                ],
               },
               {
-                path: "new-report",
-                element: <NewPiezoReport />,
-              },
-              {
-                path: ":id",
-                element: <PiezoReportDetails />,
+                path: "incidents",
+                children: [
+                  {
+                    path: "",
+                    element: <IncidentReports />,
+                  },
+                  {
+                    path: "new-incident",
+                    element: <NewIncidentReport />,
+                  },
+                  {
+                    path: ":id",
+                    element: <IncidentReportDetails />,
+                  },
+                ],
               },
             ],
           },
           {
-            path: "incidents",
-            children: [
-              {
-                path: "",
-                element: <IncidentReports />,
-              },
-              {
-                path: "new-incident",
-                element: <NewIncidentReport />,
-              },
-              {
-                path: ":id",
-                element: <IncidentReportDetails />,
-              },
-            ],
+            path: "biannual-visits/:id",
+            element: <BianualVisit />,
           },
         ],
       },
       {
-        path: "/biannual-visits/:id",
-        element: <BianualVisit />,
+        path: "business",
+        children: [
+          {
+            path: "stocks-tracking",
+            element: <Stocks_tracking />,
+          },
+        ],
       },
+
       {
         path: "/login",
         element: <Login />,

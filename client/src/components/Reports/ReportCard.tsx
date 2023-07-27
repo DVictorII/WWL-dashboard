@@ -12,7 +12,11 @@ function ReportCard({ report }: { report: ReportDetails }) {
     >
       <div className="h-24 md:h-28  ">
         <img
-          src={`/media/piezometer_reports/${report.report_photo === "piezoreport-default" ? "piezoreport-default.png" : report.report_photo}`}
+          src={`/media/piezometer_reports/${
+            report.report_photo === "piezoreport-default"
+              ? "piezoreport-default.png"
+              : report.report_photo
+          }`}
           alt={report.report_title}
           className="w-full h-full object-cover"
         />
@@ -20,7 +24,7 @@ function ReportCard({ report }: { report: ReportDetails }) {
 
       <div className="bg-white p-2 md:p-3">
         <div className="flex justify-between gap-x-4 items-center">
-          <Link to={`/reports/piezometers/${report.report_id}`}>
+          <Link to={`/operations/reports/piezometers/${report.report_id}`}>
             <span className="text-xs md:text-base font-semibold line-clamp-2 h-[48px] hover:text-orange-800 cursor-pointer transition-all">
               {report.report_title}
             </span>

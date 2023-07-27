@@ -99,7 +99,9 @@ function IncidentsListTable({ incidents }: { incidents: IncidentDetails[] }) {
               </th>
 
               <th className="flex items-center gap-x-2 w-8 md:w-10 justify-center">
-                <Link to={`/reports/incidents/${incident.incident_id}`}>
+                <Link
+                  to={`/operations/reports/incidents/${incident.incident_id}`}
+                >
                   <span className="text-[11px] md:text-xs text-orange-600  border-b-2 border-orange-600  hover:text-orange-800 hover:border-orange-800 transition-all cursor-pointer">
                     View
                   </span>

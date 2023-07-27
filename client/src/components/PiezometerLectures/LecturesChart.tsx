@@ -13,19 +13,19 @@ function LecturesChart() {
   const location = useLocation().pathname;
 
   const paddock =
-    location === "/piezometer-readings"
+    location === "/operations/piezometer-readings"
       ? usePiezometerLecturesStateStore((s) => s.paddock)
       : useNewPiezoReportStateStore((state) => state.paddock);
   const piezo =
-    location === "/piezometer-readings"
+    location === "/operations/piezometer-readings"
       ? usePiezometerLecturesStateStore((s) => s.piezo)
       : useNewPiezoReportStateStore((state) => state.piezo);
   const days =
-    location === "/piezometer-readings"
+    location === "/operations/piezometer-readings"
       ? usePiezometerLecturesStateStore((s) => s.days)
       : useNewPiezoReportStateStore((state) => state.days);
   const chartType =
-    location === "/piezometer-readings"
+    location === "/operations/piezometer-readings"
       ? usePiezometerLecturesStateStore((s) => s.chartType)
       : useNewPiezoReportStateStore((state) => state.chartType);
 
@@ -35,8 +35,6 @@ function LecturesChart() {
         <ChartTypeTable />
       </div>
 
-      
-
       <BarChart
         information={{
           paddock,
@@ -45,8 +43,6 @@ function LecturesChart() {
           chartType,
         }}
       />
-      
-
     </div>
   );
 }

@@ -10,11 +10,11 @@ function PiezoLecturesComponent() {
   const location = useLocation().pathname;
 
   const paddock =
-    location === "/piezometer-readings"
+    location === "/operations/piezometer-readings"
       ? usePiezometerLecturesStateStore((s) => s.paddock)
       : useNewPiezoReportStateStore((state) => state.paddock);
   const piezo =
-    location === "/piezometer-readings"
+    location === "/operations/piezometer-readings"
       ? usePiezometerLecturesStateStore((s) => s.piezo)
       : useNewPiezoReportStateStore((state) => state.piezo);
 
@@ -25,7 +25,7 @@ function PiezoLecturesComponent() {
   return (
     <div className=" grid grid-cols-1 lg:grid-cols-2  lg:gap-x-6 xl:gap-x-8 gap-y-8  ">
       <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm">
-        {location === "/piezometer-readings" && (
+        {location === "/operations/piezometer-readings" && (
           <h2 className="flex items-center gap-x-2 md:gap-x-4 flex-wrap gap-y-2">
             <span className="  font-semibold text-[#555]">
               Piezometer Readings / Last
@@ -35,7 +35,7 @@ function PiezoLecturesComponent() {
           </h2>
         )}
 
-        {location === "/reports/piezometers/new-report" && (
+        {location === "/operations/reports/piezometers/new-report" && (
           <h2 className="flex items-center gap-x-2 md:gap-x-2 flex-wrap gap-y-2">
             <span className="  font-semibold">Piezometer Readings</span>
             <span className="  font-semibold">/</span>
@@ -59,7 +59,7 @@ function PiezoLecturesComponent() {
             Section profile view
           </h2>
 
-          {location === "/piezometer-readings" && (
+          {location === "/operations/piezometer-readings" && (
             <>
               <span>/</span>
               <span className="text-2xl">

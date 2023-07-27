@@ -15,7 +15,7 @@ function NewIncidentReport() {
 
   const cancelForm = () => {
     resetState();
-    navigate("/reports/incidents");
+    navigate("/operations/reports/incidents");
   };
 
   return (

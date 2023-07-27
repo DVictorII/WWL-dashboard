@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { IoSaveOutline } from "react-icons/io5";
 
 import { useGloblalUserStore } from "../../store/GlobalUserStore";
@@ -6,7 +6,7 @@ import { useNewIncidentReportStateStore } from "../../store/NewIncidentReportSta
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 // @ts-ignore
-import axios from "../../utils/axios"
+import axios from "../../utils/axios";
 
 import IncidentPhotoUploader from "./IncidentPhotoUploader";
 
@@ -17,15 +17,17 @@ import IncidentDateTable from "./filtering/IncidentDateTable";
 import IncidentLocationTable from "./filtering/IncidentLocationTable";
 import IncidentSupervisorsComponent from "./filtering/IncidentSupervisorsComponent";
 
-
 function IncidentReportForm() {
-
   const userID = useGloblalUserStore((state) => state.userID);
   const title = useNewIncidentReportStateStore((state) => state.title);
   const photo = useNewIncidentReportStateStore((state) => state.photo);
-  const description = useNewIncidentReportStateStore((state) => state.description);
+  const description = useNewIncidentReportStateStore(
+    (state) => state.description
+  );
   const date = useNewIncidentReportStateStore((state) => state.date);
-  const supervisors = useNewIncidentReportStateStore((state) => state.supervisors);
+  const supervisors = useNewIncidentReportStateStore(
+    (state) => state.supervisors
+  );
   const paddock = useNewIncidentReportStateStore((state) => state.paddock);
 
   const latitude = useNewIncidentReportStateStore((state) => state.latitude);
@@ -34,11 +36,11 @@ function IncidentReportForm() {
 
   const navigate = useNavigate();
 
-  const [mapKey, setMapKey] = useState(1)
+  const [mapKey, setMapKey] = useState(1);
 
-  const refreshMap = ()=>{
-    setMapKey((s)=>s+1)
-  }
+  const refreshMap = () => {
+    setMapKey((s) => s + 1);
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,22 +50,26 @@ function IncidentReportForm() {
 
     try {
       await toast.promise(
-        axios.post("/new-incident-report", {
-          from_user: userID,
-          title,
-          photo : photo,
-          description,
-          date,
-          supervisors: String(filteredSupervisors),
-          paddock,
-          latitude,
-          longitude,
-          elevation
-        }, {
-          headers: {
-            "Content-Type": "multipart/form-data",
+        axios.post(
+          "/new-incident-report",
+          {
+            from_user: userID,
+            title,
+            photo: photo,
+            description,
+            date,
+            supervisors: String(filteredSupervisors),
+            paddock,
+            latitude,
+            longitude,
+            elevation,
           },
-        }),
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        ),
         {
           loading: "Creating report...",
           success: (data) => `Incident report created!`,
@@ -93,12 +99,12 @@ function IncidentReportForm() {
         }
       );
 
-      navigate("/reports/incidents");
+      navigate("/operations/reports/incidents");
     } catch (err) {
       console.log(err);
     }
   };
-  
+
   return (
     <form
       encType="multipart/form-data"
@@ -112,21 +118,19 @@ function IncidentReportForm() {
 
         <div className="md:px-4 grid grid-cols-1 lg:grid-cols-2 gap-x-8 xl:gap-x-10 gap-y-8 md:gap-y-0 lg:gap-y-8 xl:gap-y-10">
           <div className=" md:py-8 flex flex-col gap-y-4 ">
-            <h2
-              className="text-sm md:text-base font-semibold"
-              
-            >
-              Location map
-            </h2>
-            <IncidentLocationShowcaseMap information={{
-              latitude,
-              longitude,
-              paddock
-            }} key={`${paddock}${mapKey}`}/>
+            <h2 className="text-sm md:text-base font-semibold">Location map</h2>
+            <IncidentLocationShowcaseMap
+              information={{
+                latitude,
+                longitude,
+                paddock,
+              }}
+              key={`${paddock}${mapKey}`}
+            />
           </div>
 
           <div className=" md:py-8 flex flex-col gap-y-8">
-            <IncidentTitleDescription/>
+            <IncidentTitleDescription />
 
             <IncidentDateTable />
 
@@ -146,9 +150,7 @@ function IncidentReportForm() {
         <IncidentSupervisorsComponent />
       </div>
 
-      <button
-        className="w-max py-3 px-6 bg-all-normal rounded-[14px] text-white  flex items-center justify-center gap-x-2 shadow-sm"
-      >
+      <button className="w-max py-3 px-6 bg-all-normal rounded-[14px] text-white  flex items-center justify-center gap-x-2 shadow-sm">
         <IoSaveOutline className="w-6 h-6 " />
         <span className="text-lg font-semibold">Save</span>
       </button>
