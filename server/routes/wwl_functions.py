@@ -31,7 +31,22 @@ def get_data_by_section(datalogger, channel, na_ground, new_ground):
     FUNCTIONS
     """
 
-    def correct_e3_version2(items, graph):
+    def calculate_mean(list_coord):
+        indices_dict = {}  # Dictionary to store indices and their sum of values
+        count_dict = {}    # Dictionary to store the count of values for each index
+        for index, value in list_coord:
+            if index not in indices_dict:
+                indices_dict[index] = 0
+                count_dict[index] = 0
+            indices_dict[index] += value
+            count_dict[index] += 1
+
+        # Calculate the mean for each index
+        mean_indices = [[index, indices_dict[index] / count_dict[index]] for index in indices_dict]
+        return mean_indices
+    
+    def correct_e3_version2(items,graph):
+
         def find_closest_index(items, graph, index, direction):
             if index < 0 or index >= len(items):
                 return None
@@ -83,9 +98,16 @@ def get_data_by_section(datalogger, channel, na_ground, new_ground):
         output = []
 
         if len(points) == 0:
-            for i in range(0, 401, 5):
-                output.append([i, graph[int(i / 5)][1] + 0.25])
-            return output
+
+            for i in range(0,401,5):
+                output.append([i,graph[int(i/5)][1]+0.25])
+            return output 
+        
+        # Pizometers in the same place, calculate mean value.
+        sorted_points = sorted(points, key=lambda p: p[0])
+        points = calculate_mean(sorted_points)
+       
+
 
         # If there is only one pizometer, project the hall list from only one point
         #

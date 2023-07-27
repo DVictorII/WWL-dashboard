@@ -94,7 +94,7 @@ def update_status():
        Active (1)
     """
 
-    query = """
+    query = '''
     UPDATE piezometer_details
     SET status = CASE
 	    WHEN (CURRENT_DATE - last_readings.time) > INTERVAL '7 days' THEN 3
@@ -103,7 +103,18 @@ def update_status():
 	    END
     FROM last_readings
     WHERE piezometer_details.datalogger=last_readings.node AND piezometer_details.channel=last_readings.channel;
-    """
+
+    UPDATE piezometer_details
+    SET status = 3
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM last_readings
+        WHERE last_readings.node = piezometer_details.datalogger AND last_readings.channel = piezometer_details.channel
+    );
+    UPDATE piezometer_details
+    SET status = 4
+    WHERE datalogger IS NULL and channel IS NULL;
+    '''
     return query
 
 
