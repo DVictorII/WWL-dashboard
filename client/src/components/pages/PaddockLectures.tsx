@@ -13,17 +13,14 @@ import { usePiezometerLecturesStateStore } from "../../store/PiezometerLecturesS
 
 import FullPageComps from "../FullPageComps";
 import { useEffect } from "react";
+import PiezoReadingsDateTable from "../PiezometerLectures/PiezoReadingsDateTable";
 
 function PaddockLectures() {
   const paddock = usePiezometerLecturesStateStore((s) => s.paddock);
   const piezo = usePiezometerLecturesStateStore((s) => s.piezo);
-
-  useEffect(() => {
-    console.log(paddock, piezo);
-  }, [paddock, piezo]);
-
   const days = usePiezometerLecturesStateStore((s) => s.days);
   const chartType = usePiezometerLecturesStateStore((s) => s.chartType);
+  const date = usePiezometerLecturesStateStore((state) => state.date);
 
   return (
     <>
@@ -32,10 +29,12 @@ function PaddockLectures() {
       <div className="mt-12 md:hidden" />
 
       <div className="  flex flex-col gap-y-4 justify-between bg-white p-4 rounded-xl shadow-sm">
-        <h1 className=" font-bold ">Paddock Monitoring - Dashboard</h1>
-        <p className="text-xs font-semibold text-[#666]">
-          Use the interactive chart below to explore piezometer readings from
-          Paddock{" "}
+        <h1 className=" font-bold xl:text-lg ">
+          Operations - Piezometer Readings
+        </h1>
+        <p className="text-xs xl:text-sm font-semibold text-[#666]">
+          Use the interactive chart below to explore paddocks, sections and
+          piezometers state.
         </p>
       </div>
 
@@ -51,20 +50,21 @@ function PaddockLectures() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-6 xl:gap-x-8 gap-y-8 ">
-          <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center ">
-            {/* <h2
-              className="text-sm md:text-base font-semibold"
-              key={`${paddock}${piezo}`}
-            >
-              {paddock} / {piezo}
-            </h2> */}
+          <div className="flex flex-col  bg-white p-4 gap-y-4 rounded-xl shadow-sm  ">
+            <h2 className="font-semibold text-[#555]">Piezometer details</h2>
             <PiezoInformationTable />
           </div>
 
           <div
-            key={`${piezo}${paddock}`}
-            className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center "
+            key={`${piezo}${paddock}${date}`}
+            className="flex flex-col  bg-white p-4 gap-y-4 rounded-xl shadow-sm  "
           >
+            <div className="flex items-center justify-between">
+              <h2 className="font-semibold text-[#555]">
+                Piezometer location map
+              </h2>
+              <PiezoReadingsDateTable />
+            </div>
             <PaddockMapWrapper />
           </div>
         </div>

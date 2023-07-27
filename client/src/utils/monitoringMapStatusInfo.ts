@@ -25,7 +25,7 @@ export const monitoringMapStatusInfo = {
     number: 17,
     normalColor: "#C5B317",
     lightColor: "rgba(197, 179, 23, 0.1)",
-    darkColor: "#C0AD00",
+    darkColor: "#9e8f12",
   },
   4: {
     name: "proposed",

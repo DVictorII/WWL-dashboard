@@ -3,6 +3,7 @@ import { useSectionImgStore } from "../store/sectionImgStore";
 
 import { AnimatePresence, motion } from "framer-motion";
 import BarChart from "./BarChart";
+import SectionImg from "./PiezometerLectures/SectionImg";
 
 interface Information {
   paddock: string;
@@ -45,7 +46,7 @@ function FullPageComps({ information }: { information: Information }) {
               className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-[700px] md:w-4/5    rotate-90 origin-center lg:rotate-0"
             >
               <div className="p-5 bg-white rounded-xl shadow-sm ">
-                <img className=" w-full " src={imgURL} />
+                <SectionImg fullPage/>
               </div>
             </motion.div>
           </div>

@@ -145,7 +145,7 @@ export async function drawPiezometers({
         t.addEventListener("click", () => {
           if (page === "dashboard")
             goToLectures(piezometer.paddock, piezometer.id);
-          console.log(piezometer.id);
+          // console.log(piezometer.id);
         })
       );
     });

@@ -69,13 +69,25 @@ export const useMonitoringMapStateStore = create<MonitoringMapStateStore>(
         section: "All",
       })),
 
-    changePiezo: (newPiezo) =>
-      set((state) => ({
-        ...state,
-        piezo: newPiezo,
-        status: 0,
-        section: "All",
-      })),
+    changePiezo: (newPiezo) => {
+      if (newPiezo === "All") {
+        return set((state) => ({
+          ...state,
+          piezo: newPiezo,
+          status: 0,
+        }));
+      } else {
+        return set((state) => ({
+          ...state,
+          paddock: state.piezometersData.find((p) => p.id === newPiezo)
+            ?.paddock,
+          piezo: newPiezo,
+          status: 0,
+          section: state.piezometersData.find((p) => p.id === newPiezo)
+            ?.section,
+        }));
+      }
+    },
 
     changeDate: (newDate) => set((state) => ({ ...state, date: newDate })),
 
@@ -98,6 +110,18 @@ export const useMonitoringMapStateStore = create<MonitoringMapStateStore>(
         status: 0,
         //@ts-ignore
         piezoList: mapPiezoList[`${newPaddock}`],
+
+        section: state.piezometersData.find((p) => p.id === newPiezo)?.section,
+        sectionsList: [
+          "All",
+          ...new Set(
+            state.piezometersData
+              .filter((piezometer) =>
+                newPaddock === "All" ? true : piezometer.paddock === newPaddock
+              )
+              .map((piezometer) => String(piezometer.section))
+          ),
+        ],
       })),
 
     setPiezometersDataAndLastReadings: (fetchedData, fetchedLastReadings) => {

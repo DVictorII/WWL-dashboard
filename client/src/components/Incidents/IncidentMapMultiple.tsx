@@ -37,8 +37,8 @@ function IncidentMapMultiple() {
 
   const fetchSectionsData = async () => {
     const result = await axios.get("/get_geojson_sections-sections_bp");
-
-    return result.data[0].features;
+    // console.log(result.data.data[0].features)
+    return result.data.data[0].features;
   };
 
   const fetchIncidents = async () => {

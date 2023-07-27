@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import { useLogOutStore } from "../../store/LogOutStore";
+import { useConfirmationModalStore } from "../../store/ConfirmationModalStore";
 
 import Sidebar from "../NavBars/Sidebar";
 import { motion } from "framer-motion";
@@ -9,11 +9,62 @@ import MobileMenu from "../MobileMenu";
 import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "../ProtectedRoute";
 import ProtectedLogIn from "../ProtectedLogIn";
+import { useMonitoringMapStateStore } from "../../store/MonitoringMapStateStore";
+import { useQuery } from "react-query";
+import { fetchLastReadings, fetchPiezometersData } from "../../utils/map";
+import { usePiezometerLecturesStateStore } from "../../store/PiezometerLecturesStateStore";
+import PiezoReportDeleteConfirmationModal from "../Reports/PiezoReportDeleteConfirmationModal";
+import IncidentReportDeleteConfirmationModal from "../Incidents/IncidentReportDeleteConfirmationModal";
 
 function PageLayout() {
   const location = useLocation();
 
-  const logOutModalIsOpen = useLogOutStore((state) => state.logOutModalIsOpen);
+  const logOutModalIsOpen = useConfirmationModalStore(
+    (state) => state.logOutModalIsOpen
+  );
+
+  const deletePiezoReportModalIsOpen = useConfirmationModalStore(
+    (state) => state.deletePiezoReportModalIsOpen
+  );
+
+  const deleteIncidentReportModalIsOpen = useConfirmationModalStore(
+    (state) => state.deleteIncidentReportModalIsOpen
+  );
+
+  const setPiezometersDataAndLastReadings = useMonitoringMapStateStore(
+    (s) => s.setPiezometersDataAndLastReadings
+  );
+
+  const PiezoReadingsSetPiezometersDataAndLastReadings =
+    usePiezometerLecturesStateStore((s) => s.setPiezometersDataAndLastReadings);
+
+  const { isLoading: piezoDataIsLoading, data: fetchedPiezoData } = useQuery(
+    "piezometers",
+    fetchPiezometersData,
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  const { isLoading: lastReadingsAreLoading, data: lastReadings } = useQuery(
+    "last_readings",
+    fetchLastReadings,
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  useEffect(() => {
+    if (!fetchedPiezoData || !lastReadings) return;
+
+    setPiezometersDataAndLastReadings(fetchedPiezoData, lastReadings);
+    PiezoReadingsSetPiezometersDataAndLastReadings(
+      fetchedPiezoData,
+      lastReadings
+    );
+  }, [piezoDataIsLoading, lastReadingsAreLoading]);
+
+  if (piezoDataIsLoading || lastReadingsAreLoading) return <h1>Loading...</h1>;
 
   if (process.env.NODE_ENV === "production") {
     return location.pathname === "/login" ? (
@@ -42,6 +93,9 @@ function PageLayout() {
           </motion.div>
 
           {logOutModalIsOpen ? <LogOutConfirmationModal /> : null}
+          {deletePiezoReportModalIsOpen ? (
+            <PiezoReportDeleteConfirmationModal />
+          ) : null}
 
           <Toaster position="top-right" />
         </main>
@@ -71,6 +125,13 @@ function PageLayout() {
         </motion.div>
 
         {logOutModalIsOpen ? <LogOutConfirmationModal /> : null}
+        {deletePiezoReportModalIsOpen ? (
+          <PiezoReportDeleteConfirmationModal />
+        ) : null}
+
+        {deleteIncidentReportModalIsOpen ? (
+          <IncidentReportDeleteConfirmationModal />
+        ) : null}
 
         <Toaster position="top-right" />
       </main>

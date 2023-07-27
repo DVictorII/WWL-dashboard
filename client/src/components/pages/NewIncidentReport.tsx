@@ -23,7 +23,7 @@ function NewIncidentReport() {
       <MenuNavbar />
 
       <div className="mt-12 md:mt-0 flex items-center justify-between gap-x-16 flex-wrap ">
-        <h1 className="md:text-lg 2xl:text-xl font-bold">New Incident</h1>
+        <h1 className="font-bold xl:text-lg">Operations - New Incident</h1>
 
         <span
           onClick={cancelForm}

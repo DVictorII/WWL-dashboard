@@ -108,8 +108,8 @@ def read_excel():
 
     print("today:", date.today())
     sh.cell(row=5, column=13).value = date.today()
-    sh.cell(row=75, column=2).value = "test"
-    sh.cell(row=75, column=3).value = random.randint(0, 100)
+    # sh.cell(row=75, column=2).value = "test"
+    # sh.cell(row=75, column=3).value = random.randint(0, 100)
 
     wb.template = False
 

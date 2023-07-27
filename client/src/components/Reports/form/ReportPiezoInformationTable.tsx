@@ -2,64 +2,61 @@ import React, { useEffect } from "react";
 import { useQuery } from "react-query";
 
 import { FadeLoader } from "react-spinners";
-import { fetchLastReadings, fetchPiezometerData } from "../../utils/map";
+import { fetchLastReadings, fetchPiezometerData } from "../../../utils/map";
 import {
   capitalizeName,
   monitoringMapStatusInfo,
-} from "../../utils/monitoringMapStatusInfo";
-import SkeletonPiezoInformationTable from "../Skeletons/PiezometerLectures/SkeletonPiezoInformationTable";
+} from "../../../utils/monitoringMapStatusInfo";
+import SkeletonPiezoInformationTable from "../../Skeletons/PiezometerLectures/SkeletonPiezoInformationTable";
+import { useLocation } from "react-router-dom";
+import {
+  Lecture,
+  useNewPiezoReportStateStore,
+} from "../../../store/NewPiezoReportStateStore";
+import { useMonitoringMapStateStore } from "../../../store/MonitoringMapStateStore";
+import axios from "../../../utils/axios";
+import moment from "moment";
 
-function ReportPiezoInformationTable({
-  paddock,
-  piezo,
-}: {
-  paddock: string;
-  piezo: string;
-}) {
-  const { isLoading: piezometersAreLoading, data: piezometersData } = useQuery({
-    queryKey: [`Onepiezometer_${paddock}_${piezo}`],
-    queryFn: () =>
-      fetchPiezometerData({
-        paddock: paddock,
-        piezo: piezo,
-      }),
-    refetchOnWindowFocus: false,
-  });
+//@ts-ignore
+import { getInoperativeDates } from "../../../utils/getInoperativeDates";
+import {
+  fetchReportLectures,
+  processLecturesData,
+} from "../../../utils/reportsFetchFunctions";
 
-  // useEffect(()=>{
-  //   console.log("PIEZO DATA1",piezometersData)
-  // },[piezometersData])
 
-  const { isLoading: lastReadingsAreLoading, data: lastReadings } = useQuery(
-    "last_readings",
-    fetchLastReadings,
-    {
-      refetchOnWindowFocus: false,
-    }
+function ReportPiezoInformationTable() {
+  const lecturesInformation = useNewPiezoReportStateStore(
+    (state) => state.lecturesInformation
   );
 
-  if (piezometersAreLoading || lastReadingsAreLoading || !piezometersData)
-    return <SkeletonPiezoInformationTable />;
+  const paddock = useNewPiezoReportStateStore((state) => state.paddock);
+  const piezo = useNewPiezoReportStateStore((state) => state.piezo);
 
-  const lastReading = lastReadings?.find(
-    //@ts-ignore
-    (reading) =>
-      reading.node === piezometersData[0].datalogger &&
-      reading.channel === piezometersData[0].channel
+  const piezometersData = useMonitoringMapStateStore((s) => s.piezometersData);
+
+  const currentPiezometer = piezometersData.find(
+    (p) => p.paddock === paddock && p.id === piezo
   );
 
-  const lastReadingExists = lastReading && lastReading.pressure;
+  
+  const { inoperativeDates } = lecturesInformation;
 
-  const depthIsZero = Number(piezometersData[0].depth) == 0;
+  const timeSpan = useNewPiezoReportStateStore((state) => state.timeSpan);
+
+
+
 
   //@ts-ignore
-  const statusStateObj = monitoringMapStatusInfo[piezometersData[0].status];
+  const statusStateObj = monitoringMapStatusInfo[currentPiezometer.status];
 
   return (
     <div
-      style={{
-        borderColor: statusStateObj.darkColor,
-      }}
+      style={
+        {
+          borderColor: statusStateObj.darkColor,
+        }
+      }
       className="max-w-[1000vh] h-[19rem] overflow-x-auto rounded-lg border-2  relative bg-white"
     >
       <table className="   select-none w-full border-collapse  bg-white">
@@ -76,8 +73,8 @@ function ReportPiezoInformationTable({
 
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
               <span>
-                {Number(piezometersData[0].lat).toFixed(8)}° /{" "}
-                {Number(piezometersData[0].lon).toFixed(8)}°
+                {Number(currentPiezometer?.lat).toFixed(8)}° /{" "}
+                {Number(currentPiezometer?.lon).toFixed(8)}°
               </span>
             </th>
           </tr>
@@ -88,71 +85,81 @@ function ReportPiezoInformationTable({
             </th>
 
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span>{piezometersData[0].section}</span>
-            </th>
-          </tr>
-
-          <tr
-            style={{
-              backgroundColor: statusStateObj.lightColor,
-            }}
-            className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12  "
-          >
-            <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px]">
-              <span>Depth:</span>
-            </th>
-
-            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span className={`${depthIsZero ? "text-2xl" : ""}`}>
-                {depthIsZero
-                  ? "-"
-                  : `${Number(piezometersData[0].depth).toFixed(2)} m`}
-              </span>
-            </th>
-          </tr>
-
-          <tr className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12 bg-white ">
-            <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px]">
-              <span>Status:</span>
-            </th>
-
-            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              {/* @ts-ignore */}
-              <span>{capitalizeName(statusStateObj.name)}</span>
-            </th>
-          </tr>
-
-          <tr
-            style={{
-              backgroundColor: statusStateObj.lightColor,
-            }}
-            className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12  "
-          >
-            <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px]">
-              <span>Current PWP</span>
-            </th>
-
-            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span className={`${lastReadingExists ? "" : "text-2xl"}`}>
-                {" "}
-                {lastReadingExists
-                  ? `${Number(lastReading.pressure).toFixed(3)} Kpa`
+              <span
+                className={`${
+                  currentPiezometer?.section &&
+                  currentPiezometer?.section !== "?" &&
+                  currentPiezometer?.section !== "None"
+                    ? ""
+                    : "text-xl"
+                }`}
+              >
+                {currentPiezometer?.section &&
+                currentPiezometer?.section !== "?" &&
+                currentPiezometer?.section !== "None"
+                  ? currentPiezometer?.section
                   : "-"}
               </span>
             </th>
           </tr>
 
-          <tr className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12 bg-white ">
-            <th className="flex items-center gap-x-2 w-20 justify-center font-bold  text-[11px]">
-              <span>Last reading at:</span>
+          <tr
+            style={{
+              backgroundColor: statusStateObj.lightColor,
+            }}
+            className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12  "
+          >
+            <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px]">
+              <span>Avg. PWP ({timeSpan} report):</span>
             </th>
 
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span className={`${lastReadingExists ? "" : "text-2xl"}`}>
-                {lastReadingExists ? lastReading.time : "-"}
+              <span className={lecturesInformation.lecturesAvg === 0 ? "text-xl" : ""}>
+                {lecturesInformation.lecturesAvg === 0 ? "-" : `${lecturesInformation.lecturesAvg} KPa`}
               </span>
             </th>
           </tr>
+
+          <tr className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12 bg-white ">
+            <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px]">
+              <span>Max. PWP ({timeSpan} report)</span>
+            </th>
+
+            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
+              
+              <span className={lecturesInformation.lecturesMax === 0 ? "text-xl" : ""}>
+                {lecturesInformation.lecturesMax === 0 ? "-" : `${lecturesInformation.lecturesMax} KPa`}</span>
+            </th>
+          </tr>
+
+          <tr
+            style={{
+              backgroundColor: statusStateObj.lightColor,
+            }}
+            className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12  "
+          >
+            <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px]">
+              <span>Min. PWP ({timeSpan} report)</span>
+            </th>
+
+            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
+              <span className={lecturesInformation.lecturesMin === 0 ? "text-xl" : ""}>
+                {lecturesInformation.lecturesMin === 0 ? "-" : `${lecturesInformation.lecturesMin} KPa`}
+              </span>
+            </th>
+          </tr>
+
+          {/* <tr className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12 bg-white ">
+            <th className="flex items-center gap-x-2 w-20 justify-center font-bold  text-[11px]">
+              <span>Report time interval</span>
+            </th>
+
+            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
+              <span className={`${lastReadingExists ? "" : "text-xl"}`}>
+                {lastReadingExists ? lastReading.time : "-"}
+              </span>
+            </th>
+          </tr> */}
         </tbody>
       </table>
       <div

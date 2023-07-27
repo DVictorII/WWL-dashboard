@@ -57,6 +57,7 @@ function PaddockMapWrapper() {
     "/",
     "-"
   );
+  const date = usePiezometerLecturesStateStore((state) => state.date);
 
   const piezo = usePiezometerLecturesStateStore((s) => s.piezo);
 
@@ -117,6 +118,7 @@ function PaddockMapWrapper() {
       changeBasemap,
       mapDOM: "map2",
       page: "paddock",
+      date,
     });
 
     sections = await addSections({ sectionsData, map: myMap });

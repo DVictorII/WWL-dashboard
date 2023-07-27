@@ -52,6 +52,13 @@ export interface PiezometerDataI {
   section: string;
   serial: number;
   status: number;
+
+  east_utm : string
+    north_utm : string
+    elevation : string
+    initial_depth :string
+    tarps_value : string
+    time_threshold_wrong :string
 }
 
 export interface LastReadingsI {

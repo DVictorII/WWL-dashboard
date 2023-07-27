@@ -28,6 +28,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import Chart from "./components/pages/Chart";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,12 @@ const router = createBrowserRouter([
             <Navigate to="/monitoring-map" />
           ),
       },
+
+      // {
+      //   path: "chart",
+      //   element: <Chart />,
+      // },
+
       {
         path: "monitoring-map",
         element: <Index />,

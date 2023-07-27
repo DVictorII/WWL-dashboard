@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { deletePiezoReport } from "../utils/reportsMutations";
 
 // const queryClient = useQueryClient()
-export const useDeletePiezoReport = ()=> useMutation(deletePiezoReport, {
+export const useDeletePiezoReport = () =>
+  useMutation(deletePiezoReport, {
     // onSuccess: ()=> queryClient.invalidateQueries()
-  })
+  });

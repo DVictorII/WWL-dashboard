@@ -19,7 +19,9 @@ import { FaTools } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMenuStore } from "../../store/DesktopSidebarStore";
 import { Link, useNavigate } from "react-router-dom";
-import { useLogOutStore } from "../../store/LogOutStore";
+import { useConfirmationModalStore } from "../../store/ConfirmationModalStore";
+import { useGloblalUserStore } from "../../store/GlobalUserStore";
+import { BiLogOut } from "react-icons/bi";
 
 function Sidebar() {
   const menuIsOpen = useMenuStore((state) => state.menuIsOpen);
@@ -28,7 +30,11 @@ function Sidebar() {
 
   const navigate = useNavigate();
 
-  const openLogOutModal = useLogOutStore((state) => state.openLogOutModal);
+  const openLogOutModal = useConfirmationModalStore(
+    (state) => state.openLogOutModal
+  );
+
+  const currentUser = useGloblalUserStore((state) => state.currentUser);
 
   const navigateTo = (destiny: string) => {
     closeMenu();
@@ -53,33 +59,35 @@ function Sidebar() {
 
           <div
             onClick={openMenu}
-            className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 border-2 border-white border-opacity-50 flex items-center justify-center bg-white bg-opacity-10 rounded-lg hover:text-[#222] hover:bg-opacity-100 transition-all cursor-pointer duration-500 relative group"
+            className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 bg-gradient-to-br to-[#7ea3b8] from-[#477c9a] border-[#477c9a]  border-2  flex items-center justify-center  bg-opacity-40 rounded-lg hover:text-[#222] hover:bg-opacity-90 transition-all cursor-pointer duration-500 relative group"
           >
-            <FaTools className=" w-3 h-3 lg:w-4 lg:h-4 2xl:w-5 2xl:h-5" />
-            <span className="absolute w-auto px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-[#222] border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
-              Logistics and machinery
-            </span>
-          </div>
-
-          <div className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 border-2 border-white border-opacity-50 flex items-center justify-center bg-white bg-opacity-40 rounded-lg hover:text-[#222] hover:bg-opacity-90 transition-all cursor-pointer duration-500 relative group">
-            <AiOutlinePieChart className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6" />
-            <span className="absolute w-auto px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-[#222] border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
-              Business (under construction)
-            </span>
-          </div>
-
-          <div className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 border-2 border-white border-opacity-50 flex items-center justify-center bg-white bg-opacity-40 rounded-lg hover:text-[#222] hover:bg-opacity-90 transition-all cursor-pointer duration-500 relative group">
-            <AiOutlineUsergroupAdd className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6 " />
-            <span className="absolute w-auto px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-[#222] border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
-              Human resources (under construction)
-            </span>
-          </div>
-
-          <div className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 border-2 border-white border-opacity-50 flex items-center justify-center bg-white bg-opacity-40 rounded-lg hover:text-[#222] hover:bg-opacity-90 transition-all cursor-pointer duration-500 relative group">
             <AiOutlineAreaChart className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6" />
             <span className="absolute w-auto px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-[#222] border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
-              Operations (under construction)
+              Operations ( 100% )
             </span>
+          </div>
+
+          <div className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 bg-gradient-to-br to-[#7ea3b8] from-[#477c9a] border-2 border-[#477c9a] flex items-center justify-center  bg-opacity-40 rounded-lg hover:text-[#222] hover:bg-opacity-90 transition-all cursor-pointer duration-500 relative group">
+            <AiOutlinePieChart className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6" />
+            <span className="absolute w-auto px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-[#222] border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
+              Business (under construction) ( 100% )
+            </span>
+          </div>
+
+          <div className="bg-gradient-to-br to-[#d27474] from-[#bc2f2f]  border-2 border-[#bc2f2f]   w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12    flex items-center justify-center  bg-opacity-10 rounded-lg hover:text-[#222]  transition-all cursor-pointer duration-500 relative group">
+            <FaTools className=" w-3 h-3 lg:w-4 lg:h-4 2xl:w-5 2xl:h-5" />
+            <span className="absolute  w-auto px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-[#222] border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
+              Logistics and machinery (under construction) ( 70% )
+            </span>
+          </div>
+
+          <div className="bg-gradient-to-br to-[#658293] from-[#9c3838] p-[2px] rounded-lg">
+            <div className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 bg-gradient-to-br to-[#7ea3b8] from-[#c34646]  flex items-center justify-center  bg-opacity-40 rounded-lg hover:text-[#222] hover:bg-opacity-90 transition-all cursor-pointer duration-500 relative group">
+              <AiOutlineUsergroupAdd className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6 " />
+              <span className="absolute w-auto px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-[#222] border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
+                Human resources (under construction) ( 80% )
+              </span>
+            </div>
           </div>
         </div>
 
@@ -92,8 +100,83 @@ function Sidebar() {
             </span>
           </div>
 
-          <div className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 bg-white  flex items-center justify-center border-2 border-white rounded-full text-[#222] hover:text-white hover:bg-white hover:bg-opacity-10  transition-all cursor-pointer duration-500">
+          <div className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 border-2 border-white border-opacity-50 flex items-center justify-center bg-white bg-opacity-40 rounded-lg hover:text-[#222] hover:bg-opacity-90 transition-all cursor-pointer duration-500 relative group">
+            <AiOutlineAreaChart className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6" />
+            <span className="absolute w-auto px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-[#222] border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
+              Operations (under construction)
+            </span>
+          </div>
+
+          <div className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 bg-white  flex items-center justify-center border-2 border-white rounded-full text-[#222] hover:text-white hover:bg-white hover:bg-opacity-10  transition-all cursor-pointer duration-500 relative group">
             <AiOutlineUser className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6 " />
+
+            <div className="absolute w-72 px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-[#333] bg-white border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
+              {currentUser ? (
+                <>
+                  <div className="w-full h-20">
+                    <img
+                      src={`/media/img/photos/${
+                        currentUser.picture || "undraw_profile_1.svg"
+                      }`}
+                      alt={`${currentUser.name} profile picture`}
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
+
+                  <div className="p-2 flex flex-col gap-y-12">
+                    <div className="flex flex-col gap-y-1">
+                      <span className="font-semibold text-lg">
+                        {currentUser.name}
+                      </span>
+                      <span className="text-xs text-[#666]">
+                        ({currentUser.username})
+                      </span>
+                    </div>
+
+                    <div
+                      onClick={() => {
+                        closeMenu();
+                        openLogOutModal();
+                      }}
+                      className="flex items-center gap-x-2 hover:text-orange-800 transition-all"
+                    >
+                      <BiLogOut />
+                      <span className="text-sm ">Log out</span>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="w-full h-20">
+                    <img
+                      src={`/media/img/photos/undraw_profile_1.svg`}
+                      alt="user photo"
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
+
+                  <div className="p-2 flex flex-col gap-y-12">
+                    <div className="flex flex-col gap-y-1">
+                      <span className="font-semibold text-lg">Guest user</span>
+                      <span className="text-xs text-[#666]">
+                        (guest_user1809)
+                      </span>
+                    </div>
+
+                    <div
+                      onClick={() => {
+                        closeMenu();
+                        openLogOutModal();
+                      }}
+                      className="flex items-center gap-x-2 hover:text-orange-800 transition-all"
+                    >
+                      <BiLogOut />
+                      <span className="text-sm ">Log out</span>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
 
           <div
@@ -143,7 +226,7 @@ function Sidebar() {
                     onClick={closeMenu}
                     className="cursor-pointer shrink-0"
                   />
-                  <span className="text-sm">Logistics and machinery</span>
+                  <span className="text-sm">Operations</span>
                 </motion.div>
 
                 <motion.div

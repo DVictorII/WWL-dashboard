@@ -14,7 +14,7 @@ import SkeletonBarChart from "./Skeletons/PiezometerLectures/SkeletonBarChart";
 import { chartPiezoListWithElevation } from "../utils/piezoList";
 import { FiAlertTriangle } from "react-icons/fi";
 
-const CHART_PRESSURE_LIMIT = 80;
+const CHART_PRESSURE_LIMIT = 50;
 
 //@ts-ignore
 const BarChart = ({ information, fullPage = false }) => {
@@ -167,7 +167,7 @@ const BarChart = ({ information, fullPage = false }) => {
             className="h-full w-full flex justify-center items-center bg-white md:bg-[#f5f5f5] rounded-[12px] px-4"
           >
             <span className="font-semibold">
-              Proposed piezometer. No lectures yet!
+              Proposed piezometer. No readings yet!
             </span>
           </motion.div>
         </div>
@@ -221,231 +221,237 @@ const BarChart = ({ information, fullPage = false }) => {
           </div>
         </div>
       ) : null}
-      <div className={`${fullPage ? "h-[50vh]" : "h-[30vh]"}  w-full`}>
-        <AnimatePresence>
-          {chartType === "pressure" && (
-            <>
-              {piezoData && piezoData.length > 0 ? (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
-                  exit={{
-                    opacity: 0,
-                    transition: { duration: 0.2, ease: "easeInOut" },
-                  }}
-                  key="pressure-chart"
-                  className="w-full h-full bg-white rounded-[12px] "
-                >
-                  <ResponsiveLine
-                    data={piezoData}
-                    margin={{ top: 50, right: 20, bottom: 50, left: 50 }}
-                    xScale={{
-                      type: "time",
-                      format: "%Y-%m-%d %H:%M:%S",
-                      precision: "minute",
-                    }}
-                    xFormat="time:%Y-%m-%d %H:%M"
-                    yScale={{
-                      type: "linear",
-                      min: limits.min,
-                      max: limits.max,
-                      stacked: false,
-                      reverse: false,
-                    }}
-                    yFormat=" >-.2f"
-                    curve="catmullRom"
-                    enableArea={true}
-                    axisTop={null}
-                    axisRight={null}
-                    axisBottom={{
-                      format: "%d-%m-%y",
-                      tickValues: `every ${Math.ceil(days / 20)} days`,
-                      legend: "time scale",
-                      legendOffset: -12,
-                      tickRotation: -50,
-                    }}
-                    axisLeft={{
-                      //@ts-ignore
 
-                      orient: "left",
-                      tickSize: 5,
-                      tickPadding: 5,
-                      tickRotation: 0,
-                      // legend: "Pressure (KPa)",
-                      legendOffset: -45,
-                      legendPosition: "middle",
-                    }}
-                    markers={[
-                      {
-                        axis: "y",
-                        value: CHART_PRESSURE_LIMIT,
-                        legend: "pressure limit",
-                        lineStyle: {
-                          stroke: "red",
-                        },
-                        textStyle: {
-                          fontWeight: 600,
-                          fill: "red",
-                        },
-                      },
-                    ]}
-                    colors="#477C9A"
-                    enablePoints={false}
-                    //@ts-ignore
-                    lineWidth={piezoData > 500 ? 1 : 2}
-                    pointSize={2}
-                    pointColor={{ theme: "background" }}
-                    pointBorderWidth={2}
-                    pointBorderColor={{ from: "serieColor" }}
-                    pointLabelYOffset={-12}
-                    useMesh={true}
-                  />
-                </motion.div>
-              ) : null}
-            </>
-          )}
+      <div className="overflow-scroll  2xl:overflow-visible">
+        <div className="min-w-[36rem] max-w-full">
+          <div className={`${fullPage ? "h-[50vh]" : "h-[30vh]"}  w-full`}>
+            <AnimatePresence>
+              {chartType === "pressure" && (
+                <>
+                  {piezoData && piezoData.length > 0 ? (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.5, ease: "easeInOut" }}
+                      exit={{
+                        opacity: 0,
+                        transition: { duration: 0.2, ease: "easeInOut" },
+                      }}
+                      key="pressure-chart"
+                      className="w-full h-full bg-white rounded-[12px] "
+                    >
+                      <ResponsiveLine
+                        data={piezoData}
+                        margin={{ top: 50, right: 20, bottom: 50, left: 50 }}
+                        xScale={{
+                          type: "time",
+                          format: "%Y-%m-%d %H:%M:%S",
+                          precision: "minute",
+                        }}
+                        xFormat="time:%Y-%m-%d %H:%M"
+                        yScale={{
+                          type: "linear",
+                          min: limits.min,
+                          max: limits.max,
+                          stacked: false,
+                          reverse: false,
+                        }}
+                        yFormat=" >-.2f"
+                        curve="catmullRom"
+                        enableArea={true}
+                        axisTop={null}
+                        axisRight={null}
+                        axisBottom={{
+                          format: "%d-%m-%y",
+                          tickValues: `every ${Math.ceil(days / 20)} days`,
+                          legend: "time scale",
+                          legendOffset: -12,
+                          tickRotation: -50,
+                        }}
+                        axisLeft={{
+                          //@ts-ignore
 
-          {chartType === "wLevel" && (
-            <>
-              {piezoElevationData && piezoElevationData.length > 0 ? (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
-                  exit={{
-                    opacity: 0,
-                    transition: { duration: 0.2, ease: "easeInOut" },
-                  }}
-                  key="elevation-chart"
-                  className={`${
-                    fullPage ? "h-[50vh]" : "h-[30vh]"
-                  }  w-full bg-white rounded-xl`}
-                >
-                  <ResponsiveLine
-                    data={piezoElevationData}
-                    margin={{ top: 50, right: 20, bottom: 50, left: 50 }}
-                    xScale={{
-                      type: "time",
-                      format: "%Y-%m-%d %H:%M:%S",
-                      precision: "minute",
-                    }}
-                    xFormat="time:%Y-%m-%d %H:%M"
-                    yScale={{
-                      type: "linear",
-                      min: "auto",
-                      max: "auto",
-                      stacked: false,
-                      reverse: false,
-                    }}
-                    yFormat=" >-.2f"
-                    curve="catmullRom"
-                    enableArea={true}
-                    axisTop={null}
-                    axisRight={null}
-                    axisBottom={{
-                      format: "%d-%m-%y",
-                      tickValues: `every ${Math.ceil(days / 20)} days`,
-                      legend: "time scale",
-                      legendOffset: -12,
-                      tickRotation: -50,
-                    }}
-                    axisLeft={{
-                      //@ts-ignore
-                      orient: "left",
-                      tickSize: 5,
-                      tickPadding: 5,
-                      tickRotation: 0,
-                      // legend: "Elevation (m)",
-                      legendOffset: -45,
-                      legendPosition: "middle",
-                    }}
-                    colors="#BD6A1C"
-                    enablePoints={false}
-                    //@ts-ignore
-                    lineWidth={piezoElevationData > 500 ? 1 : 2}
-                    pointSize={2}
-                    pointColor={{ theme: "background" }}
-                    pointBorderWidth={2}
-                    pointBorderColor={{ from: "serieColor" }}
-                    pointLabelYOffset={-12}
-                    useMesh={true}
-                  />
-                </motion.div>
-              ) : null}
-            </>
-          )}
+                          orient: "left",
+                          tickSize: 5,
+                          tickPadding: 5,
+                          tickRotation: 0,
+                          // legend: "Pressure (KPa)",
+                          legendOffset: -45,
+                          legendPosition: "middle",
+                        }}
+                        markers={[
+                          {
+                            axis: "y",
+                            value: CHART_PRESSURE_LIMIT,
+                            legend: "pressure limit",
+                            lineStyle: {
+                              stroke: "red",
+                            },
+                            textStyle: {
+                              fontWeight: 600,
+                              fill: "red",
+                            },
+                          },
+                        ]}
+                        colors="#477C9A"
+                        enablePoints={false}
+                        //@ts-ignore
+                        lineWidth={piezoData > 500 ? 1 : 2}
+                        pointSize={2}
+                        pointColor={{ theme: "background" }}
+                        pointBorderWidth={2}
+                        pointBorderColor={{ from: "serieColor" }}
+                        pointLabelYOffset={-12}
+                        useMesh={true}
+                      />
+                    </motion.div>
+                  ) : null}
+                </>
+              )}
 
-          {chartType === "wElevation" && (
-            <>
-              {readingsWaterLevelData && readingsWaterLevelData.length > 0 ? (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
-                  exit={{
-                    opacity: 0,
-                    transition: { duration: 0.2, ease: "easeInOut" },
-                  }}
-                  key="waterElevation-chart"
-                  className={`${
-                    fullPage ? "h-[50vh]" : "h-[30vh]"
-                  }  w-full bg-white rounded-xl`}
-                >
-                  <ResponsiveLine
-                    data={readingsWaterLevelData}
-                    margin={{ top: 20, right: 0, bottom: 50, left: 50 }}
-                    xScale={{
-                      type: "time",
-                      format: "%Y-%m-%d %H:%M:%S",
-                      precision: "minute",
-                    }}
-                    xFormat="time:%Y-%m-%d %H:%M"
-                    yScale={{
-                      type: "linear",
-                      min: "auto",
-                      max: "auto",
-                      stacked: false,
-                      reverse: false,
-                    }}
-                    yFormat=" >-.2f"
-                    curve="catmullRom"
-                    enableArea={true}
-                    axisTop={null}
-                    axisRight={null}
-                    axisBottom={{
-                      format: "%d-%m-%y",
-                      tickValues: `every ${Math.ceil(days / 20)} days`,
-                      legend: "time scale",
-                      legendOffset: -12,
-                      tickRotation: -50,
-                    }}
-                    axisLeft={{
-                      //@ts-ignore
-                      orient: "left",
-                      tickSize: 5,
-                      tickPadding: 5,
-                      tickRotation: 0,
-                      // legend: "Water Elevation (RLm)",
-                      legendOffset: -45,
-                      legendPosition: "middle",
-                    }}
-                    colors="#7B8831"
-                    enablePoints={false}
-                    //@ts-ignore
-                    lineWidth={piezoElevationData > 500 ? 1 : 2}
-                    pointSize={2}
-                    pointColor={{ theme: "background" }}
-                    pointBorderWidth={2}
-                    pointBorderColor={{ from: "serieColor" }}
-                    pointLabelYOffset={-12}
-                    useMesh={true}
-                  />
-                </motion.div>
-              ) : null}
-            </>
-          )}
-        </AnimatePresence>
+              {chartType === "wLevel" && (
+                <>
+                  {piezoElevationData && piezoElevationData.length > 0 ? (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.5, ease: "easeInOut" }}
+                      exit={{
+                        opacity: 0,
+                        transition: { duration: 0.2, ease: "easeInOut" },
+                      }}
+                      key="elevation-chart"
+                      className={`${
+                        fullPage ? "h-[50vh]" : "h-[30vh]"
+                      }  w-full bg-white rounded-xl`}
+                    >
+                      <ResponsiveLine
+                        data={piezoElevationData}
+                        margin={{ top: 50, right: 20, bottom: 50, left: 50 }}
+                        xScale={{
+                          type: "time",
+                          format: "%Y-%m-%d %H:%M:%S",
+                          precision: "minute",
+                        }}
+                        xFormat="time:%Y-%m-%d %H:%M"
+                        yScale={{
+                          type: "linear",
+                          min: "auto",
+                          max: "auto",
+                          stacked: false,
+                          reverse: false,
+                        }}
+                        yFormat=" >-.2f"
+                        curve="catmullRom"
+                        enableArea={true}
+                        axisTop={null}
+                        axisRight={null}
+                        axisBottom={{
+                          format: "%d-%m-%y",
+                          tickValues: `every ${Math.ceil(days / 20)} days`,
+                          legend: "time scale",
+                          legendOffset: -12,
+                          tickRotation: -50,
+                        }}
+                        axisLeft={{
+                          //@ts-ignore
+                          orient: "left",
+                          tickSize: 5,
+                          tickPadding: 5,
+                          tickRotation: 0,
+                          // legend: "Elevation (m)",
+                          legendOffset: -45,
+                          legendPosition: "middle",
+                        }}
+                        colors="#BD6A1C"
+                        enablePoints={false}
+                        //@ts-ignore
+                        lineWidth={piezoElevationData > 500 ? 1 : 2}
+                        pointSize={2}
+                        pointColor={{ theme: "background" }}
+                        pointBorderWidth={2}
+                        pointBorderColor={{ from: "serieColor" }}
+                        pointLabelYOffset={-12}
+                        useMesh={true}
+                      />
+                    </motion.div>
+                  ) : null}
+                </>
+              )}
+
+              {chartType === "wElevation" && (
+                <>
+                  {readingsWaterLevelData &&
+                  readingsWaterLevelData.length > 0 ? (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.5, ease: "easeInOut" }}
+                      exit={{
+                        opacity: 0,
+                        transition: { duration: 0.2, ease: "easeInOut" },
+                      }}
+                      key="waterElevation-chart"
+                      className={`${
+                        fullPage ? "h-[50vh]" : "h-[30vh]"
+                      }  w-full bg-white rounded-xl`}
+                    >
+                      <ResponsiveLine
+                        data={readingsWaterLevelData}
+                        margin={{ top: 20, right: 0, bottom: 50, left: 50 }}
+                        xScale={{
+                          type: "time",
+                          format: "%Y-%m-%d %H:%M:%S",
+                          precision: "minute",
+                        }}
+                        xFormat="time:%Y-%m-%d %H:%M"
+                        yScale={{
+                          type: "linear",
+                          min: "auto",
+                          max: "auto",
+                          stacked: false,
+                          reverse: false,
+                        }}
+                        yFormat=" >-.2f"
+                        curve="catmullRom"
+                        enableArea={true}
+                        axisTop={null}
+                        axisRight={null}
+                        axisBottom={{
+                          format: "%d-%m-%y",
+                          tickValues: `every ${Math.ceil(days / 20)} days`,
+                          legend: "time scale",
+                          legendOffset: -12,
+                          tickRotation: -50,
+                        }}
+                        axisLeft={{
+                          //@ts-ignore
+                          orient: "left",
+                          tickSize: 5,
+                          tickPadding: 5,
+                          tickRotation: 0,
+                          // legend: "Water Elevation (RLm)",
+                          legendOffset: -45,
+                          legendPosition: "middle",
+                        }}
+                        colors="#7B8831"
+                        enablePoints={false}
+                        //@ts-ignore
+                        lineWidth={piezoElevationData > 500 ? 1 : 2}
+                        pointSize={2}
+                        pointColor={{ theme: "background" }}
+                        pointBorderWidth={2}
+                        pointBorderColor={{ from: "serieColor" }}
+                        pointLabelYOffset={-12}
+                        useMesh={true}
+                      />
+                    </motion.div>
+                  ) : null}
+                </>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
       </div>
       {fullPage ? (
         <>

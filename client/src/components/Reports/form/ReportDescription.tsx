@@ -15,8 +15,9 @@ function ReportDescription() {
       <textarea
         name="description"
         value={description}
+        rows={3}
         onChange={(e) => changeDescription(e.target.value)}
-        className="xl:col-span-2 text-xs sm:text-sm bg-white text-[#333] font-semibold placeholder:text-[#dfdfdf] px-3 py-3 h-14 2xl:h-16 rounded-lg shadow-sm border border-[#dfdfdf]  focus:outline-none focus:border-orange-500 focus:border-opacity-50  transition-all"
+        className="xl:col-span-2 text-xs sm:text-sm bg-white text-[#333] font-semibold placeholder:text-[#dfdfdf] px-3 py-2 h-auto rounded-lg shadow-sm border border-[#dfdfdf]  focus:outline-none focus:border-orange-500 focus:border-opacity-50  transition-all"
         placeholder="Description..."
       />
     </div>

@@ -32,7 +32,9 @@ function PiezoReports() {
       <div className="mt-12 md:hidden" />
 
       <div className="items-center flex flex-wrap justify-between  gap-x-8 gap-y-4 bg-white p-4 rounded-xl shadow-sm">
-        <h1 className="  font-bold">Piezometer Reports</h1>
+        <h1 className="  font-bold xl:text-lg">
+          Operations - Piezometer Reports
+        </h1>
 
         <div className="flex items-center gap-x-4">
           <div className="p-2 bg-all-normal flex items-center justify-center rounded-full text-white ">

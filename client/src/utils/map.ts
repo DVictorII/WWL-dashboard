@@ -48,14 +48,13 @@ export const fetchPiezometersData = async () => {
 };
 
 export const fetchSectionsData = async () => {
-  try{
+  try {
     const result = await axios.get(`/get_geojson_sections-sections_bp`);
-    console.log("DATASections", result)
-  
-    return result.data.data[0].features;
+    // console.log("DATASections", result);
 
-  }catch(err){
-    console.log(err)
+    return result.data.data[0].features;
+  } catch (err) {
+    console.log(err);
   }
 };
 
@@ -69,15 +68,14 @@ export const fetchPiezometerData = async (obj: {
   paddock: string;
   piezo: string;
 }) => {
-  try{
+  try {
     const result = await axios.get(
       `/piezometers-data/${obj.paddock}/${obj.piezo}`
     );
-  
-    return result.data.piezos;
 
-  }catch{
-    return undefined
+    return result.data.piezos;
+  } catch (err) {
+    console.log(err);
   }
 };
 
@@ -87,11 +85,9 @@ export const fetchPaddockGeometry = async (obj: { paddock: string }) => {
   paddockName = paddockName.replace("-", "");
 
   if (obj.paddock !== "All") {
-    const result = await axios.get(
-      `/get_geojson_paddocks-${paddockName}`
-    );
+    const result = await axios.get(`/get_geojson_paddocks-${paddockName}`);
 
-    console.log("PADDOCKS", result)
+    console.log("PADDOCKS", result);
 
     return result.data.data[0].features;
   }

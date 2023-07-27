@@ -96,7 +96,34 @@ function MapWrapper() {
     //@ts-ignore
     if (!fullPiezoList) return filtered;
 
-    if (status === 0 || status === 6) {
+    if (status === 5) {
+      if (paddock === "All") {
+        if (section === "All") {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) => p.time_threshold_wrong != null
+          );
+        } else {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) =>
+              p.section == section && p.time_threshold_wrong != null
+          );
+        }
+      } else {
+        if (section === "All") {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) =>
+              p.time_threshold_wrong != null && p.paddock === paddock
+          );
+        } else {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) =>
+              p.section == section &&
+              p.time_threshold_wrong != null &&
+              p.paddock === paddock
+          );
+        }
+      }
+    } else if (status === 0 || status === 6) {
       if (paddock === "All") {
         if (section === "All") {
           filtered = fullPiezoList;
