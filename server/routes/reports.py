@@ -161,7 +161,7 @@ def get_incidents():
 def get_piezo_reports():
 
 
-    userQuery = db.session.execute(text(f"SELECT pr.id as report_id, pr.title as report_title, pr.photo as report_photo, pr.paddock as report_paddock, pr.piezo as report_piezo, pr.date as report_date, pr.description as report_description, pr.supervisors as report_supervisors,  u.username as user_username , u.user_id, u.name as user_name, u.picture user_picture FROM piezometer_reports as pr LEFT JOIN users as u ON pr.from_user = u.user_id;"))
+    userQuery = db.session.execute(text(f"SELECT pr.id as report_id, pr.title as report_title, pr.photo as report_photo, pr.paddock as report_paddock, pr.piezo as report_piezo, pr.date as report_date, pr.description as report_description, pr.supervisors as report_supervisors, pr.time_span as report_time_span, pr.readings_information as report_readings_information, pr.  u.username as user_username , u.user_id, u.name as user_name, u.picture user_picture FROM piezometer_reports as pr LEFT JOIN users as u ON pr.from_user = u.user_id;"))
     
     piezo_reports = [dict(r._mapping) for r in userQuery]
 
@@ -254,7 +254,7 @@ def getOneIncident(id):
 @cross_origin()
 def getOnePiezoReport(id):
 
-    userQuery = db.session.execute(text(f"SELECT pr.id as report_id, pr.title as report_title, pr.photo as report_photo, pr.paddock as report_paddock, pr.piezo as report_piezo, pr.date as report_date, pr.description as report_description, pr.supervisors as report_supervisors,  u.username as user_username , u.user_id, u.name as user_name, u.picture user_picture FROM piezometer_reports as pr LEFT JOIN users as u ON pr.from_user = u.user_id WHERE pr.id = '{id}';"))
+    userQuery = db.session.execute(text(f"SELECT pr.id as report_id, pr.title as report_title, pr.photo as report_photo, pr.paddock as report_paddock, pr.piezo as report_piezo, pr.date as report_date, pr.description as report_description, pr.supervisors as report_supervisors, pr.time_span as report_time_span, pr.readings_information as report_readings_information,  u.username as user_username , u.user_id, u.name as user_name, u.picture user_picture FROM piezometer_reports as pr LEFT JOIN users as u ON pr.from_user = u.user_id WHERE pr.id = '{id}';"))
     
     piezo_reports = [dict(r._mapping) for r in userQuery]
 

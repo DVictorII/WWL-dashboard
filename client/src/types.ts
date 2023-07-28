@@ -14,6 +14,9 @@ export interface ReportDetails {
   report_piezo: string;
   report_title: string;
   report_supervisors: string[];
+  report_time_span: string;
+  report_readings_information: string;
+
   user_id: number;
   user_name: string;
   user_picture: string;
@@ -53,12 +56,12 @@ export interface PiezometerDataI {
   serial: number;
   status: number;
 
-  east_utm : string
-    north_utm : string
-    elevation : string
-    initial_depth :string
-    tarps_value : string
-    time_threshold_wrong :string
+  east_utm: string;
+  north_utm: string;
+  elevation: string;
+  initial_depth: string;
+  tarps_value: string;
+  time_threshold_wrong: string;
 }
 
 export interface LastReadingsI {

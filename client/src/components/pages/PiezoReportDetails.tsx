@@ -33,6 +33,7 @@ import moment from "moment";
 import { getInoperativeDates } from "../../utils/getInoperativeDates";
 import ReportDetailsPDFDownloadButton from "../Reports/ReportDetailsPDFDownloadButton";
 import SkeletonPiezoReportDetailsPage from "../Skeletons/Reports/SkeletonPiezoReportDetailsPage";
+import { AiOutlineArrowLeft } from "react-icons/ai";
 
 function PiezoReportDetails() {
   const { id } = useParams();
@@ -42,7 +43,7 @@ function PiezoReportDetails() {
 
   const daysSpan = useReportInfoTablesDaysSpanStore((state) => state.daysSpan);
 
-  // FETCH INFO OF ONE PIEZOMETER
+  // FETCH REPORT INFO
 
   const { isLoading, data: report } = useQuery(
     `piezoReport-${id}`,
@@ -54,46 +55,78 @@ function PiezoReportDetails() {
 
   if (isLoading || !report) return <SkeletonPiezoReportDetailsPage />;
 
+  console.log("REPORT", report);
+
   return (
     <>
       <MenuNavbar />
 
-      <div className="mt-12 md:mt-0 flex flex-col gap-y-12">
-        <div className="flex items-center justify-between gap-x-8 gap-y-8 flex-wrap">
-          <h1 className="md:text-lg 2xl:text-xl font-bold">
-            {report.report_title}
-          </h1>
+      <div className="mt-12 md:hidden" />
 
-          <div className="flex items-center gap-x-8 flex-wrap gap-y-8">
-            <ReportDetailsPDFDownloadButton />
+      <div className="flex">
+        <Link to="/operations/reports/piezometers">
+          <button className="flex items-center gap-x-1 pb-px border-b w-max border-transparent hover:border-[#666] transition-all">
+            <AiOutlineArrowLeft />
+            <span className="cursor-pointer font-semibold">back</span>
+          </button>
+        </Link>
+      </div>
 
-            <Link to="/operations/reports/piezometers">
-              <span className="cursor-pointer text-all-normal pb-1 border-b-2  border-all-normal hover:text-orange-800 hover:border-orange-800 transition-all w-max sz450:justify-self-end md:text-lg  font-semibold ">
-                &larr; Back
-              </span>
-            </Link>
+      <div className="mt-4" />
+
+      <div className="flex items-center justify-between gap-x-8 gap-y-8 flex-wrap bg-white p-4 rounded-xl shadow-sm">
+        <h1 className=" font-bold xl:text-lg">Piezo Report Details</h1>
+
+        <ReportDetailsPDFDownloadButton />
+      </div>
+
+      <div className="mt-6" />
+
+      <div className=" bg-white p-4 rounded-xl shadow-sm">
+        <div className="flex flex-col gap-y-8">
+          <div className="flex flex-col gap-y-3 flex-wrap">
+            <span className="text-lg 2xl:text-xl font-bold">
+              {report.report_title}
+            </span>
+
+            <span className="font-semibold text-xs md:text-sm text-[#666]">
+              {report.report_date} ({report.report_time_span} report)
+            </span>
+          </div>
+
+          <div className="gap-x-4 flex items-end">
+            <span className="font-semibold text-sm">Report comments:</span>{" "}
+            <span className="font-medium text-sm">
+              {report.report_description}
+            </span>{" "}
           </div>
         </div>
-        <div className="text-sm font-medium">{report.report_description}</div>
+      </div>
+
+      <div className="mt-6" />
+
+      <div className=" bg-white p-4 rounded-xl shadow-sm">
+        <div className="flex flex-col gap-y-6">
+          <h2 className="font-semibold">Location photo</h2>
+          <div className="bg-[#f5f5f5] border border-[#dfdfdf]  shadow-sm w-full  min-h-[10rem] md:min-h-[12rem] 2xl:min-h-[14rem] max-h-[20rem]   rounded-md flex items-center justify-center overflow-hidden cursor-pointer ">
+            <img
+              src={`/media/piezometer_reports/${
+                report.report_photo === "piezoreport-default"
+                  ? "piezoreport-default.png"
+                  : report.report_photo
+              }`}
+              alt={`/media/piezometer_reports/${
+                report.report_photo === "report-default"
+                  ? "report-default.png"
+                  : report.report_photo
+              }`}
+              className="object-cover"
+            />
+          </div>
+        </div>
       </div>
 
       <div className="bg-backgroundWhite md:bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-12 md:shadow-lg ">
-        <div className="bg-[#f5f5f5] border border-[#dfdfdf]  shadow-sm w-full sm:w-3/4 lg:w-1/2 min-h-[10rem] md:min-h-[12rem] 2xl:min-h-[14rem] max-h-[20rem]   rounded-lg flex items-center justify-center overflow-hidden cursor-pointer self-center">
-          <img
-            src={`/media/piezometer_reports/${
-              report.report_photo === "piezoreport-default"
-                ? "piezoreport-default.png"
-                : report.report_photo
-            }`}
-            alt={`/media/piezometer_reports/${
-              report.report_photo === "report-default"
-                ? "report-default.png"
-                : report.report_photo
-            }`}
-            className="object-cover"
-          />
-        </div>
-
         <PiezoInfoWithInoperativeDaysTable
           paddock={report.report_paddock}
           piezo={report.report_piezo}

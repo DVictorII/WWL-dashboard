@@ -2,7 +2,7 @@ Posibles nuevas funcionalidades para la página:
 
 
 (/piezometer-readings):
-- Añadir una función para que el cliente pueda escoger el rango de fechas para ver las lecturas (ejemplo: 01-01-2021 / 31-12-2021)
+- Añadir una función para que el cliente pueda escoger el rango de fechas para ver las lecturas (ejemplo: 01-01-2021 / 31-12-2021) (Hacer lo mismo para los reports)
 
 
 (/reports/piezometers/new-report):

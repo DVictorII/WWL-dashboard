@@ -151,8 +151,6 @@ const BarChart = ({ information, fullPage = false }) => {
 
   if (piezometersAreLoading || lecturesAreLoading) return <SkeletonBarChart />;
 
-  console.log("PIEZODATA", piezoData);
-
   if (piezometersData.status === 4)
     return (
       <div className="flex flex-col gap-y-4">

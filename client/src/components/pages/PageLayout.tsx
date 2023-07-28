@@ -84,8 +84,13 @@ function PageLayout() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
             exit={{ opacity: 0, transition: { duration: 0.2 } }}
+            style={{
+              backgroundColor: location.pathname.startsWith("/operations")
+                ? "#f5f5f5"
+                : "#f6f4eb",
+            }}
             key={location.pathname}
-            className="text-[#333] px-2 sm:px-8 py-8 md:px-8  lg:p-12  2xl:p-16  bg-[#f5f5f5] grow  "
+            className="text-[#333] px-2 sm:px-8 py-8 md:px-8  lg:p-12  2xl:p-16  grow  "
           >
             <MobileMenu />
 
@@ -117,7 +122,12 @@ function PageLayout() {
           transition={{ duration: 0.5, ease: "easeInOut" }}
           exit={{ opacity: 0, transition: { duration: 0.2 } }}
           key={location.pathname}
-          className="text-[#333] px-2 sm:px-8 py-8 md:px-8  lg:p-12  2xl:p-16  bg-[#f6f4eb] grow  "
+          style={{
+            backgroundColor: location.pathname.startsWith("/operations")
+              ? "#f5f5f5"
+              : "#f6f4eb",
+          }}
+          className={`text-[#333] px-2 sm:px-8 py-8 md:px-8  lg:p-12  2xl:p-16  grow  `}
         >
           <MobileMenu />
 

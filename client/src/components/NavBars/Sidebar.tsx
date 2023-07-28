@@ -49,16 +49,18 @@ function Sidebar() {
                         bg-all-normal text-white justify-between  z-[400] hidden shrink-0 "
       >
         <div className="flex flex-col items-center gap-y-6 2xl:gap-y-10 ">
-          <div className="w-full relative h-20">
-            <img
-              className="object-contain w-full"
-              src="/media/img/photos/logo_white.png"
-              alt="rossing-logo"
-            />
-          </div>
+          <Link to="/operations/monitoring-map">
+            <div className="w-full relative h-20">
+              <img
+                className="object-contain w-full"
+                src="/media/img/photos/logo_white.png"
+                alt="rossing-logo"
+              />
+            </div>
+          </Link>
 
           <div
-            onClick={openMenu}
+            onClick={!menuIsOpen ? openMenu : closeMenu}
             className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 bg-gradient-to-br to-[#7ea3b8] from-[#477c9a] border-[#477c9a]  border-2  flex items-center justify-center  bg-opacity-40 rounded-lg hover:text-[#222] hover:bg-opacity-90 transition-all cursor-pointer duration-500 relative group"
           >
             <AiOutlineAreaChart className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6" />

@@ -86,18 +86,20 @@ function ReportDetailsPDFDownloadButton() {
     ? getInoperativeDates(lecturesDates)
     : undefined;
 
-  useEffect(() => {
-    console.log("report", report);
-  }, [report]);
+  // useEffect(() => {
+  //   console.log("report", report);
+  // }, [report]);
 
   if (isLoading || !report || piezometersAreLoading || lecturesAreLoading)
     return (
       <button
-        className="flex items-center gap-x-2 md:gap-x-3 lg:gap-x-4 px-4 py-2 bg-all-normal hover:bg-orange-800 transition-all text-white rounded-lg shadow-sm disabled:bg-[#555]"
+        className="flex items-center gap-x-2   px-2  py-2 sm:px-4  bg-[#333] text-[#f1f1f1] rounded-full  hover:bg-orange-800 transition-all disabled:bg-[#666]"
         disabled
       >
-        <FaSpinner className="w-4 h-4 " />
-        <span className="text-xs md:text-sm">Preparing Download</span>
+        <FaSpinner className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
+        <span className="text-xs sm:text-sm   font-medium hidden sm:block">
+          Preparing Download
+        </span>
       </button>
     );
 
@@ -202,10 +204,12 @@ function ReportDetailsPDFDownloadButton() {
   return (
     <button
       onClick={downloadReport}
-      className="flex items-center gap-x-2 md:gap-x-3 lg:gap-x-4 px-4 py-2 bg-all-normal hover:bg-orange-800 transition-all text-white rounded-lg shadow-sm"
+      className="flex items-center gap-x-2   px-2  py-2 sm:px-4  bg-[#333] text-[#f1f1f1] rounded-full  hover:bg-orange-800 transition-all"
     >
-      <BsDownload className="w-4 h-4 " />
-      <span className="text-xs md:text-sm">Download report on PDF</span>
+      <BsDownload className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
+      <span className="text-xs sm:text-sm   font-medium hidden sm:block">
+        Download on PDF
+      </span>
     </button>
   );
 }
