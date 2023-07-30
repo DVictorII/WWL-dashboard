@@ -1,25 +1,26 @@
+import React from "react";
+import { ReportDetails } from "../../../types";
+import { useMonitoringMapStateStore } from "../../../store/MonitoringMapStateStore";
 import { monitoringMapStatusInfo } from "../../../utils/monitoringMapStatusInfo";
 
-import { useNewPiezoReportStateStore } from "../../../store/NewPiezoReportStateStore";
-import { useMonitoringMapStateStore } from "../../../store/MonitoringMapStateStore";
-
-function ReportPiezoInformationTable() {
-  const lecturesInformation = useNewPiezoReportStateStore(
-    (state) => state.lecturesInformation
-  );
-
-  const paddock = useNewPiezoReportStateStore((state) => state.paddock);
-  const piezo = useNewPiezoReportStateStore((state) => state.piezo);
+function DetailsReportPiezoInformationTable({
+  report,
+}: {
+  report: ReportDetails;
+}) {
+  const {
+    report_paddock: paddock,
+    report_piezo: piezo,
+    report_time_span: timeSpan,
+  } = report;
+  const { inoperativeDates, lecturesAvg, lecturesMax, lecturesMin } =
+    JSON.parse(report.report_readings_information);
 
   const piezometersData = useMonitoringMapStateStore((s) => s.piezometersData);
 
   const currentPiezometer = piezometersData.find(
     (p) => p.paddock === paddock && p.id === piezo
   );
-
-  const { inoperativeDates } = lecturesInformation;
-
-  const timeSpan = useNewPiezoReportStateStore((state) => state.timeSpan);
 
   //@ts-ignore
   const statusStateObj = monitoringMapStatusInfo[currentPiezometer.status];
@@ -86,14 +87,8 @@ function ReportPiezoInformationTable() {
             </th>
 
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span
-                className={
-                  lecturesInformation.lecturesAvg === 0 ? "text-xl" : ""
-                }
-              >
-                {lecturesInformation.lecturesAvg === 0
-                  ? "-"
-                  : `${lecturesInformation.lecturesAvg} KPa`}
+              <span className={lecturesAvg === 0 ? "text-xl" : ""}>
+                {lecturesAvg === 0 ? "-" : `${lecturesAvg} KPa`}
               </span>
             </th>
           </tr>
@@ -104,14 +99,8 @@ function ReportPiezoInformationTable() {
             </th>
 
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span
-                className={
-                  lecturesInformation.lecturesMax === 0 ? "text-xl" : ""
-                }
-              >
-                {lecturesInformation.lecturesMax === 0
-                  ? "-"
-                  : `${lecturesInformation.lecturesMax} KPa`}
+              <span className={lecturesMax === 0 ? "text-xl" : ""}>
+                {lecturesMax === 0 ? "-" : `${lecturesMax} KPa`}
               </span>
             </th>
           </tr>
@@ -127,14 +116,8 @@ function ReportPiezoInformationTable() {
             </th>
 
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span
-                className={
-                  lecturesInformation.lecturesMin === 0 ? "text-xl" : ""
-                }
-              >
-                {lecturesInformation.lecturesMin === 0
-                  ? "-"
-                  : `${lecturesInformation.lecturesMin} KPa`}
+              <span className={lecturesMin === 0 ? "text-xl" : ""}>
+                {lecturesMin === 0 ? "-" : `${lecturesMin} KPa`}
               </span>
             </th>
           </tr>
@@ -162,4 +145,4 @@ function ReportPiezoInformationTable() {
   );
 }
 
-export default ReportPiezoInformationTable;
+export default DetailsReportPiezoInformationTable;

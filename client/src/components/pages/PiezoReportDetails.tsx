@@ -34,6 +34,8 @@ import { getInoperativeDates } from "../../utils/getInoperativeDates";
 import ReportDetailsPDFDownloadButton from "../Reports/ReportDetailsPDFDownloadButton";
 import SkeletonPiezoReportDetailsPage from "../Skeletons/Reports/SkeletonPiezoReportDetailsPage";
 import { AiOutlineArrowLeft } from "react-icons/ai";
+import ReportPiezoTableWithInoperativeDates from "../Reports/form/ReportPiezoTableWithInoperativeDates";
+import DetailsReportPiezoTableWithInoperativeDates from "../Reports/details/DetailsReportPiezoTableWithInoperativeDates";
 
 function PiezoReportDetails() {
   const { id } = useParams();
@@ -105,33 +107,44 @@ function PiezoReportDetails() {
 
       <div className="mt-6" />
 
-      <div className=" bg-white p-4 rounded-xl shadow-sm">
-        <div className="flex flex-col gap-y-6">
-          <h2 className="font-semibold">Location photo</h2>
-          <div className="bg-[#f5f5f5] border border-[#dfdfdf]  shadow-sm w-full  min-h-[10rem] md:min-h-[12rem] 2xl:min-h-[14rem] max-h-[20rem]   rounded-md flex items-center justify-center overflow-hidden cursor-pointer ">
-            <img
-              src={`/media/piezometer_reports/${
-                report.report_photo === "piezoreport-default"
-                  ? "piezoreport-default.png"
-                  : report.report_photo
-              }`}
-              alt={`/media/piezometer_reports/${
-                report.report_photo === "report-default"
-                  ? "report-default.png"
-                  : report.report_photo
-              }`}
-              className="object-cover"
-            />
+      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-6 lg:gap-x-8 gap-y-8">
+        <div className=" bg-white p-4 rounded-xl shadow-sm">
+          <div className="flex flex-col gap-y-6">
+            <h2 className="font-semibold">Location photo</h2>
+            <div className="bg-[#f5f5f5] border border-[#dfdfdf]  shadow-sm w-full  min-h-[10rem] md:min-h-[12rem] 2xl:min-h-[14rem] max-h-[20rem]   rounded-md flex items-center justify-center overflow-hidden cursor-pointer ">
+              <img
+                src={`/media/piezometer_reports/${
+                  report.report_photo === "piezoreport-default"
+                    ? "piezoreport-default.png"
+                    : report.report_photo
+                }`}
+                alt={`/media/piezometer_reports/${
+                  report.report_photo === "report-default"
+                    ? "report-default.png"
+                    : report.report_photo
+                }`}
+                className="object-cover"
+              />
+            </div>
           </div>
+        </div>
+
+        <div className="flex flex-col gap-y-4  bg-white p-4 rounded-xl shadow-sm">
+          <h2 className="font-semibold text-sm 2xl:text-base">
+            Piezometer details
+          </h2>
+
+          <div className="flex items-center gap-x-2 font-bold">
+            <span>{report.report_paddock}</span>
+            <span>-</span>
+            <span>{report.report_piezo}</span>
+          </div>
+
+          <DetailsReportPiezoTableWithInoperativeDates report={report} />
         </div>
       </div>
 
       <div className="bg-backgroundWhite md:bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-12 md:shadow-lg ">
-        <PiezoInfoWithInoperativeDaysTable
-          paddock={report.report_paddock}
-          piezo={report.report_piezo}
-        />
-
         <ReportPiezoLecturesComponent
           paddock={report.report_paddock}
           piezo={report.report_piezo}

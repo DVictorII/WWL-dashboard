@@ -63,7 +63,7 @@ function StockChart() {
   return (
     <div className="overflow-scroll  2xl:overflow-visible">
       <div className="min-w-[36rem] max-w-full">
-        <div className={`h-[30vh] 2xl:h-[35vh]  w-full`}>
+        <div className={`h-[40vh] 2xl:h-[40vh]  w-full`}>
           <ResponsiveLine
             data={data}
             //@ts-ignore
