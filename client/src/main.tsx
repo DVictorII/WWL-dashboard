@@ -30,6 +30,7 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Chart from "./components/pages/Chart";
 import Stocks_tracking from "./components/pages/business/Stocks_tracking";
+import Team_information from "./components/pages/human_resources/Team_information";
 
 const router = createBrowserRouter([
   {
@@ -112,6 +113,16 @@ const router = createBrowserRouter([
           {
             path: "stocks-tracking",
             element: <Stocks_tracking />,
+          },
+        ],
+      },
+
+      {
+        path: "human-resources",
+        children: [
+          {
+            path: "team-information",
+            element: <Team_information />,
           },
         ],
       },

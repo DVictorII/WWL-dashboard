@@ -1,44 +1,37 @@
-import { useEffect } from "react";
-
 import MenuNavbar from "../MenuNavbar";
-
-import { BsDownload } from "react-icons/bs";
+import { useState } from "react";
 
 import { Link, useParams } from "react-router-dom";
-//@ts-ignore
-import axios from "../../utils/axios";
 
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 
-import FadeLoader from "react-spinners/FadeLoader";
+import { fetchSingleReport } from "../../utils/reportsFetchFunctions";
 
-import {
-  fetchChartLectures,
-  fetchPiezometerData,
-  fetchSingleReport,
-} from "../../utils/reportsFetchFunctions";
+import SupervisorsView from "../Reports/details/SupervisorsView";
 
-import PiezoInfoWithInoperativeDaysTable from "../Reports/PiezoInfoWithInoperativeDaysTable";
-
-import SupervisorsView from "../Reports/SupervisorsView";
-
-import ReportPiezoLecturesComponent from "../Reports/ReportPiezoLecturesComponent";
 import { useNewPiezoReportStateStore } from "../../store/NewPiezoReportStateStore";
 import FullPageComps from "../FullPageComps";
-import { toast } from "react-hot-toast";
-import { useReportInfoTablesDaysSpanStore } from "../../store/ReportInfoTablesDaysSpanStore";
-import moment from "moment";
 
-//@ts-ignore
-import { getInoperativeDates } from "../../utils/getInoperativeDates";
+import { useReportInfoTablesDaysSpanStore } from "../../store/ReportInfoTablesDaysSpanStore";
+
+import Switch from "react-switch";
+
 import ReportDetailsPDFDownloadButton from "../Reports/ReportDetailsPDFDownloadButton";
 import SkeletonPiezoReportDetailsPage from "../Skeletons/Reports/SkeletonPiezoReportDetailsPage";
 import { AiOutlineArrowLeft } from "react-icons/ai";
-import ReportPiezoTableWithInoperativeDates from "../Reports/form/ReportPiezoTableWithInoperativeDates";
 import DetailsReportPiezoTableWithInoperativeDates from "../Reports/details/DetailsReportPiezoTableWithInoperativeDates";
+import DetailsReportPiezoLecturesComponent from "../Reports/details/DetailsReportPiezoLecturesComponent";
+import { BsFillGearFill } from "react-icons/bs";
+import { FiAlertTriangle } from "react-icons/fi";
 
 function PiezoReportDetails() {
   const { id } = useParams();
+
+  const [displaying, setDisplaying] = useState("piezoInfo");
+  const handleToggleTable = () => {
+    if (displaying === "piezoInfo") setDisplaying("inoperativeDates");
+    if (displaying === "inoperativeDates") setDisplaying("piezoInfo");
+  };
 
   const days = useNewPiezoReportStateStore((state) => state.days);
   const chartType = useNewPiezoReportStateStore((state) => state.chartType);
@@ -130,26 +123,70 @@ function PiezoReportDetails() {
         </div>
 
         <div className="flex flex-col gap-y-4  bg-white p-4 rounded-xl shadow-sm">
-          <h2 className="font-semibold text-sm 2xl:text-base">
-            Piezometer details
-          </h2>
+          <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-y-4">
+              <h2 className="font-semibold text-sm 2xl:text-base">
+                Piezometer details
+              </h2>
 
-          <div className="flex items-center gap-x-2 font-bold">
-            <span>{report.report_paddock}</span>
-            <span>-</span>
-            <span>{report.report_piezo}</span>
+              <div className="flex items-center gap-x-2 font-bold">
+                <span>{report.report_paddock}</span>
+                <span>-</span>
+                <span>{report.report_piezo}</span>
+              </div>
+            </div>
+
+            <Switch
+              onChange={handleToggleTable}
+              checked={displaying === "piezoInfo"}
+              offColor="#8D2525"
+              onColor="#1C394A"
+              uncheckedIcon={
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100%",
+                    fontSize: 20,
+                    color: "#fff",
+                  }}
+                >
+                  <FiAlertTriangle className="w-4 h-4" />
+                </div>
+              }
+              checkedIcon={
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100%",
+                    fontSize: 20,
+                    color: "#fff",
+                  }}
+                >
+                  <BsFillGearFill className="w-4 h-4" />
+                </div>
+              }
+            />
           </div>
 
-          <DetailsReportPiezoTableWithInoperativeDates report={report} />
+          <DetailsReportPiezoTableWithInoperativeDates
+            report={report}
+            displaying={displaying}
+            handleToggleTable={handleToggleTable}
+          />
         </div>
       </div>
 
-      <div className="bg-backgroundWhite md:bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-12 md:shadow-lg ">
-        <ReportPiezoLecturesComponent
-          paddock={report.report_paddock}
-          piezo={report.report_piezo}
-        />
+      <div className="mt-6" />
 
+      <DetailsReportPiezoLecturesComponent report={report} />
+
+      <div className="mt-6" />
+
+      <div className="bg-white p-4 2xl:p-6 rounded-xl shadow-sm">
         <SupervisorsView report={report} />
       </div>
 

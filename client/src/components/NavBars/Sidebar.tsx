@@ -69,15 +69,17 @@ function Sidebar() {
             </span>
           </div>
 
-          <div
-            onClick={() => navigateTo("/business/stocks-tracking")}
-            className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 bg-gradient-to-br to-[#7ea3b8] from-[#477c9a] border-2 border-[#477c9a] flex items-center justify-center  bg-opacity-40 rounded-lg hover:text-[#222] hover:bg-opacity-90 transition-all cursor-pointer duration-500 relative group"
-          >
-            <AiOutlinePieChart className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6" />
-            <span className="absolute w-auto px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-[#222] border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
-              Business ( 100% )
-            </span>
-          </div>
+          <Link to="/business/stocks-tracking">
+            <div
+              onClick={closeMenu}
+              className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 bg-gradient-to-br to-[#7ea3b8] from-[#477c9a] border-2 border-[#477c9a] flex items-center justify-center  bg-opacity-40 rounded-lg hover:text-[#222] hover:bg-opacity-90 transition-all cursor-pointer duration-500 relative group"
+            >
+              <AiOutlinePieChart className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6" />
+              <span className="absolute w-auto px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-[#222] border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
+                Business ( 100% )
+              </span>
+            </div>
+          </Link>
 
           <div className="bg-gradient-to-br to-[#d27474] from-[#bc2f2f]  border-2 border-[#bc2f2f]   w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12    flex items-center justify-center  bg-opacity-10 rounded-lg hover:text-[#222]  transition-all cursor-pointer duration-500 relative group">
             <FaTools className=" w-3 h-3 lg:w-4 lg:h-4 2xl:w-5 2xl:h-5" />
@@ -86,14 +88,19 @@ function Sidebar() {
             </span>
           </div>
 
-          <div className="bg-gradient-to-br to-[#658293] from-[#9c3838] p-[2px] rounded-lg">
-            <div className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 bg-gradient-to-br to-[#7ea3b8] from-[#c34646]  flex items-center justify-center  bg-opacity-40 rounded-lg hover:text-[#222] hover:bg-opacity-90 transition-all cursor-pointer duration-500 relative group">
-              <AiOutlineUsergroupAdd className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6 " />
-              <span className="absolute w-auto px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-[#222] border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
-                Human resources (under construction) ( 80% )
-              </span>
+          <Link to="/human-resources/team-information">
+            <div
+              onClick={closeMenu}
+              className="bg-gradient-to-br to-[#658293] from-[#9c3838] p-[2px] rounded-lg"
+            >
+              <div className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 bg-gradient-to-br to-[#7ea3b8] from-[#c34646]  flex items-center justify-center  bg-opacity-40 rounded-lg hover:text-[#222] hover:bg-opacity-90 transition-all cursor-pointer duration-500 relative group">
+                <AiOutlineUsergroupAdd className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6 " />
+                <span className="absolute w-auto px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-[#222] border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
+                  Human resources (under construction) ( 80% )
+                </span>
+              </div>
             </div>
-          </div>
+          </Link>
         </div>
 
         <div className="flex flex-col items-center gap-y-6 2xl:gap-y-10 ">

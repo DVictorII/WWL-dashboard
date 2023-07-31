@@ -5,6 +5,7 @@ import SectionImg from "./SectionImg";
 import { useLocation } from "react-router-dom";
 import { usePiezometerLecturesStateStore } from "../../store/PiezometerLecturesStateStore";
 import { useNewPiezoReportStateStore } from "../../store/NewPiezoReportStateStore";
+import { useMonitoringMapStateStore } from "../../store/MonitoringMapStateStore";
 
 function PiezoLecturesComponent() {
   const location = useLocation().pathname;
@@ -17,6 +18,12 @@ function PiezoLecturesComponent() {
     location === "/operations/piezometer-readings"
       ? usePiezometerLecturesStateStore((s) => s.piezo)
       : useNewPiezoReportStateStore((state) => state.piezo);
+
+  const piezometersData = useMonitoringMapStateStore((s) => s.piezometersData);
+
+  const currentPiezometer = piezometersData.find(
+    (p) => p.paddock === paddock && p.id === piezo
+  );
 
   const section = usePiezometerLecturesStateStore((s) => s.section);
 
@@ -59,14 +66,21 @@ function PiezoLecturesComponent() {
             Section profile view
           </h2>
 
-          {location === "/operations/piezometer-readings" && (
+          <span>/</span>
+          <span className="text-2xl">
+            {currentPiezometer?.section === "?"
+              ? "Indeterminate section"
+              : currentPiezometer?.section}
+          </span>
+
+          {/* {location === "/operations/piezometer-readings" && (
             <>
               <span>/</span>
               <span className="text-2xl">
                 {section === "?" ? "Indeterminate section" : section}
               </span>
             </>
-          )}
+          )} */}
         </div>
 
         <SectionImg />

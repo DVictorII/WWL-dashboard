@@ -6,12 +6,13 @@ import DetailsReportInoperativeDatesTable from "./DetailsReportInoperativeDatesT
 
 function DetailsReportPiezoTableWithInoperativeDates({
   report,
+  displaying,
+  handleToggleTable,
 }: {
   report: ReportDetails;
+  displaying: string;
+  handleToggleTable: () => void;
 }) {
-  // const [displaying, setDisplaying] = useState("inoperativeDates");
-  const [displaying, setDisplaying] = useState("A");
-
   const paddock = report.report_paddock;
   const piezo = report.report_piezo;
   const timeSpan = report.report_time_span;

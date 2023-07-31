@@ -37,9 +37,9 @@ function PiezoReports() {
         </h1>
 
         <div className="flex items-center gap-x-4">
-          <div className="p-2 bg-all-normal flex items-center justify-center rounded-full text-white ">
+          {/* <div className="p-2 bg-all-normal flex items-center justify-center rounded-full text-white ">
             <BsBookmarkHeartFill className="w-4 h-4  lg:w-5 lg:h-5 " />
-          </div>
+          </div> */}
 
           <Link to="/operations/reports/piezometers/new-report">
             <button className="flex items-center gap-x-2 p-2 sm:px-4 rounded-full bg-all-normal text-white  hover:bg-orange-800 transition-all">
@@ -52,9 +52,9 @@ function PiezoReports() {
         </div>
       </div>
 
-      <div className="mt-12" />
+      <div className="mt-6" />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-6 xl:gap-x-8 gap-y-8 ">
+      <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-6 gap-y-6 ">
         <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center gap-y-4 ">
           <h2 className="font-bold text-sm 2xl:text-base">Featured reports</h2>
 

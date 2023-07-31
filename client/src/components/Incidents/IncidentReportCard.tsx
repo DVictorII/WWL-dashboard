@@ -30,9 +30,9 @@ function IncidentReportCard({ incident }: { incident: IncidentDetails }) {
             </span>
           </Link>
 
-          <div className="w-5 h-5 border border-[#333] rounded-full flex justify-center items-center shrink-0">
+          {/* <div className="w-5 h-5 border border-[#333] rounded-full flex justify-center items-center shrink-0">
             <BsBookmarkHeart className="w-3 h-3" />
-          </div>
+          </div> */}
         </div>
 
         <p className="text-[8px] md:text-[10px] text-[#555] mt-1 md:mt-2 line-clamp-2 h-[30px]">

@@ -66,7 +66,7 @@ function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
 
             <th className="sticky top-0 text-center px-8 py-2  lg:py-3 bg-white border-b border-[#999] "></th>
 
-            <th className="sticky top-0 text-center px-8 py-2  lg:py-3 bg-white border-b border-[#999] "></th>
+            {/* <th className="sticky top-0 text-center px-8 py-2  lg:py-3 bg-white border-b border-[#999] "></th> */}
             <th className="sticky top-0 text-center px-8 py-2  lg:py-3 bg-white border-b border-[#999] "></th>
           </thead>
 
@@ -132,11 +132,11 @@ function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
                   </Link>
                 </td>
 
-                <td className="px-8 py-2  lg:py-3">
+                {/* <td className="px-8 py-2  lg:py-3">
                   <span className="text-[9px] md:text-[10px] lg:text-[11px]  font-semibold text-orange-600 border-b border-orange-600  hover:text-orange-800 hover:border-orange-800 transition-all cursor-pointer">
                     Edit
                   </span>
-                </td>
+                </td> */}
                 <td className="px-8 py-2  lg:py-3">
                   <div
                     onClick={() => openDeletePiezoReportModal(report.report_id)}

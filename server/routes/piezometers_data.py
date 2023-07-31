@@ -26,12 +26,11 @@ class piezometer_details(db.Model):
     lon = db.Column(db.Numeric(20, 14))
     status = db.Column(db.Integer(), nullable=False)
 
-
-    east_utm = db.Column(db.Numeric(12,3))
-    north_utm = db.Column(db.Numeric(12,3))
-    elevation = db.Column(db.Numeric(10,3))
-    initial_depth = db.Column(db.Numeric(10,5))
-    tarps_value = db.Column(db.Numeric(12,6))
+    east_utm = db.Column(db.Numeric(12, 3))
+    north_utm = db.Column(db.Numeric(12, 3))
+    elevation = db.Column(db.Numeric(10, 3))
+    initial_depth = db.Column(db.Numeric(10, 5))
+    tarps_value = db.Column(db.Numeric(12, 6))
     time_threshold_wrong = db.Column(db.String(length=50))
 
     def obj_to_dict(self):
@@ -47,7 +46,6 @@ class piezometer_details(db.Model):
             "lat": self.lat,
             "lon": self.lon,
             "status": self.status,
-
             "east_utm": self.east_utm,
             "north_utm": self.north_utm,
             "elevation": self.elevation,
@@ -187,31 +185,36 @@ def get_graphics(node, channel):
         return jsonify({"error": Exception})
 
 
-@piezometers_data_routes.route("/api/v1/get_finance_stocks_<company>-<interval>", methods=["GET"])
+@piezometers_data_routes.route(
+    "/api/v1/get_finance_stocks_<company>-<interval>", methods=["GET"]
+)
 @cross_origin()
 def get_stock(company, interval):
     try:
         folder = "data/Finance/"
-        #example company_stock = wwl.stock_data("601985.SS",7)
-        company_stock = wwl.stock_data(company,interval)
-        data, history = company_stock.load_stock_data('./Finance')
+        # example company_stock = wwl.stock_data("601985.SS",7)
+        company_stock = wwl.stock_data(company, interval)
+        data, history = company_stock.load_stock_data(folder)
 
         return jsonify({"data": data, "hist": history})
 
     except Exception:
         return jsonify({"error": Exception})
 
-@piezometers_data_routes.route("/api/v1/get_finance_currency_<currency>", methods=["GET"])
+
+@piezometers_data_routes.route(
+    "/api/v1/get_finance_currency_<currency>", methods=["GET"]
+)
 @cross_origin()
 def get_currency(currency):
     try:
         folder = "data/Finance/"
-        #example: wwl.currency_data('uranium')
+        # example: wwl.currency_data('uranium')
         spec_currency = wwl.currency_data(currency)
-        data = spec_currency.load_currency('./Finance')
+        print("CURRENCY", spec_currency)
+        data = spec_currency.load_currency(folder)
 
         return jsonify({"data": data})
 
     except Exception:
         return jsonify({"error": Exception})
-

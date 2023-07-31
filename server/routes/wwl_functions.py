@@ -8,6 +8,7 @@ import pickle
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 import requests
+import pandas as pd
 
 dbname = "wwlengineering_rossing"
 user = "WWL_ADMIN"
@@ -38,7 +39,7 @@ def get_data_by_section(datalogger, channel, na_ground, new_ground):
 
     def calculate_mean(list_coord):
         indices_dict = {}  # Dictionary to store indices and their sum of values
-        count_dict = {}    # Dictionary to store the count of values for each index
+        count_dict = {}  # Dictionary to store the count of values for each index
         for index, value in list_coord:
             if index not in indices_dict:
                 indices_dict[index] = 0
@@ -47,11 +48,12 @@ def get_data_by_section(datalogger, channel, na_ground, new_ground):
             count_dict[index] += 1
 
         # Calculate the mean for each index
-        mean_indices = [[index, indices_dict[index] / count_dict[index]] for index in indices_dict]
+        mean_indices = [
+            [index, indices_dict[index] / count_dict[index]] for index in indices_dict
+        ]
         return mean_indices
-    
-    def correct_e3_version2(items,graph):
 
+    def correct_e3_version2(items, graph):
         def find_closest_index(items, graph, index, direction):
             if index < 0 or index >= len(items):
                 return None
@@ -103,16 +105,13 @@ def get_data_by_section(datalogger, channel, na_ground, new_ground):
         output = []
 
         if len(points) == 0:
+            for i in range(0, 401, 5):
+                output.append([i, graph[int(i / 5)][1] + 0.25])
+            return output
 
-            for i in range(0,401,5):
-                output.append([i,graph[int(i/5)][1]+0.25])
-            return output 
-        
         # Pizometers in the same place, calculate mean value.
         sorted_points = sorted(points, key=lambda p: p[0])
         points = calculate_mean(sorted_points)
-       
-
 
         # If there is only one pizometer, project the hall list from only one point
         #
@@ -412,20 +411,43 @@ def get_data_by_section(datalogger, channel, na_ground, new_ground):
         dict_graph[piezometer_section + ".txt"][i].append(output2[i][1])
     return output, dict_graph[piezometer_section + ".txt"]
 
+
 class stock_data:
-    def __init__(self, symbol,interval):
+    def __init__(self, symbol, interval):
         self.symbol = symbol
         self.interval = interval
+
     def get_stock_detail(self):
         ticker_data = yf.Ticker(self.symbol)
-        fieldsneeded = ['previousClose','open','bid','ask','dayLow','dayHigh','exDividendDate','fiftyTwoWeekLow', 'fiftyTwoWeekHigh','volume','averageVolume','marketCap','beta','trailingPE','trailingEps','dividendRate', 'dividendYield','exDividendDate','targetMeanPrice']
+        fieldsneeded = [
+            "previousClose",
+            "open",
+            "bid",
+            "ask",
+            "dayLow",
+            "dayHigh",
+            "exDividendDate",
+            "fiftyTwoWeekLow",
+            "fiftyTwoWeekHigh",
+            "volume",
+            "averageVolume",
+            "marketCap",
+            "beta",
+            "trailingPE",
+            "trailingEps",
+            "dividendRate",
+            "dividendYield",
+            "exDividendDate",
+            "targetMeanPrice",
+        ]
         dict_values = {}
         for i in fieldsneeded:
             if i in ticker_data.info:
-                dict_values[i]=ticker_data.info[i]
+                dict_values[i] = ticker_data.info[i]
             else:
-                dict_values[i]=''    
+                dict_values[i] = ""
         return dict_values
+
     def get_stock_history(self):
         current_date = datetime.today().date()
         workdays_ago = self.interval
@@ -439,86 +461,86 @@ class stock_data:
         data = yf.download(self.symbol, date_7_workdays_ago, current_date)
         df = pd.DataFrame(data)
         return df
-    def load_stock_data(self,folder_path):
+
+    def load_stock_data(self, folder_path):
         files = os.listdir(folder_path)
-        today_date = datetime.today().strftime('%Y%m%d')
+        today_date = datetime.today().strftime("%Y%m%d")
         file_name = f"{today_date}_stdetail.pkl"
-        matching_files = [f for f in files if file_name in f]    
+        matching_files = [f for f in files if file_name in f]
         if matching_files:
             print("Loading existing one")
-            with open(os.path.join(folder_path,file_name), 'rb') as f:
+            with open(os.path.join(folder_path, file_name), "rb") as f:
                 dict_full = pickle.load(f)
         else:
-            print('Create a new one')
-            dict_full = get_stock_detail(self.symbol)
+            print("Create a new one")
+            dict_full = self.get_stock_detail(self.symbol)
             if dict_full:
-                with open(os.path.join(folder_path,file_name), 'wb') as f:
+                with open(os.path.join(folder_path, file_name), "wb") as f:
                     pickle.dump(dict_full, f)
-        
+
         file_name = f"{today_date}_sthistory.pkl"
-        matching_files = [f for f in files if file_name in f]  
+        matching_files = [f for f in files if file_name in f]
         if matching_files:
             print("Loading existing one")
-            with open(os.path.join(folder_path,file_name), 'rb') as f:
+            with open(os.path.join(folder_path, file_name), "rb") as f:
                 history = pickle.load(f)
         else:
-            print('Create a new one')
-            history = get_stock_history(self.symbol,self.interval)
-            with open(os.path.join(folder_path,file_name), 'wb') as f:
+            print("Create a new one")
+            history = self.get_stock_history(self.symbol, self.interval)
+            with open(os.path.join(folder_path, file_name), "wb") as f:
                 pickle.dump(history, f)
         return dict_full, history
 
 
 class currency_data:
-    def __init__(self,ide):
+    def __init__(self, ide):
         self.ide = ide
         match self.ide:
-            case 'uranium':
-                self.url = 'https://tradingeconomics.com/commodity/uranium'
-            case 'usdaud':
-                self.url = 'https://tradingeconomics.com/australia/currency'
+            case "uranium":
+                self.url = "https://tradingeconomics.com/commodity/uranium"
+            case "usdaud":
+                self.url = "https://tradingeconomics.com/australia/currency"
             case _:
-                self.url = ''            
+                self.url = ""
 
     def get_currency(self):
         headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
         }
         response = requests.get(self.url, headers=headers)
         if response.status_code == 200:
-            soup = BeautifulSoup(response.text, 'html.parser')
-            price_element = soup.find("div", id="ctl00_ContentPlaceHolder1_ctl00_ctl01_Panel1")
-            header = price_element.find_all('th')
-            info = price_element.find_all('td')
-            table_data={}
-            for key,value in zip(header,info):
+            soup = BeautifulSoup(response.text, "html.parser")
+            price_element = soup.find(
+                "div", id="ctl00_ContentPlaceHolder1_ctl00_ctl01_Panel1"
+            )
+            header = price_element.find_all("th")
+            info = price_element.find_all("td")
+            table_data = {}
+            for key, value in zip(header, info):
                 keytext = key.get_text(strip=True)
                 valuetext = value.get_text(strip=True)
                 if keytext:
-                    table_data[keytext]=valuetext        
+                    table_data[keytext] = valuetext
             if table_data:
                 return table_data
         return None
-    
-    def load_currency(self,folder_path):
+
+    def load_currency(self, folder_path):
         files = os.listdir(folder_path)
-        today_date = datetime.today().strftime('%Y%m%d')
+        today_date = datetime.today().strftime("%Y%m%d")
         file_name = f"{today_date}_{self.ide}.pkl"
-        matching_files = [f for f in files if file_name in f]    
+        matching_files = [f for f in files if file_name in f]
         if matching_files:
             print("Loading existing one")
-            with open(os.path.join(folder_path,file_name), 'rb') as f:
+            with open(os.path.join(folder_path, file_name), "rb") as f:
                 data_dict = pickle.load(f)
             return data_dict
         else:
-            print('Create a new one')
-            data_dict = get_currency_values(self.url)
+            print("Create a new one")
+            data_dict = self.get_currency()
             if data_dict:
-                with open(os.path.join(folder_path,file_name), 'wb') as f:
+                with open(os.path.join(folder_path, file_name), "wb") as f:
                     pickle.dump(data_dict, f)
                 return data_dict
             else:
                 return None
-
-
-
