@@ -1,8 +1,13 @@
 import psycopg2
-from os.path import dirname, join
+import os
 import math
 import numpy as np
 from scipy.interpolate import interp1d
+import yfinance as yf
+import pickle
+from bs4 import BeautifulSoup
+from datetime import datetime, timedelta
+import requests
 
 dbname = "wwlengineering_rossing"
 user = "WWL_ADMIN"
@@ -406,3 +411,114 @@ def get_data_by_section(datalogger, channel, na_ground, new_ground):
     for i in range(len(output2)):
         dict_graph[piezometer_section + ".txt"][i].append(output2[i][1])
     return output, dict_graph[piezometer_section + ".txt"]
+
+class stock_data:
+    def __init__(self, symbol,interval):
+        self.symbol = symbol
+        self.interval = interval
+    def get_stock_detail(self):
+        ticker_data = yf.Ticker(self.symbol)
+        fieldsneeded = ['previousClose','open','bid','ask','dayLow','dayHigh','exDividendDate','fiftyTwoWeekLow', 'fiftyTwoWeekHigh','volume','averageVolume','marketCap','beta','trailingPE','trailingEps','dividendRate', 'dividendYield','exDividendDate','targetMeanPrice']
+        dict_values = {}
+        for i in fieldsneeded:
+            if i in ticker_data.info:
+                dict_values[i]=ticker_data.info[i]
+            else:
+                dict_values[i]=''    
+        return dict_values
+    def get_stock_history(self):
+        current_date = datetime.today().date()
+        workdays_ago = self.interval
+        delta = timedelta(days=1)
+        workdays = 0
+        date_7_workdays_ago = current_date
+        while workdays < workdays_ago:
+            date_7_workdays_ago -= delta
+            if date_7_workdays_ago.weekday() < 5:
+                workdays += 1
+        data = yf.download(self.symbol, date_7_workdays_ago, current_date)
+        df = pd.DataFrame(data)
+        return df
+    def load_stock_data(self,folder_path):
+        files = os.listdir(folder_path)
+        today_date = datetime.today().strftime('%Y%m%d')
+        file_name = f"{today_date}_stdetail.pkl"
+        matching_files = [f for f in files if file_name in f]    
+        if matching_files:
+            print("Loading existing one")
+            with open(os.path.join(folder_path,file_name), 'rb') as f:
+                dict_full = pickle.load(f)
+        else:
+            print('Create a new one')
+            dict_full = get_stock_detail(self.symbol)
+            if dict_full:
+                with open(os.path.join(folder_path,file_name), 'wb') as f:
+                    pickle.dump(dict_full, f)
+        
+        file_name = f"{today_date}_sthistory.pkl"
+        matching_files = [f for f in files if file_name in f]  
+        if matching_files:
+            print("Loading existing one")
+            with open(os.path.join(folder_path,file_name), 'rb') as f:
+                history = pickle.load(f)
+        else:
+            print('Create a new one')
+            history = get_stock_history(self.symbol,self.interval)
+            with open(os.path.join(folder_path,file_name), 'wb') as f:
+                pickle.dump(history, f)
+        return dict_full, history
+
+
+class currency_data:
+    def __init__(self,ide):
+        self.ide = ide
+        match self.ide:
+            case 'uranium':
+                self.url = 'https://tradingeconomics.com/commodity/uranium'
+            case 'usdaud':
+                self.url = 'https://tradingeconomics.com/australia/currency'
+            case _:
+                self.url = ''            
+
+    def get_currency(self):
+        headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+        }
+        response = requests.get(self.url, headers=headers)
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            price_element = soup.find("div", id="ctl00_ContentPlaceHolder1_ctl00_ctl01_Panel1")
+            header = price_element.find_all('th')
+            info = price_element.find_all('td')
+            table_data={}
+            for key,value in zip(header,info):
+                keytext = key.get_text(strip=True)
+                valuetext = value.get_text(strip=True)
+                if keytext:
+                    table_data[keytext]=valuetext        
+            if table_data:
+                return table_data
+        return None
+    
+    def load_currency(self,folder_path):
+        files = os.listdir(folder_path)
+        today_date = datetime.today().strftime('%Y%m%d')
+        file_name = f"{today_date}_{self.ide}.pkl"
+        matching_files = [f for f in files if file_name in f]    
+        if matching_files:
+            print("Loading existing one")
+            with open(os.path.join(folder_path,file_name), 'rb') as f:
+                data_dict = pickle.load(f)
+            return data_dict
+        else:
+            print('Create a new one')
+            data_dict = get_currency_values(self.url)
+            if data_dict:
+                with open(os.path.join(folder_path,file_name), 'wb') as f:
+                    pickle.dump(data_dict, f)
+                return data_dict
+            else:
+                return None
+
+
+
