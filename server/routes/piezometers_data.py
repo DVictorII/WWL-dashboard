@@ -186,5 +186,32 @@ def get_graphics(node, channel):
     except Exception:
         return jsonify({"error": Exception})
 
-    # else:
-    #     return render_template('no_authorized.html')
+
+@piezometers_data_routes.route("/api/v1/get_finance_stocks_<company>-<interval>", methods=["GET"])
+@cross_origin()
+def get_stock(company, interval):
+    try:
+        folder = "data/Finance/"
+        #example company_stock = wwl.stock_data("601985.SS",7)
+        company_stock = wwl.stock_data(company,interval)
+        data, history = company_stock.load_stock_data('./Finance')
+
+        return jsonify({"data": data, "hist": history})
+
+    except Exception:
+        return jsonify({"error": Exception})
+
+@piezometers_data_routes.route("/api/v1/get_finance_currency_<currency>", methods=["GET"])
+@cross_origin()
+def get_currency(currency):
+    try:
+        folder = "data/Finance/"
+        #example: wwl.currency_data('uranium')
+        spec_currency = wwl.currency_data(currency)
+        data = spec_currency.load_currency('./Finance')
+
+        return jsonify({"data": data})
+
+    except Exception:
+        return jsonify({"error": Exception})
+
