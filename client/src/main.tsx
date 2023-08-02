@@ -118,7 +118,7 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "human-resources",
+        path: "staff-training",
         children: [
           {
             path: "team-information",

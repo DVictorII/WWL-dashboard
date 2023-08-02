@@ -154,7 +154,7 @@ const BarChart = ({ information, fullPage = false }) => {
   if (piezometersData.status === 4)
     return (
       <div className="flex flex-col gap-y-4">
-        <div className={`${fullPage ? "h-[50vh]" : "h-[30vh]"}  w-full`}>
+        <div className={`${fullPage ? "h-[50vh]" : "h-[40vh]"}  w-full`}>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -182,7 +182,7 @@ const BarChart = ({ information, fullPage = false }) => {
   if (!lecturesData || lecturesData.length === 0)
     return (
       <div className="flex flex-col gap-y-4">
-        <div className={`${fullPage ? "h-[50vh]" : "h-[30vh]"}  w-full`}>
+        <div className={`${fullPage ? "h-[50vh]" : "h-[40vh]"}  w-full`}>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -224,7 +224,7 @@ const BarChart = ({ information, fullPage = false }) => {
 
       <div className="overflow-scroll  2xl:overflow-visible">
         <div className="min-w-[36rem] max-w-full">
-          <div className={`${fullPage ? "h-[50vh]" : "h-[30vh]"}  w-full`}>
+          <div className={`${fullPage ? "h-[50vh]" : "h-[40vh]"}  w-full`}>
             <AnimatePresence>
               {chartType === "pressure" && (
                 <>
@@ -323,7 +323,7 @@ const BarChart = ({ information, fullPage = false }) => {
                       }}
                       key="elevation-chart"
                       className={`${
-                        fullPage ? "h-[50vh]" : "h-[30vh]"
+                        fullPage ? "h-[50vh]" : "h-[40vh]"
                       }  w-full bg-white rounded-xl`}
                     >
                       <ResponsiveLine
@@ -394,7 +394,7 @@ const BarChart = ({ information, fullPage = false }) => {
                       }}
                       key="waterElevation-chart"
                       className={`${
-                        fullPage ? "h-[50vh]" : "h-[30vh]"
+                        fullPage ? "h-[50vh]" : "h-[40vh]"
                       }  w-full bg-white rounded-xl`}
                     >
                       <ResponsiveLine

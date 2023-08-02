@@ -80,9 +80,9 @@ export async function drawPiezometers({
 
         <div class="flex flex-col gap-y-2" >
           <span class="font-semibold text-xs" >Location coordinates: </span>
-          <span>${Number(piezometer.lat).toFixed(8)}° / ${Number(
+          <span>${Number(piezometer.lat).toFixed(6)}° / ${Number(
       piezometer.lon
-    ).toFixed(8)}°</span>
+    ).toFixed(6)}°</span>
         </div>
 
         <div class="flex items-center gap-x-4">

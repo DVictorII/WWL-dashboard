@@ -192,6 +192,7 @@ def get_graphics(node, channel):
 def get_stock(company, interval):
     try:
         folder = "data/Finance/"
+
         # example company_stock = wwl.stock_data("601985.SS",7)
         company_stock = wwl.stock_data(company, interval)
         data, history = company_stock.load_stock_data(folder)

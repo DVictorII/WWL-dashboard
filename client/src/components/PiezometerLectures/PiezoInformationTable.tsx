@@ -64,8 +64,8 @@ function PiezoInformationTable() {
 
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold ">
               <span>
-                {Number(currentPiezometer?.lat).toFixed(8)}° /{" "}
-                {Number(currentPiezometer?.lon).toFixed(8)}°
+                {Number(currentPiezometer?.lat).toFixed(6)}° /{" "}
+                {Number(currentPiezometer?.lon).toFixed(6)}°
               </span>
             </th>
           </tr>

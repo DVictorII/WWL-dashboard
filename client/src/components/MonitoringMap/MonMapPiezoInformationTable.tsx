@@ -98,8 +98,8 @@ function MonMapPiezoInformationTable() {
 
                 <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
                   <span>
-                    {Number(piezometersData[0].lat).toFixed(8)}° /{" "}
-                    {Number(piezometersData[0].lon).toFixed(8)}°
+                    {Number(piezometersData[0].lat).toFixed(6)}° /{" "}
+                    {Number(piezometersData[0].lon).toFixed(6)}°
                   </span>
                 </th>
               </tr>

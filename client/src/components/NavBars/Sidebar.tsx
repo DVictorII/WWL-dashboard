@@ -88,7 +88,7 @@ function Sidebar() {
             </span>
           </div>
 
-          <Link to="/human-resources/team-information">
+          <Link to="/staff-training/team-information">
             <div
               onClick={closeMenu}
               className="bg-gradient-to-br to-[#658293] from-[#9c3838] p-[2px] rounded-lg"
@@ -96,7 +96,7 @@ function Sidebar() {
               <div className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 bg-gradient-to-br to-[#7ea3b8] from-[#c34646]  flex items-center justify-center  bg-opacity-40 rounded-lg hover:text-[#222] hover:bg-opacity-90 transition-all cursor-pointer duration-500 relative group">
                 <AiOutlineUsergroupAdd className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6 " />
                 <span className="absolute w-auto px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-[#222] border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
-                  Human resources (under construction) ( 80% )
+                  Staff Training (under construction) ( 80% )
                 </span>
               </div>
             </div>

@@ -11,6 +11,7 @@
   "dependencies": {
     "@nivo/core": "^0.80.0",
     "@nivo/line": "^0.80.0",
+    "@nivo/pie": "^0.83.0",
     "@tailwindcss/line-clamp": "^0.4.4",
     "@tanstack/react-query-devtools": "^4.29.5",
     "aframe": "^1.4.1",
