@@ -30,7 +30,7 @@ function PiezoLecturesComponent() {
   const timeSpan = useNewPiezoReportStateStore((state) => state.timeSpan);
 
   return (
-    <div className=" grid grid-cols-1 lg:grid-cols-2  lg:gap-x-6 xl:gap-x-8 gap-y-8  ">
+    <div className=" grid grid-cols-1 lg:grid-cols-2  lg:gap-x-6 gap-y-6  ">
       <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm">
         {location === "/operations/piezometer-readings" && (
           <h2 className="flex items-center gap-x-2 md:gap-x-4 flex-wrap gap-y-2">

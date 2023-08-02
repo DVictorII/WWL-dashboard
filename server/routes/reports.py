@@ -136,10 +136,14 @@ def upload_photo():
 
     final_filename = f"{uuid4()}-{filename}"
 
+    file.seek(0)
     file.save(
-        os.path.abspath("../client/public/media/incident_reports")
-        + "\\"
-        + final_filename
+        os.path.abspath(f"../client/public/media/incident_reports/{final_filename}")
+    )
+
+    file.seek(0)
+    file.save(
+        os.path.abspath(f"../client/dist/media/incident_reports/{final_filename}")
     )
     return final_filename
 
@@ -158,11 +162,16 @@ def upload_piezoreport_photo():
 
     # print(os.path.abspath( "../client/public/media/piezometer_reports") + "\\" + final_filename)
 
+    file.seek(0)
     file.save(
-        os.path.abspath("../client/public/media/piezometer_reports")
-        + "\\"
-        + final_filename
+        os.path.abspath(f"../client/public/media/piezometer_reports/{final_filename}")
     )
+
+    file.seek(0)
+    file.save(
+        os.path.abspath(f"../client/dist/media/piezometer_reports/{final_filename}")
+    )
+
     return final_filename
 
 

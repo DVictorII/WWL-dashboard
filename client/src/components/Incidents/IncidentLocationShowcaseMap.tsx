@@ -27,16 +27,16 @@ import { FadeLoader } from "react-spinners";
 import { incidentIcon } from "../../utils/icons";
 import moment from "moment";
 import SkeletonIncidentLocationShowcaseMap from "../Skeletons/Incidents/SkeletonIncidentLocationShowcaseMap";
+import { useNewIncidentReportStateStore } from "../../store/NewIncidentReportStateStore";
 
-function IncidentLocationShowcaseMap({
-  information,
-}: {
-  information: {
-    paddock: string;
-    latitude: string | number;
-    longitude: string | number;
-  };
-}) {
+function IncidentLocationShowcaseMap() {
+  const paddock = useNewIncidentReportStateStore((state) => state.paddock);
+  const latitude = useNewIncidentReportStateStore((state) => state.latitude);
+  const longitude = useNewIncidentReportStateStore((state) => state.longitude);
+  const changeCoordinates = useNewIncidentReportStateStore(
+    (state) => state.changeCoordinates
+  );
+
   const current_zoom = 14;
   const basemap = useMapStore((state) => state.basemap);
   const changeBasemap = useMapStore((state) => state.changeBasemap);
@@ -64,8 +64,8 @@ function IncidentLocationShowcaseMap({
   );
 
   const { isLoading: paddocksAreLoading, data: paddockData } = useQuery({
-    queryKey: [`paddock-${information.paddock ? information.paddock : "None"}`],
-    queryFn: () => fetchPaddockGeometry({ paddock: information.paddock }),
+    queryKey: [`paddock-${paddock ? paddock : "None"}`],
+    queryFn: () => fetchPaddockGeometry({ paddock: paddock }),
     refetchOnWindowFocus: false,
   });
 
@@ -78,10 +78,7 @@ function IncidentLocationShowcaseMap({
     );
 
     const myMap = L.map(mapDOM, {
-      center: L.latLng(
-        Number(information.latitude),
-        Number(information.longitude)
-      ),
+      center: L.latLng(Number(latitude), Number(longitude)),
       zoom: current_zoom,
       //@ts-ignore
       layers: basemap === "satellite" ? satellite : sentinelHub,
@@ -119,26 +116,34 @@ function IncidentLocationShowcaseMap({
 
     let icon = incidentIcon;
 
-    const circle = L.marker(
-      [Number(information.latitude), Number(information.longitude)],
-      {
-        icon: icon,
-      }
-    );
-    circle.bindPopup(`
-          <div class="flex flex-col gap-y-4">
-            
-            <div class="flex items-center gap-x-4">
-              <span class="font-semibold text-xs">Paddock section: </span>
-              <span>${information.paddock}</span>
-            </div>
-  
-            <div class="flex flex-col gap-y-2" >
-              <span class="font-semibold text-xs" >Location coordinates: </span>
-              <span>${information.latitude}° / ${information.longitude}°</span>
-            </div>
-          </div>
-        `);
+    const circle = L.marker([Number(latitude), Number(longitude)], {
+      icon: icon,
+      draggable: true,
+    });
+
+    circle.on("dragend", (e) => {
+      console.log("EVENT", e);
+      changeCoordinates(
+        Number(e.target._latlng.lat).toFixed(6),
+        Number(e.target._latlng.lng).toFixed(6)
+      );
+      console.log("TARGET", e.target._latlng.lat);
+    });
+
+    // circle.bindPopup(`
+    //       <div class="flex flex-col gap-y-4">
+
+    //         <div class="flex items-center gap-x-4">
+    //           <span class="font-semibold text-xs">Paddock section: </span>
+    //           <span>${paddock}</span>
+    //         </div>
+
+    //         <div class="flex flex-col gap-y-2" >
+    //           <span class="font-semibold text-xs" >Location coordinates: </span>
+    //           <span>${latitude}° / ${longitude}°</span>
+    //         </div>
+    //       </div>
+    //     `);
 
     markers.addLayer(circle);
     piezometers.push(circle);
@@ -178,7 +183,7 @@ function IncidentLocationShowcaseMap({
     return <SkeletonIncidentLocationShowcaseMap />;
 
   return (
-    <div className="  w-full   h-[50vh]  rounded-[14px] overflow-hidden shadow-md relative z-[10]">
+    <div className="  w-full  h-[40vh]  rounded-[14px] overflow-hidden shadow-md relative z-[10]">
       <div id="mapIncidentShowcase"></div>
     </div>
   );

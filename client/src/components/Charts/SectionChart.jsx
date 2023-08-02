@@ -34,7 +34,6 @@ const piezoLine = {
       scales: { x, y },
     } = chart;
 
-    console.log(ctx)
 
 
     let piezometer;
@@ -139,8 +138,7 @@ function SectionChart({chartCoordinates, chartPiezometers}) {
   const isTablet = useMediaQuery({ query: "(max-width: 1023px)" });
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
 
-  console.log("COORDINATES", chartCoordinates)
-  console.log("PIEZOMETERS", chartPiezometers)
+
 
   
 
@@ -157,7 +155,7 @@ const Y3WaterLvl = chartCoordinates.map((arr) => arr[3]);
   
   datasets: [
     {
-      label: "Ground lvl (RLm)",
+      label: "Original ground (RLm)",
       data: Y1GroundLvl,
       borderColor: "rgb(123,136,49)",
       backgroundColor: "rgba(123,136,49, 0.5)",
@@ -166,7 +164,7 @@ const Y3WaterLvl = chartCoordinates.map((arr) => arr[3]);
       order:1,
     },
     {
-      label: "2022 Survey lvl (RLm)",
+      label: "Tailing surface (RLm)",
       data: Y2SurveyLvl,
       borderColor: "rgb(135, 101, 56)",
       backgroundColor: "rgba(135, 101, 56, 0.5)",

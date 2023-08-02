@@ -60,20 +60,22 @@ function IncidentReports() {
 
       <div className="mt-6" />
 
-      <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center gap-y-4">
-        <div className="  flex flex-col  gap-y-4 w-full ">
-          <h2 className="font-bold ">Featured Incidents</h2>
+      <div className="grid grid-cols-1  lg:gap-x-6 gap-y-6 ">
+        <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center gap-y-4">
+          <div className="  flex flex-col  gap-y-4 w-full ">
+            <h2 className="font-bold ">Featured Incidents</h2>
 
-          <div className="w-full ">
-            <IncidentsSliderComp incidents={incidents} />
+            <div className="w-full ">
+              <IncidentsSliderComp incidents={incidents} />
+            </div>
           </div>
         </div>
       </div>
 
       <div className="mt-6" />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 lg:gap-x-6 gap-y-6 ">
-        <div className="flex flex-col 2xl:col-span-2  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center gap-y-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2  lg:gap-x-6 gap-y-6 ">
+        <div className="flex flex-col   bg-white p-4 2xl:p-6 rounded-xl shadow-sm  gap-y-4">
           <div className="  flex flex-col  gap-y-4  ">
             <h2 className="font-bold ">Reports List</h2>
 

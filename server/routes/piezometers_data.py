@@ -175,7 +175,7 @@ def get_graphics(node, channel):
         natural_ground = "data/sections/natural_ground/"
         new_ground = "data/sections/new_ground/"
 
-        pizometers, levels = wwl.get_data_by_section(
+        pizometers, levels = wwl.get_data_by_section_front(
             node, channel, natural_ground, new_ground
         )
 

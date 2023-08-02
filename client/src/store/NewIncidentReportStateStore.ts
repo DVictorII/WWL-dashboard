@@ -26,6 +26,12 @@ interface NewIncidentReportStateStore {
 
   changeLatitude: (newLatitude: string | number) => void;
   changeLongitude: (newLongitude: string | number) => void;
+
+  changeCoordinates: (
+    newLatitude: string | number,
+    newLongitude: string | number
+  ) => void;
+
   changeElevation: (newElevation: string | number) => void;
 
   changeDescription: (newDescription: string) => void;
@@ -105,6 +111,13 @@ export const useNewIncidentReportStateStore =
       set((state) => ({ ...state, latitude: newLatitude })),
     changeLongitude: (newLongitude: string | number) =>
       set((state) => ({ ...state, longitude: newLongitude })),
+
+    changeCoordinates: (newLatitude, newLongitude) =>
+      set((state) => ({
+        ...state,
+        latitude: newLatitude,
+        longitude: newLongitude,
+      })),
     changeElevation: (newElevation: string | number) =>
       set((state) => ({ ...state, elevation: newElevation })),
   }));

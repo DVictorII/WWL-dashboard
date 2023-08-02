@@ -22,7 +22,7 @@ def dbconnect():
     return conn
 
 
-def get_data_by_section(datalogger, channel, na_ground, new_ground):
+def get_data_by_section_front(datalogger, channel, na_ground, new_ground):
     """
     Input
         Datalogger,channel
@@ -410,6 +410,204 @@ def get_data_by_section(datalogger, channel, na_ground, new_ground):
     for i in range(len(output2)):
         dict_graph[piezometer_section + ".txt"][i].append(output2[i][1])
     return output, dict_graph[piezometer_section + ".txt"]
+
+
+def get_data_by_section(datalogger, channel, na_ground, new_ground):
+    def coordinates_norm(diag0, diag):
+        # Calculate the x value given two points
+        x_project = round(np.linalg.norm(diag - diag0))
+        if x_project < 0:
+            return 0
+
+        if x_project > 400:
+            return 400
+
+        return x_project
+
+    def coordinates_projections(l_start, l_end, xp, yp):
+        # Calculate the projection of each point, and return the x value in the graphics
+        point = np.array([xp, yp])
+        point_vector = point - l_start
+        line_vector = l_end - l_start
+        projection = (
+            l_start
+            + np.dot(point_vector, line_vector)
+            / np.dot(line_vector, line_vector)
+            * line_vector
+        )
+        return coordinates_norm(l_start, projection)
+
+    def find_closest_numbers(number, interval):
+        # Given a <number> return the interval [min,max]
+        if number >= 400:
+            return 395, 400
+        if number <= 0:
+            return 0, 5
+        closest_min = number - (number % interval)
+        closest_max = closest_min + interval
+        return closest_min, closest_max
+
+    def graph_coordinates_calculate(filename, filename2):
+        diagonal = []
+        flag = True
+        # Given the files with information of natural and artificial levels, the function return the [L,Natural_Level, New_Level]
+        # Natural Level and L projected
+        try:
+            with open(filename, "r") as fp:
+                for line in fp:
+                    coordinates = line.strip().split(",")
+                    if flag == True:  # Point 0
+                        l0 = np.array((float(coordinates[0]), float(coordinates[1])))
+                        z = float(coordinates[2])
+                        diagonal.append([0, z])
+                        flag = False
+                    else:
+                        l1 = np.array((float(coordinates[0]), float(coordinates[1])))
+                        z = float(coordinates[2])
+                        diagonal.append([coordinates_norm(l0, l1), z])
+
+            # New Level added
+            with open(filename2, "r") as fp:
+                for count, line in enumerate(fp):
+                    coordinates = line.strip().split(",")
+                    z = float(coordinates[2])
+                    diagonal[count].append(z)
+            return diagonal, [l0, l1]
+        except FileNotFoundError as e:
+            print("File not found: ", str(e))
+            return [], []
+        except IOError as e:
+            print("I/O error occurred:", str(e))
+            return [], []
+        except Exception as e:
+            print("An error occurred:", str(e))
+            return [], []
+
+        # Also return the coordinates of the begin and the end of the section for future uses
+
+    def graph_createdictionarypersection(na_g, new_g, i):
+        """
+        Given the paths of the files and the section needed, return a dictionary with the coordinates
+        """
+        dict_graphsection = {}
+        dict_graphpizometer = {}
+        l1, l2 = graph_coordinates_calculate(na_g + i, new_g + i)
+        if bool(l1) and bool(l2):
+            dict_graphsection[i], dict_graphpizometer[i] = graph_coordinates_calculate(
+                na_g + i, new_g + i
+            )
+        return dict_graphsection, dict_graphpizometer
+
+    # START#
+
+    """
+    DB Connection and global variables
+    """
+    conn = dbconnect()
+    cur = conn.cursor()
+    interval = 5
+    lstart = None
+    lend = None
+
+    # Given specific pizometer (datalogger, channel)
+    query = """
+    SELECT id, section, status, elevation, east_utm, north_utm
+    FROM piezometer_details
+    WHERE datalogger = %s AND channel = %s
+    """
+    cur.execute(query, (datalogger, channel))
+    row = cur.fetchone()
+
+    # Validate
+    if row is None:
+        print("Not found piezometer in DB")
+        cur.close()
+        conn.close()
+        return None, None
+
+    # Save information
+    piezometer_id = row[0]
+    piezometer_section = row[1]
+    piezometer_status = int(row[2])
+    piezometer_elevation = row[3]
+    piezometer_eastutm = row[4]
+    piezometer_northutm = row[5]
+    # Extract the coordinates for the given section
+
+    dict_graph, dict_pizometer = graph_createdictionarypersection(
+        na_ground, new_ground, piezometer_section + ".txt"
+    )
+    # print(dict_graph)
+    if not (bool(dict_graph) and bool(dict_pizometer)):
+        print("No information about the section coordinates")
+        print("Check .txt files")
+        return None, None
+
+    # Extract the coordinates of the initial point
+    lstart = dict_pizometer[piezometer_section + ".txt"][0]
+    lend = dict_pizometer[piezometer_section + ".txt"][1]
+    # Get information of the selected pizometer
+    query = """
+    SELECT pressure
+    FROM last_readings
+    WHERE node= %s AND channel= %s
+    """
+    cur.execute(query, (datalogger, channel))
+    row = cur.fetchone()
+    # Validation
+    if row is None or piezometer_status == 2:
+        piezometer_pressure = 0
+    else:
+        piezometer_pressure = float(row[0])
+
+    # Obtain information of related pizometers in the same section
+    query = """
+    SELECT piezometer_details.id, piezometer_details.status, piezometer_details.elevation, piezometer_details.east_utm, piezometer_details.north_utm, COALESCE(last_readings.pressure, 0) AS pressure
+    FROM piezometer_details
+    LEFT JOIN last_readings ON piezometer_details.datalogger = last_readings.node AND piezometer_details.channel = last_readings.channel
+    WHERE piezometer_details.section = %s
+    """
+    # BD Over
+    cur.execute(query, (piezometer_section,))
+    rows = cur.fetchall()
+    cur.close()
+    conn.close()
+
+    output = [
+        [
+            piezometer_id,
+            piezometer_status,
+            coordinates_projections(
+                lstart, lend, float(piezometer_eastutm), float(piezometer_northutm)
+            ),
+            float(piezometer_elevation),
+        ]
+    ]
+    if piezometer_pressure != 0 and not np.isnan(piezometer_pressure):
+        valuee3 = round(float(piezometer_elevation) + piezometer_pressure / 10, 1)
+        output[0].append(valuee3)
+    else:
+        output[0].append(0)
+
+    index = 1
+    for row in rows:
+        if row[0] != piezometer_id:
+            output.append(
+                [
+                    row[0],
+                    int(row[1]),
+                    coordinates_projections(lstart, lend, float(row[3]), float(row[4])),
+                    float(row[2]),
+                ]
+            )
+
+            if float(row[5]) != 0 and not np.isnan(float(row[5])) and int(row[1]) != 2:
+                valuee3 = round(float(row[2]) + float(row[5] / 10), 1)
+                output[index].append(valuee3)
+            else:
+                output[index].append(0)
+            index += 1
+    return output, dict_graph[piezometer_section + ".txt"], piezometer_section
 
 
 class stock_data:

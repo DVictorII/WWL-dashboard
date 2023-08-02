@@ -127,7 +127,7 @@ function PageLayout() {
               ? "#f5f5f5"
               : "#f6f4eb",
           }}
-          className={`text-[#333] px-2 sm:px-8 py-8 md:px-8  lg:p-12  2xl:p-16  grow  `}
+          className={`text-[#333] px-2 sm:px-8 py-8 md:px-8  2xl:p-10   grow  `}
         >
           <MobileMenu />
 

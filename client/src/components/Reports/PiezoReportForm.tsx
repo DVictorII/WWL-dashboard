@@ -144,9 +144,9 @@ function PiezoReportForm() {
     <form
       encType="multipart/form-data"
       onSubmit={handleSubmit}
-      className="flex flex-col gap-y-8"
+      className="flex flex-col gap-y-6"
     >
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-8 bg-white p-4 rounded-xl shadow-sm">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8 bg-white p-4 rounded-xl shadow-sm">
         <ReportTitle />
         <ReportDescription />
         <ReportPaddock />
@@ -157,7 +157,7 @@ function PiezoReportForm() {
         <ReportTimeSpan />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-6 lg:gap-x-8 gap-y-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-6 gap-y-8">
         <div className="bg-white p-4 rounded-xl shadow-sm flex items-center ">
           <PhotoUploader />
         </div>
