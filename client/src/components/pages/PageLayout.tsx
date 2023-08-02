@@ -102,6 +102,10 @@ function PageLayout() {
             <PiezoReportDeleteConfirmationModal />
           ) : null}
 
+          {deleteIncidentReportModalIsOpen ? (
+            <IncidentReportDeleteConfirmationModal />
+          ) : null}
+
           <Toaster position="top-right" />
         </main>
       </ProtectedRoute>
