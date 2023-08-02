@@ -270,8 +270,8 @@ def build_word_report(piezos):
 
             # GET PIEZO READINGS FOR EACH PIEZOMETER IN EACH SECTION
 
-    document.save(os.path.abspath(f"../client/public/report_word/word_report.docx"))
     document.save(os.path.abspath(f"../client/dist/report_word/word_report.docx"))
+    document.save(os.path.abspath(f"../client/public/report_word/word_report.docx"))
 
 
 def plot_section_chart(piezometer):
