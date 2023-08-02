@@ -37,7 +37,7 @@ def update(year, month, op=True):
         cur.execute(query)
         conn.commit()
 
-        #Start state updating
+        # Start state updating
         query = uf.update_status()
         cur.execute(query)
         conn.commit()

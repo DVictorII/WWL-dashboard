@@ -73,3 +73,7 @@ app.register_blueprint(auth_routes)
 from routes.reports import reports_routes
 
 app.register_blueprint(reports_routes)
+
+from routes.section_chart import section_chart_routes
+
+app.register_blueprint(section_chart_routes)
