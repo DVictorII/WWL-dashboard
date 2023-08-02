@@ -103,61 +103,74 @@ const Index = () => {
   };
 
   const downloadWord = async () => {
-    try {
-      const res = await toast.promise(
-        axios.get("/paddock-chart"),
-        {
-          loading: "Generating report...",
-          success: (data) => {
-            // console.log("DOWNLOAD FILE", data.data.filename);
+    const aTag = document.createElement("a");
+    //@ts-ignore
+    aTag.href = "/report_word/word_report.docx";
 
-            const aTag = document.createElement("a");
-            //@ts-ignore
-            aTag.href = "/report_word/word_report.docx";
+    aTag.target = "_blank";
+    aTag.setAttribute(
+      "download",
+      `report_${moment(Date.now()).format("YYYY_MM_DD_hh_mm_ss")}.docx`
+    );
 
-            aTag.target = "_blank";
-            aTag.setAttribute(
-              "download",
-              `report_${moment(Date.now()).format("YYYY_MM_DD_hh_mm_ss")}.docx`
-            );
+    document.body.appendChild(aTag);
+    aTag.click();
+    aTag.remove();
+    // try {
+    //   const res = await toast.promise(
+    //     axios.get("/paddock-chart"),
+    //     {
+    //       loading: "Generating report...",
+    //       success: (data) => {
+    //         // console.log("DOWNLOAD FILE", data.data.filename);
 
-            document.body.appendChild(aTag);
-            aTag.click();
-            aTag.remove();
+    //         const aTag = document.createElement("a");
+    //         //@ts-ignore
+    //         aTag.href = "/report_word/word_report.docx";
 
-            return `Generated! Downloading...`;
-          },
-          error: (err) => `There was an error!`,
-        },
-        {
-          style: {
-            fontWeight: "500",
-          },
-          success: {
-            duration: 3000,
+    //         aTag.target = "_blank";
+    //         aTag.setAttribute(
+    //           "download",
+    //           `report_${moment(Date.now()).format("YYYY_MM_DD_hh_mm_ss")}.docx`
+    //         );
 
-            style: {
-              fontWeight: "500",
-              border: "2px solid #65a30d",
-              padding: "8px 16px",
-              color: "#1c1917",
-            },
-          },
-          error: {
-            duration: 3000,
+    //         document.body.appendChild(aTag);
+    //         aTag.click();
+    //         aTag.remove();
 
-            style: {
-              fontWeight: "500",
-              border: "2px solid #b91c1c",
-              padding: "8px 16px",
-              color: "#1c1917",
-            },
-          },
-        }
-      );
-    } catch (err) {
-      console.log("ERROR", err);
-    }
+    //         return `Generated! Downloading...`;
+    //       },
+    //       error: (err) => `There was an error!`,
+    //     },
+    //     {
+    //       style: {
+    //         fontWeight: "500",
+    //       },
+    //       success: {
+    //         duration: 3000,
+
+    //         style: {
+    //           fontWeight: "500",
+    //           border: "2px solid #65a30d",
+    //           padding: "8px 16px",
+    //           color: "#1c1917",
+    //         },
+    //       },
+    //       error: {
+    //         duration: 3000,
+
+    //         style: {
+    //           fontWeight: "500",
+    //           border: "2px solid #b91c1c",
+    //           padding: "8px 16px",
+    //           color: "#1c1917",
+    //         },
+    //       },
+    //     }
+    //   );
+    // } catch (err) {
+    //   console.log("ERROR", err);
+    // }
   };
 
   //@ts-ignore

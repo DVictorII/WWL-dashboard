@@ -153,6 +153,7 @@ def build_word_report(piezos):
     document = Document()
 
     document.add_heading("Appendix: Piezometer Information")
+    document.add_paragraph("")
 
     paddockList = list(set(list(map(lambda x: x["paddock"], piezos))))
 
@@ -236,6 +237,7 @@ def build_word_report(piezos):
                         width=Cm(17),
                         height=Cm(8.5),
                     )
+                    document.add_page_break()
                     #################################################################################
 
                 ps = document.add_paragraph(f"{piezometer['id']}")
@@ -267,6 +269,8 @@ def build_word_report(piezos):
                     p_no_readings.add_run(
                         f"No readings for the current piezometer"
                     ).bold = True
+
+            document.add_page_break()
 
             # GET PIEZO READINGS FOR EACH PIEZOMETER IN EACH SECTION
 
