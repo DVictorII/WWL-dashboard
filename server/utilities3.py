@@ -27,15 +27,22 @@ dev = True
 
 def save_last_features(nodes_df, cur):
     # base = os.getcwd()+"/"
-    #cdf = pd.read_csv(os.path.abspath("data/calibration_data.csv"), index_col="SNumber")
-    query = "SELECT * FROM piezometer_data;"
-    cur.execute(query,)
+    query = ""
+    # cdf = pd.read_csv(os.path.abspath("data/calibration_data.csv"), index_col="SNumber")
+    query2 = "SELECT * FROM piezometer_data;"
+    cur.execute(
+        query2,
+    )
     rows = cur.fetchall()
-    column_names=[desc[0] for desc in cur.description]
-    column_names[1]='Channel'
-    column_names[6]='Logger'
+    column_names = [desc[0] for desc in cur.description]
+    column_names[1] = "Channel"
+    column_names[6] = "Logger"
     cdf = pd.DataFrame(rows, columns=column_names)
-    
+
+    d = column_names[8:-1]
+    for col in d:
+        cdf[col] = cdf[col].astype(float)
+
     # calculate temperature and pressure by piezometer
     for i in range(len(nodes_df)):
         # for i in range(1):
@@ -54,9 +61,16 @@ def save_last_features(nodes_df, cur):
             if feat.size > 0:
                 # we suppose the last sensor is the newest one
                 feat = feat.to_dict("records")[-1]
+                print(
+                    "IDF, K",
+                    idf,
+                    k,
+                )
                 # get temperature
-                # print(sub)
+
                 sub["Temperature"] = get_temp(sub["thermRes"], A, B, C)
+
+                print("SUB", sub["Temperature"])
 
                 if feat["G"] != 0:
                     # get pressure
@@ -154,7 +168,9 @@ def get_node_id(name):
 
 
 def get_temp(thermR, A, B, C):
-    return 1 / (A + B * np.log(thermR) + C * (np.log(thermR) ** 3)) - 273.2
+    res = 1 / (A + B * np.log(thermR) + C * (np.log(thermR) ** 3)) - 273.2
+    print("RESULT: ", res)
+    return res
 
 
 def linear1(R, T, S, df):
@@ -195,7 +211,7 @@ def copy_data(id, k, year, month, cur):
         table_name = "node_" + str(id) + "_" + str(k)
 
         file = os.path.abspath("download/node_%d_%d_%d_%02d.csv" % (id, k, year, month))
-        print("FILE", file)
+        # print("FILE", file)
         sub = pd.read_csv(file, parse_dates=["TIMESTAMP"])
         for _, row in sub.iterrows():
             tuple_row = tuple(row)
@@ -277,7 +293,7 @@ def download_data(gateway, year, month, option=False):
     print("CONTENT", response.content)
     open(os.path.abspath("data/data_compacted.csv"), "wb").write(response.content)
 
-    # url = 'https://loadsensing.wocs3.com/21545/dataserver/csv/compacted/compacted-readings-21545-2022-06.zip'
+    # url = 'https://loadsensing.wocs3.com/21545/dataserver/csv/compacted/compacted-readings-21545-2023-06.zip'
     # print("connecting to server")
     # print(url)
     # res = requests.get(url=url, stream=True, auth=adm, allow_redirects=True)

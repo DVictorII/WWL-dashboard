@@ -32,7 +32,7 @@ def update(year, month, op=True):
         query += uf.save_last_features(nodes, cur)
         print("updated last readings")
 
-        print("FINAL QUERY", query)
+        print("FINAL QUERY")
 
         cur.execute(query)
         conn.commit()
@@ -57,6 +57,7 @@ def update(year, month, op=True):
 
 if __name__ == "__main__":
     # print(os.path.abspath("data/calibration_data.csv"))
+
     today = datetime.today()
     print("\n")
     print("job running: ", today)
@@ -64,6 +65,7 @@ if __name__ == "__main__":
         update(today.year, today.month - 1, op=True)
     # current month
     update(today.year, today.month, op=False)
+    # update(today.year, 7, op=True)
     print(
         "done updated to %d/%d/%d %d" % (today.year, today.month, today.day, today.hour)
     )
