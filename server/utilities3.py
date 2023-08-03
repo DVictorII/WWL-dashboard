@@ -27,9 +27,15 @@ dev = True
 
 def save_last_features(nodes_df, cur):
     # base = os.getcwd()+"/"
-
-    cdf = pd.read_csv(os.path.abspath("data/calibration_data.csv"), index_col="SNumber")
-    query = ""
+    #cdf = pd.read_csv(os.path.abspath("data/calibration_data.csv"), index_col="SNumber")
+    query = "SELECT * FROM piezometer_data;"
+    cur.execute(query,)
+    rows = cur.fetchall()
+    column_names=[desc[0] for desc in cur.description]
+    column_names[1]='Channel'
+    column_names[6]='Logger'
+    cdf = pd.DataFrame(rows, columns=column_names)
+    
     # calculate temperature and pressure by piezometer
     for i in range(len(nodes_df)):
         # for i in range(1):
