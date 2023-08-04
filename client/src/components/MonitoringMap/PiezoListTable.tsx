@@ -187,7 +187,7 @@ function PiezoListTable() {
           >
             <table className="min-w-max border-separate border-spacing-0">
               <thead className="">
-                <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+                <th className="sticky top-0 text-center px-4 py-2 lg:px-6 lg:py-3 bg-white border-b border-[#999] ">
                   <div className="flex gap-x-2 justify-center items-center">
                     <span className="text-[11px] md:text-xs lg:text-sm ">
                       Piezo. ID
@@ -196,7 +196,7 @@ function PiezoListTable() {
                   </div>
                 </th>
 
-                <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+                <th className="sticky top-0 text-center px-4 py-2 lg:px-6 lg:py-3 bg-white border-b border-[#999] ">
                   <div className="flex gap-x-2 justify-center items-center">
                     <span className="text-[11px] md:text-xs lg:text-sm ">
                       Paddock
@@ -205,7 +205,7 @@ function PiezoListTable() {
                   </div>
                 </th>
 
-                <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+                <th className="sticky top-0 text-center px-4 py-2 lg:px-6 lg:py-3 bg-white border-b border-[#999] ">
                   <div className="flex gap-x-2 justify-center items-center">
                     <span className="text-[11px] md:text-xs lg:text-sm ">
                       Section
@@ -214,7 +214,7 @@ function PiezoListTable() {
                   </div>
                 </th>
 
-                <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+                <th className="sticky top-0 text-center px-4 py-2 lg:px-6 lg:py-3 bg-white border-b border-[#999] ">
                   <div className="flex gap-x-2 justify-center items-center">
                     <span className="text-[11px] md:text-xs lg:text-sm ">
                       Current PWP
@@ -224,7 +224,7 @@ function PiezoListTable() {
                 </th>
 
                 {status === 5 && (
-                  <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+                  <th className="sticky top-0 text-center px-4 py-2 lg:px-6 lg:py-3 bg-white border-b border-[#999] ">
                     <div className="flex gap-x-2 justify-center items-center">
                       <span className="text-[11px] md:text-xs lg:text-sm ">
                         Flood time
@@ -234,7 +234,7 @@ function PiezoListTable() {
                   </th>
                 )}
 
-                <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+                <th className="sticky top-0 text-center px-4 py-2 lg:px-6 lg:py-3 bg-white border-b border-[#999] ">
                   <div className="flex gap-x-2 justify-center items-center">
                     <span className="text-[11px] md:text-xs lg:text-sm ">
                       Depth
@@ -243,7 +243,7 @@ function PiezoListTable() {
                   </div>
                 </th>
 
-                <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+                <th className="sticky top-0 text-center px-4 py-2 lg:px-6 lg:py-3 bg-white border-b border-[#999] ">
                   <div className="flex gap-x-2 justify-center items-center">
                     <span className="text-[11px] md:text-xs lg:text-sm ">
                       Status
@@ -252,7 +252,7 @@ function PiezoListTable() {
                   </div>
                 </th>
 
-                <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+                <th className="sticky top-0 text-center px-4 py-2 lg:px-6 lg:py-3 bg-white border-b border-[#999] ">
                   <div className="flex gap-x-2 justify-center items-center">
                     <span className="text-[11px] md:text-xs lg:text-sm ">
                       Coordinates
@@ -292,7 +292,7 @@ function PiezoListTable() {
                         }}
                         key={piezometer.id}
                       >
-                        <td className="px-4 py-2 lg:px-8 lg:py-3">
+                        <td className="px-4 py-2 lg:px-6 lg:py-3">
                           <button
                             style={{
                               color:
@@ -312,19 +312,19 @@ function PiezoListTable() {
                           </button>
                         </td>
 
-                        <td className="px-4 py-2 lg:px-8 lg:py-3">
+                        <td className="px-4 py-2 lg:px-6 lg:py-3">
                           <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-semibold">
                             {piezometer.paddock}
                           </span>
                         </td>
 
-                        <td className="px-4 py-2 lg:px-8 lg:py-3">
+                        <td className="px-4 py-2 lg:px-6 lg:py-3">
                           <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-semibold">
                             {piezometer.section}
                           </span>
                         </td>
 
-                        <td className="px-4 py-2 lg:px-8 lg:py-3">
+                        <td className="px-4 py-2 lg:px-6 lg:py-3">
                           <span
                             className={`${
                               lastReadingExists
@@ -339,14 +339,14 @@ function PiezoListTable() {
                         </td>
 
                         {status === 5 && (
-                          <td className="px-4 py-2 lg:px-8 lg:py-3">
+                          <td className="px-4 py-2 lg:px-6 lg:py-3">
                             <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-semibold">
                               {floodTime as string}
                             </span>
                           </td>
                         )}
 
-                        <td className="px-4 py-2 lg:px-8 lg:py-3">
+                        <td className="px-4 py-2 lg:px-6 lg:py-3">
                           <span
                             className={`${
                               depthIsZero
@@ -360,20 +360,20 @@ function PiezoListTable() {
                           </span>
                         </td>
 
-                        <td className="px-4 py-2 lg:px-8 lg:py-3">
+                        <td className="px-4 py-2 lg:px-6 lg:py-3">
                           <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-semibold">
                             {/* @ts-ignore */}
                             {monitoringMapStatusInfo[piezometer.status].name}
                           </span>
                         </td>
 
-                        <td className="px-4 py-2 lg:px-8 lg:py-3">
-                          <div className="flex flex-col gap-y-1">
+                        <td className="px-4 py-2 lg:px-6 lg:py-3">
+                          <div className="flex flex-col gap-y-1 items-center">
                             <span className="text-[9px] md:text-[10px] lg:text-[11px] font-semibold">
-                              {piezometer.lat},
+                              {Number(piezometer.lat).toFixed(6)},
                             </span>
                             <span className="text-[9px] md:text-[10px] lg:text-[11px] font-semibold">
-                              {piezometer.lon}
+                              {Number(piezometer.lon).toFixed(6)}
                             </span>
                           </div>
                         </td>

@@ -35,7 +35,7 @@ function Login() {
         {
           loading: "Logging in...",
           success: (data) => {
-            navigate("/monitoring-map");
+            navigate("/operations/monitoring-map");
             return `Welcome, ${data.data.name}`;
           },
           error: (err) => `Bad credentials!`,

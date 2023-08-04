@@ -1,17 +1,21 @@
-import React from 'react'
-import { useNewIncidentReportStateStore } from '../../store/NewIncidentReportStateStore';
-import { AiOutlineCamera, AiOutlineCloudUpload } from 'react-icons/ai';
-import { BsTrash } from 'react-icons/bs';
+import React from "react";
+import { useNewIncidentReportStateStore } from "../../store/NewIncidentReportStateStore";
+import { AiOutlineCamera, AiOutlineCloudUpload } from "react-icons/ai";
+import { BsTrash } from "react-icons/bs";
 
 function IncidentPhotoUploader() {
-    const photo = useNewIncidentReportStateStore((state) => state.photo);
-  const uploadPhoto = useNewIncidentReportStateStore((state) => state.uploadPhoto);
-  const deletePhoto = useNewIncidentReportStateStore((state) => state.deletePhoto);
+  const photo = useNewIncidentReportStateStore((state) => state.photo);
+  const uploadPhoto = useNewIncidentReportStateStore(
+    (state) => state.uploadPhoto
+  );
+  const deletePhoto = useNewIncidentReportStateStore(
+    (state) => state.deletePhoto
+  );
 
   return (
-    <div className="flex flex-col items-center gap-y-4">
+    <div className="flex flex-col items-center gap-y-4 w-full">
       <div
-        className="bg-[#f5f5f5] border border-[#dfdfdf]  shadow-sm w-full sm:w-3/4 lg:w-1/2 min-h-[10rem] md:min-h-[12rem] 2xl:min-h-[14rem] max-h-[20rem]   rounded-lg flex items-center justify-center overflow-hidden cursor-pointer"
+        className="bg-[#f5f5f5] border border-[#dfdfdf]  shadow-sm min-h-[10rem] md:min-h-[12rem] 2xl:min-h-[14rem] max-h-[20rem]   rounded-lg flex items-center justify-center overflow-hidden cursor-pointer w-full"
         //@ts-ignore
         onClick={() => document.querySelector(".photo-upload").click()}
       >
@@ -25,7 +29,6 @@ function IncidentPhotoUploader() {
           <div className="flex flex-col items-center gap-y-2">
             <AiOutlineCamera className="w-6 h-6 md:w-7 md:h-7" />
             <span className="font-semibold md:text-xl">Upload Photo</span>
-            
           </div>
         )}
 
@@ -45,7 +48,7 @@ function IncidentPhotoUploader() {
         />
       </div>
 
-      <div className="w-full sm:w-3/4 lg:w-1/2  rounded-lg  flex items-center justify-end py-2 px-4 bg-[#f5f5f5] border border-[#dfdfdf] ">
+      <div className="w-full rounded-lg  flex items-center justify-end py-2 px-4 bg-[#f5f5f5] border border-[#dfdfdf] ">
         <div className="flex items-center gap-x-4">
           <span className="text-xs font-semibold">
             {
@@ -54,22 +57,26 @@ function IncidentPhotoUploader() {
             }
           </span>
 
-          {
-            photo ? (
-              <div>      
-                  <BsTrash className="text-damaged-dark w-4 h-4 cursor-pointer" onClick={deletePhoto}/>
-              </div>
-            ):(
-              <div>
-                {/* @ts-ignore */}
-                <AiOutlineCloudUpload className="text-active-dark w-4 h-4 cursor-pointer" onClick={() => document.querySelector(".photo-upload").click()}/>
-              </div>
-            )
-          }
+          {photo ? (
+            <div>
+              <BsTrash
+                className="text-damaged-dark w-4 h-4 cursor-pointer"
+                onClick={deletePhoto}
+              />
+            </div>
+          ) : (
+            <div>
+              <AiOutlineCloudUpload
+                className="text-active-dark w-4 h-4 cursor-pointer"
+                //@ts-ignore
+                onClick={() => document.querySelector(".photo-upload").click()}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default IncidentPhotoUploader
+export default IncidentPhotoUploader;

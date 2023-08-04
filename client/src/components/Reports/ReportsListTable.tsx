@@ -17,18 +17,18 @@ function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
   return (
     <div className=" max-w-full max-h-fit ">
       <div
-        className={` overflow-y-scroll overflow-x-scroll h-fit max-h-96 min-h-[18rem] mt-5 mb-4   pb-5  `}
+        className={` overflow-y-scroll overflow-x-scroll h-fit max-h-96 min-h-[18rem] mt-5 mb-4   pb-5  rounded-sm border-b border-active-normal `}
       >
         <table className="min-w-max border-separate border-spacing-0">
-          <thead>
-            <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+          <thead className="bg-active-dark text-white">
+            <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3  border-b border-[#999] ">
               <div className="flex gap-x-2 justify-center items-center">
                 <span className="text-[11px] md:text-xs lg:text-sm ">N°</span>
                 <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
               </div>
             </th>
 
-            <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+            <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3  border-b border-[#999] ">
               <div className="flex gap-x-2 justify-center items-center">
                 <span className="text-[11px] md:text-xs lg:text-sm ">
                   Created by
@@ -37,7 +37,7 @@ function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
               </div>
             </th>
 
-            <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+            <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3  border-b border-[#999] ">
               <div className="flex gap-x-2 justify-center items-center">
                 <span className="text-[11px] md:text-xs lg:text-sm ">
                   Report title
@@ -46,7 +46,7 @@ function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
               </div>
             </th>
 
-            <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+            <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3  border-b border-[#999] ">
               <div className="flex gap-x-2 justify-center items-center">
                 <span className="text-[11px] md:text-xs lg:text-sm ">
                   Report date
@@ -55,7 +55,7 @@ function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
               </div>
             </th>
 
-            <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3 bg-white border-b border-[#999] ">
+            <th className="sticky top-0 text-center px-4 py-2 lg:px-8 lg:py-3  border-b border-[#999] ">
               <div className="flex gap-x-2 justify-center items-center">
                 <span className="text-[11px] md:text-xs lg:text-sm ">
                   Piezo. location
@@ -64,10 +64,10 @@ function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
               </div>
             </th>
 
-            <th className="sticky top-0 text-center px-8 py-2  lg:py-3 bg-white border-b border-[#999] "></th>
+            <th className="sticky top-0 text-center px-8 py-2  lg:py-3  border-b border-[#999] "></th>
 
-            <th className="sticky top-0 text-center px-8 py-2  lg:py-3 bg-white border-b border-[#999] "></th>
-            <th className="sticky top-0 text-center px-8 py-2  lg:py-3 bg-white border-b border-[#999] "></th>
+            {/* <th className="sticky top-0 text-center px-8 py-2  lg:py-3  border-b border-[#999] "></th> */}
+            <th className="sticky top-0 text-center px-8 py-2  lg:py-3  border-b border-[#999] "></th>
           </thead>
 
           <tbody className="bg-white text-[#444]">
@@ -79,7 +79,7 @@ function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
                 }}
               >
                 <td className="px-4 py-2 lg:px-8 lg:py-3">
-                  <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-semibold">
+                  <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-bold">
                     {String(i + 1).padStart(2, "0")}.
                   </span>
                 </td>
@@ -96,7 +96,7 @@ function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
                 </td>
 
                 <td className="px-4 py-2 lg:px-8 lg:py-3">
-                  <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-semibold">
+                  <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-bold">
                     {report.report_title}
                   </span>
                 </td>
@@ -123,18 +123,22 @@ function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
                 </td>
 
                 <td className="px-8 py-2  lg:py-3">
-                  <Link to={`/reports/piezometers/${report.report_id}`}>
-                    <span className="text-[9px] md:text-[10px] lg:text-[11px]  font-semibold text-orange-600  border-b border-orange-600  hover:text-orange-800 hover:border-orange-800 transition-all cursor-pointer">
-                      View
-                    </span>
+                  <Link
+                    to={`/operations/reports/piezometers/${report.report_id}`}
+                  >
+                    <div className="flex items-center">
+                      <span className="text-[9px] md:text-[10px] lg:text-[11px]  font-bold text-orange-600  border-b border-orange-600  hover:text-orange-800 hover:border-orange-800 transition-all cursor-pointer">
+                        View
+                      </span>
+                    </div>
                   </Link>
                 </td>
 
-                <td className="px-8 py-2  lg:py-3">
+                {/* <td className="px-8 py-2  lg:py-3">
                   <span className="text-[9px] md:text-[10px] lg:text-[11px]  font-semibold text-orange-600 border-b border-orange-600  hover:text-orange-800 hover:border-orange-800 transition-all cursor-pointer">
                     Edit
                   </span>
-                </td>
+                </td> */}
                 <td className="px-8 py-2  lg:py-3">
                   <div
                     onClick={() => openDeletePiezoReportModal(report.report_id)}

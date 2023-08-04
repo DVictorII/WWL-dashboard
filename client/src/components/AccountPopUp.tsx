@@ -3,7 +3,7 @@ import { BiLogOut } from "react-icons/bi";
 import UserIDCard from "./UserIDCard";
 import popup from "../assets/accountPopUp.svg";
 import { Link, useNavigate } from "react-router-dom";
-import { useLogOutStore } from "../store/ConfirmationModalStore";
+import { useConfirmationModalStore } from "../store/ConfirmationModalStore";
 
 interface AccountPopUpProps {
   isOpen: boolean;
@@ -11,7 +11,9 @@ interface AccountPopUpProps {
 }
 
 function AccountPopUp({ isOpen, closeAccountPopUp }: AccountPopUpProps) {
-  const openLogOutModal = useLogOutStore((state) => state.openLogOutModal);
+  const openLogOutModal = useConfirmationModalStore(
+    (state) => state.openLogOutModal
+  );
 
   return isOpen ? (
     <div

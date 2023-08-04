@@ -1,10 +1,11 @@
-from flask import Flask
+from flask import Flask, json
 from flask_session import Session
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 import psycopg2
 from datetime import timedelta
 import os
+from werkzeug.exceptions import HTTPException
 
 os.environ["OPENBLAS_NUM_THREADS"] = "1"
 
@@ -54,6 +55,23 @@ def dbconnect():
     return conn
 
 
+@app.errorhandler(HTTPException)
+def handle_exception(e):
+    """Return JSON instead of HTML for HTTP errors."""
+    # start with the correct headers and status code from the error
+    response = e.get_response()
+    # replace the body with JSON
+    response.data = json.dumps(
+        {
+            "code": e.code,
+            "name": e.name,
+            "description": e.description,
+        }
+    )
+    response.content_type = "application/json"
+    return response
+
+
 from routes.excel import excel_routes
 
 app.register_blueprint(excel_routes)
@@ -73,3 +91,7 @@ app.register_blueprint(auth_routes)
 from routes.reports import reports_routes
 
 app.register_blueprint(reports_routes)
+
+from routes.section_chart import section_chart_routes
+
+app.register_blueprint(section_chart_routes)

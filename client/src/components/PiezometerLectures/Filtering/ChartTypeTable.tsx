@@ -23,11 +23,11 @@ function ChartTypeTable() {
   const location = useLocation().pathname;
 
   const chartType =
-    location === "/piezometer-readings"
+    location === "/operations/piezometer-readings"
       ? usePiezometerLecturesStateStore((s) => s.chartType)
       : useNewPiezoReportStateStore((state) => state.chartType);
   const changeChartType =
-    location === "/piezometer-readings"
+    location === "/operations/piezometer-readings"
       ? usePiezometerLecturesStateStore((s) => s.changeChartType)
       : useNewPiezoReportStateStore((state) => state.changeChartType);
 

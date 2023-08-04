@@ -22,7 +22,7 @@ function VisitDetails() {
             Biannual review - 360 Photos - May 2022
           </h1>
 
-          <Link to="/biannual-visits">
+          <Link to="/operations/biannual-visits">
             <span className="cursor-pointer text-bluePrimary pb-1 border-b border-bluePrimary w-max  2xl:text-2xl font-medium">
               &larr; Back
             </span>

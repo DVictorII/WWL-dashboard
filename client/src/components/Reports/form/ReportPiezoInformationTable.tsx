@@ -1,29 +1,7 @@
-import React, { useEffect } from "react";
-import { useQuery } from "react-query";
+import { monitoringMapStatusInfo } from "../../../utils/monitoringMapStatusInfo";
 
-import { FadeLoader } from "react-spinners";
-import { fetchLastReadings, fetchPiezometerData } from "../../../utils/map";
-import {
-  capitalizeName,
-  monitoringMapStatusInfo,
-} from "../../../utils/monitoringMapStatusInfo";
-import SkeletonPiezoInformationTable from "../../Skeletons/PiezometerLectures/SkeletonPiezoInformationTable";
-import { useLocation } from "react-router-dom";
-import {
-  Lecture,
-  useNewPiezoReportStateStore,
-} from "../../../store/NewPiezoReportStateStore";
+import { useNewPiezoReportStateStore } from "../../../store/NewPiezoReportStateStore";
 import { useMonitoringMapStateStore } from "../../../store/MonitoringMapStateStore";
-import axios from "../../../utils/axios";
-import moment from "moment";
-
-//@ts-ignore
-import { getInoperativeDates } from "../../../utils/getInoperativeDates";
-import {
-  fetchReportLectures,
-  processLecturesData,
-} from "../../../utils/reportsFetchFunctions";
-
 
 function ReportPiezoInformationTable() {
   const lecturesInformation = useNewPiezoReportStateStore(
@@ -39,24 +17,18 @@ function ReportPiezoInformationTable() {
     (p) => p.paddock === paddock && p.id === piezo
   );
 
-  
   const { inoperativeDates } = lecturesInformation;
 
   const timeSpan = useNewPiezoReportStateStore((state) => state.timeSpan);
-
-
-
 
   //@ts-ignore
   const statusStateObj = monitoringMapStatusInfo[currentPiezometer.status];
 
   return (
     <div
-      style={
-        {
-          borderColor: statusStateObj.darkColor,
-        }
-      }
+      style={{
+        borderColor: statusStateObj.darkColor,
+      }}
       className="max-w-[1000vh] h-[19rem] overflow-x-auto rounded-lg border-2  relative bg-white"
     >
       <table className="   select-none w-full border-collapse  bg-white">
@@ -114,8 +86,14 @@ function ReportPiezoInformationTable() {
             </th>
 
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span className={lecturesInformation.lecturesAvg === 0 ? "text-xl" : ""}>
-                {lecturesInformation.lecturesAvg === 0 ? "-" : `${lecturesInformation.lecturesAvg} KPa`}
+              <span
+                className={
+                  lecturesInformation.lecturesAvg === 0 ? "text-xl" : ""
+                }
+              >
+                {lecturesInformation.lecturesAvg === 0
+                  ? "-"
+                  : `${lecturesInformation.lecturesAvg} KPa`}
               </span>
             </th>
           </tr>
@@ -126,9 +104,15 @@ function ReportPiezoInformationTable() {
             </th>
 
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              
-              <span className={lecturesInformation.lecturesMax === 0 ? "text-xl" : ""}>
-                {lecturesInformation.lecturesMax === 0 ? "-" : `${lecturesInformation.lecturesMax} KPa`}</span>
+              <span
+                className={
+                  lecturesInformation.lecturesMax === 0 ? "text-xl" : ""
+                }
+              >
+                {lecturesInformation.lecturesMax === 0
+                  ? "-"
+                  : `${lecturesInformation.lecturesMax} KPa`}
+              </span>
             </th>
           </tr>
 
@@ -143,8 +127,14 @@ function ReportPiezoInformationTable() {
             </th>
 
             <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span className={lecturesInformation.lecturesMin === 0 ? "text-xl" : ""}>
-                {lecturesInformation.lecturesMin === 0 ? "-" : `${lecturesInformation.lecturesMin} KPa`}
+              <span
+                className={
+                  lecturesInformation.lecturesMin === 0 ? "text-xl" : ""
+                }
+              >
+                {lecturesInformation.lecturesMin === 0
+                  ? "-"
+                  : `${lecturesInformation.lecturesMin} KPa`}
               </span>
             </th>
           </tr>

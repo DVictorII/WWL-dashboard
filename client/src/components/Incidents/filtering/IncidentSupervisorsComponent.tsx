@@ -21,7 +21,7 @@ function IncidentSupervisorsComponent() {
   return (
     <div className="mt-12 flex flex-col gap-y-6">
       {supervisors.length > 0 ? (
-        <div className="flex flex-col gap-y-8 w-full md:w-3/4 lg:w-1/2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8 ">
           {supervisors.map((sup, i) => (
             <div
               key={i}
@@ -37,30 +37,27 @@ function IncidentSupervisorsComponent() {
                   disabled={i === 0}
                   onChange={(e) => changeSupervisor(i, e.target.value)}
                   placeholder="Supervisor Email..."
-                  className="grow text-xs sm:text-sm bg-[#f9f9f9] disabled:bg-backgroundWhite disabled:text-[#999] text-[#333] font-medium placeholder:text-gray-300 px-3 h-10 2xl:h-12 rounded-xl shadow-sm border border-gray-300 focus:outline-none focus:border-orange-500 focus:border-opacity-50 transition-all"
+                  className="grow text-xs sm:text-sm disabled:text-[#777] bg-[#f9f9f9] text-[#333] font-medium placeholder:text-gray-300 px-3 h-10 2xl:h-12 rounded-md shadow-sm border border-gray-300 focus:outline-none focus:border-orange-500 focus:border-opacity-50 transition-all"
                 />
                 {i !== 0 ? (
                   <button
                     onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation()
-                        deleteSupervisor(i)
-                    } }
+                      e.preventDefault();
+                      e.stopPropagation();
+                      deleteSupervisor(i);
+                    }}
                     className="w-8 h-8 bg-damaged-light flex items-center justify-center rounded-full cursor-pointer"
                   >
-                    <BsTrash className="w-4 h-4 text-damaged-normal" />
+                    <BsTrash className="w-4 h-4 text-damaged-normal shrink-0" />
                   </button>
                 ) : (
                   <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation()
-                    
-                } }
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
                     className="w-8 h-8 bg-transparent flex items-center justify-center rounded-full cursor-pointer"
-                  >
-                    
-                  </button>
+                  ></button>
                 )}
               </div>
             </div>

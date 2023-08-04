@@ -79,9 +79,12 @@ function IncidentMapMultiple() {
     piezoList.map((incident) => {
       let icon = incidentIcon;
 
-      const circle = L.marker([incident.incident_latitude, incident.incident_longitude], {
-        icon: icon,
-      });
+      const circle = L.marker(
+        [incident.incident_latitude, incident.incident_longitude],
+        {
+          icon: icon,
+        }
+      );
 
       circle.bindPopup(`
         <div class="flex flex-col gap-y-4">
@@ -110,13 +113,11 @@ function IncidentMapMultiple() {
           </div>
 
           <div class="flex items-center gap-x-4">
-            <a class="pb-1 border-b-2 border-[#0078A8] text-[#831B1B] text cursor-pointer" href="/reports/incidents/${incident.incident_id}" target="_blank">See incident details &rarr;</a>
+            <a class="pb-1 border-b-2 border-[#0078A8] text-[#831B1B] text cursor-pointer" href="/operations/reports/incidents/${incident.incident_id}" target="_blank">See incident details &rarr;</a>
           </div>
         
         </div>
       `);
-
-      
 
       markers.addLayer(circle);
       piezometers.push(circle);
@@ -225,14 +226,10 @@ function IncidentMapMultiple() {
   }, [sectionsData, incidents]);
 
   if (sectionsAreLoading || incidentsAreLoading)
-    return (
-      <SkeletonIncidentMapMultiple/>
-    );
+    return <SkeletonIncidentMapMultiple />;
 
   return (
-    <div
-      className="w-full   h-[50vh]  rounded-lg overflow-hidden shadow-md relative z-[10]"
-    >
+    <div className="w-full   h-96 md:h-[26rem] lg:h-[28rem]  rounded-md overflow-hidden shadow-md relative z-[10]">
       <div id="map4"></div>
     </div>
   );

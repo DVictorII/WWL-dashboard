@@ -9,7 +9,7 @@ function MediaPlayer() {
 
   return (
     <div className="w-full h-[50vh]   ">
-      {location.pathname.startsWith("/biannual-visits") ? (
+      {location.pathname.startsWith("/operations/biannual-visits") ? (
         <a className="block photo360 w-full h-full rounded-xl overflow-hidden">
           {/* @ts-ignore */}
           <a-scene embedded>

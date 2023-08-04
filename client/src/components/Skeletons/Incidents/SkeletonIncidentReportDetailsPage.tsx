@@ -16,7 +16,7 @@ function SkeletonIncidentReportDetailsPage() {
           <Skeleton width={200} height={30} />
 
           <div className="flex items-center gap-x-8 flex-wrap gap-y-8">
-            <Link to="/reports/incidents">
+            <Link to="/operations/reports/incidents">
               <span className="cursor-pointer text-all-normal pb-1 border-b-2  border-all-normal hover:text-orange-800 hover:border-orange-800 transition-all w-max sz450:justify-self-end md:text-lg  font-semibold ">
                 &larr; Back
               </span>

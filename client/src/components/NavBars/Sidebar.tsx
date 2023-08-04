@@ -49,16 +49,18 @@ function Sidebar() {
                         bg-all-normal text-white justify-between  z-[400] hidden shrink-0 "
       >
         <div className="flex flex-col items-center gap-y-6 2xl:gap-y-10 ">
-          <div className="w-full relative h-20">
-            <img
-              className="object-contain w-full"
-              src="/media/img/photos/logo_white.png"
-              alt="rossing-logo"
-            />
-          </div>
+          <Link to="/operations/monitoring-map">
+            <div className="w-full relative h-20">
+              <img
+                className="object-contain w-full"
+                src="/media/img/photos/logo_white.png"
+                alt="rossing-logo"
+              />
+            </div>
+          </Link>
 
           <div
-            onClick={openMenu}
+            onClick={!menuIsOpen ? openMenu : closeMenu}
             className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 bg-gradient-to-br to-[#7ea3b8] from-[#477c9a] border-[#477c9a]  border-2  flex items-center justify-center  bg-opacity-40 rounded-lg hover:text-[#222] hover:bg-opacity-90 transition-all cursor-pointer duration-500 relative group"
           >
             <AiOutlineAreaChart className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6" />
@@ -67,12 +69,17 @@ function Sidebar() {
             </span>
           </div>
 
-          <div className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 bg-gradient-to-br to-[#7ea3b8] from-[#477c9a] border-2 border-[#477c9a] flex items-center justify-center  bg-opacity-40 rounded-lg hover:text-[#222] hover:bg-opacity-90 transition-all cursor-pointer duration-500 relative group">
-            <AiOutlinePieChart className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6" />
-            <span className="absolute w-auto px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-[#222] border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
-              Business (under construction) ( 100% )
-            </span>
-          </div>
+          <Link to="/business/stocks-tracking">
+            <div
+              onClick={closeMenu}
+              className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 bg-gradient-to-br to-[#7ea3b8] from-[#477c9a] border-2 border-[#477c9a] flex items-center justify-center  bg-opacity-40 rounded-lg hover:text-[#222] hover:bg-opacity-90 transition-all cursor-pointer duration-500 relative group"
+            >
+              <AiOutlinePieChart className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6" />
+              <span className="absolute w-auto px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-[#222] border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
+                Business ( 100% )
+              </span>
+            </div>
+          </Link>
 
           <div className="bg-gradient-to-br to-[#d27474] from-[#bc2f2f]  border-2 border-[#bc2f2f]   w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12    flex items-center justify-center  bg-opacity-10 rounded-lg hover:text-[#222]  transition-all cursor-pointer duration-500 relative group">
             <FaTools className=" w-3 h-3 lg:w-4 lg:h-4 2xl:w-5 2xl:h-5" />
@@ -81,14 +88,19 @@ function Sidebar() {
             </span>
           </div>
 
-          <div className="bg-gradient-to-br to-[#658293] from-[#9c3838] p-[2px] rounded-lg">
-            <div className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 bg-gradient-to-br to-[#7ea3b8] from-[#c34646]  flex items-center justify-center  bg-opacity-40 rounded-lg hover:text-[#222] hover:bg-opacity-90 transition-all cursor-pointer duration-500 relative group">
-              <AiOutlineUsergroupAdd className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6 " />
-              <span className="absolute w-auto px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-[#222] border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
-                Human resources (under construction) ( 80% )
-              </span>
+          <Link to="/staff-training/team-information">
+            <div
+              onClick={closeMenu}
+              className="bg-gradient-to-br to-[#658293] from-[#9c3838] p-[2px] rounded-lg"
+            >
+              <div className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 bg-gradient-to-br to-[#7ea3b8] from-[#c34646]  flex items-center justify-center  bg-opacity-40 rounded-lg hover:text-[#222] hover:bg-opacity-90 transition-all cursor-pointer duration-500 relative group">
+                <AiOutlineUsergroupAdd className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6 " />
+                <span className="absolute w-auto px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-[#222] border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
+                  Staff Training (under construction) ( 80% )
+                </span>
+              </div>
             </div>
-          </div>
+          </Link>
         </div>
 
         <div className="flex flex-col items-center gap-y-6 2xl:gap-y-10 ">
@@ -239,7 +251,7 @@ function Sidebar() {
                   className="flex flex-col gap-y-12"
                 >
                   <div
-                    onClick={() => navigateTo("/monitoring-map")}
+                    onClick={() => navigateTo("/operations/monitoring-map")}
                     className=" whitespace-nowrap flex items-center gap-x-4 relative py-2 group cursor-pointer hover:text-orange-500 transition-all"
                   >
                     <TfiMapAlt className="w-6 h-6 lg:w-7 lg:h-7 shrink-0" />
@@ -248,7 +260,9 @@ function Sidebar() {
                   </div>
 
                   <div
-                    onClick={() => navigateTo("/piezometer-readings")}
+                    onClick={() =>
+                      navigateTo("/operations/piezometer-readings")
+                    }
                     className="whitespace-nowrap flex items-center gap-x-4 relative py-2 group cursor-pointer hover:text-orange-500 transition-all"
                   >
                     <AiOutlineBarChart className="w-6 h-6 lg:w-7 lg:h-7 shrink-0" />
@@ -264,7 +278,9 @@ function Sidebar() {
 
                   <div className="flex flex-col gap-y-8 ml-12">
                     <div
-                      onClick={() => navigateTo("/reports/piezometers")}
+                      onClick={() =>
+                        navigateTo("/operations/reports/piezometers")
+                      }
                       className="whitespace-nowrap flex items-center gap-x-4 relative py-2 group cursor-pointer hover:text-orange-500 transition-all"
                     >
                       <AiOutlineSetting className="w-4 h-4 lg:w-5 lg:h-5 shrink-0" />
@@ -273,7 +289,9 @@ function Sidebar() {
                     </div>
 
                     <div
-                      onClick={() => navigateTo("/reports/incidents")}
+                      onClick={() =>
+                        navigateTo("/operations/reports/incidents")
+                      }
                       className="whitespace-nowrap flex items-center gap-x-4 relative py-2 group cursor-pointer hover:text-orange-500 transition-all"
                     >
                       <FiAlertTriangle className="w-4 h-4 lg:w-5 lg:h-5 shrink-0" />
@@ -283,7 +301,7 @@ function Sidebar() {
                   </div>
 
                   <div
-                    onClick={() => navigateTo("/biannual-visits/1")}
+                    onClick={() => navigateTo("/operations/biannual-visits/1")}
                     className="whitespace-nowrap flex items-center gap-x-4 relative py-2 group cursor-pointer hover:text-orange-500 transition-all"
                   >
                     <BsCalendarMonth className="w-6 h-6 shrink-0" />

@@ -1,48 +1,44 @@
-import { useEffect } from "react";
-
 import MenuNavbar from "../MenuNavbar";
-
-import { BsDownload } from "react-icons/bs";
+import { useState } from "react";
 
 import { Link, useParams } from "react-router-dom";
-//@ts-ignore
-import axios from "../../utils/axios";
 
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 
-import FadeLoader from "react-spinners/FadeLoader";
+import { fetchSingleReport } from "../../utils/reportsFetchFunctions";
 
-import {
-  fetchChartLectures,
-  fetchPiezometerData,
-  fetchSingleReport,
-} from "../../utils/reportsFetchFunctions";
+import SupervisorsView from "../Reports/details/SupervisorsView";
 
-import PiezoInfoWithInoperativeDaysTable from "../Reports/PiezoInfoWithInoperativeDaysTable";
-
-import SupervisorsView from "../Reports/SupervisorsView";
-
-import ReportPiezoLecturesComponent from "../Reports/ReportPiezoLecturesComponent";
 import { useNewPiezoReportStateStore } from "../../store/NewPiezoReportStateStore";
 import FullPageComps from "../FullPageComps";
-import { toast } from "react-hot-toast";
-import { useReportInfoTablesDaysSpanStore } from "../../store/ReportInfoTablesDaysSpanStore";
-import moment from "moment";
 
-//@ts-ignore
-import { getInoperativeDates } from "../../utils/getInoperativeDates";
+import { useReportInfoTablesDaysSpanStore } from "../../store/ReportInfoTablesDaysSpanStore";
+
+import Switch from "react-switch";
+
 import ReportDetailsPDFDownloadButton from "../Reports/ReportDetailsPDFDownloadButton";
 import SkeletonPiezoReportDetailsPage from "../Skeletons/Reports/SkeletonPiezoReportDetailsPage";
+import { AiOutlineArrowLeft } from "react-icons/ai";
+import DetailsReportPiezoTableWithInoperativeDates from "../Reports/details/DetailsReportPiezoTableWithInoperativeDates";
+import DetailsReportPiezoLecturesComponent from "../Reports/details/DetailsReportPiezoLecturesComponent";
+import { BsFillGearFill } from "react-icons/bs";
+import { FiAlertTriangle } from "react-icons/fi";
 
 function PiezoReportDetails() {
   const { id } = useParams();
+
+  const [displaying, setDisplaying] = useState("piezoInfo");
+  const handleToggleTable = () => {
+    if (displaying === "piezoInfo") setDisplaying("inoperativeDates");
+    if (displaying === "inoperativeDates") setDisplaying("piezoInfo");
+  };
 
   const days = useNewPiezoReportStateStore((state) => state.days);
   const chartType = useNewPiezoReportStateStore((state) => state.chartType);
 
   const daysSpan = useReportInfoTablesDaysSpanStore((state) => state.daysSpan);
 
-  // FETCH INFO OF ONE PIEZOMETER
+  // FETCH REPORT INFO
 
   const { isLoading, data: report } = useQuery(
     `piezoReport-${id}`,
@@ -54,56 +50,143 @@ function PiezoReportDetails() {
 
   if (isLoading || !report) return <SkeletonPiezoReportDetailsPage />;
 
+  console.log("REPORT", report);
+
   return (
     <>
       <MenuNavbar />
 
-      <div className="mt-12 md:mt-0 flex flex-col gap-y-12">
-        <div className="flex items-center justify-between gap-x-8 gap-y-8 flex-wrap">
-          <h1 className="md:text-lg 2xl:text-xl font-bold">
-            {report.report_title}
-          </h1>
+      <div className="mt-12 md:hidden" />
 
-          <div className="flex items-center gap-x-8 flex-wrap gap-y-8">
-            <ReportDetailsPDFDownloadButton />
-
-            <Link to="/reports/piezometers">
-              <span className="cursor-pointer text-all-normal pb-1 border-b-2  border-all-normal hover:text-orange-800 hover:border-orange-800 transition-all w-max sz450:justify-self-end md:text-lg  font-semibold ">
-                &larr; Back
-              </span>
-            </Link>
-          </div>
-        </div>
-        <div className="text-sm font-medium">{report.report_description}</div>
+      <div className="flex">
+        <Link to="/operations/reports/piezometers">
+          <button className="flex items-center gap-x-1 pb-px border-b w-max border-transparent hover:border-[#666] transition-all">
+            <AiOutlineArrowLeft />
+            <span className="cursor-pointer font-semibold">back</span>
+          </button>
+        </Link>
       </div>
 
-      <div className="bg-backgroundWhite md:bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-12 md:shadow-lg ">
-        <div className="bg-[#f5f5f5] border border-[#dfdfdf]  shadow-sm w-full sm:w-3/4 lg:w-1/2 min-h-[10rem] md:min-h-[12rem] 2xl:min-h-[14rem] max-h-[20rem]   rounded-lg flex items-center justify-center overflow-hidden cursor-pointer self-center">
-          <img
-            src={`/media/piezometer_reports/${
-              report.report_photo === "piezoreport-default"
-                ? "piezoreport-default.png"
-                : report.report_photo
-            }`}
-            alt={`/media/piezometer_reports/${
-              report.report_photo === "report-default"
-                ? "report-default.png"
-                : report.report_photo
-            }`}
-            className="object-cover"
-          />
+      <div className="mt-4" />
+
+      <div className="flex items-center justify-between gap-x-8 gap-y-8 flex-wrap bg-white p-4 rounded-xl shadow-sm">
+        <h1 className=" font-bold xl:text-lg">Piezo Report Details</h1>
+
+        <ReportDetailsPDFDownloadButton />
+      </div>
+
+      <div className="mt-6" />
+
+      <div className=" bg-white p-4 rounded-xl shadow-sm">
+        <div className="flex flex-col gap-y-8">
+          <div className="flex flex-col gap-y-3 flex-wrap">
+            <span className="text-lg 2xl:text-xl font-bold">
+              {report.report_title}
+            </span>
+
+            <span className="font-semibold text-xs md:text-sm text-[#666]">
+              {report.report_date} ({report.report_time_span} report)
+            </span>
+          </div>
+
+          <div className="gap-x-4 flex items-end">
+            <span className="font-semibold text-sm">Report comments:</span>{" "}
+            <span className="font-medium text-sm">
+              {report.report_description}
+            </span>{" "}
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-6" />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-6 lg:gap-x-8 gap-y-8">
+        <div className=" bg-white p-4 rounded-xl shadow-sm">
+          <div className="flex flex-col gap-y-6">
+            <h2 className="font-semibold">Location photo</h2>
+            <div className="bg-[#f5f5f5] border border-[#dfdfdf]  shadow-sm w-full  min-h-[10rem] md:min-h-[12rem] 2xl:min-h-[14rem] max-h-[20rem]   rounded-md flex items-center justify-center overflow-hidden cursor-pointer ">
+              <img
+                src={`/media/piezometer_reports/${
+                  report.report_photo === "piezoreport-default"
+                    ? "piezoreport-default.png"
+                    : report.report_photo
+                }`}
+                alt={`/media/piezometer_reports/${
+                  report.report_photo === "report-default"
+                    ? "report-default.png"
+                    : report.report_photo
+                }`}
+                className="object-cover"
+              />
+            </div>
+          </div>
         </div>
 
-        <PiezoInfoWithInoperativeDaysTable
-          paddock={report.report_paddock}
-          piezo={report.report_piezo}
-        />
+        <div className="flex flex-col gap-y-4  bg-white p-4 rounded-xl shadow-sm">
+          <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-y-4">
+              <h2 className="font-semibold text-sm 2xl:text-base">
+                Piezometer details
+              </h2>
 
-        <ReportPiezoLecturesComponent
-          paddock={report.report_paddock}
-          piezo={report.report_piezo}
-        />
+              <div className="flex items-center gap-x-2 font-bold">
+                <span>{report.report_paddock}</span>
+                <span>-</span>
+                <span>{report.report_piezo}</span>
+              </div>
+            </div>
 
+            <Switch
+              onChange={handleToggleTable}
+              checked={displaying === "piezoInfo"}
+              offColor="#8D2525"
+              onColor="#1C394A"
+              uncheckedIcon={
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100%",
+                    fontSize: 20,
+                    color: "#fff",
+                  }}
+                >
+                  <FiAlertTriangle className="w-4 h-4" />
+                </div>
+              }
+              checkedIcon={
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100%",
+                    fontSize: 20,
+                    color: "#fff",
+                  }}
+                >
+                  <BsFillGearFill className="w-4 h-4" />
+                </div>
+              }
+            />
+          </div>
+
+          <DetailsReportPiezoTableWithInoperativeDates
+            report={report}
+            displaying={displaying}
+            handleToggleTable={handleToggleTable}
+          />
+        </div>
+      </div>
+
+      <div className="mt-6" />
+
+      <DetailsReportPiezoLecturesComponent report={report} />
+
+      <div className="mt-6" />
+
+      <div className="bg-white p-4 2xl:p-6 rounded-xl shadow-sm">
         <SupervisorsView report={report} />
       </div>
 

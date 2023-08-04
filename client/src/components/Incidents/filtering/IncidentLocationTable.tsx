@@ -1,26 +1,33 @@
-import React from 'react'
-import { useNewIncidentReportStateStore } from '../../../store/NewIncidentReportStateStore';
-import { chartPiezoList } from '../../../utils/piezoList';
-import Select from 'react-tailwindcss-select';
-import { TfiMapAlt } from 'react-icons/tfi';
-import { toast } from 'react-hot-toast';
+import React from "react";
+import { useNewIncidentReportStateStore } from "../../../store/NewIncidentReportStateStore";
+import { chartPiezoList } from "../../../utils/piezoList";
+import Select from "react-tailwindcss-select";
+import { TfiMapAlt } from "react-icons/tfi";
+import { toast } from "react-hot-toast";
 
-function IncidentLocationTable({refreshMap}:{refreshMap:()=>void}) {
+function IncidentLocationTable({ refreshMap }: { refreshMap: () => void }) {
   const paddock = useNewIncidentReportStateStore((state) => state.paddock);
   const latitude = useNewIncidentReportStateStore((state) => state.latitude);
   const longitude = useNewIncidentReportStateStore((state) => state.longitude);
   const elevation = useNewIncidentReportStateStore((state) => state.elevation);
 
-  const changePaddock = useNewIncidentReportStateStore((state) => state.changePaddock);
-  const changeLatitude = useNewIncidentReportStateStore((state) => state.changeLatitude);
-  const changeLongitude = useNewIncidentReportStateStore((state) => state.changeLongitude);
-  const changeElevation = useNewIncidentReportStateStore((state) => state.changeElevation);
+  const changePaddock = useNewIncidentReportStateStore(
+    (state) => state.changePaddock
+  );
+  const changeLatitude = useNewIncidentReportStateStore(
+    (state) => state.changeLatitude
+  );
+  const changeLongitude = useNewIncidentReportStateStore(
+    (state) => state.changeLongitude
+  );
+  const changeElevation = useNewIncidentReportStateStore(
+    (state) => state.changeElevation
+  );
 
   const paddockOptions = Object.keys(chartPiezoList).map((paddock) => {
     return { value: paddock, label: paddock };
   });
 
-  
   return (
     <div className="flex flex-col gap-y-8 ">
       <div className="flex flex-col sz500:w-4/5 md:w-5/6 lg:w-full sz500:self-center sz500:grid sz500:grid-cols-4 md:grid-cols-3  gap-y-1 sz500:gap-y-8 gap-x-8">
@@ -75,24 +82,26 @@ function IncidentLocationTable({refreshMap}:{refreshMap:()=>void}) {
         />
       </div>
 
-      <button onClick={(e)=>{
-        e.preventDefault()
-        e.stopPropagation()
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
 
-        refreshMap()
-        toast.success('Incident position refreshed!', {
+          refreshMap();
+          toast.success("Incident position refreshed!", {
             style: {
-                
-                fontWeight: "500",
-                border: "2px solid #65a30d",
-                padding: "8px 16px",
-                color: "#1c1917",
-              },
+              fontWeight: "500",
+              border: "2px solid #65a30d",
+              padding: "8px 16px",
+              color: "#1c1917",
+            },
           });
-      }} className='flex items-center self-end gap-x-2 md:gap-x-3 lg:gap-x-4 px-4 py-2 bg-all-normal hover:bg-orange-800 transition-all text-white rounded-lg shadow-sm
-      '>
-        <TfiMapAlt className="w-4 h-4 "/>
-        <span className='text-xs md:text-sm'>Check incident position</span>
+        }}
+        className="flex items-center self-end gap-x-2 md:gap-x-3 lg:gap-x-4 px-4 py-2 bg-all-normal hover:bg-orange-800 transition-all text-white rounded-lg shadow-sm
+      "
+      >
+        <TfiMapAlt className="w-4 h-4 " />
+        <span className="text-xs md:text-sm">Check incident position</span>
       </button>
 
       <div className="flex flex-col sz500:w-4/5 md:w-5/6 lg:w-full sz500:self-center sz500:grid sz500:grid-cols-4 md:grid-cols-3  gap-y-1 sz500:gap-y-8 gap-x-8">
@@ -108,10 +117,8 @@ function IncidentLocationTable({refreshMap}:{refreshMap:()=>void}) {
           placeholder="Elevation..."
         />
       </div>
-
-      
     </div>
-  )
+  );
 }
 
-export default IncidentLocationTable
+export default IncidentLocationTable;
