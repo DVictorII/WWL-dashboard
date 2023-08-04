@@ -464,7 +464,7 @@ const BarChart = ({ information, fullPage = false }) => {
         </>
       ) : (
         <div className="w-full flex justify-between gap-x-16 flex-wrap gap-y-8 ">
-          {/* <FullScreenButton comp={"chart"} /> */}
+          <FullScreenButton comp={"chart"} />
           <ChartLegend chartType={chartType} />
         </div>
       )}

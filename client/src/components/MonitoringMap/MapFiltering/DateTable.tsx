@@ -19,8 +19,10 @@ function DateTable() {
       </h3>
 
       <Datepicker
+        readOnly={true}
+        toggleClassName="hidden"
         containerClassName="shrink-0 "
-        inputClassName="text-xs border-2 dark:border-[#333] w-full  sm:text-sm  rounded-full bg-[#333]  dark:bg-[#333] shadow-sm"
+        inputClassName="text-xs border-2 dark:border-[#333] w-full text-white px-4 py-2  sm:text-sm  rounded-full bg-[#333]  dark:bg-[#333] shadow-sm"
         useRange={false}
         asSingle={true}
         // showShortcuts={true}
@@ -28,15 +30,14 @@ function DateTable() {
         primaryColor={"orange"}
         value={value}
         onChange={(value) => {
-          console.log(value);
+          console.log("VALUE", value);
 
-          if (!value || value.startDate === null)
-            return changeDate(moment(Date.now()).format("YYYY-MM-DD"));
+          if (!value || value.startDate === null || value.startDate === null)
+            return;
           //@ts-ignore
           changeDate(value.startDate);
         }}
         displayFormat={"MMM DD, YYYY"}
-        readOnly={true}
       />
     </div>
   );

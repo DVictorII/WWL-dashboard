@@ -153,8 +153,23 @@ tables = [
 def build_word_report(piezos):
     document = Document()
 
+    sections = document.sections
+
+    for section in sections:
+        section.top_margin = Cm(2.54)
+        section.bottom_margin = Cm(2.54)
+        section.left_margin = Cm(1.91)
+        section.right_margin = Cm(1.91)
+
     document.add_heading("Appendix: Piezometer Information")
     document.add_paragraph("")
+    document.add_picture(
+        os.path.abspath(f"../client/public/sectionReport/sections/sectionOverview.jpg"),
+        width=Cm(18),
+        height=Cm(12),
+    )
+
+    document.add_page_break()
 
     paddockList = list(set(list(map(lambda x: x["paddock"], piezos))))
 
@@ -169,7 +184,10 @@ def build_word_report(piezos):
 
         sectionsList = list(
             filter(
-                lambda z: z != None and z != "?",
+                lambda z: z != None
+                and z != "?"
+                and z != "Section-7-8A"
+                and z != "Section-9A",
                 list(
                     set(
                         list(
@@ -198,6 +216,7 @@ def build_word_report(piezos):
                 width=Cm(15.24),
                 height=Cm(9.4),
             )
+            document.add_paragraph(" ")
 
             ################################################################
 
@@ -241,35 +260,36 @@ def build_word_report(piezos):
                     document.add_page_break()
                     #################################################################################
 
-                ps = document.add_paragraph(f"{piezometer['id']}")
+                if piezometer["status"] == 1:
+                    ps = document.add_paragraph(f"{piezometer['id']}")
 
-                if (
-                    piezometer["datalogger"] != None
-                    and piezometer["channel"] != None
-                    and (
-                        f"node_{piezometer['datalogger']}_{piezometer['channel']}"
-                        in tables
-                    )
-                ):
-                    filename = plot_readings_chart(
-                        piezometer["datalogger"], piezometer["channel"], 90
-                    )
+                    if (
+                        piezometer["datalogger"] != None
+                        and piezometer["channel"] != None
+                        and (
+                            f"node_{piezometer['datalogger']}_{piezometer['channel']}"
+                            in tables
+                        )
+                    ):
+                        filename = plot_readings_chart(
+                            piezometer["datalogger"], piezometer["channel"], 90
+                        )
 
-                    document.add_picture(
-                        os.path.abspath(
-                            f"../client/public/sectionReport/readings/{filename}"
-                        ),
-                        width=Cm(17),
-                        height=Cm(8.5),
-                    )
+                        document.add_picture(
+                            os.path.abspath(
+                                f"../client/public/sectionReport/readings/{filename}"
+                            ),
+                            width=Cm(17),
+                            height=Cm(8.5),
+                        )
 
-                    print(filename)
+                        document.add_paragraph(" ")
 
-                else:
-                    p_no_readings = document.add_paragraph("")
-                    p_no_readings.add_run(
-                        f"No readings for the current piezometer"
-                    ).bold = True
+                    else:
+                        p_no_readings = document.add_paragraph("")
+                        p_no_readings.add_run(
+                            f"No readings for the current piezometer"
+                        ).bold = True
 
             document.add_page_break()
 
@@ -277,90 +297,6 @@ def build_word_report(piezos):
 
     document.save(os.path.abspath(f"../client/dist/report_word/word_report.docx"))
     document.save(os.path.abspath(f"../client/public/report_word/word_report.docx"))
-
-
-# def plot_section_chart(piezometer):
-#     try:
-#         natural_ground = "data/sections/natural_ground/"
-#         new_ground = "data/sections/new_ground/"
-
-#         nodes, data = wwl.get_data_by_section(
-#             piezometer["datalogger"], piezometer["channel"], natural_ground, new_ground
-#         )
-
-#         print(piezometer["id"])
-#         # Extract x and y values from the list
-#         x = [item[0] for item in data]
-#         y1 = [item[1] for item in data]
-#         y2 = [item[2] for item in data]
-#         y3 = [item[3] for item in data]
-
-#         node_x = [item[2] for item in nodes]
-#         node_y4 = [item[3] for item in nodes]
-#         node_y5 = [item[4] for item in nodes]
-#         node_names = [item[0] for item in nodes]
-#         node_status = [item[1] for item in nodes]
-
-#         plt.figure(figsize=(16, 6))
-#         # Plot the data
-#         plt.plot(x, y1, color="#7b8831", label="Original ground")
-#         plt.plot(x, y2, color="#876538", label="Tailing surface")
-#         # plt.plot(x, y3, label="e3")
-
-#         plt.scatter(node_x, node_y4, color="red", label="Piezometer location")
-#         plt.scatter(node_x, node_y5, color="blue", label="Current PWP level")
-
-#         # FIRST OPTION
-#         # for i, name in enumerate(node_names):
-#         #     plt.text(node_x[i], node_y4[i], name, ha="center", va="bottom")
-
-#         for i, name in enumerate(node_y5):
-#             plt.text(
-#                 node_x[i],
-#                 node_y4[i],
-#                 node_names[i] + "," + str(name),
-#                 ha="center",
-#                 va="bottom",
-#             )
-
-#         # Draw a line between y4 and y5
-#         for i in range(len(nodes)):
-#             if node_status[i] == 1:
-#                 color = "green"
-#             elif node_status[i] == 2:
-#                 color = "red"
-#             elif node_status[i] == 3:
-#                 color = "gray"
-#             else:
-#                 color = "black"
-#             plt.plot([node_x[i], node_x[i]], [node_y4[i], node_y5[i]], color=color)
-
-#         # Add labels and title to the plot
-#         plt.xlabel("x")
-#         plt.ylabel("y")
-#         plt.title(f"Graph of {piezometer['section'].replace('-',' ',1)} ")
-
-#         # Add a legend to distinguish the lines
-#         plt.legend()
-
-#         # Save chart picture
-#         file_path_to_save = os.path.abspath(
-#             f"../client/public/sectionReport/sections/{piezometer['section'].lower()}.png"
-#         )
-
-#         plt.savefig(file_path_to_save, bbox_inches="tight")
-
-#         plt.close("all")
-
-#         filename = f"{piezometer['section'].lower()}.png"
-
-#         return filename
-
-#         # Show the plot
-#         # plt.show()
-
-#     except Exception:
-#         print({"error": Exception})
 
 
 def plot_section_chart(piezometer):
@@ -509,10 +445,14 @@ def plot_readings_chart(datalogger, channel, daysAgo):
     t = timeArr
     s = pressureArr
 
+    print("LECTURES NUMBER: ", len(lectures))
+
     def testFunc(idx_and_item):
         index, item = idx_and_item
 
-        if index % 20 == 0:
+        span = round(len(lectures) / 25)
+
+        if index % span == 0:
             return item
         else:
             return ""
@@ -523,7 +463,7 @@ def plot_readings_chart(datalogger, channel, daysAgo):
 
     ax = fig.add_subplot(1, 1, 1)
 
-    plt.plot(t, s)
+    plt.plot(t, s, label="Pressure readings (KPa)")
 
     # ax.xaxis.set_major_locator(
     #     mdates.DayLocator(interval=(5))
@@ -532,6 +472,7 @@ def plot_readings_chart(datalogger, channel, daysAgo):
     #     mdates.DateFormatter("%Y-%m-%d")
     # )  # optional formatting
 
+    plt.legend()
     plt.xticks(np.arange(len(spacedTime)), spacedTime, rotation=45)
     plt.xlabel("Dates")
     plt.ylabel("Pressure (KPa)")

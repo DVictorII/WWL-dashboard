@@ -187,7 +187,9 @@ function MapWrapper() {
     setPiezoDataFiltered(filtered);
   }, [piezometersData]);
 
-  const markers = L.markerClusterGroup();
+  const markers = L.markerClusterGroup({
+    maxClusterRadius: 100,
+  });
 
   const navigate = useNavigate();
 

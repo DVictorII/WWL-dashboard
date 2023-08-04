@@ -87,7 +87,9 @@ function PageLayout() {
             style={{
               backgroundColor: location.pathname.startsWith("/operations")
                 ? "#f5f5f5"
-                : "#f6f4eb",
+                : location.pathname.startsWith("/business")
+                ? "#f6f4eb"
+                : "#9DC88D",
             }}
             key={location.pathname}
             className="text-[#333] px-2 sm:px-8 py-8 md:px-8  lg:p-12  2xl:p-16  grow  "
@@ -126,10 +128,17 @@ function PageLayout() {
           transition={{ duration: 0.5, ease: "easeInOut" }}
           exit={{ opacity: 0, transition: { duration: 0.2 } }}
           key={location.pathname}
+          // style={{
+          //   backgroundColor: location.pathname.startsWith("/operations")
+          //     ? "#f5f5f5"
+          //     : location.pathname.startsWith("/business")
+          //     ? "#f6f4eb"
+          //     : "#fef7ed",
+          // }}
+
           style={{
-            backgroundColor: location.pathname.startsWith("/operations")
-              ? "#f5f5f5"
-              : "#f6f4eb",
+            backgroundImage:
+              "linear-gradient(to bottom, rgb(250, 250, 250), rgb(241, 241, 241) )",
           }}
           className={`text-[#333] px-2 sm:px-8 py-8 md:px-8  2xl:p-10   grow  `}
         >

@@ -652,12 +652,14 @@ class stock_data:
         delta = timedelta(days=1)
         workdays = 0
         date_7_workdays_ago = current_date
-        while workdays < workdays_ago:
+        while workdays < int(workdays_ago):
             date_7_workdays_ago -= delta
             if date_7_workdays_ago.weekday() < 5:
                 workdays += 1
         data = yf.download(self.symbol, date_7_workdays_ago, current_date)
+
         df = pd.DataFrame(data)
+
         return df
 
     def load_stock_data(self, folder_path):
@@ -671,7 +673,7 @@ class stock_data:
                 dict_full = pickle.load(f)
         else:
             print("Create a new one")
-            dict_full = self.get_stock_detail(self.symbol)
+            dict_full = self.get_stock_detail()
             if dict_full:
                 with open(os.path.join(folder_path, file_name), "wb") as f:
                     pickle.dump(dict_full, f)
@@ -684,7 +686,7 @@ class stock_data:
                 history = pickle.load(f)
         else:
             print("Create a new one")
-            history = self.get_stock_history(self.symbol, self.interval)
+            history = self.get_stock_history()
             with open(os.path.join(folder_path, file_name), "wb") as f:
                 pickle.dump(history, f)
         return dict_full, history

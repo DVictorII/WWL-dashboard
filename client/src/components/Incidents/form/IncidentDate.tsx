@@ -22,8 +22,9 @@ function IncidentDate() {
 
       <div className="sz500:col-span-3 md:col-span-2">
         <Datepicker
+          toggleClassName="hidden"
           containerClassName="shrink-0 "
-          inputClassName="text-xs border-2 dark:border-[#333]  sm:text-sm  rounded-full bg-[#333]  dark:bg-[#333] shadow-sm"
+          inputClassName="text-xs border-2 dark:border-[#333] w-full text-white px-4 py-2  sm:text-sm  rounded-full bg-[#333]  dark:bg-[#333] shadow-sm"
           useRange={false}
           asSingle={true}
           // showShortcuts={true}

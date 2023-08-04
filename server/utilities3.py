@@ -1,5 +1,6 @@
 import requests
 import os
+
 os.environ["OPENBLAS_NUM_THREADS"] = "1"
 import numpy as np
 import pandas as pd
@@ -23,9 +24,12 @@ password = "WWL#2023"
 host = "wwl-rossing.crnkanilun4m.ap-southeast-2.rds.amazonaws.com"
 dev = True
 
+
 def read_bd_data(cur):
     query2 = "SELECT * FROM piezometer_data;"
-    cur.execute(query2,)
+    cur.execute(
+        query2,
+    )
     rows = cur.fetchall()
     column_names = [desc[0] for desc in cur.description]
     column_names[1] = "Channel"
@@ -35,13 +39,13 @@ def read_bd_data(cur):
     for col in d:
         cdf[col] = cdf[col].astype(float)
     return cdf
-	
+
 
 def save_last_features(nodes_df, cur):
     # base = os.getcwd()+"/"
 
-    #cdf = pd.read_csv(os.path.abspath("data/calibration_data.csv"), index_col="SNumber")
-    query=""	
+    # cdf = pd.read_csv(os.path.abspath("data/calibration_data.csv"), index_col="SNumber")
+    query = ""
     cdf = read_bd_data(cur)
 
     # calculate temperature and pressure by piezometer
@@ -215,19 +219,19 @@ def copy_data(id, k, year, month, cur):
         # print("FILE", file)
         sub = pd.read_csv(file, parse_dates=["TIMESTAMP"])
         for _, row in sub.iterrows():
-          tuple_row = tuple(row)
-          query += f"""
+            tuple_row = tuple(row)
+            query += f"""
              INSERT INTO {table_name} 
     		VALUES ('{tuple_row[0]}','{tuple_row[1]}','{tuple_row[2]}','{tuple_row[3]}','{tuple_row[4]}','{tuple_row[5]}')
     		ON CONFLICT (time)
     		DO UPDATE SET 
-        		atmpres={'tuple_row[1]'},
-        		freq={'tuple_row[2]'},
-        		thermr={'tuple_row[3]'},
-        		temperature={'tuple_row[4]'},
-        		pressure={'tuple_row[5]'};
+        		atmpres='{tuple_row[1]}',
+        		freq='{tuple_row[2]}',
+        		thermr='{tuple_row[3]}',
+        		temperature='{tuple_row[4]}',
+        		pressure='{tuple_row[5]}';
     	  """
-            
+
         return query
     except Exception as e:
         print("error in file %d %d - %s" % (id, k, e))
@@ -305,14 +309,14 @@ def download_data(gateway, year, month, option=False):
     print("CONTENT", response.content)
     open(os.path.abspath("data/data_compacted.csv"), "wb").write(response.content)
 
-    # url = 'https://loadsensing.wocs3.com/21545/dataserver/csv/compacted/compacted-readings-21545-2023-06.zip'
+    # url = "https://loadsensing.wocs3.com/21545/dataserver/csv/compacted/compacted-readings-21545-2023-06.zip"
     # print("connecting to server")
     # print(url)
     # res = requests.get(url=url, stream=True, auth=adm, allow_redirects=True)
 
-    # print("STATUS",res.status_code)
+    # print("STATUS", res.status_code)
     # if res.status_code == 200:
-    #     with open(os.path.abspath("data/zipped.zip"), 'wb') as fh:
+    #     with open(os.path.abspath("data/zipped.zip"), "wb") as fh:
     #         res.raw.decode_content
     #         shutil.copyfileobj(res.raw, fh)
 
@@ -321,7 +325,11 @@ def download_data(gateway, year, month, option=False):
     # # # print("RESPONSE", r.content)
     # print("downloaded data from server")
 
-    # df = open(os.path.abspath("data/compacted-readings-21545-2022-06.dat")).read().encode()
+    # df = (
+    #     open(os.path.abspath("data/compacted-readings-21545-2023-06.dat"))
+    #     .read()
+    #     .encode()
+    # )
     # # print(df)
     # open(os.path.abspath("data/data_compacted.csv"), "wb").write(df)
 
@@ -363,7 +371,7 @@ def get_features_from_data(file):
 
 
 def save_features(nodes_df, year, month, cur):
-    #cdf = pd.read_csv(os.path.abspath("data/calibration_data.csv"), index_col="SNumber")
+    # cdf = pd.read_csv(os.path.abspath("data/calibration_data.csv"), index_col="SNumber")
     cdf = read_bd_data(cur)
     query = ""
     # calculate temperature and pressure by piezometer

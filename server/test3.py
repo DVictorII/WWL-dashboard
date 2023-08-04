@@ -11,6 +11,44 @@ host = "wwl-rossing.crnkanilun4m.ap-southeast-2.rds.amazonaws.com"
 dev = True
 
 
+# CHECK IF TABLE EXISTS
+def table_exists(table_name, cur, conn):
+    try:
+        cur.execute(f"SELECT 1 FROM {table_name} LIMIT 1;")
+    except psycopg2.Error as e:
+        conn.rollback()
+        return 0
+    else:
+        conn.rollback()
+        return 1
+
+
+def delete_db():
+    conn = dbconnect()
+    cur = conn.cursor()
+
+    query = "SELECT datalogger, channel FROM piezometer_details"
+    cur.execute(query)
+    res = cur.fetchall()
+
+    print("RES", res)
+
+    query2 = ""
+    for row in res:
+        tablename = f"node_{row[0]}_{row[1]}"
+
+        if table_exists(tablename, cur, conn):
+            query2 += f"DELETE FROM {tablename} WHERE time > '2023-06-01 00:00:00'; "
+
+    cur.execute(query2)
+    conn.commit()
+
+    cur.close()
+    conn.close()
+
+    # cur.execute(query2)
+
+
 def dbconnect():
     conn = psycopg2.connect(host=host, database=dbname, user=user, password=password)
     return conn
@@ -32,7 +70,7 @@ def update(year, month, op=True):
         query += uf.save_last_features(nodes, cur)
         print("updated last readings")
 
-        print("FINAL QUERY")
+        print("FINAL QUERY", query)
 
         cur.execute(query)
         conn.commit()
@@ -64,8 +102,8 @@ if __name__ == "__main__":
     if today.day == 1:
         update(today.year, today.month - 1, op=True)
     # current month
+    # delete_db()
     update(today.year, today.month, op=False)
-    # update(today.year, 7, op=True)
     print(
         "done updated to %d/%d/%d %d" % (today.year, today.month, today.day, today.hour)
     )

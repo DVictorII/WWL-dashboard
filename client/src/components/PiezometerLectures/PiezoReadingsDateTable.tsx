@@ -21,7 +21,8 @@ function PiezoReadingsDateTable() {
 
       <Datepicker
         containerClassName="shrink-0 "
-        inputClassName="text-xs  w-full  sm:text-sm  rounded-full bg-[#333] border-2 dark:border-[#333]  dark:bg-[#333] shadow-sm"
+        toggleClassName="hidden"
+        inputClassName="text-xs    sm:text-sm  w-full text-white px-4 py-2 rounded-full bg-[#333] border-2 dark:border-[#333]  dark:bg-[#333] shadow-sm"
         useRange={false}
         asSingle={true}
         // showShortcuts={true}
