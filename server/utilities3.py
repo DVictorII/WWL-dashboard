@@ -1,6 +1,5 @@
 import requests
 import os
-
 os.environ["OPENBLAS_NUM_THREADS"] = "1"
 import numpy as np
 import pandas as pd
@@ -24,18 +23,25 @@ password = "WWL#2023"
 host = "wwl-rossing.crnkanilun4m.ap-southeast-2.rds.amazonaws.com"
 dev = True
 
+def read_bd_data(cur):
+    query2 = "SELECT * FROM piezometer_data;"
+    cur.execute(query2,)
+    rows = cur.fetchall()
+    column_names = [desc[0] for desc in cur.description]
+    column_names[1] = "Channel"
+    column_names[6] = "Logger"
+    cdf = pd.DataFrame(rows, columns=column_names)
+    d = column_names[8:-1]
+    for col in d:
+        cdf[col] = cdf[col].astype(float)
+    return cdf
+	
 
 def save_last_features(nodes_df, cur):
     # base = os.getcwd()+"/"
     #cdf = pd.read_csv(os.path.abspath("data/calibration_data.csv"), index_col="SNumber")
-    query = "SELECT * FROM piezometer_data;"
-    cur.execute(query,)
-    rows = cur.fetchall()
-    column_names=[desc[0] for desc in cur.description]
-    column_names[1]='Channel'
-    column_names[6]='Logger'
-    cdf = pd.DataFrame(rows, columns=column_names)
-    
+    query=""	
+    cdf = read_bd_data(cur)
     # calculate temperature and pressure by piezometer
     for i in range(len(nodes_df)):
         # for i in range(1):
@@ -198,8 +204,19 @@ def copy_data(id, k, year, month, cur):
         print("FILE", file)
         sub = pd.read_csv(file, parse_dates=["TIMESTAMP"])
         for _, row in sub.iterrows():
-            tuple_row = tuple(row)
-            query += f" INSERT INTO {table_name} VALUES ('{tuple_row[0]}','{tuple_row[1]}','{tuple_row[2]}','{tuple_row[3]}','{tuple_row[4]}','{tuple_row[5]}') ON CONFLICT (time) DO NOTHING; "
+        tuple_row = tuple(row)
+        query += f"""
+            INSERT INTO {table_name} 
+    		VALUES ('{tuple_row[0]}','{tuple_row[1]}','{tuple_row[2]}','{tuple_row[3]}','{tuple_row[4]}','{tuple_row[5]}')
+    		ON CONFLICT (time)
+    		DO UPDATE SET 
+        		atmpres={tuple_row[1]},
+        		freq={tuple_row[2]},
+        		thermr={tuple_row[3]},
+        		temperature={tuple_row[4]},
+        		pressure={tuple_row[5]};
+    	"""
+            
         return query
     except Exception as e:
         print("error in file %d %d - %s" % (id, k, e))
@@ -335,7 +352,8 @@ def get_features_from_data(file):
 
 
 def save_features(nodes_df, year, month, cur):
-    cdf = pd.read_csv(os.path.abspath("data/calibration_data.csv"), index_col="SNumber")
+    #cdf = pd.read_csv(os.path.abspath("data/calibration_data.csv"), index_col="SNumber")
+    cdf = read_bd_data(cur)
     query = ""
     # calculate temperature and pressure by piezometer
     for i in range(len(nodes_df)):
