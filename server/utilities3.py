@@ -204,18 +204,18 @@ def copy_data(id, k, year, month, cur):
         print("FILE", file)
         sub = pd.read_csv(file, parse_dates=["TIMESTAMP"])
         for _, row in sub.iterrows():
-        tuple_row = tuple(row)
-        query += f"""
-            INSERT INTO {table_name} 
+          tuple_row = tuple(row)
+          query += f"""
+             INSERT INTO {table_name} 
     		VALUES ('{tuple_row[0]}','{tuple_row[1]}','{tuple_row[2]}','{tuple_row[3]}','{tuple_row[4]}','{tuple_row[5]}')
     		ON CONFLICT (time)
     		DO UPDATE SET 
-        		atmpres={tuple_row[1]},
-        		freq={tuple_row[2]},
-        		thermr={tuple_row[3]},
-        		temperature={tuple_row[4]},
-        		pressure={tuple_row[5]};
-    	"""
+        		atmpres={'tuple_row[1]'},
+        		freq={'tuple_row[2]'},
+        		thermr={'tuple_row[3]'},
+        		temperature={'tuple_row[4]'},
+        		pressure={'tuple_row[5]'};
+    	  """
             
         return query
     except Exception as e:
