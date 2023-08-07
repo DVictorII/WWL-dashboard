@@ -457,7 +457,7 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
 
     fig = plt.figure(figsize=(16, 6))
 
-    ax = fig.add_subplot(1, 1, 1)
+    # ax = fig.add_subplot(1, 1, 1)
 
     print("Time", len(t))
     print("Pressure", len(s))
