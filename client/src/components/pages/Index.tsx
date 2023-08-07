@@ -117,11 +117,67 @@ const Index = () => {
     // document.body.appendChild(aTag);
     // aTag.click();
     // aTag.remove();
+    // try {
+    //   const res = await toast.promise(
+    //     axios.post("/paddock-chart", {
+    //       date: date,
+    //     }),
+    //     {
+    //       loading: "Generating report...",
+    //       success: (data) => {
+    //         // console.log("DOWNLOAD FILE", data.data.filename);
+
+    //         const aTag = document.createElement("a");
+    //         //@ts-ignore
+    //         aTag.href = "/report_word/word_report.docx";
+
+    //         aTag.target = "_blank";
+    //         aTag.setAttribute(
+    //           "download",
+    //           `report_${moment(Date.now()).format("YYYY_MM_DD_hh_mm_ss")}.docx`
+    //         );
+
+    //         document.body.appendChild(aTag);
+    //         aTag.click();
+    //         aTag.remove();
+
+    //         return `Generated! Downloading...`;
+    //       },
+    //       error: (err) => `There was an error!`,
+    //     },
+    //     {
+    //       style: {
+    //         fontWeight: "500",
+    //       },
+    //       success: {
+    //         duration: 3000,
+
+    //         style: {
+    //           fontWeight: "500",
+    //           border: "2px solid #65a30d",
+    //           padding: "8px 16px",
+    //           color: "#1c1917",
+    //         },
+    //       },
+    //       error: {
+    //         duration: 3000,
+
+    //         style: {
+    //           fontWeight: "500",
+    //           border: "2px solid #b91c1c",
+    //           padding: "8px 16px",
+    //           color: "#1c1917",
+    //         },
+    //       },
+    //     }
+    //   );
+    // } catch (err) {
+    //   console.log("ERROR", err);
+    // }
+
     try {
       const res = await toast.promise(
-        axios.post("/paddock-chart", {
-          date: date,
-        }),
+        axios.get("/piezometers-data"),
         {
           loading: "Generating report...",
           success: (data) => {
