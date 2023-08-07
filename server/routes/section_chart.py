@@ -533,9 +533,10 @@ def build_paddocks_information_chart():
 
     reqDate = request.json["date"]
 
-    build_word_report(piezos, reqDate)
+    # build_word_report(piezos, reqDate)
     return jsonify(
         {
+            "date": reqDate,
             "message": "success",
             "results": len(piezos),
             "piezos": list(filter(lambda x: x["paddock"] == "E1/E2", piezos)),
