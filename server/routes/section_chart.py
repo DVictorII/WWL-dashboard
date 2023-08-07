@@ -1,6 +1,6 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from flask_cors import cross_origin
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from sqlalchemy import text, create_engine, inspect
 import numpy as np
 
@@ -150,7 +150,7 @@ tables = [
 ]
 
 
-def build_word_report(piezos):
+def build_word_report(piezos, reqDate):
     document = Document()
 
     sections = document.sections
@@ -272,7 +272,7 @@ def build_word_report(piezos):
                         )
                     ):
                         filename = plot_readings_chart(
-                            piezometer["datalogger"], piezometer["channel"], 90
+                            piezometer, 90, reqDate
                         )
 
                         document.add_picture(
@@ -413,15 +413,24 @@ def plot_section_chart(piezometer):
     return filename
 
 
-def plot_readings_chart(datalogger, channel, daysAgo):
+def plot_readings_chart(piezometer, daysAgo, reqDate):
     # try:
-    d = datetime.today() - timedelta(days=int(daysAgo))
-    date = d.strftime("%Y-%m-%d 00:00:00")
-    # connection = db.session.connection()
+    arr = reqDate.split("-")
+    intArr = list(map( lambda x: int(x) , arr))
+
+
+    # d = datetime.today() - timedelta(days=int(daysAgo))
+    recentDate = date(*intArr).strftime("%Y-%m-%d 00:00:00")
+    d = date(*intArr) - timedelta(days=int(90))
+    pastDate = d.strftime("%Y-%m-%d 00:00:00")
+
+    print("recentDate", recentDate)
+    print("PAST DATE", pastDate)
+    # connection = db.session.connection()    
 
     result = db.session.execute(
         text(
-            f"SELECT time,pressure FROM public.node_{datalogger}_{channel} WHERE time >= '{date}';"
+            f"SELECT time,pressure FROM public.node_{piezometer['datalogger']}_{piezometer['channel']} WHERE time >= '{pastDate}' AND time <= '{recentDate}' ;"
         )
     )
 
@@ -477,6 +486,11 @@ def plot_readings_chart(datalogger, channel, daysAgo):
     plt.xlabel("Dates")
     plt.ylabel("Pressure (KPa)")
 
+
+    arrPastDate = pastDate.split(" ")
+    arrRecentDate = recentDate.split(" ")
+
+    plt.title(f"{piezometer['id']} - {piezometer['section']} - {piezometer['paddock']} - {arrPastDate[0]} to {arrRecentDate[0]} ")
     plt.grid(True)
 
     if len(pressureArr) != 0:
@@ -492,10 +506,10 @@ def plot_readings_chart(datalogger, channel, daysAgo):
     # )
 
     file_path = os.path.abspath(
-        f"../client/public/sectionReport/readings/{datalogger}_{channel}.png"
+        f"../client/public/sectionReport/readings/{piezometer['datalogger']}_{piezometer['channel']}.png"
     )
 
-    filename = f"{datalogger}_{channel}.png"
+    filename = f"{piezometer['datalogger']}_{piezometer['channel']}.png"
 
     plt.savefig(file_path, bbox_inches="tight")
 
@@ -508,7 +522,7 @@ def plot_readings_chart(datalogger, channel, daysAgo):
 #     return "no readings"
 
 
-@section_chart_routes.route("/api/v1/paddock-chart", methods=["GET"])
+@section_chart_routes.route("/api/v1/paddock-chart", methods=["POST"])
 @cross_origin()
 def build_paddocks_information_chart():
     result = piezometer_details.query.all()
@@ -519,7 +533,9 @@ def build_paddocks_information_chart():
 
     print("processed piezos, entering build word function")
 
-    build_word_report(piezos)
+    reqDate = request.json["date"]
+    
+    build_word_report(piezos, reqDate)
     return jsonify(
         {
             "message": "success",
