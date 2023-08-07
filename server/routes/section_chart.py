@@ -466,7 +466,7 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
         return "error"
 
     ################################ ERROR TESTING
-    # plt.plot(t, s, label="Pressure readings (KPa)")
+    plt.plot(t, s, label="Pressure readings (KPa)")
 
     ################################
 
@@ -481,7 +481,7 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
     # plt.title(
     #     f"{piezometer['id']} - {piezometer['section']} - {piezometer['paddock']} - {arrPastDate[0]} to {arrRecentDate[0]} "
     # )
-    # plt.grid(True)
+    plt.grid(True)
 
     # if len(pressureArr) != 0:
     #     plt.fill_between(t, s, min(pressureArr), color=["#477C9A"], alpha=0.1)
