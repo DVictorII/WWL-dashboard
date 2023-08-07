@@ -9,6 +9,11 @@ from docx import Document
 from docx.shared import Cm
 
 import routes.wwl_functions as wwl
+
+import matplotlib
+
+matplotlib.use("Agg")
+
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
