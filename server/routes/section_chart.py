@@ -443,19 +443,19 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
 
     print("LECTURES NUMBER: ", len(lectures))
 
-    # def testFunc(idx_and_item):
-    #     index, item = idx_and_item
+    def testFunc(idx_and_item):
+        index, item = idx_and_item
 
-    #     span = round(len(lectures) / 25)
+        span = round(len(lectures) / 25)
 
-    #     if index % span == 0:
-    #         return item
-    #     else:
-    #         return ""
+        if index % span == 0:
+            return item
+        else:
+            return ""
 
-    # spacedTime = list(map(testFunc, enumerate(t)))
+    spacedTime = list(map(testFunc, enumerate(t)))
 
-    # fig = plt.figure(figsize=(16, 6))
+    fig = plt.figure(figsize=(16, 6))
 
     # ax = fig.add_subplot(1, 1, 1)
 
@@ -485,9 +485,9 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
 
     filename = f"{piezometer['datalogger']}_{piezometer['channel']}.png"
 
-    # plt.savefig(file_path, bbox_inches="tight")
+    plt.savefig(file_path, bbox_inches="tight")
 
-    # plt.close("all")
+    plt.close("all")
 
     return filename
 
