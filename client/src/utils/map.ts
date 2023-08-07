@@ -21,6 +21,26 @@ export const satelliteMap = async () => {
   });
 };
 
+// //@ts-ignore
+// export const satelliteMap = async (date) => {
+//   let baseUrl =
+//     "https://services.sentinel-hub.com/ogc/wms/b67ceddd-6972-4d0d-a865-4332feaf4390";
+//   return L.tileLayer.wms(baseUrl, {
+//     tileSize: 512,
+//     attribution:
+//       '&copy; <a href="http://www.sentinel-hub.com/" target="_blank">Sentinel Hub</a>',
+//     // @ts-ignore: Unreachable code error
+//     urlProcessingApi:
+//       "https://services.sentinel-hub.com/ogc/wms/1d4de4a3-2f50-493c-abd8-861dec3ae6b2",
+//     maxcc: 20,
+//     minZoom: 6,
+//     maxZoom: 16,
+//     preset: "TRUE-COLOR-S2L2A",
+//     layers: "TRUE-COLOR-S2L2A",
+//     time: date,
+//   });
+// };
+
 //@ts-ignore
 export const sentinelMap = async (date) => {
   let baseUrl =

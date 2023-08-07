@@ -38,7 +38,7 @@ def delete_db():
         tablename = f"node_{row[0]}_{row[1]}"
 
         if table_exists(tablename, cur, conn):
-            query2 += f"DELETE FROM {tablename} WHERE time > '2023-06-01 00:00:00'; "
+            query2 += f"DELETE FROM {tablename} WHERE time >= '2023-08-01 00:00:00'; "
 
     cur.execute(query2)
     conn.commit()
@@ -102,8 +102,9 @@ if __name__ == "__main__":
     if today.day == 1:
         update(today.year, today.month - 1, op=True)
     # current month
-    # delete_db()
+
     update(today.year, today.month, op=False)
+    # delete_db()
     print(
         "done updated to %d/%d/%d %d" % (today.year, today.month, today.day, today.hour)
     )

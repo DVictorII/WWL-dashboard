@@ -53,6 +53,8 @@ const BarChart = ({ information, fullPage = false }) => {
       `/lectures/node_${datalogger}_${channel}/${days}`
     );
 
+    console.log("LECTURES", result.data.lectures);
+
     return result.data.lectures;
   };
 
