@@ -459,7 +459,7 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
 
     ax = fig.add_subplot(1, 1, 1)
 
-    # plt.plot(t, s, label="Pressure readings (KPa)")
+    plt.plot(t, s, label="Pressure readings (KPa)")
 
     # plt.legend()
     # plt.xticks(np.arange(len(spacedTime)), spacedTime, rotation=45)
