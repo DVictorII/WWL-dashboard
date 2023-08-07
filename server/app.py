@@ -1,4 +1,6 @@
+import sentry_sdk
 from flask import Flask, json
+from sentry_sdk.integrations.flask import FlaskIntegration
 from flask_session import Session
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
@@ -16,6 +18,17 @@ def dict_helper(objlist):
 
 
 app = Flask(__name__, static_url_path="", static_folder="", template_folder="")
+
+sentry_sdk.init(
+    dsn="https://6940a17065195f9c241f97235c3a331c@o4505665612939264.ingest.sentry.io/4505665615822848",
+    integrations=[
+        FlaskIntegration(),
+    ],
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=1.0,
+)
 
 
 app.config[
@@ -78,6 +91,11 @@ app.register_blueprint(reports_routes)
 from routes.section_chart import section_chart_routes
 
 app.register_blueprint(section_chart_routes)
+
+
+@app.route("/debug-sentry")
+def trigger_error():
+    division_by_zero = 1 / 0
 
 
 @app.errorhandler(HTTPException)
