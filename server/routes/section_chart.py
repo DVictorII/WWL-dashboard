@@ -470,18 +470,18 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
 
     ################################
 
-    plt.legend()
-    plt.xticks(np.arange(len(spacedTime)), spacedTime, rotation=45)
-    plt.xlabel("Dates")
-    plt.ylabel("Pressure (KPa)")
+    # plt.legend()
+    # plt.xticks(np.arange(len(spacedTime)), spacedTime, rotation=45)
+    # plt.xlabel("Dates")
+    # plt.ylabel("Pressure (KPa)")
 
     arrPastDate = pastDate.split(" ")
     arrRecentDate = recentDate.split(" ")
 
-    plt.title(
-        f"{piezometer['id']} - {piezometer['section']} - {piezometer['paddock']} - {arrPastDate[0]} to {arrRecentDate[0]} "
-    )
-    plt.grid(True)
+    # plt.title(
+    #     f"{piezometer['id']} - {piezometer['section']} - {piezometer['paddock']} - {arrPastDate[0]} to {arrRecentDate[0]} "
+    # )
+    # plt.grid(True)
 
     # if len(pressureArr) != 0:
     #     plt.fill_between(t, s, min(pressureArr), color=["#477C9A"], alpha=0.1)
