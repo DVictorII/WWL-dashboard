@@ -457,7 +457,7 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
 
     fig = plt.figure(figsize=(16, 6))
 
-    # ax = fig.add_subplot(1, 1, 1)
+    ax = fig.add_subplot(1, 1, 1)
 
     # plt.plot(t, s, label="Pressure readings (KPa)")
 
@@ -477,7 +477,7 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
     # if len(pressureArr) != 0:
     #     plt.fill_between(t, s, min(pressureArr), color=["#477C9A"], alpha=0.1)
 
-    # plt.grid()
+    plt.grid()
 
     file_path = os.path.abspath(
         f"../client/public/sectionReport/readings/{piezometer['datalogger']}_{piezometer['channel']}.png"
