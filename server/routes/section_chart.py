@@ -271,9 +271,7 @@ def build_word_report(piezos, reqDate):
                             in tables
                         )
                     ):
-                        filename = plot_readings_chart(
-                            piezometer, 90, reqDate
-                        )
+                        filename = plot_readings_chart(piezometer, 90, reqDate)
 
                         document.add_picture(
                             os.path.abspath(
@@ -416,8 +414,7 @@ def plot_section_chart(piezometer):
 def plot_readings_chart(piezometer, daysAgo, reqDate):
     # try:
     arr = reqDate.split("-")
-    intArr = list(map( lambda x: int(x) , arr))
-
+    intArr = list(map(lambda x: int(x), arr))
 
     # d = datetime.today() - timedelta(days=int(daysAgo))
     recentDate = date(*intArr).strftime("%Y-%m-%d 00:00:00")
@@ -426,7 +423,7 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
 
     print("recentDate", recentDate)
     print("PAST DATE", pastDate)
-    # connection = db.session.connection()    
+    # connection = db.session.connection()
 
     result = db.session.execute(
         text(
@@ -486,11 +483,12 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
     plt.xlabel("Dates")
     plt.ylabel("Pressure (KPa)")
 
-
     arrPastDate = pastDate.split(" ")
     arrRecentDate = recentDate.split(" ")
 
-    plt.title(f"{piezometer['id']} - {piezometer['section']} - {piezometer['paddock']} - {arrPastDate[0]} to {arrRecentDate[0]} ")
+    plt.title(
+        f"{piezometer['id']} - {piezometer['section']} - {piezometer['paddock']} - {arrPastDate[0]} to {arrRecentDate[0]} "
+    )
     plt.grid(True)
 
     if len(pressureArr) != 0:
@@ -534,7 +532,7 @@ def build_paddocks_information_chart():
     print("processed piezos, entering build word function")
 
     reqDate = request.json["date"]
-    
+
     build_word_report(piezos, reqDate)
     return jsonify(
         {
