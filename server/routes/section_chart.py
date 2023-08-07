@@ -412,36 +412,36 @@ def plot_section_chart(piezometer):
 
 
 def plot_readings_chart(piezometer, daysAgo, reqDate):
-    # arr = reqDate.split("-")
-    # intArr = list(map(lambda x: int(x), arr))
+    arr = reqDate.split("-")
+    intArr = list(map(lambda x: int(x), arr))
 
-    # recentDate = date(*intArr).strftime("%Y-%m-%d 00:00:00")
-    # d = date(*intArr) - timedelta(days=int(90))
-    # pastDate = d.strftime("%Y-%m-%d 00:00:00")
+    recentDate = date(*intArr).strftime("%Y-%m-%d 00:00:00")
+    d = date(*intArr) - timedelta(days=int(90))
+    pastDate = d.strftime("%Y-%m-%d 00:00:00")
 
-    # print("recentDate", recentDate)
-    # print("PAST DATE", pastDate)
+    print("recentDate", recentDate)
+    print("PAST DATE", pastDate)
 
-    # result = db.session.execute(
-    #     text(
-    #         f"SELECT time,pressure FROM public.node_{piezometer['datalogger']}_{piezometer['channel']} WHERE time >= '{pastDate}' AND time <= '{recentDate}' ;"
-    #     )
-    # )
+    result = db.session.execute(
+        text(
+            f"SELECT time,pressure FROM public.node_{piezometer['datalogger']}_{piezometer['channel']} WHERE time >= '{pastDate}' AND time <= '{recentDate}' ;"
+        )
+    )
 
-    # lectures = [dict(r._mapping) for r in result]
+    lectures = [dict(r._mapping) for r in result]
 
-    # timeArr = list(map(lambda x: x["time"].strftime("%Y-%m-%d %H:%M:%S"), lectures))
-    # pressureArr = list(
-    #     map(
-    #         lambda x: float(x["pressure"]) if str(float(x["pressure"])) != "nan" else 0,
-    #         lectures,
-    #     )
-    # )
+    timeArr = list(map(lambda x: x["time"].strftime("%Y-%m-%d %H:%M:%S"), lectures))
+    pressureArr = list(
+        map(
+            lambda x: float(x["pressure"]) if str(float(x["pressure"])) != "nan" else 0,
+            lectures,
+        )
+    )
 
-    # t = timeArr
-    # s = pressureArr
+    t = timeArr
+    s = pressureArr
 
-    # print("LECTURES NUMBER: ", len(lectures))
+    print("LECTURES NUMBER: ", len(lectures))
 
     # def testFunc(idx_and_item):
     #     index, item = idx_and_item
