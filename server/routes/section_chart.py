@@ -201,95 +201,95 @@ def build_word_report(piezos, reqDate):
             )
         )
 
-        # for j in range(0, len(sectionsList)):
-        #     section = sectionsList[j]
+        for j in range(0, len(sectionsList)):
+            section = sectionsList[j]
 
-        #     # PENDING ADD SECTION MAP AND START NEW PART IN THE PDF HERE
+            # PENDING ADD SECTION MAP AND START NEW PART IN THE PDF HERE
 
-        #     ps = document.add_paragraph("")
-        #     ps.add_run(f"{i+1}.{j+1} {section.replace('-', ' ', 1)}").bold = True
+            ps = document.add_paragraph("")
+            ps.add_run(f"{i+1}.{j+1} {section.replace('-', ' ', 1)}").bold = True
 
-        #     document.add_picture(
-        #         os.path.abspath(
-        #             f"../client/public/sectionReport/maps/{section.lower()}.png"
-        #         ),
-        #         width=Cm(15.24),
-        #         height=Cm(9.4),
-        #     )
-        #     document.add_paragraph(" ")
+            document.add_picture(
+                os.path.abspath(
+                    f"../client/public/sectionReport/maps/{section.lower()}.png"
+                ),
+                width=Cm(15.24),
+                height=Cm(9.4),
+            )
+            document.add_paragraph(" ")
 
-        #     ################################################################
+            ################################################################
 
-        #     piezo_list_by_section = list(
-        #         filter(lambda y: y["section"] == section, piezos)
-        #     )
+            piezo_list_by_section = list(
+                filter(lambda y: y["section"] == section, piezos)
+            )
 
-        #     for k in range(0, len(piezo_list_by_section)):
-        #         piezometer = piezo_list_by_section[k]
+            # for k in range(0, len(piezo_list_by_section)):
+            #     piezometer = piezo_list_by_section[k]
 
-        #         if k == 0:
-        #             filtered_list = list(
-        #                 filter(
-        #                     lambda x: x["section"] == section
-        #                     and x["datalogger"] != None
-        #                     and x["channel"] != None,
-        #                     piezos,
-        #                 )
-        #             )
+            #     if k == 0:
+            #         filtered_list = list(
+            #             filter(
+            #                 lambda x: x["section"] == section
+            #                 and x["datalogger"] != None
+            #                 and x["channel"] != None,
+            #                 piezos,
+            #             )
+            #         )
 
-        #             first_piezo_with_datalogger_and_channel = filtered_list[0]
+            #         first_piezo_with_datalogger_and_channel = filtered_list[0]
 
-        #             # if first_piezo_with_datalogger_and_channel:
-        #             # print(
-        #             #     section,
-        #             #     first_piezo_with_datalogger_and_channel["id"],
-        #             #     first_piezo_with_datalogger_and_channel["section"],
-        #             # )
-        #             # filename = plot_section_chart(
-        #             #     first_piezo_with_datalogger_and_channel
-        #             # )
-        #             # BUILD SECTION CHART WITH THE FIRST PIEZOMETER THAT HAS DATALOGGER AND CHANNEL
+            #         # if first_piezo_with_datalogger_and_channel:
+            #         # print(
+            #         #     section,
+            #         #     first_piezo_with_datalogger_and_channel["id"],
+            #         #     first_piezo_with_datalogger_and_channel["section"],
+            #         # )
+            #         # filename = plot_section_chart(
+            #         #     first_piezo_with_datalogger_and_channel
+            #         # )
+            #         # BUILD SECTION CHART WITH THE FIRST PIEZOMETER THAT HAS DATALOGGER AND CHANNEL
 
-        #             document.add_picture(
-        #                 os.path.abspath(
-        #                     f"../client/public/sectionReport/sections/{first_piezo_with_datalogger_and_channel['section'].lower() }.png"
-        #                 ),
-        #                 width=Cm(17),
-        #                 height=Cm(8.5),
-        #             )
-        #             document.add_page_break()
-        #             #################################################################################
+            #         document.add_picture(
+            #             os.path.abspath(
+            #                 f"../client/public/sectionReport/sections/{first_piezo_with_datalogger_and_channel['section'].lower() }.png"
+            #             ),
+            #             width=Cm(17),
+            #             height=Cm(8.5),
+            #         )
+            #         document.add_page_break()
+            #         #################################################################################
 
-        #         if piezometer["status"] == 1:
-        #             ps = document.add_paragraph(f"{piezometer['id']}")
+            #     if piezometer["status"] == 1:
+            #         ps = document.add_paragraph(f"{piezometer['id']}")
 
-        #             if (
-        #                 piezometer["datalogger"] != None
-        #                 and piezometer["channel"] != None
-        #                 and (
-        #                     f"node_{piezometer['datalogger']}_{piezometer['channel']}"
-        #                     in tables
-        #                 )
-        #             ):
-        #                 filename = plot_readings_chart(piezometer, 90, reqDate)
+            #         if (
+            #             piezometer["datalogger"] != None
+            #             and piezometer["channel"] != None
+            #             and (
+            #                 f"node_{piezometer['datalogger']}_{piezometer['channel']}"
+            #                 in tables
+            #             )
+            #         ):
+            #             filename = plot_readings_chart(piezometer, 90, reqDate)
 
-        #                 document.add_picture(
-        #                     os.path.abspath(
-        #                         f"../client/public/sectionReport/readings/{filename}"
-        #                     ),
-        #                     width=Cm(17),
-        #                     height=Cm(8.5),
-        #                 )
+            #             document.add_picture(
+            #                 os.path.abspath(
+            #                     f"../client/public/sectionReport/readings/{filename}"
+            #                 ),
+            #                 width=Cm(17),
+            #                 height=Cm(8.5),
+            #             )
 
-        #                 document.add_paragraph(" ")
+            #             document.add_paragraph(" ")
 
-        #             else:
-        #                 p_no_readings = document.add_paragraph("")
-        #                 p_no_readings.add_run(
-        #                     f"No readings for the current piezometer"
-        #                 ).bold = True
+            #         else:
+            #             p_no_readings = document.add_paragraph("")
+            #             p_no_readings.add_run(
+            #                 f"No readings for the current piezometer"
+            #             ).bold = True
 
-        # document.add_page_break()
+            document.add_page_break()
 
     # GET PIEZO READINGS FOR EACH PIEZOMETER IN EACH SECTION
 
