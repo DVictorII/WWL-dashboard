@@ -483,10 +483,8 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
     )
     plt.grid(True)
 
-    if len(pressureArr) != 0:
-        plt.fill_between(t, s, min(pressureArr), color=["#477C9A"], alpha=0.1)
-
-    plt.grid()
+    # if len(pressureArr) != 0:
+    #     plt.fill_between(t, s, min(pressureArr), color=["#477C9A"], alpha=0.1)
 
     file_path = os.path.abspath(
         f"../client/public/sectionReport/readings/{piezometer['datalogger']}_{piezometer['channel']}.png"
