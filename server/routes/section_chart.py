@@ -491,7 +491,7 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
 
     plt.savefig(file_path, bbox_inches="tight")
 
-    plt.close("all")
+    plt.close()
 
     return filename
 
