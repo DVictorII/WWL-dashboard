@@ -153,25 +153,25 @@ tables = [
 def build_word_report(piezos, reqDate):
     document = Document()
 
-    # sections = document.sections
+    sections = document.sections
 
-    # for section in sections:
-    #     section.top_margin = Cm(2.54)
-    #     section.bottom_margin = Cm(2.54)
-    #     section.left_margin = Cm(1.91)
-    #     section.right_margin = Cm(1.91)
+    for section in sections:
+        section.top_margin = Cm(2.54)
+        section.bottom_margin = Cm(2.54)
+        section.left_margin = Cm(1.91)
+        section.right_margin = Cm(1.91)
 
-    # document.add_heading("Appendix: Piezometer Information")
-    # document.add_paragraph("")
-    # document.add_picture(
-    #     os.path.abspath(f"../client/public/sectionReport/sections/sectionOverview.jpg"),
-    #     width=Cm(18),
-    #     height=Cm(12),
-    # )
+    document.add_heading("Appendix: Piezometer Information")
+    document.add_paragraph("")
+    document.add_picture(
+        os.path.abspath(f"../client/public/sectionReport/sections/sectionOverview.jpg"),
+        width=Cm(18),
+        height=Cm(12),
+    )
 
-    # document.add_page_break()
+    document.add_page_break()
 
-    # paddockList = list(set(list(map(lambda x: x["paddock"], piezos))))
+    paddockList = list(set(list(map(lambda x: x["paddock"], piezos))))
 
     # for i in range(0, len(paddockList)):
     #     paddock = paddockList[i]
