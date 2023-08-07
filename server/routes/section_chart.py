@@ -1,3 +1,10 @@
+import matplotlib
+
+matplotlib.use("Agg")
+
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+
 from flask import Blueprint, jsonify, request
 from flask_cors import cross_origin
 from datetime import datetime, timedelta, date
@@ -10,12 +17,6 @@ from docx.shared import Cm
 
 import routes.wwl_functions as wwl
 
-import matplotlib
-
-matplotlib.use("Agg")
-
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
 
 from routes.piezometers_data import piezometer_details
 import os
@@ -462,34 +463,25 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
 
     fig = plt.figure(figsize=(16, 6))
 
-    # ax = fig.add_subplot(1, 1, 1)
+    ax = fig.add_subplot(1, 1, 1)
 
-    print("Time", len(t))
-    print("Pressure", len(s))
-
-    if len(t) != len(s):
-        return "error"
-
-    ################################ ERROR TESTING
     plt.plot(t, s, label="Pressure readings (KPa)")
 
-    ################################
-
-    # plt.legend()
-    # plt.xticks(np.arange(len(spacedTime)), spacedTime, rotation=45)
-    # plt.xlabel("Dates")
-    # plt.ylabel("Pressure (KPa)")
+    plt.legend()
+    plt.xticks(np.arange(len(spacedTime)), spacedTime, rotation=45)
+    plt.xlabel("Dates")
+    plt.ylabel("Pressure (KPa)")
 
     arrPastDate = pastDate.split(" ")
     arrRecentDate = recentDate.split(" ")
 
-    # plt.title(
-    #     f"{piezometer['id']} - {piezometer['section']} - {piezometer['paddock']} - {arrPastDate[0]} to {arrRecentDate[0]} "
-    # )
-    plt.grid(True)
+    plt.title(
+        f"{piezometer['id']} - {piezometer['section']} - {piezometer['paddock']} - {arrPastDate[0]} to {arrRecentDate[0]} "
+    )
+    plt.gca().yaxis.grid(True)
 
-    # if len(pressureArr) != 0:
-    #     plt.fill_between(t, s, min(pressureArr), color=["#477C9A"], alpha=0.1)
+    if len(pressureArr) != 0:
+        plt.fill_between(t, s, min(pressureArr), color=["#477C9A"], alpha=0.1)
 
     file_path = os.path.abspath(
         f"../client/public/sectionReport/readings/{piezometer['datalogger']}_{piezometer['channel']}.png"
