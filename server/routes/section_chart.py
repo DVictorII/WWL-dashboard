@@ -260,34 +260,34 @@ def build_word_report(piezos, reqDate):
                     document.add_page_break()
                     #################################################################################
 
-                # if piezometer["status"] == 1:
-                #     ps = document.add_paragraph(f"{piezometer['id']}")
+                if piezometer["status"] == 1:
+                    ps = document.add_paragraph(f"{piezometer['id']}")
 
-                #     if (
-                #         piezometer["datalogger"] != None
-                #         and piezometer["channel"] != None
-                #         and (
-                #             f"node_{piezometer['datalogger']}_{piezometer['channel']}"
-                #             in tables
-                #         )
-                #     ):
-                #         filename = plot_readings_chart(piezometer, 90, reqDate)
+                    if (
+                        piezometer["datalogger"] != None
+                        and piezometer["channel"] != None
+                        and (
+                            f"node_{piezometer['datalogger']}_{piezometer['channel']}"
+                            in tables
+                        )
+                    ):
+                        filename = plot_readings_chart(piezometer, 90, reqDate)
 
-                #         document.add_picture(
-                #             os.path.abspath(
-                #                 f"../client/public/sectionReport/readings/{filename}"
-                #             ),
-                #             width=Cm(17),
-                #             height=Cm(8.5),
-                #         )
+                        document.add_picture(
+                            os.path.abspath(
+                                f"../client/public/sectionReport/readings/{filename}"
+                            ),
+                            width=Cm(17),
+                            height=Cm(8.5),
+                        )
 
-                #         document.add_paragraph(" ")
+                        document.add_paragraph(" ")
 
-                #     else:
-                #         p_no_readings = document.add_paragraph("")
-                #         p_no_readings.add_run(
-                #             f"No readings for the current piezometer"
-                #         ).bold = True
+                    else:
+                        p_no_readings = document.add_paragraph("")
+                        p_no_readings.add_run(
+                            f"No readings for the current piezometer"
+                        ).bold = True
 
             document.add_page_break()
 
@@ -412,96 +412,72 @@ def plot_section_chart(piezometer):
 
 
 def plot_readings_chart(piezometer, daysAgo, reqDate):
-    # try:
-    arr = reqDate.split("-")
-    intArr = list(map(lambda x: int(x), arr))
+    # arr = reqDate.split("-")
+    # intArr = list(map(lambda x: int(x), arr))
 
-    # d = datetime.today() - timedelta(days=int(daysAgo))
-    recentDate = date(*intArr).strftime("%Y-%m-%d 00:00:00")
-    d = date(*intArr) - timedelta(days=int(90))
-    pastDate = d.strftime("%Y-%m-%d 00:00:00")
+    # recentDate = date(*intArr).strftime("%Y-%m-%d 00:00:00")
+    # d = date(*intArr) - timedelta(days=int(90))
+    # pastDate = d.strftime("%Y-%m-%d 00:00:00")
 
-    print("recentDate", recentDate)
-    print("PAST DATE", pastDate)
-    # connection = db.session.connection()
+    # print("recentDate", recentDate)
+    # print("PAST DATE", pastDate)
 
-    result = db.session.execute(
-        text(
-            f"SELECT time,pressure FROM public.node_{piezometer['datalogger']}_{piezometer['channel']} WHERE time >= '{pastDate}' AND time <= '{recentDate}' ;"
-        )
-    )
-
-    lectures = [dict(r._mapping) for r in result]
-
-    # if len(lectures) > 1:
-    #     print(datalogger, channel, lectures[0], lectures[1])
-
-    # else:
-    #     print(datalogger, channel, lectures)
-
-    timeArr = list(map(lambda x: x["time"].strftime("%Y-%m-%d %H:%M:%S"), lectures))
-    pressureArr = list(
-        map(
-            lambda x: float(x["pressure"]) if str(float(x["pressure"])) != "nan" else 0,
-            lectures,
-        )
-    )
-
-    # Data for plotting
-    t = timeArr
-    s = pressureArr
-
-    print("LECTURES NUMBER: ", len(lectures))
-
-    def testFunc(idx_and_item):
-        index, item = idx_and_item
-
-        span = round(len(lectures) / 25)
-
-        if index % span == 0:
-            return item
-        else:
-            return ""
-
-    spacedTime = list(map(testFunc, enumerate(t)))
-
-    fig = plt.figure(figsize=(16, 6))
-
-    ax = fig.add_subplot(1, 1, 1)
-
-    plt.plot(t, s, label="Pressure readings (KPa)")
-
-    # ax.xaxis.set_major_locator(
-    #     mdates.DayLocator(interval=(5))
-    # )  # to get a tick every 15 minutes
-    # ax.xaxis.set_major_formatter(
-    #     mdates.DateFormatter("%Y-%m-%d")
-    # )  # optional formatting
-
-    plt.legend()
-    plt.xticks(np.arange(len(spacedTime)), spacedTime, rotation=45)
-    plt.xlabel("Dates")
-    plt.ylabel("Pressure (KPa)")
-
-    arrPastDate = pastDate.split(" ")
-    arrRecentDate = recentDate.split(" ")
-
-    plt.title(
-        f"{piezometer['id']} - {piezometer['section']} - {piezometer['paddock']} - {arrPastDate[0]} to {arrRecentDate[0]} "
-    )
-    plt.grid(True)
-
-    if len(pressureArr) != 0:
-        plt.fill_between(t, s, min(pressureArr), color=["#477C9A"], alpha=0.1)
-
-    plt.grid()
-
-    now = datetime.now()
-    dt_string = now.strftime("%Y%m%d%H%M%S")
-
-    # filename = os.path.abspath(
-    #     f"../client/dist/media/charts/{paddock}_{piezo}_{days}_{dt_string}.png"
+    # result = db.session.execute(
+    #     text(
+    #         f"SELECT time,pressure FROM public.node_{piezometer['datalogger']}_{piezometer['channel']} WHERE time >= '{pastDate}' AND time <= '{recentDate}' ;"
+    #     )
     # )
+
+    # lectures = [dict(r._mapping) for r in result]
+
+    # timeArr = list(map(lambda x: x["time"].strftime("%Y-%m-%d %H:%M:%S"), lectures))
+    # pressureArr = list(
+    #     map(
+    #         lambda x: float(x["pressure"]) if str(float(x["pressure"])) != "nan" else 0,
+    #         lectures,
+    #     )
+    # )
+
+    # t = timeArr
+    # s = pressureArr
+
+    # print("LECTURES NUMBER: ", len(lectures))
+
+    # def testFunc(idx_and_item):
+    #     index, item = idx_and_item
+
+    #     span = round(len(lectures) / 25)
+
+    #     if index % span == 0:
+    #         return item
+    #     else:
+    #         return ""
+
+    # spacedTime = list(map(testFunc, enumerate(t)))
+
+    # fig = plt.figure(figsize=(16, 6))
+
+    # ax = fig.add_subplot(1, 1, 1)
+
+    # plt.plot(t, s, label="Pressure readings (KPa)")
+
+    # plt.legend()
+    # plt.xticks(np.arange(len(spacedTime)), spacedTime, rotation=45)
+    # plt.xlabel("Dates")
+    # plt.ylabel("Pressure (KPa)")
+
+    # arrPastDate = pastDate.split(" ")
+    # arrRecentDate = recentDate.split(" ")
+
+    # plt.title(
+    #     f"{piezometer['id']} - {piezometer['section']} - {piezometer['paddock']} - {arrPastDate[0]} to {arrRecentDate[0]} "
+    # )
+    # plt.grid(True)
+
+    # if len(pressureArr) != 0:
+    #     plt.fill_between(t, s, min(pressureArr), color=["#477C9A"], alpha=0.1)
+
+    # plt.grid()
 
     file_path = os.path.abspath(
         f"../client/public/sectionReport/readings/{piezometer['datalogger']}_{piezometer['channel']}.png"
@@ -509,9 +485,9 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
 
     filename = f"{piezometer['datalogger']}_{piezometer['channel']}.png"
 
-    plt.savefig(file_path, bbox_inches="tight")
+    # plt.savefig(file_path, bbox_inches="tight")
 
-    plt.close("all")
+    # plt.close("all")
 
     return filename
 
