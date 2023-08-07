@@ -93,7 +93,7 @@ from routes.section_chart import section_chart_routes
 app.register_blueprint(section_chart_routes)
 
 
-@app.route("/debug-sentry")
+@app.route("/api/v1/debug-sentry")
 def trigger_error():
     division_by_zero = 1 / 0
 

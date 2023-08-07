@@ -425,9 +425,6 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
     d = date(*intArr) - timedelta(days=int(90))
     pastDate = d.strftime("%Y-%m-%d 00:00:00")
 
-    print("recentDate", recentDate)
-    print("PAST DATE", pastDate)
-
     result = db.session.execute(
         text(
             f"SELECT time,pressure FROM public.node_{piezometer['datalogger']}_{piezometer['channel']} WHERE time >= '{pastDate}' AND time <= '{recentDate}' ;"
@@ -447,7 +444,10 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
     t = timeArr
     s = pressureArr
 
-    print("LECTURES NUMBER: ", len(lectures))
+    badArr = list(filter(lambda x: type(x) is not float, s))
+
+    if len(badArr) != 0:
+        print("BAD ARR", badArr)
 
     def testFunc(idx_and_item):
         index, item = idx_and_item
