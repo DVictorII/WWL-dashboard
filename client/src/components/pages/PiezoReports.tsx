@@ -171,9 +171,9 @@ function PiezoReports() {
               className="flex items-center gap-x-1   px-4  py-2 sm:px-4  bg-[#333] text-[#f1f1f1] rounded-full"
             >
               <AiOutlineDownload className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
-              <span className="text-xs font-semibold sm:hidden">Overall</span>
+              <span className="text-xs font-semibold sm:hidden">Overview</span>
               <span className="text-xs sm:text-sm   font-medium hidden sm:block">
-                Overall Report
+                Overview Report
               </span>
             </button>
             <button

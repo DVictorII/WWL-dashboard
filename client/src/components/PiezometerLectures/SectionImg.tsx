@@ -52,6 +52,24 @@ function SectionImg({ fullPage = false }) {
   );
   // console.log(currentPiezometer);
 
+  const { isLoading: sectionDataIsLoading, data: sectionData } = useQuery({
+    queryKey: [`Section-data-${paddock}-${piezo}`],
+    queryFn: () =>
+      fetchSectionByPiezometer({
+        //@ts-ignore
+        node: currentPiezometer.datalogger,
+        //@ts-ignore
+        channel: currentPiezometer.channel,
+      }),
+    enabled:
+      !!currentPiezometer &&
+      !!currentPiezometer.datalogger &&
+      !!currentPiezometer.channel &&
+      !!currentPiezometer.section &&
+      currentPiezometer.section !== "?",
+    refetchOnWindowFocus: false,
+  });
+
   if (!currentPiezometer?.section || currentPiezometer.section === "?")
     return (
       <div className="flex flex-col gap-y-4  w-full ">
@@ -77,24 +95,6 @@ function SectionImg({ fullPage = false }) {
     );
 
   //   console.log("PIEZOINFO", piezoInfo);
-
-  const { isLoading: sectionDataIsLoading, data: sectionData } = useQuery({
-    queryKey: [`Section-data-${paddock}-${piezo}`],
-    queryFn: () =>
-      fetchSectionByPiezometer({
-        //@ts-ignore
-        node: currentPiezometer.datalogger,
-        //@ts-ignore
-        channel: currentPiezometer.channel,
-      }),
-    enabled:
-      !!currentPiezometer &&
-      !!currentPiezometer.datalogger &&
-      !!currentPiezometer.channel &&
-      !!currentPiezometer.section &&
-      currentPiezometer.section !== "?",
-    refetchOnWindowFocus: false,
-  });
 
   if (sectionDataIsLoading)
     return (

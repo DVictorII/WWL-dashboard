@@ -427,7 +427,7 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
 
     result = db.session.execute(
         text(
-            f"SELECT time,pressure FROM public.node_{piezometer['datalogger']}_{piezometer['channel']} WHERE time >= '{pastDate}' AND time <= '{recentDate}' ;"
+            f"SELECT time,pressure FROM node_{piezometer['datalogger']}_{piezometer['channel']} WHERE time >= '{pastDate}' AND time <= '{recentDate}' ;"
         )
     )
 
