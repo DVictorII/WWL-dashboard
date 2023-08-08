@@ -179,6 +179,8 @@ def build_word_report(piezos, reqDate):
 
     paddockList = list(set(list(map(lambda x: x["paddock"], piezos))))
 
+    finalArr = []
+
     for i in range(0, len(paddockList)):
         paddock = paddockList[i]
 
@@ -277,15 +279,19 @@ def build_word_report(piezos, reqDate):
                             in tables
                         )
                     ):
-                        filename = plot_readings_chart(piezometer, 90, reqDate)
+                        # filename = plot_readings_chart(piezometer, 90, reqDate)
 
-                        document.add_picture(
-                            os.path.abspath(
-                                f"../client/public/sectionReport/readings/{filename}"
-                            ),
-                            width=Cm(17),
-                            height=Cm(8.5),
-                        )
+                        t, s = plot_readings_chart(piezometer, 90, reqDate)
+
+                        finalArr.append({"pressure": s, "time": t})
+
+                        # document.add_picture(
+                        #     os.path.abspath(
+                        #         f"../client/public/sectionReport/readings/{filename}"
+                        #     ),
+                        #     width=Cm(17),
+                        #     height=Cm(8.5),
+                        # )
 
                         document.add_paragraph(" ")
 
@@ -301,6 +307,8 @@ def build_word_report(piezos, reqDate):
 
     document.save(os.path.abspath(f"../client/dist/report_word/word_report.docx"))
     document.save(os.path.abspath(f"../client/public/report_word/word_report.docx"))
+
+    return finalArr
 
 
 def plot_section_chart(piezometer):
@@ -434,6 +442,13 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
     lectures = [dict(r._mapping) for r in result]
 
     timeArr = list(map(lambda x: x["time"].strftime("%Y-%m-%d %H:%M:%S"), lectures))
+
+    firstPressureArr = list(
+        map(
+            lambda y: y["pressure"],
+        )
+    )
+
     pressureArr = list(
         map(
             lambda x: float(x["pressure"]) if str(float(x["pressure"])) != "nan" else 0,
@@ -456,39 +471,41 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
 
     spacedTime = list(map(testFunc, enumerate(t)))
 
-    fig = plt.figure(figsize=(16, 6))
+    # fig = plt.figure(figsize=(16, 6))
 
-    ax = fig.add_subplot(1, 1, 1)
+    # ax = fig.add_subplot(1, 1, 1)
 
-    plt.plot(t, s, label="Pressure readings (KPa)")
+    # plt.plot(t, s, label="Pressure readings (KPa)")
 
-    plt.legend()
-    plt.xticks(np.arange(len(spacedTime)), spacedTime, rotation=45)
-    plt.xlabel("Dates")
-    plt.ylabel("Pressure (KPa)")
+    # plt.legend()
+    # plt.xticks(np.arange(len(spacedTime)), spacedTime, rotation=45)
+    # plt.xlabel("Dates")
+    # plt.ylabel("Pressure (KPa)")
 
-    arrPastDate = pastDate.split(" ")
-    arrRecentDate = recentDate.split(" ")
+    # arrPastDate = pastDate.split(" ")
+    # arrRecentDate = recentDate.split(" ")
 
-    plt.title(
-        f"{piezometer['id']} - {piezometer['section']} - {piezometer['paddock']} - {arrPastDate[0]} to {arrRecentDate[0]} "
-    )
-    plt.gca().yaxis.grid(True)
+    # plt.title(
+    #     f"{piezometer['id']} - {piezometer['section']} - {piezometer['paddock']} - {arrPastDate[0]} to {arrRecentDate[0]} "
+    # )
+    # plt.gca().yaxis.grid(True)
 
-    if len(pressureArr) != 0:
-        plt.fill_between(t, s, min(pressureArr), color=["#477C9A"], alpha=0.1)
+    # if len(pressureArr) != 0:
+    #     plt.fill_between(t, s, min(pressureArr), color=["#477C9A"], alpha=0.1)
 
-    file_path = os.path.abspath(
-        f"../client/public/sectionReport/readings/{piezometer['datalogger']}_{piezometer['channel']}.png"
-    )
+    # file_path = os.path.abspath(
+    #     f"../client/public/sectionReport/readings/{piezometer['datalogger']}_{piezometer['channel']}.png"
+    # )
 
-    filename = f"{piezometer['datalogger']}_{piezometer['channel']}.png"
+    # filename = f"{piezometer['datalogger']}_{piezometer['channel']}.png"
 
-    plt.savefig(file_path, bbox_inches="tight")
+    # plt.savefig(file_path, bbox_inches="tight")
 
-    plt.close()
+    # plt.close()
 
-    return filename
+    # return filename
+
+    return timeArr, firstPressureArr
 
 
 # except:
@@ -508,12 +525,9 @@ def build_paddocks_information_chart():
 
     reqDate = request.json["date"]
 
-    build_word_report(piezos, reqDate)
+    finalArr = build_word_report(piezos, reqDate)
     return jsonify(
         {
-            "date": reqDate,
-            "message": "success",
-            "results": len(piezos),
-            "piezos": list(filter(lambda x: x["paddock"] == "E1/E2", piezos)),
+            "data": finalArr,
         }
     )
