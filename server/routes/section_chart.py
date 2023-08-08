@@ -444,11 +444,6 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
     t = timeArr
     s = pressureArr
 
-    badArr = list(filter(lambda x: type(x) is not float, s))
-
-    if len(badArr) != 0:
-        print("BAD ARR", badArr)
-
     def testFunc(idx_and_item):
         index, item = idx_and_item
 

@@ -174,7 +174,7 @@ def get_node_id(name):
 
 def get_temp(thermR, A, B, C):
     res = 1 / (A + B * np.log(thermR) + C * (np.log(thermR) ** 3)) - 273.2
-    print("RESULT: ", res)
+
     return res
 
 
@@ -221,15 +221,18 @@ def copy_data(id, k, year, month, cur):
         for _, row in sub.iterrows():
             tuple_row = tuple(row)
             query += f"""
-             INSERT INTO {table_name} 
+
+            INSERT INTO {table_name} 
     		VALUES ('{tuple_row[0]}','{tuple_row[1]}','{tuple_row[2]}','{tuple_row[3]}','{tuple_row[4]}','{tuple_row[5]}')
-    		ON CONFLICT (time)
-    		DO UPDATE SET 
-        		atmpres='{tuple_row[1]}',
-        		freq='{tuple_row[2]}',
-        		thermr='{tuple_row[3]}',
-        		temperature='{tuple_row[4]}',
-        		pressure='{tuple_row[5]}';
+            
+            ON CONFLICT ON CONSTRAINT {table_name}_pkey
+            DO UPDATE SET
+            atmpres='{tuple_row[1]}',
+            freq='{tuple_row[2]}',
+            thermr='{tuple_row[3]}',
+            temperature='{tuple_row[4]}',
+            pressure='{tuple_row[5]}';
+    		
     	  """
 
         return query
@@ -309,7 +312,7 @@ def download_data(gateway, year, month, option=False):
     print("CONTENT", response.content)
     open(os.path.abspath("data/data_compacted.csv"), "wb").write(response.content)
 
-    # url = "https://loadsensing.wocs3.com/21545/dataserver/csv/compacted/compacted-readings-21545-2023-06.zip"
+    # url = f"https://loadsensing.wocs3.com/21545/dataserver/csv/compacted/compacted-readings-21545-2023-06.zip"
     # print("connecting to server")
     # print(url)
     # res = requests.get(url=url, stream=True, auth=adm, allow_redirects=True)
@@ -326,7 +329,7 @@ def download_data(gateway, year, month, option=False):
     # print("downloaded data from server")
 
     # df = (
-    #     open(os.path.abspath("data/compacted-readings-21545-2023-06.dat"))
+    #     open(os.path.abspath(f"data/compacted-readings-21545-2023-06.dat"))
     #     .read()
     #     .encode()
     # )

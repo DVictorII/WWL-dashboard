@@ -349,7 +349,7 @@ export async function InitializeMap({
   paddock = "All",
   date = moment(Date.now()).format("YYYY-MM-DD"),
 }: any) {
-  const satellite = await satelliteMap();
+  const satellite = await satelliteMap(date);
   const sentinelHub = await sentinelMap(date);
 
   // Drawing map and setting base to satellite

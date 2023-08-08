@@ -71,11 +71,11 @@ function IncidentLocationShowcaseMap() {
 
   const markers = L.markerClusterGroup();
 
+  const today = moment(Date.now()).format("MM-DD-YYYY");
+
   async function DrawIncidentsShowcaseMap({ current_zoom, mapDOM }: any) {
-    const satellite = await satelliteMap();
-    const sentinelHub = await sentinelMap(
-      moment(Date.now()).format("MM-DD-YYYY")
-    );
+    const satellite = await satelliteMap(today);
+    const sentinelHub = await sentinelMap(today);
 
     const myMap = L.map(mapDOM, {
       center: L.latLng(Number(latitude), Number(longitude)),

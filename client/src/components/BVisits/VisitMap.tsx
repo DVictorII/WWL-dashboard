@@ -154,7 +154,7 @@ function VisitMap({ media }: VisitMapProps) {
   async function InitializeMap() {
     myMap = undefined;
     const today = moment(Date.now()).format("YYYY-MM-DD");
-    satellite = await satelliteMap();
+    satellite = await satelliteMap(today);
     sentinelHub = await sentinelMap(today);
 
     // Drawing map and setting base to satellite
