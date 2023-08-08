@@ -9,9 +9,137 @@ import ReportsListTable from "../Reports/ReportsListTable";
 import { fetchPiezoReports } from "../../utils/reportsFetchFunctions";
 import { useEffect } from "react";
 import SkeletonPiezoReportsPage from "../Skeletons/Reports/SkeletonPiezoReportsPage";
-import { AiOutlinePlus } from "react-icons/ai";
+import { AiOutlineDownload, AiOutlinePlus } from "react-icons/ai";
+import moment from "moment";
+import axios from "../../utils/axios";
+import { toast } from "react-hot-toast";
 
 function PiezoReports() {
+  const downloadReport = async () => {
+    try {
+      const res = await toast.promise(
+        axios.post("/modify_excel"),
+        {
+          loading: "Generating report...",
+          success: (data) => {
+            console.log("DOWNLOAD FILE", data.data.filename);
+
+            const aTag = document.createElement("a");
+            //@ts-ignore
+            aTag.href = "/pyreport/report3.xlsx";
+
+            aTag.target = "_blank";
+            aTag.setAttribute(
+              "download",
+              `report_${moment(Date.now()).format("YYYY_MM_DD_hh_mm_ss")}.xlsx`
+            );
+
+            document.body.appendChild(aTag);
+            aTag.click();
+            aTag.remove();
+
+            return `Generated! Downloading...`;
+          },
+          //@ts-ignore
+          error: (err) => `There was an error!`,
+        },
+        {
+          style: {
+            fontWeight: "500",
+          },
+          success: {
+            duration: 3000,
+
+            style: {
+              fontWeight: "500",
+              border: "2px solid #65a30d",
+              padding: "8px 16px",
+              color: "#1c1917",
+            },
+          },
+          error: {
+            duration: 3000,
+
+            style: {
+              fontWeight: "500",
+              border: "2px solid #b91c1c",
+              padding: "8px 16px",
+              color: "#1c1917",
+            },
+          },
+        }
+      );
+    } catch (err) {
+      console.log("ERROR", err);
+    }
+  };
+
+  const downloadWord = async () => {
+    const aTag = document.createElement("a");
+    //@ts-ignore
+    aTag.href = "/report_word/word_report.docx";
+    aTag.target = "_blank";
+    aTag.setAttribute(
+      "download",
+      `report_${moment(Date.now()).format("YYYY_MM_DD_hh_mm_ss")}.docx`
+    );
+    document.body.appendChild(aTag);
+    aTag.click();
+    aTag.remove();
+    //   try {
+    //     const res = await toast.promise(
+    //       axios.post("/paddock-chart", {
+    //         date: date,
+    //       }),
+    //       {
+    //         loading: "Generating report...",
+    //         success: (data) => {
+    //           console.log("DATA", data);
+    //           // console.log("DOWNLOAD FILE", data.data.filename);
+    //           const aTag = document.createElement("a");
+    //           //@ts-ignore
+    //           aTag.href = "/report_word/word_report.docx";
+    //           aTag.target = "_blank";
+    //           aTag.setAttribute(
+    //             "download",
+    //             `report_${moment(Date.now()).format("YYYY_MM_DD_hh_mm_ss")}.docx`
+    //           );
+    //           document.body.appendChild(aTag);
+    //           aTag.click();
+    //           aTag.remove();
+    //           return `Generated! Downloading...`;
+    //         },
+    //         error: (err) => `There was an error!`,
+    //       },
+    //       {
+    //         style: {
+    //           fontWeight: "500",
+    //         },
+    //         success: {
+    //           duration: 3000,
+    //           style: {
+    //             fontWeight: "500",
+    //             border: "2px solid #65a30d",
+    //             padding: "8px 16px",
+    //             color: "#1c1917",
+    //           },
+    //         },
+    //         error: {
+    //           duration: 3000,
+    //           style: {
+    //             fontWeight: "500",
+    //             border: "2px solid #b91c1c",
+    //             padding: "8px 16px",
+    //             color: "#1c1917",
+    //           },
+    //         },
+    //       }
+    //     );
+    //   } catch (err) {
+    //     console.log("ERROR", err);
+    //   }
+  };
+
   const { isLoading, data: piezoReports } = useQuery(
     "piezoReports",
     fetchPiezoReports,
@@ -37,15 +165,34 @@ function PiezoReports() {
         </h1>
 
         <div className="flex items-center gap-x-4">
-          {/* <div className="p-2 bg-all-normal flex items-center justify-center rounded-full text-white ">
-            <BsBookmarkHeartFill className="w-4 h-4  lg:w-5 lg:h-5 " />
-          </div> */}
+          <div className="flex items-center gap-x-2">
+            <button
+              onClick={downloadWord}
+              className="flex items-center gap-x-1   px-4  py-2 sm:px-4  bg-[#333] text-[#f1f1f1] rounded-full"
+            >
+              <AiOutlineDownload className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
+              <span className="text-xs font-semibold sm:hidden">Overall</span>
+              <span className="text-xs sm:text-sm   font-medium hidden sm:block">
+                Overall Report
+              </span>
+            </button>
+            <button
+              onClick={downloadReport}
+              className="flex items-center gap-x-1   px-4  py-2 sm:px-4  bg-[#333] text-[#f1f1f1] rounded-full"
+            >
+              <AiOutlineDownload className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
+              <span className="text-xs font-semibold sm:hidden">Readings</span>
+              <span className="text-xs sm:text-sm   font-medium hidden sm:block">
+                Readings report
+              </span>
+            </button>
+          </div>
 
           <Link to="/operations/reports/piezometers/new-report">
-            <button className="flex items-center gap-x-2 p-2 sm:px-4 rounded-full bg-all-normal text-white  hover:bg-orange-800 transition-all">
+            <button className="flex items-center gap-x-2 p-2 sm:px-4 rounded-full bg-orange-700 text-white  hover:bg-orange-800 transition-all">
               <AiOutlinePlus className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
               <span className="text-xs sm:text-sm   font-medium hidden sm:block">
-                New
+                New Piezo. Report
               </span>
             </button>
           </Link>

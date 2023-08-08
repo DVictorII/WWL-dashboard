@@ -196,11 +196,7 @@ def get_stock(company, interval):
         # example company_stock = wwl.stock_data("601985.SS",7)
         company_stock = wwl.stock_data(company, interval)
         data, history = company_stock.load_stock_data(folder)
-        print("DATA", data, history)
-
-        hist2 = history.to_json()
-
-        dict2 = {"data": data, "hist": hist2.replace('/"', "")}
+        dict2 = {"data": data, "hist": history}
 
         # return jsonify({"data": data, "hist": history.to_json()})
         return jsonify(dict2)

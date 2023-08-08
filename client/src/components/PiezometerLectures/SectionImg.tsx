@@ -52,6 +52,30 @@ function SectionImg({ fullPage = false }) {
   );
   // console.log(currentPiezometer);
 
+  if (!currentPiezometer?.section || currentPiezometer.section === "?")
+    return (
+      <div className="flex flex-col gap-y-4  w-full ">
+        <div className="overflow-scroll">
+          <div
+            className={` ${
+              fullPage ? "h-[50vh]" : "h-[30vh] "
+            }  w-full text-center  p-4 flex justify-center items-center bg-[#f1f1f1]`}
+          >
+            <h1
+              className={`${fullPage ? "text-xl" : "text-lg"} font-semibold `}
+            >
+              Piezometer dont belong to any section yet!!
+            </h1>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-y-6 3xl:flex-row-reverse 3xl:justify-between w-full">
+          <SectionLegend />
+          {!fullPage && <FullScreenButton comp={"section"} />}
+        </div>
+      </div>
+    );
+
   //   console.log("PIEZOINFO", piezoInfo);
 
   const { isLoading: sectionDataIsLoading, data: sectionData } = useQuery({
@@ -79,26 +103,31 @@ function SectionImg({ fullPage = false }) {
       </div>
     );
 
-  if (!sectionData)
+  if (!sectionData || !sectionData.name || !sectionData.data)
     return (
       <div className="flex flex-col gap-y-4  w-full ">
         <div className="overflow-scroll">
           <div
             className={` ${
               fullPage ? "h-[50vh]" : "h-[30vh] "
-            }     min-w-[36rem] max-w-full  p-4 flex justify-center items-center bg-[#f1f1f1]`}
+            }   w-full text-center  p-4 flex justify-center items-center bg-[#f1f1f1]`}
           >
-            <h1>Piezometer dont belong to any section!!</h1>
+            <h1
+              className={`${fullPage ? "text-xl" : "text-lg"} font-semibold `}
+            >
+              Section representation not available yet!!
+            </h1>
           </div>
         </div>
 
         <div className="flex flex-col gap-y-6 3xl:flex-row-reverse 3xl:justify-between w-full">
           <SectionLegend />
-          <FullScreenButton comp={"section"} />
+          {!fullPage && <FullScreenButton comp={"section"} />}
         </div>
       </div>
     );
 
+  console.log("DATA", sectionData);
   //@ts-ignore
   const chartPiezometers = sectionData.data.map((arr) => {
     const fixedXCoordinate = Math.round(arr[2] / 5) * 5;
