@@ -279,19 +279,15 @@ def build_word_report(piezos, reqDate):
                             in tables
                         )
                     ):
-                        # filename = plot_readings_chart(piezometer, 90, reqDate)
+                        filename = plot_readings_chart(piezometer, 90, reqDate)
 
-                        t, s = plot_readings_chart(piezometer, 90, reqDate)
-
-                        finalArr.append({"similar": len(s) == len(t)})
-
-                        # document.add_picture(
-                        #     os.path.abspath(
-                        #         f"../client/public/sectionReport/readings/{filename}"
-                        #     ),
-                        #     width=Cm(17),
-                        #     height=Cm(8.5),
-                        # )
+                        document.add_picture(
+                            os.path.abspath(
+                                f"../client/public/sectionReport/readings/{filename}"
+                            ),
+                            width=Cm(17),
+                            height=Cm(8.5),
+                        )
 
                         document.add_paragraph(" ")
 
@@ -307,8 +303,6 @@ def build_word_report(piezos, reqDate):
 
     document.save(os.path.abspath(f"../client/dist/report_word/word_report.docx"))
     document.save(os.path.abspath(f"../client/public/report_word/word_report.docx"))
-
-    return finalArr
 
 
 def plot_section_chart(piezometer):
@@ -426,84 +420,82 @@ def plot_section_chart(piezometer):
 
 
 def plot_readings_chart(piezometer, daysAgo, reqDate):
-    arr = reqDate.split("-")
-    intArr = list(map(lambda x: int(x), arr))
+    try:
+        arr = reqDate.split("-")
+        intArr = list(map(lambda x: int(x), arr))
 
-    recentDate = date(*intArr).strftime("%Y-%m-%d 00:00:00")
-    d = date(*intArr) - timedelta(days=int(90))
-    pastDate = d.strftime("%Y-%m-%d 00:00:00")
+        recentDate = date(*intArr).strftime("%Y-%m-%d 00:00:00")
+        d = date(*intArr) - timedelta(days=int(90))
+        pastDate = d.strftime("%Y-%m-%d 00:00:00")
 
-    result = db.session.execute(
-        text(
-            f"SELECT time,pressure FROM node_{piezometer['datalogger']}_{piezometer['channel']} WHERE time >= '{pastDate}' AND time <= '{recentDate}' ;"
+        result = db.session.execute(
+            text(
+                f"SELECT time,pressure FROM node_{piezometer['datalogger']}_{piezometer['channel']} WHERE time >= '{pastDate}' AND time <= '{recentDate}' ;"
+            )
         )
-    )
 
-    lectures = [dict(r._mapping) for r in result]
+        lectures = [dict(r._mapping) for r in result]
 
-    timeArr = list(map(lambda x: x["time"].strftime("%Y-%m-%d %H:%M:%S"), lectures))
+        timeArr = list(map(lambda x: x["time"].strftime("%Y-%m-%d %H:%M:%S"), lectures))
 
-    firstPressureArr = list(map(lambda y: y["pressure"], lectures))
-
-    pressureArr = list(
-        map(
-            lambda x: float(x["pressure"])
-            if str(float(x["pressure"])) != "nan"
-            else 0.0,
-            lectures,
+        pressureArr = list(
+            map(
+                lambda x: x["pressure"],
+                lectures,
+            )
         )
-    )
 
-    t = timeArr
-    s = pressureArr
+        t = timeArr
+        s = pressureArr
 
-    def testFunc(idx_and_item):
-        index, item = idx_and_item
+        def testFunc(idx_and_item):
+            index, item = idx_and_item
 
-        span = round(len(lectures) / 25)
+            span = round(len(lectures) / 25)
 
-        if index % span == 0:
-            return item
-        else:
-            return ""
+            if index % span == 0:
+                return item
+            else:
+                return ""
 
-    spacedTime = list(map(testFunc, enumerate(t)))
+        spacedTime = list(map(testFunc, enumerate(t)))
 
-    # fig = plt.figure(figsize=(16, 6))
+        fig = plt.figure(figsize=(16, 6))
 
-    # ax = fig.add_subplot(1, 1, 1)
+        ax = fig.add_subplot(1, 1, 1)
 
-    # plt.plot(t, s, label="Pressure readings (KPa)")
+        plt.plot(t, s, label="Pressure readings (KPa)")
 
-    # plt.legend()
-    # plt.xticks(np.arange(len(spacedTime)), spacedTime, rotation=45)
-    # plt.xlabel("Dates")
-    # plt.ylabel("Pressure (KPa)")
+        plt.legend()
+        plt.xticks(np.arange(len(spacedTime)), spacedTime, rotation=45)
+        plt.xlabel("Dates")
+        plt.ylabel("Pressure (KPa)")
 
-    # arrPastDate = pastDate.split(" ")
-    # arrRecentDate = recentDate.split(" ")
+        arrPastDate = pastDate.split(" ")
+        arrRecentDate = recentDate.split(" ")
 
-    # plt.title(
-    #     f"{piezometer['id']} - {piezometer['section']} - {piezometer['paddock']} - {arrPastDate[0]} to {arrRecentDate[0]} "
-    # )
-    # plt.gca().yaxis.grid(True)
+        plt.title(
+            f"{piezometer['id']} - {piezometer['section']} - {piezometer['paddock']} - {arrPastDate[0]} to {arrRecentDate[0]} "
+        )
+        plt.gca().yaxis.grid(True)
 
-    # if len(pressureArr) != 0:
-    #     plt.fill_between(t, s, min(pressureArr), color=["#477C9A"], alpha=0.1)
+        if len(pressureArr) != 0:
+            plt.fill_between(t, s, min(pressureArr), color=["#477C9A"], alpha=0.1)
 
-    # file_path = os.path.abspath(
-    #     f"../client/public/sectionReport/readings/{piezometer['datalogger']}_{piezometer['channel']}.png"
-    # )
+        file_path = os.path.abspath(
+            f"../client/public/sectionReport/readings/{piezometer['datalogger']}_{piezometer['channel']}.png"
+        )
 
-    # filename = f"{piezometer['datalogger']}_{piezometer['channel']}.png"
+        filename = f"{piezometer['datalogger']}_{piezometer['channel']}.png"
 
-    # plt.savefig(file_path, bbox_inches="tight")
+        plt.savefig(file_path, bbox_inches="tight")
 
-    # plt.close()
+        plt.close()
 
-    # return filename
+        return filename
 
-    return timeArr, firstPressureArr
+    except Exception:
+        print(Exception)
 
 
 # except:
@@ -523,9 +515,9 @@ def build_paddocks_information_chart():
 
     reqDate = request.json["date"]
 
-    finalArr = build_word_report(piezos, reqDate)
+    build_word_report(piezos, reqDate)
     return jsonify(
         {
-            "data": finalArr,
+            "message": "success",
         }
     )
