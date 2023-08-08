@@ -443,11 +443,7 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
 
     timeArr = list(map(lambda x: x["time"].strftime("%Y-%m-%d %H:%M:%S"), lectures))
 
-    firstPressureArr = list(
-        map(
-            lambda y: y["pressure"],
-        )
-    )
+    firstPressureArr = list(map(lambda y: y["pressure"], lectures))
 
     pressureArr = list(
         map(
