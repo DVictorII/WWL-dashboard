@@ -662,6 +662,20 @@ class stock_data:
 
         return df
 
+    def dataframe_to_list(self,df):
+        data_list = []
+        decimals = 3
+        for index, row in df.iterrows():
+            date = index.strftime('%Y-%m-%d')
+            open_price = round(row['Open'], decimals)
+            high = round(row['High'], decimals)
+            low = round(row['Low'], decimals)
+            close = round(row['Close'], decimals)
+            adj_close = round(row['Adj Close'], decimals)
+            volume = row['Volume']
+            data_list.append((date, open_price, high, low, close, adj_close, volume))
+        return data_list
+    
     def load_stock_data(self, folder_path):
         files = os.listdir(folder_path)
         today_date = datetime.today().strftime("%Y%m%d")
@@ -689,7 +703,7 @@ class stock_data:
             history = self.get_stock_history()
             with open(os.path.join(folder_path, file_name), "wb") as f:
                 pickle.dump(history, f)
-        return dict_full, history
+        return dict_full, self.dataframe_to_list(history)
 
 
 class currency_data:
