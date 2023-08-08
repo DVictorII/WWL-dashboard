@@ -283,7 +283,7 @@ def build_word_report(piezos, reqDate):
 
                         t, s = plot_readings_chart(piezometer, 90, reqDate)
 
-                        finalArr.append({"pressure": s, "time": t})
+                        finalArr.append({"similar": len(s) == len(t)})
 
                         # document.add_picture(
                         #     os.path.abspath(
@@ -447,7 +447,9 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
 
     pressureArr = list(
         map(
-            lambda x: float(x["pressure"]) if str(float(x["pressure"])) != "nan" else 0,
+            lambda x: float(x["pressure"])
+            if str(float(x["pressure"])) != "nan"
+            else 0.0,
             lectures,
         )
     )
