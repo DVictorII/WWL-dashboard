@@ -4,6 +4,7 @@ import { useSectionImgStore } from "../store/sectionImgStore";
 import { AnimatePresence, motion } from "framer-motion";
 import BarChart from "./BarChart";
 import SectionImg from "./PiezometerLectures/SectionImg";
+import { useMonitoringMapStateStore } from "../store/MonitoringMapStateStore";
 
 interface Information {
   paddock: string;
@@ -15,6 +16,12 @@ interface Information {
 function FullPageComps({ information }: { information: Information }) {
   const sectionImgIsOpen = useSectionImgStore((s) => s.sectionImgIsOpen);
   const closeSectionImg = useSectionImgStore((s) => s.closeSectionImg);
+
+  const piezometersData = useMonitoringMapStateStore((s) => s.piezometersData);
+
+  const currentPiezometer = piezometersData.find(
+    (p) => p.paddock === information.paddock && p.id === information.piezo
+  );
 
   const fullPageBarChartIsOpen = useSectionImgStore(
     (s) => s.fullPageBarChartIsOpen
@@ -46,7 +53,13 @@ function FullPageComps({ information }: { information: Information }) {
               className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-[700px] md:w-4/5    rotate-90 origin-center lg:rotate-0"
             >
               <div className="p-5 bg-white rounded-xl shadow-sm ">
-                <SectionImg fullPage/>
+                <div className="flex flex-col gap-y-4">
+                  <div className="text-2xl font-semibold">
+                    {currentPiezometer?.section}
+                  </div>
+
+                  <SectionImg fullPage />
+                </div>
               </div>
             </motion.div>
           </div>
