@@ -519,19 +519,13 @@ def build_paddocks_information_chart():
     )
 
 
-@section_chart_routes.route("/api/v1/readings-test", methods=["GET"])
+@section_chart_routes.route("/api/v1/readings-test/<node>", methods=["GET"])
 @cross_origin()
-def readings_test():
+def readings_test(node):
     conn = dbconnect()
     cur = conn.cursor()
 
-    query = (
-        "SELECT time,pressure FROM node_10317_2 WHERE time >= '2023-05-01 00:00:00';"
-    )
-
-    query2 = (
-        "SELECT time,pressure FROM node_10230_1 WHERE time >= '2023-05-01 00:00:00';"
-    )
+    query2 = f"SELECT time,pressure FROM {node} WHERE time >= '2023-05-01 00:00:00';"
     # cur.execute(query)
     cur.execute(query2)
     res = cur.fetchall()
