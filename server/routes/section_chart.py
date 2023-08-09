@@ -1,7 +1,3 @@
-import matplotlib
-
-matplotlib.use("Agg")
-
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
@@ -521,3 +517,23 @@ def build_paddocks_information_chart():
             "message": "success",
         }
     )
+
+
+@section_chart_routes.route("/api/v1/readings-test", methods=["GET"])
+@cross_origin()
+def readings_test():
+    conn = dbconnect()
+    cur = conn.cursor()
+
+    query = (
+        "SELECT time,pressure FROM node_10317_2 WHERE time >= '2023-05-01 00:00:00';"
+    )
+
+    query2 = (
+        "SELECT time,pressure FROM node_10230_1 WHERE time >= '2023-05-01 00:00:00';"
+    )
+    # cur.execute(query)
+    cur.execute(query2)
+    res = cur.fetchall()
+
+    return jsonify({"message": res, "len": len(res)})
