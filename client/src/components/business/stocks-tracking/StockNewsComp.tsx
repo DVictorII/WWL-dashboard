@@ -30,7 +30,7 @@ function StockNewsComp() {
 
       <div className="flex flex-col gap-y-8">
         {news.map((n) => (
-          <StockNews news={n} />
+          <StockNews news={n} key={n.title} />
         ))}
       </div>
     </div>
