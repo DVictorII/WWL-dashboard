@@ -1,6 +1,6 @@
 import { ResponsiveLine } from "@nivo/line";
 import { patternDotsDef } from "@nivo/core";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const data = [
   {
@@ -59,15 +59,35 @@ const data = [
   },
 ];
 
-function StockChart() {
+function StockChart({ data: hist }: { data: any[] }) {
+  const dataFormatted = [
+    {
+      id: "stockHistory",
+      color: "#e4b400",
+      data: [
+        ...hist.map((arr) => {
+          return {
+            x: arr[0],
+            y: arr[6] / 1000000,
+          };
+        }),
+      ],
+    },
+  ];
+
+  const maxLimit = Math.max(...hist.map((arr) => arr[6] / 1000000));
+  const minLimit = Math.min(...hist.map((arr) => arr[6] / 1000000));
+
+  const chartMargin = (maxLimit - minLimit) / 5;
+
   return (
     <div className="overflow-scroll  2xl:overflow-visible">
       <div className="min-w-[36rem] max-w-full">
         <div className={`h-[40vh] 2xl:h-[40vh]  w-full`}>
           <ResponsiveLine
-            data={data}
+            data={dataFormatted}
             //@ts-ignore
-            keys={["japan"]}
+            keys={["stockHistory"]}
             defs={[
               //   {
               //     id: "gradientC",
@@ -83,16 +103,16 @@ function StockChart() {
             ]}
             fill={[
               // match using object query
-              //   { match: { id: "japan" }, id: "gradientC" },
-              { match: { id: "japan" }, id: "dots" },
+              //   { match: { id: "stockHistory" }, id: "gradientC" },
+              { match: { id: "stockHistory" }, id: "dots" },
             ]}
             margin={{ top: 50, right: 20, bottom: 50, left: 50 }}
             xScale={{ type: "point" }}
             yScale={{
               type: "linear",
-              min: "auto",
-              max: "auto",
-              stacked: true,
+              min: minLimit - chartMargin,
+              max: maxLimit + chartMargin,
+              stacked: false,
               reverse: false,
             }}
             yFormat=" >-.2f"
@@ -103,15 +123,16 @@ function StockChart() {
               tickSize: 5,
               tickPadding: 5,
               tickRotation: 0,
-              legend: "",
+              legend: "Dates",
               legendOffset: 36,
+
               legendPosition: "middle",
             }}
             axisLeft={{
               tickSize: 5,
               tickPadding: 5,
               tickRotation: 0,
-              legend: "",
+              legend: "Volume (millions)",
               legendOffset: -40,
               legendPosition: "middle",
             }}
@@ -121,10 +142,21 @@ function StockChart() {
             enablePoints={false}
             pointLabelYOffset={-12}
             enableArea={true}
-            areaBaselineValue={20}
+            areaBaselineValue={minLimit - chartMargin}
             areaOpacity={0.5}
             useMesh={true}
             legends={[]}
+            theme={{
+              axis: {
+                legend: {
+                  text: {
+                    fontWeight: 600,
+                    letterSpacing: 0.3,
+                    fill: "#777",
+                  },
+                },
+              },
+            }}
           />
         </div>
       </div>

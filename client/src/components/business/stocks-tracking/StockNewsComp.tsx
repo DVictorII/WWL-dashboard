@@ -3,17 +3,20 @@ import StockNews from "./StockNews";
 
 const news = [
   {
-    title: "The Best Nuclear Stocks to Buy Before 'Oppenheimer' Hits Theaters",
+    title:
+      "Lobo Tiggre: Uranium is My Focus Right Now, Everything Else is Wait and See",
     img: "/media/img/photos/Rossing_mine.jpg",
-    author: "InvestorPlace",
-    publishedTime: "7 days ago",
+    author: "Investing News Network",
+    publishedTime: "2023-08-02",
+    linkTo: "https://investingnews.com/lobo-tiggre-uranium-forecast/",
   },
   {
-    title:
-      "Exponential Growth in Rossing Uranium Stock Price, According to Research",
+    title: "Rössing uranium mine gets 10-year life extension",
     img: "/media/img/photos/rossing_logo.png",
-    author: "InvestorPlace",
-    publishedTime: "2 weeks ago",
+    author: "World Nuclear News",
+    publishedTime: "2023-02-28",
+    linkTo:
+      "https://world-nuclear-news.org/Articles/Rossing-uranium-mine-gets-10-year-life-extension",
   },
 ];
 

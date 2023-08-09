@@ -1,11 +1,13 @@
 import React from "react";
 import { GiPlainCircle } from "react-icons/gi";
+import { Link } from "react-router-dom";
 
 interface NewsI {
   title: string;
   img: string;
   author: string;
   publishedTime: string;
+  linkTo: string;
 }
 
 function StockNews({ news }: { news: NewsI }) {
@@ -19,7 +21,11 @@ function StockNews({ news }: { news: NewsI }) {
         />
       </div>
       <div className="flex flex-col gap-y-3">
-        <span className="font-bold text-sm">{news.title}</span>
+        <Link to={news.linkTo} target="_blank">
+          <span className="font-bold text-sm cursor-pointer hover:text-[#e4b400] transition-all">
+            {news.title}
+          </span>
+        </Link>
 
         <div className="flex items-center gap-x-3">
           <span className="font-semibold text-sm text-[#777]">

@@ -1,88 +1,110 @@
 import React from "react";
+import moment from "moment";
 
-const summaryTopics = [
-  {
-    title: "Previous close",
-    value: "64.43",
-  },
+interface DataI {
+  ask: Number;
+  averageVolume: Number;
+  beta: Number;
+  bid: Number;
+  dayHigh: Number;
+  dayLow: Number;
+  dividendRate: Number;
+  dividendYield: Number;
+  exDividendDate: Number;
+  fiftyTwoWeekHigh: Number;
+  fiftyTwoWeekLow: Number;
+  marketCap: Number;
+  open: Number;
+  previousClose: Number;
+  targetMeanPrice: Number;
+  trailingEps: Number;
+  trailingPE: Number;
+  volume: Number;
+}
 
-  {
-    title: "Open",
-    value: "65.29",
-  },
+function StockInformationSummary({ data }: { data: DataI }) {
+  const summaryTopics = [
+    {
+      title: "Previous close",
+      value: data.previousClose,
+    },
 
-  {
-    title: "Bid",
-    value: "65.75 x 900",
-  },
+    {
+      title: "Open",
+      value: data.open,
+    },
 
-  {
-    title: "Ask",
-    value: "65.80 x 1100",
-  },
+    {
+      title: "Bid",
+      value: data.bid,
+    },
 
-  {
-    title: "Day's range",
-    value: "65.41 - 66.03",
-  },
+    {
+      title: "Ask",
+      value: data.ask,
+    },
 
-  {
-    title: "52-week range",
-    value: "57.56 - 82.17",
-  },
+    {
+      title: "Day's range",
+      value: `${data.dayLow} - ${data.dayHigh}`,
+    },
 
-  {
-    title: "Volume",
-    value: "320,258",
-  },
+    {
+      title: "52-week range",
+      value: `${data.fiftyTwoWeekLow} - ${data.fiftyTwoWeekHigh}`,
+    },
 
-  {
-    title: "Avg. volume",
-    value: "383,959",
-  },
+    {
+      title: "Volume",
+      value: data.volume.toLocaleString("en-GB"),
+    },
 
-  {
-    title: "Net assets",
-    value: "3.3B",
-  },
+    {
+      title: "Avg. volume",
+      value: data.averageVolume.toLocaleString("en-GB"),
+    },
 
-  {
-    title: "NAV",
-    value: "64.98",
-  },
+    {
+      title: "Net assets",
+      value: "3.3B",
+    },
 
-  {
-    title: "PE ratio (TTM)",
-    value: "14.65",
-  },
+    {
+      title: "NAV",
+      value: "64.98",
+    },
 
-  {
-    title: "Yield",
-    value: "1.12%",
-  },
+    {
+      title: "PE ratio (TTM)",
+      value: "14.65",
+    },
 
-  {
-    title: "YTD daily total return",
-    value: "10.29%",
-  },
+    {
+      title: "Yield",
+      value: "1.12%",
+    },
 
-  {
-    title: "Beta (5Y monthly)",
-    value: "1.18",
-  },
+    {
+      title: "YTD daily total return",
+      value: "10.29%",
+    },
 
-  {
-    title: "Expense ratio (net)",
-    value: "0.75%",
-  },
+    {
+      title: "Beta (5Y monthly)",
+      value: "1.18",
+    },
 
-  {
-    title: "Inception date",
-    value: "2010-07-22",
-  },
-];
+    {
+      title: "Expense ratio (net)",
+      value: "0.75%",
+    },
 
-function StockInformationSummary() {
+    {
+      title: "Inception date",
+      value: moment(1689292800).format("YYYY-MM-DD"),
+    },
+  ];
+
   return (
     <div className="flex flex-col gap-y-8">
       <h2 className="font-semibold">Stock Information Summary</h2>
@@ -94,7 +116,9 @@ function StockInformationSummary() {
               className={`flex items-center justify-between gap-x-4 flex-wrap gap-y-4 pb-2 2xl:pb-3 border-b border-[#f1f1f1]  `}
             >
               <span className="text-sm font-bold">{topic.title}</span>
-              <span className="text-sm font-medium ">{topic.value}</span>
+              <span className="text-sm font-medium ">
+                {String(topic.value)}
+              </span>
             </div>
           ))}
         </div>
