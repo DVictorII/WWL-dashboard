@@ -6,8 +6,46 @@ import StockChartComp from "../../business/stocks-tracking/StockChartComp";
 import StockNewsComp from "../../business/stocks-tracking/StockNewsComp";
 import StockAvgAnnualReturn from "../../business/stocks-tracking/StockAvgAnnualReturn";
 import StockInformationSummary from "../../business/stocks-tracking/StockInformationSummary";
+import { useQuery } from "react-query";
+import axios from "../../../utils/axios";
 
 function Stocks_tracking() {
+  const fetchBusinessHistory = async (
+    stockCode: string,
+    daysInterval: number
+  ) => {
+    const res = await axios.get(
+      `/get_finance_stocks_${stockCode}-${daysInterval}`
+    );
+
+    return res.data;
+  };
+
+  const fetchFinanceCurrency = async (currencyName: string) => {
+    const res = await axios.get(`/get_finance_currency_${currencyName}`);
+
+    return res.data;
+  };
+
+  const { isLoading: stockInfoIsLoading, data: stockInfo } = useQuery(
+    `stock_data-Rossing-7`,
+    () => fetchBusinessHistory("601985.SS", 7),
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  const { isLoading: financeCurrencyIsLoading, data: financeCurrency } =
+    useQuery(`finace-currency`, () => fetchFinanceCurrency("uranium"), {
+      refetchOnWindowFocus: false,
+    });
+
+  if (stockInfoIsLoading || financeCurrencyIsLoading)
+    return <h1>Loading...</h1>;
+
+  console.log("INFO", stockInfo);
+  console.log("CURRENCY", financeCurrency);
+
   return (
     // <>
     //   <MenuNavbar />
