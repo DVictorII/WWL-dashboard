@@ -274,7 +274,10 @@ def build_word_report(piezos, reqDate):
                             f"node_{piezometer['datalogger']}_{piezometer['channel']}"
                             in tables
                         )
-                        and piezometer["paddock"] == "CDIII"
+                        and (
+                            piezometer["paddock"] == "CDIII"
+                            or piezometer["paddock"] == "SILT-TRAP"
+                        )
                     ):
                         filename = plot_readings_chart(piezometer, 90, reqDate)
 
