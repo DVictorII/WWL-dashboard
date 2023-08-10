@@ -112,13 +112,6 @@ function Sidebar() {
             </span>
           </div>
 
-          <div className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 border-2 border-white border-opacity-50 flex items-center justify-center bg-white bg-opacity-40 rounded-lg hover:text-[#222] hover:bg-opacity-90 transition-all cursor-pointer duration-500 relative group">
-            <AiOutlineAreaChart className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6" />
-            <span className="absolute w-auto px-4 py-2 m-2 min-w-max left-14 rounded-md shadow-md text-white bg-[#222] border-2 border-gray-500  font-bold transition-all duration-300  origin-left scale-0 group-hover:scale-100">
-              Operations (under construction)
-            </span>
-          </div>
-
           <div className="w-8 h-8  lg:w-10 lg:h-10 2xl:w-12 2xl:h-12 bg-white  flex items-center justify-center border-2 border-white rounded-full text-[#222] hover:text-white hover:bg-white hover:bg-opacity-10  transition-all cursor-pointer duration-500 relative group">
             <AiOutlineUser className=" w-4 h-4 lg:w-5 lg:h-5 2xl:w-6 2xl:h-6 " />
 
