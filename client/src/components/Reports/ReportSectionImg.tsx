@@ -1,11 +1,11 @@
 import { fetchPiezometerData } from "../../utils/map";
-import { FadeLoader } from "react-spinners";
+
 import { useQuery } from "react-query";
 
 import { useSectionImgStore } from "../../store/sectionImgStore";
 import { useLocation } from "react-router-dom";
 import FullScreenButton from "../PiezometerLectures/FullScreenButton";
-import Skeleton from "react-loading-skeleton";
+
 import SkeletonSectionImg from "../Skeletons/PiezometerLectures/SkeletonSectionImg";
 
 function ReportSectionImg({
@@ -28,10 +28,6 @@ function ReportSectionImg({
     enabled: !!paddock,
     refetchOnWindowFocus: false,
   });
-
-  // useEffect(()=>{
-  //   console.log("PIEZO DATA2",piezometersData)
-  // },[piezometersData])
 
   if (piezometersAreLoading || !piezometersData || piezometersData.length === 0)
     return <SkeletonSectionImg />;

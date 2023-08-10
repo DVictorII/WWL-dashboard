@@ -1,25 +1,24 @@
-import React from "react";
 import moment from "moment";
 
 interface DataI {
-  ask: Number;
-  averageVolume: Number;
-  beta: Number;
-  bid: Number;
-  dayHigh: Number;
-  dayLow: Number;
-  dividendRate: Number;
-  dividendYield: Number;
-  exDividendDate: Number;
-  fiftyTwoWeekHigh: Number;
-  fiftyTwoWeekLow: Number;
-  marketCap: Number;
-  open: Number;
-  previousClose: Number;
-  targetMeanPrice: Number;
-  trailingEps: Number;
-  trailingPE: Number;
-  volume: Number;
+  ask: number;
+  averageVolume: number;
+  beta: number;
+  bid: number;
+  dayHigh: number;
+  dayLow: number;
+  dividendRate: number;
+  dividendYield: number;
+  exDividendDate: number;
+  fiftyTwoWeekHigh: number;
+  fiftyTwoWeekLow: number;
+  marketCap: number;
+  open: number;
+  previousClose: number;
+  targetMeanPrice: number;
+  trailingEps: number;
+  trailingPE: number;
+  volume: number;
 }
 
 function StockInformationSummary({ data }: { data: DataI }) {
@@ -76,12 +75,12 @@ function StockInformationSummary({ data }: { data: DataI }) {
 
     {
       title: "PE ratio (TTM)",
-      value: "14.65",
+      value: data.trailingPE,
     },
 
     {
       title: "Yield",
-      value: "1.12%",
+      value: `${data.dividendYield * 100} %`,
     },
 
     {
@@ -89,10 +88,10 @@ function StockInformationSummary({ data }: { data: DataI }) {
       value: "10.29%",
     },
 
-    {
-      title: "Beta (5Y monthly)",
-      value: "1.18",
-    },
+    // {
+    //   title: "Beta (5Y monthly)",
+    //   value: data.beta,
+    // },
 
     {
       title: "Expense ratio (net)",

@@ -2,13 +2,13 @@ import Select from "react-tailwindcss-select";
 import { useBiannualVisitStateStore } from "../../store/BiannualVisitStateStore";
 
 function BVisitSelector() {
+  const updateVisitID = useBiannualVisitStateStore(
+    (state) => state.updateVisitID
+  );
 
-    const visitID = useBiannualVisitStateStore((state)=>state.visitID)
-    const updateVisitID = useBiannualVisitStateStore((state)=>state.updateVisitID)
-
-    const options = [{ value: "1", label: "Biannual Review - 360 Photos - May 2022" }]
-
-
+  const options = [
+    { value: "1", label: "Biannual Review - 360 Photos - May 2022" },
+  ];
 
   return (
     <div className="flex flex-col  gap-y-1 ">
@@ -19,7 +19,11 @@ function BVisitSelector() {
       <div className="sz500:col-span-3 md:col-span-2">
         <Select
           primaryColor="orange"
-          value={{ value: "1", label: "Biannual Review - 360 Photos - May 2022", disabled: false }}
+          value={{
+            value: "1",
+            label: "Biannual Review - 360 Photos - May 2022",
+            disabled: false,
+          }}
           //@ts-ignore
           onChange={(e) => updateVisitID(e.value)}
           options={options}

@@ -4,8 +4,6 @@ import {
   fetchPaddockGeometry,
   fetchPiezometerData,
   fetchSectionsData,
-  satelliteMap,
-  sentinelMap,
 } from "../utils/map";
 import "leaflet/dist/leaflet.css";
 
@@ -13,27 +11,17 @@ import "leaflet/dist/leaflet.css";
 import { boxShadowSlight } from "../utils/shadow";
 
 import L from "leaflet";
-import moment from "moment";
-import axios from "axios";
+
 import { useQuery } from "react-query";
 import { useEffect } from "react";
 
 import "../MarkerCluster.css";
 import "../MarkerCluster.Default.css";
 import "leaflet.markercluster";
-import {
-  activeIcon,
-  damagedIcon,
-  disconnectedIcon,
-  proposedIcon,
-  tarpIcon,
-} from "../utils/icons";
 
-import FadeLoader from "react-spinners/FadeLoader";
 import { useMapStore } from "../store/MapStateStore";
 import {
   addSections,
-  DrawMap,
   drawPaddock,
   drawPiezometers,
   InitializeMap,

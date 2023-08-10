@@ -1,7 +1,7 @@
 import React from "react";
 import MenuNavbar from "../../MenuNavbar";
 import Skeleton from "react-loading-skeleton";
-import SliderComp from "../../Slider/SliderComp";
+
 import SkeletonReportCard from "./SkeletonReportCard";
 import SkeletonReportListTable from "./SkeletonReportListTable";
 

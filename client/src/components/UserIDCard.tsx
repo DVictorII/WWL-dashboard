@@ -1,5 +1,3 @@
-import React from "react";
-import { AiOutlineUser } from "react-icons/ai";
 import { useGloblalUserStore } from "../store/GlobalUserStore";
 
 function UserIDCard() {

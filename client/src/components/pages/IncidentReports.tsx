@@ -6,9 +6,6 @@ import { Link } from "react-router-dom";
 import axios from "../../utils/axios";
 import { useQuery } from "react-query";
 
-import { BsBookmarkHeartFill, BsPlusSquare } from "react-icons/bs";
-
-import { useEffect } from "react";
 import IncidentsSliderComp from "../Slider/IncidentsSliderComp";
 import IncidentsListTable from "../Incidents/IncidentsListTable";
 import SkeletonIncidentReportPage from "../Skeletons/Incidents/SkeletonIncidentReportPage";
@@ -24,10 +21,6 @@ function IncidentReports() {
   const { isLoading, data: incidents } = useQuery("incidents", fetchIncidents, {
     refetchOnWindowFocus: false,
   });
-
-  useEffect(() => {
-    console.log(incidents);
-  }, [incidents]);
 
   if (isLoading || !incidents) return <SkeletonIncidentReportPage />;
 

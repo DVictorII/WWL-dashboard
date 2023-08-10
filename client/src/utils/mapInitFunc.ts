@@ -1,4 +1,3 @@
-import { piezoList } from "./piezoList";
 import moment from "moment";
 import {
   activeIcon,
@@ -15,7 +14,6 @@ import "../MarkerCluster.Default.css";
 import "leaflet.markercluster";
 import { satelliteMap, sentinelMap, statusOptions } from "./map";
 
-import { useChartStore } from "../store/ChartStateStore";
 import { IncidentDetails } from "../types";
 
 export async function drawPiezometers({
@@ -31,7 +29,6 @@ export async function drawPiezometers({
   // @ts-ignore
   piezoList.map((piezometer) => {
     let icon;
-    //console.log(i,s[i])
 
     switch (piezometer.status) {
       case 1:
@@ -145,7 +142,6 @@ export async function drawPiezometers({
         t.addEventListener("click", () => {
           if (page === "dashboard")
             goToLectures(piezometer.paddock, piezometer.id);
-          // console.log(piezometer.id);
         })
       );
     });

@@ -40,8 +40,6 @@ function Chart() {
     refetchOnWindowFocus: false,
   });
 
-  //   console.log("PIEZOINFO", piezoInfo);
-
   const { isLoading: sectionDataIsLoading, data: sectionData } = useQuery({
     queryKey: [`Section-data-${paddock}-${piezo}`],
     queryFn: () =>
@@ -75,16 +73,14 @@ function Chart() {
       </div>
     );
 
-    //@ts-ignore
-  const chartPiezometers = sectionData.data.map((arr)=>{
-    const fixedXCoordinate = Math.round(arr[2]/5)*5
+  //@ts-ignore
+  const chartPiezometers = sectionData.data.map((arr) => {
+    const fixedXCoordinate = Math.round(arr[2] / 5) * 5;
 
-    console.log(fixedXCoordinate)
-
-    return [arr[0], arr[1], fixedXCoordinate, arr[3], arr[4]]
+    return [arr[0], arr[1], fixedXCoordinate, arr[3], arr[4]];
   });
 
-  const chartCoordinates = sectionData.name ;
+  const chartCoordinates = sectionData.name;
 
   return (
     <div className="flex flex-col justify-center  gap-y-8  px-2 sm:px-8 md:px-0 ">

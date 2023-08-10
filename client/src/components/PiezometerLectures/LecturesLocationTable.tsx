@@ -5,13 +5,8 @@ import { usePiezometerLecturesStateStore } from "../../store/PiezometerLecturesS
 import { chartPiezoList } from "../../utils/piezoList";
 
 function LecturesLocationTable() {
-  const piezoList = usePiezometerLecturesStateStore((state) => state.piezoList);
   const paddock = usePiezometerLecturesStateStore((state) => state.paddock);
   const piezo = usePiezometerLecturesStateStore((state) => state.piezo);
-
-  const sectionsList = usePiezometerLecturesStateStore(
-    (state) => state.sectionsList
-  );
 
   const piezometersData = usePiezometerLecturesStateStore(
     (state) => state.piezometersData
@@ -29,16 +24,6 @@ function LecturesLocationTable() {
   const selectSection = usePiezometerLecturesStateStore(
     (state) => state.selectSection
   );
-
-  // console.log("paddock", paddock);
-  // console.log("section", section);
-
-  // console.log(
-  //   "piezodata",
-  //   piezometersData.filter(
-  //     (piezoObj) => piezoObj.paddock === paddock && piezoObj.section === section
-  //   )[0]
-  // );
 
   const paddockOptions = Object.keys(chartPiezoList).map((paddock) => {
     return { value: paddock, label: paddock };

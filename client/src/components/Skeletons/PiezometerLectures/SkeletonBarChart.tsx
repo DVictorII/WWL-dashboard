@@ -1,7 +1,5 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
-import FullScreenButton from "../../PiezometerLectures/FullScreenButton";
-import ChartLegend from "../../PiezometerLectures/ChartLegend";
 
 function SkeletonBarChart() {
   return (

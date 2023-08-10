@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import ReportPiezoInformationTable from "./ReportPiezoInformationTable";
 import ReportInoperativeDatesTable from "./ReportInoperativeDatesTable";
 import { useNewPiezoReportStateStore } from "../../../store/NewPiezoReportStateStore";

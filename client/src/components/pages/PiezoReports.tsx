@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 import { useQuery } from "react-query";
 
-import { BsBookmarkHeartFill, BsPlusSquare } from "react-icons/bs";
 import SliderComp from "../Slider/SliderComp";
 import ReportsListTable from "../Reports/ReportsListTable";
 import { fetchPiezoReports } from "../../utils/reportsFetchFunctions";
@@ -24,8 +23,6 @@ function PiezoReports() {
         {
           loading: "Generating report...",
           success: (data) => {
-            console.log("DOWNLOAD FILE", data.data.filename);
-
             const aTag = document.createElement("a");
             //@ts-ignore
             aTag.href = "/pyreport/report3.xlsx";
@@ -96,8 +93,6 @@ function PiezoReports() {
         {
           loading: "Generating report...",
           success: (data) => {
-            console.log("DATA", data);
-            // console.log("DOWNLOAD FILE", data.data.filename);
             const aTag = document.createElement("a");
             //@ts-ignore
             aTag.href = "/report_word/word_report.docx";
@@ -149,9 +144,6 @@ function PiezoReports() {
       refetchOnWindowFocus: false,
     }
   );
-  useEffect(() => {
-    console.log(piezoReports);
-  }, [piezoReports]);
 
   if (isLoading || !piezoReports) return <SkeletonPiezoReportsPage />;
 

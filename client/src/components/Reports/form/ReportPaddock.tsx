@@ -4,7 +4,6 @@ import { chartPiezoList } from "../../../utils/piezoList";
 import { useNewPiezoReportStateStore } from "../../../store/NewPiezoReportStateStore";
 
 function ReportPaddock() {
-  const piezoList = useNewPiezoReportStateStore((state) => state.piezoList);
   const paddock = useNewPiezoReportStateStore((state) => state.paddock);
 
   const changePaddock = useNewPiezoReportStateStore(

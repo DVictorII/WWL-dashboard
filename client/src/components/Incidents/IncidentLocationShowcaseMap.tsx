@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -12,18 +12,12 @@ import "leaflet.markercluster";
 import { useMapStore } from "../../store/MapStateStore";
 import {
   fetchPaddockGeometry,
-  fetchSectionsData,
   satelliteMap,
   sentinelMap,
 } from "../../utils/map";
 import { useQuery } from "react-query";
-import {
-  InitializeMap,
-  addSections,
-  drawPaddock,
-  drawPiezometers,
-} from "../../utils/mapInitFunc";
-import { FadeLoader } from "react-spinners";
+import { addSections, drawPaddock } from "../../utils/mapInitFunc";
+
 import { incidentIcon } from "../../utils/icons";
 import moment from "moment";
 import SkeletonIncidentLocationShowcaseMap from "../Skeletons/Incidents/SkeletonIncidentLocationShowcaseMap";
@@ -122,12 +116,10 @@ function IncidentLocationShowcaseMap() {
     });
 
     circle.on("dragend", (e) => {
-      console.log("EVENT", e);
       changeCoordinates(
         Number(e.target._latlng.lat).toFixed(6),
         Number(e.target._latlng.lng).toFixed(6)
       );
-      console.log("TARGET", e.target._latlng.lat);
     });
 
     // circle.bindPopup(`

@@ -1,9 +1,9 @@
 import React from "react";
 import { ReportDetails } from "../../../types";
-import { useLocation } from "react-router-dom";
+
 import { useMonitoringMapStateStore } from "../../../store/MonitoringMapStateStore";
 import DetailsReportLecturesChart from "./DetailsReportLecturesChart";
-import SectionImg from "../../PiezometerLectures/SectionImg";
+
 import DetailsReportSectionImg from "./DetailsReportSectionImg";
 
 function DetailsReportPiezoLecturesComponent({
@@ -11,8 +11,6 @@ function DetailsReportPiezoLecturesComponent({
 }: {
   report: ReportDetails;
 }) {
-  const location = useLocation().pathname;
-
   const {
     report_paddock: paddock,
     report_piezo: piezo,

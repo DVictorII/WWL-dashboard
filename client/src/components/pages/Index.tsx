@@ -1,32 +1,17 @@
-import { useEffect } from "react";
-import moment from "moment";
 import MenuNavbar from "../MenuNavbar";
 
 import MapWrapper from "../MapWrapper";
 
-import { toast } from "react-hot-toast";
-
 import IncidentMapMultiple from "../Incidents/IncidentMapMultiple";
-//@ts-ignore: Unreachable code error
-import axios from "../../utils/axios";
-import axios2 from "axios";
 
-import { AiOutlineDownload } from "react-icons/ai";
 import PiezoListTable from "../MonitoringMap/PiezoListTable";
 import PiezoFilterComp from "../MonitoringMap/MapFiltering/PiezoFilterComp";
 
 import { useMonitoringMapStateStore } from "../../store/MonitoringMapStateStore";
 
-import {
-  capitalizeName,
-  monitoringMapStatusInfo,
-} from "../../utils/monitoringMapStatusInfo";
+import { monitoringMapStatusInfo } from "../../utils/monitoringMapStatusInfo";
 
-import path from "path";
-import PiezoInformationTable from "../PiezometerLectures/PiezoInformationTable";
 import MonMapPiezoInformationTable from "../MonitoringMap/MonMapPiezoInformationTable";
-import { fetchLastReadings, fetchPiezometersData } from "../../utils/map";
-import { useQuery } from "react-query";
 
 interface GlobalMapState {
   status: string | number;

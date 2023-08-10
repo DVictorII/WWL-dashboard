@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
 import { AiOutlineUser, AiOutlineCalendar } from "react-icons/ai";
-import { BsBookmarkHeart } from "react-icons/bs";
+
 import { ReportDetails } from "../../types";
 import moment from "moment";
 import { Link } from "react-router-dom";

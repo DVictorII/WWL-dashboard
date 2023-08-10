@@ -1,6 +1,5 @@
 import { ResponsiveLine } from "@nivo/line";
 import { patternDotsDef } from "@nivo/core";
-import React, { useState, useEffect } from "react";
 
 const data = [
   {

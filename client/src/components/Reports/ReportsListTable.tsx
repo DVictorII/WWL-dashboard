@@ -2,11 +2,7 @@ import { BsArrowDownUp, BsTrash } from "react-icons/bs";
 import { ReportDetails } from "../../types";
 import moment from "moment";
 import { Link } from "react-router-dom";
-//@ts-ignore
-import axios from "../../utils/axios";
-import { useMutation, useQueryClient } from "react-query";
-import { toast } from "react-hot-toast";
-import { useDeletePiezoReport } from "../../hooks/reportHooks";
+
 import { useConfirmationModalStore } from "../../store/ConfirmationModalStore";
 
 function ReportsListTable({ reports }: { reports: ReportDetails[] }) {

@@ -6,8 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { useNewPiezoReportStateStore } from "../../store/NewPiezoReportStateStore";
 import FullPageComps from "../FullPageComps";
 import { AiOutlineArrowLeft } from "react-icons/ai";
-import { useQuery } from "react-query";
-import { fetchPiezometerData } from "../../utils/map";
 
 function NewPiezoReport() {
   const paddock = useNewPiezoReportStateStore(

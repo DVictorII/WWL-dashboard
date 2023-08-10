@@ -1,10 +1,10 @@
 import React from "react";
 import MenuNavbar from "../../MenuNavbar";
-import StockSelector from "../../business/stocks-tracking/StockSelector";
+
 import StockHeaderInfo from "../../business/stocks-tracking/StockHeaderInfo";
 import StockChartComp from "../../business/stocks-tracking/StockChartComp";
 import StockNewsComp from "../../business/stocks-tracking/StockNewsComp";
-import StockAvgAnnualReturn from "../../business/stocks-tracking/UraniumStockInformation";
+
 import StockInformationSummary from "../../business/stocks-tracking/StockInformationSummary";
 import { useQuery } from "react-query";
 import axios from "../../../utils/axios";
@@ -43,9 +43,6 @@ function Stocks_tracking() {
 
   if (stockInfoIsLoading || financeCurrencyIsLoading)
     return <h1>Loading...</h1>;
-
-  console.log("INFO", stockInfo);
-  console.log("CURRENCY", financeCurrency);
 
   return (
     <>

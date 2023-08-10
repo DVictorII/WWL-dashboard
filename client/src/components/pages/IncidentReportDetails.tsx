@@ -6,7 +6,6 @@ import { Link, useParams } from "react-router-dom";
 import axios from "../../utils/axios";
 import { useQuery } from "react-query";
 
-import FadeLoader from "react-spinners/FadeLoader";
 import { useEffect } from "react";
 
 import IncidentSupervisorsView from "../Incidents/IncidentSupervisorsView";
@@ -29,10 +28,6 @@ function IncidentReportDetails() {
       refetchOnWindowFocus: false,
     }
   );
-
-  useEffect(() => {
-    console.log("INCIDENT", incident);
-  }, [incident]);
 
   if (isLoading || !incident) return <SkeletonIncidentReportDetailsPage />;
 

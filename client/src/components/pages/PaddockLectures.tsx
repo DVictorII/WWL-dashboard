@@ -12,7 +12,7 @@ import PiezoLecturesComponent from "../PiezometerLectures/PiezoLecturesComponent
 import { usePiezometerLecturesStateStore } from "../../store/PiezometerLecturesStateStore";
 
 import FullPageComps from "../FullPageComps";
-import { useEffect } from "react";
+
 import PiezoReadingsDateTable from "../PiezometerLectures/PiezoReadingsDateTable";
 
 function PaddockLectures() {

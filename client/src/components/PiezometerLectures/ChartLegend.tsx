@@ -1,6 +1,3 @@
-import React from "react";
-import { useSectionImgStore } from "../../store/sectionImgStore";
-
 function ChartLegend({ chartType }: { chartType: string }) {
   if (chartType === "pressure")
     return (

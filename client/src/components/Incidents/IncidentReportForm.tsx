@@ -12,9 +12,6 @@ import IncidentPhotoUploader from "./IncidentPhotoUploader";
 
 import IncidentLocationShowcaseMap from "./IncidentLocationShowcaseMap";
 
-import IncidentTitleDescription from "./filtering/IncidentTitleDescription";
-import IncidentDateTable from "./filtering/IncidentDateTable";
-import IncidentLocationTable from "./filtering/IncidentLocationTable";
 import IncidentSupervisorsComponent from "./filtering/IncidentSupervisorsComponent";
 import IncidentTitle from "./form/IncidentTitle";
 import IncidentDescription from "./form/IncidentDescription";
@@ -50,7 +47,6 @@ function IncidentReportForm() {
     e.preventDefault();
 
     const filteredSupervisors = supervisors.filter((sup) => sup !== "");
-    console.log(filteredSupervisors);
 
     try {
       await toast.promise(

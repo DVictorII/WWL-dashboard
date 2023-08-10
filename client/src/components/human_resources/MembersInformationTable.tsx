@@ -1,4 +1,3 @@
-import React from "react";
 import { BsArrowDownUp } from "react-icons/bs";
 
 const workers = [

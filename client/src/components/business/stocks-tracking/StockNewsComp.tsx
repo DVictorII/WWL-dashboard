@@ -1,4 +1,3 @@
-import React from "react";
 import StockNews from "./StockNews";
 
 const news = [

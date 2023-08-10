@@ -5,11 +5,10 @@ import { useEffect, useState } from "react";
 import axios from "../utils/axios";
 import { useQuery } from "react-query";
 import moment from "moment";
-import FadeLoader from "react-spinners/FadeLoader";
+
 import FullScreenButton from "./PiezometerLectures/FullScreenButton";
 import ChartLegend from "./PiezometerLectures/ChartLegend";
 
-import { usePiezometerLecturesStateStore } from "../store/PiezometerLecturesStateStore";
 import SkeletonBarChart from "./Skeletons/PiezometerLectures/SkeletonBarChart";
 import { chartPiezoListWithElevation } from "../utils/piezoList";
 import { FiAlertTriangle } from "react-icons/fi";
@@ -22,8 +21,18 @@ const BarChart = ({ information, fullPage = false }) => {
   const [piezoElevationData, setPiezoElevationData] = useState([]);
   const [readingsWaterLevelData, setReadingsWaterLevelData] = useState([]);
   const [limits, setLimits] = useState({
-    max: 0,
-    min: 0,
+    pressure: {
+      max: 0,
+      min: 0,
+    },
+    wLevel: {
+      max: 0,
+      min: 0,
+    },
+    wElevation: {
+      max: 0,
+      min: 0,
+    },
   });
 
   const [limitAlert, setLimitAlert] = useState(false);
@@ -53,8 +62,6 @@ const BarChart = ({ information, fullPage = false }) => {
       `/lectures/node_${datalogger}_${channel}/${days}`
     );
 
-    console.log("LECTURES", result.data.lectures);
-
     return result.data.lectures;
   };
 
@@ -73,12 +80,6 @@ const BarChart = ({ information, fullPage = false }) => {
   useEffect(() => {
     if (!lecturesData) return;
     //@ts-ignore
-    const pressureDataFormat = lecturesData.map((data) => {
-      return {
-        x: moment(data.time).format("YYYY-MM-DD HH:MM:SS"),
-        y: data.pressure,
-      };
-    });
 
     const pressureLimitFlag =
       //@ts-ignore
@@ -88,23 +89,51 @@ const BarChart = ({ information, fullPage = false }) => {
     pressureLimitFlag ? setLimitAlert(true) : setLimitAlert(false);
 
     //@ts-ignore
-    const pressureArray = lecturesData.map((data) => data.pressure);
-
-    const maxLimit = Math.max(...pressureArray);
-    const minLimit = Math.min(...pressureArray);
-
-    const chartMargin = (maxLimit - minLimit) / 5;
-
-    setLimits({
-      max: maxLimit + chartMargin,
-      min: minLimit - chartMargin,
-    });
-
-    //@ts-ignore
     const fullPiezoInfoObj = chartPiezoListWithElevation[paddock].find(
       //@ts-ignore
       (obj) => obj.id === piezo
     );
+
+    //@ts-ignore
+    const pressureArray = lecturesData.map((data) => data.pressure);
+    //@ts-ignore
+    const wLevelArray = lecturesData.map((data) => data.pressure / 10);
+    const wElevationArray = lecturesData.map(
+      //@ts-ignore
+      (data) => fullPiezoInfoObj.piezoElevation + data.pressure / 10
+    );
+
+    const maxPressureLimit = Math.max(...pressureArray);
+    const minPressureLimit = Math.min(...pressureArray);
+
+    const maxWLevelLimit = Math.max(...wLevelArray);
+    const minWLevelLimit = Math.min(...wLevelArray);
+
+    const maxWElevationLimit = Math.max(...wElevationArray);
+    const minWElevationLimit = Math.min(...wElevationArray);
+
+    setLimits({
+      pressure: {
+        max: maxPressureLimit + 50,
+        min: minPressureLimit - 10,
+      },
+      wLevel: {
+        max: maxWLevelLimit + 5,
+        min: minWLevelLimit - 1,
+      },
+      wElevation: {
+        max: maxWElevationLimit + 5,
+        min: minWElevationLimit - 1,
+      },
+    });
+
+    //@ts-ignore
+    const pressureDataFormat = lecturesData.map((data) => {
+      return {
+        x: moment(data.time).format("YYYY-MM-DD HH:MM:SS"),
+        y: data.pressure,
+      };
+    });
 
     //@ts-ignore
     const elevationDataFormat = lecturesData.map((data) => {
@@ -218,7 +247,7 @@ const BarChart = ({ information, fullPage = false }) => {
           <div className="flex gap-x-1 ">
             <span className="font-medium text-sm 2xl:text-base">Alert:</span>
             <span className="font-semibold text-sm 2xl:text-base ">
-              Pressure limit exceeded
+              TARPS limit exceeded
             </span>
           </div>
         </div>
@@ -253,8 +282,8 @@ const BarChart = ({ information, fullPage = false }) => {
                         xFormat="time:%Y-%m-%d %H:%M"
                         yScale={{
                           type: "linear",
-                          min: limits.min,
-                          max: limits.max,
+                          min: limits.pressure.min,
+                          max: limits.pressure.max,
                           stacked: false,
                           reverse: false,
                         }}
@@ -298,14 +327,14 @@ const BarChart = ({ information, fullPage = false }) => {
                         colors="#477C9A"
                         enablePoints={false}
                         //@ts-ignore
-                        lineWidth={piezoData > 500 ? 1 : 2}
+                        lineWidth={lecturesData.length > 500 ? 1 : 2}
                         pointSize={2}
                         pointColor={{ theme: "background" }}
                         pointBorderWidth={2}
                         pointBorderColor={{ from: "serieColor" }}
                         pointLabelYOffset={-12}
                         useMesh={true}
-                        areaBaselineValue={limits.min}
+                        areaBaselineValue={limits.pressure.min}
                       />
                     </motion.div>
                   ) : null}
@@ -339,8 +368,8 @@ const BarChart = ({ information, fullPage = false }) => {
                         xFormat="time:%Y-%m-%d %H:%M"
                         yScale={{
                           type: "linear",
-                          min: "auto",
-                          max: "auto",
+                          min: limits.wLevel.min,
+                          max: limits.wLevel.max,
                           stacked: false,
                           reverse: false,
                         }}
@@ -369,13 +398,14 @@ const BarChart = ({ information, fullPage = false }) => {
                         colors="#BD6A1C"
                         enablePoints={false}
                         //@ts-ignore
-                        lineWidth={piezoElevationData > 500 ? 1 : 2}
+                        lineWidth={lecturesData.length > 500 ? 1 : 2}
                         pointSize={2}
                         pointColor={{ theme: "background" }}
                         pointBorderWidth={2}
                         pointBorderColor={{ from: "serieColor" }}
                         pointLabelYOffset={-12}
                         useMesh={true}
+                        areaBaselineValue={limits.wLevel.min}
                       />
                     </motion.div>
                   ) : null}
@@ -410,8 +440,8 @@ const BarChart = ({ information, fullPage = false }) => {
                         xFormat="time:%Y-%m-%d %H:%M"
                         yScale={{
                           type: "linear",
-                          min: "auto",
-                          max: "auto",
+                          min: limits.wElevation.min,
+                          max: limits.wElevation.max,
                           stacked: false,
                           reverse: false,
                         }}
@@ -440,13 +470,14 @@ const BarChart = ({ information, fullPage = false }) => {
                         colors="#7B8831"
                         enablePoints={false}
                         //@ts-ignore
-                        lineWidth={piezoElevationData > 500 ? 1 : 2}
+                        lineWidth={lecturesData.length > 500 ? 1 : 2}
                         pointSize={2}
                         pointColor={{ theme: "background" }}
                         pointBorderWidth={2}
                         pointBorderColor={{ from: "serieColor" }}
                         pointLabelYOffset={-12}
                         useMesh={true}
+                        areaBaselineValue={limits.wElevation.min}
                       />
                     </motion.div>
                   ) : null}

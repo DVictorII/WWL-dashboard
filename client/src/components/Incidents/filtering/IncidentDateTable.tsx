@@ -1,4 +1,3 @@
-import React from "react";
 import { useNewIncidentReportStateStore } from "../../../store/NewIncidentReportStateStore";
 import Datepicker from "react-tailwindcss-datepicker";
 import moment from "moment";
@@ -30,8 +29,6 @@ function IncidentDateTable() {
           primaryColor={"orange"}
           value={value}
           onChange={(value) => {
-            console.log(value);
-
             if (!value || value.startDate === null)
               return changeDate(moment(Date.now()).format("YYYY-MM-DD"));
             //@ts-ignore

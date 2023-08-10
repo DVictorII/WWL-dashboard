@@ -63,11 +63,6 @@ function PiezoReportForm() {
 
   const resetState = useNewPiezoReportStateStore((state) => state.resetState);
 
-  // useEffect(()=>{
-  //   //@ts-ignore
-  //   console.log("PHOTO", photo?.name  || "piezoreport-default")
-  // },[photo])
-
   const navigate = useNavigate();
 
   const [displaying, setDisplaying] = useState("piezoInfo");
@@ -80,7 +75,6 @@ function PiezoReportForm() {
     e.preventDefault();
 
     const filteredSupervisors = supervisors.filter((sup) => sup !== "");
-    console.log(filteredSupervisors);
 
     try {
       await toast.promise(

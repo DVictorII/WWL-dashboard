@@ -10,11 +10,9 @@ import "../../MarkerCluster.css";
 import "../../MarkerCluster.Default.css";
 import "leaflet.markercluster";
 
-import FadeLoader from "react-spinners/FadeLoader";
 import {
   addSections,
   drawIncidents,
-  DrawMap,
   InitializeMap,
 } from "../../utils/mapInitFunc";
 import { useMapStore } from "../../store/MapStateStore";

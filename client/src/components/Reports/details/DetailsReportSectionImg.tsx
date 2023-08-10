@@ -41,16 +41,11 @@ function DetailsReportSectionImg({
     report_time_span: timeSpan,
   } = report;
 
-  // console.log(paddock, piezo);
-
   const piezometersData = useMonitoringMapStateStore((s) => s.piezometersData);
 
   const currentPiezometer = piezometersData.find(
     (p) => p.paddock === paddock && p.id === piezo
   );
-  // console.log(currentPiezometer);
-
-  //   console.log("PIEZOINFO", piezoInfo);
 
   const { isLoading: sectionDataIsLoading, data: sectionData } = useQuery({
     queryKey: [`Section-data-${paddock}-${piezo}`],
@@ -100,8 +95,6 @@ function DetailsReportSectionImg({
   //@ts-ignore
   const chartPiezometers = sectionData.data.map((arr) => {
     const fixedXCoordinate = Math.round(arr[2] / 5) * 5;
-
-    // console.log(fixedXCoordinate);
 
     return [arr[0], arr[1], fixedXCoordinate, arr[3], arr[4]];
   });

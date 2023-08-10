@@ -7,10 +7,6 @@ function ReportDate() {
   const date = useNewPiezoReportStateStore((state) => state.date);
   const changeDate = useNewPiezoReportStateStore((state) => state.changeDate);
 
-  useEffect(() => {
-    console.log(date);
-  }, [date]);
-
   const value = {
     startDate: date,
     endDate: date,
@@ -32,8 +28,6 @@ function ReportDate() {
           primaryColor={"orange"}
           value={value}
           onChange={(value) => {
-            console.log(value);
-
             if (!value || value.startDate === null)
               return changeDate(moment(Date.now()).format("YYYY-MM-DD"));
             //@ts-ignore

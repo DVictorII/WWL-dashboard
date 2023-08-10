@@ -1,8 +1,6 @@
 import React from "react";
 import ChartTypeTable from "./Filtering/ChartTypeTable";
 
-import FullScreenButton from "./FullScreenButton";
-import ChartLegend from "./ChartLegend";
 //@ts-ignore
 import BarChart from "./../BarChart";
 import { useNewPiezoReportStateStore } from "../../store/NewPiezoReportStateStore";

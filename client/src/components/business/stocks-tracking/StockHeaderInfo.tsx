@@ -1,5 +1,3 @@
-import React from "react";
-
 function StockHeaderInfo() {
   return (
     <div className="flex flex-col 2xl:col-span-2  gap-y-8 bg-white p-4 rounded-xl shadow-md shadow-[rgba(91,71,0,0.1)]">

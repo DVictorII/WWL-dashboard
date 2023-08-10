@@ -50,8 +50,6 @@ function PiezoReportDetails() {
 
   if (isLoading || !report) return <SkeletonPiezoReportDetailsPage />;
 
-  console.log("REPORT", report);
-
   return (
     <>
       <MenuNavbar />

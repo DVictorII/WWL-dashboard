@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useNewPiezoReportStateStore } from "../../store/NewPiezoReportStateStore";
+
 import { useReportInfoTablesDaysSpanStore } from "../../store/ReportInfoTablesDaysSpanStore";
 import { useQuery } from "react-query";
 import {
@@ -15,15 +14,12 @@ import { getInoperativeDates } from "../../utils/getInoperativeDates";
 //@ts-ignore
 import axios from "../../utils/axios";
 import { toast } from "react-hot-toast";
-import { FadeLoader } from "react-spinners";
+
 import { BsDownload } from "react-icons/bs";
 import { FaSpinner } from "react-icons/fa";
 
 function ReportDetailsPDFDownloadButton() {
   const { id } = useParams();
-
-  const days = useNewPiezoReportStateStore((state) => state.days);
-  const chartType = useNewPiezoReportStateStore((state) => state.chartType);
 
   const daysSpan = useReportInfoTablesDaysSpanStore((state) => state.daysSpan);
 
@@ -68,10 +64,6 @@ function ReportDetailsPDFDownloadButton() {
     refetchOnWindowFocus: false,
   });
 
-  // useEffect(() => {
-  //   console.log("lectures", lecturesData);
-  // }, [lecturesData]);
-
   //@ts-ignore
   const lecturesDates = lecturesData?.map((lecture) => {
     return moment(lecture.time).format("YYYY-MM-DD HH:mm:ss");
@@ -85,10 +77,6 @@ function ReportDetailsPDFDownloadButton() {
   const inoperativeDates = lecturesDates
     ? getInoperativeDates(lecturesDates)
     : undefined;
-
-  // useEffect(() => {
-  //   console.log("report", report);
-  // }, [report]);
 
   if (isLoading || !report || piezometersAreLoading || lecturesAreLoading)
     return (
@@ -105,29 +93,29 @@ function ReportDetailsPDFDownloadButton() {
 
   const downloadReport = async () => {
     try {
-      console.log("DOWNLOADING REPORT", {
-        title: report.report_title || "",
-        description: report.report_description || "",
-        paddock: report.report_paddock || "",
-        piezo: report.report_piezo || "",
-        date: report.report_date || "",
-        days: daysSpan || 200,
-        photo: report.report_photo || "piezoreport-default.png",
-        supervisors: String(report.report_supervisors) || "[]",
-        averagePWP: lecturesPressure
-          ? Number(
-              lecturesPressure.reduce(
-                //@ts-ignore
-                (acc, val) => acc + Number(val) / lecturesPressure.length,
-                0
-              )
-            ).toFixed(3)
-          : 0,
-        inoperativeDates: inoperativeDates || [],
-        lecturesDates: lecturesDates || [],
-        lecturesPressure: lecturesPressure || [],
-        sectionURL: `${piezometersData.section}.png` || "None",
-      });
+      // console.log("DOWNLOADING REPORT", {
+      //   title: report.report_title || "",
+      //   description: report.report_description || "",
+      //   paddock: report.report_paddock || "",
+      //   piezo: report.report_piezo || "",
+      //   date: report.report_date || "",
+      //   days: daysSpan || 200,
+      //   photo: report.report_photo || "piezoreport-default.png",
+      //   supervisors: String(report.report_supervisors) || "[]",
+      //   averagePWP: lecturesPressure
+      //     ? Number(
+      //         lecturesPressure.reduce(
+      //           //@ts-ignore
+      //           (acc, val) => acc + Number(val) / lecturesPressure.length,
+      //           0
+      //         )
+      //       ).toFixed(3)
+      //     : 0,
+      //   inoperativeDates: inoperativeDates || [],
+      //   lecturesDates: lecturesDates || [],
+      //   lecturesPressure: lecturesPressure || [],
+      //   sectionURL: `${piezometersData.section}.png` || "None",
+      // });
 
       const res = await toast.promise(
         axios.post("/create-pdf", {
@@ -194,8 +182,6 @@ function ReportDetailsPDFDownloadButton() {
           },
         }
       );
-
-      console.log("PDF DATA", res.data);
     } catch (err) {
       console.log("ERROR", err);
     }

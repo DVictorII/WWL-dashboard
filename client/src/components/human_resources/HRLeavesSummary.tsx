@@ -1,5 +1,3 @@
-import React from "react";
-import HiresTimeTypeChart from "./charts/HiresTimeTypeChart";
 import { BsArrowDown } from "react-icons/bs";
 import LeavesVSHiresChart from "./charts/LeavesVSHiresChart";
 

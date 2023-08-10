@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import { useMobileMenuStore } from "../store/MobileMenuStore";
 import DesktopLink from "./DesktopLink";
 import DesktopSubLink from "./DesktopSubLink";

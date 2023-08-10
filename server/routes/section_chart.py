@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
+import math
+
 from flask import Blueprint, jsonify, request
 from flask_cors import cross_origin
 from datetime import datetime, timedelta, date
@@ -243,15 +245,15 @@ def build_word_report(piezos, reqDate):
 
                     first_piezo_with_datalogger_and_channel = filtered_list[0]
 
-                    # if first_piezo_with_datalogger_and_channel:
-                    # print(
-                    #     section,
-                    #     first_piezo_with_datalogger_and_channel["id"],
-                    #     first_piezo_with_datalogger_and_channel["section"],
-                    # )
-                    # filename = plot_section_chart(
-                    #     first_piezo_with_datalogger_and_channel
-                    # )
+                    if first_piezo_with_datalogger_and_channel:
+                        # print(
+                        #     section,
+                        #     first_piezo_with_datalogger_and_channel["id"],
+                        #     first_piezo_with_datalogger_and_channel["section"],
+                        # )
+                        filename = plot_section_chart(
+                            first_piezo_with_datalogger_and_channel
+                        )
                     # BUILD SECTION CHART WITH THE FIRST PIEZOMETER THAT HAS DATALOGGER AND CHANNEL
 
                     document.add_picture(
@@ -274,7 +276,7 @@ def build_word_report(piezos, reqDate):
                             f"node_{piezometer['datalogger']}_{piezometer['channel']}"
                             in tables
                         )
-                        and (piezometer["paddock"] == "CROWN")
+                        # and (piezometer["paddock"] == "CROWN")
                     ):
                         filename = plot_readings_chart(piezometer, 90, reqDate)
 
@@ -433,22 +435,70 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
 
         lectures = [dict(r._mapping) for r in result]
 
-        timeArr = list(map(lambda x: x["time"].strftime("%Y-%m-%d %H:%M:%S"), lectures))
+        if len(lectures) < 500:
+            number = math.ceil(len(lectures) / 500)
+
+        else:
+            if len(lectures) > 8000:
+                number = len(lectures) // 800
+
+            elif len(lectures) > 4000:
+                number = len(lectures) // 650
+
+            else:
+                number = len(lectures) // 500
+
+        def get_only_some_lectures(idx_and_item):
+            index, item = idx_and_item
+
+            if index % number == 0:
+                return item
+            else:
+                return "none"
+
+        timeArr = list(
+            map(
+                lambda x: x["time"].strftime("%Y-%m-%d %H:%M:%S"),
+                list(
+                    filter(
+                        lambda y: y != "none",
+                        list(
+                            map(
+                                lambda x: get_only_some_lectures(x), enumerate(lectures)
+                            )
+                        ),
+                    )
+                ),
+            )
+        )
 
         pressureArr = list(
             map(
                 lambda x: x["pressure"],
-                lectures,
+                list(
+                    filter(
+                        lambda y: y != "none",
+                        list(
+                            map(
+                                lambda x: get_only_some_lectures(x), enumerate(lectures)
+                            )
+                        ),
+                    )
+                ),
             )
         )
 
         t = timeArr
         s = pressureArr
 
+        maxLimit = max(pressureArr)
+
+        minLimit = min(pressureArr)
+
         def testFunc(idx_and_item):
             index, item = idx_and_item
 
-            span = round(len(lectures) / 25)
+            span = round(len(t) / 25)
 
             if index % span == 0:
                 return item
@@ -461,6 +511,8 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
 
         ax = fig.add_subplot(1, 1, 1)
         ax.tick_params(length=0)
+
+        plt.ylim([minLimit - 10, maxLimit + 40])
 
         plt.plot(t, s, label="Pressure readings (KPa)")
 
@@ -478,7 +530,7 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
         plt.gca().yaxis.grid(True)
 
         if len(pressureArr) != 0:
-            plt.fill_between(t, s, min(pressureArr), color=["#477C9A"], alpha=0.1)
+            plt.fill_between(t, s, minLimit - 10, color=["#477C9A"], alpha=0.1)
 
         file_path = os.path.abspath(
             f"../client/public/sectionReport/readings/{piezometer['datalogger']}_{piezometer['channel']}.png"

@@ -1,5 +1,3 @@
-import React from "react";
-
 function StockDateSpanSelector() {
   return (
     <div className="grid grid-cols-6 bg-[#f2f2f0]  rounded-full ">

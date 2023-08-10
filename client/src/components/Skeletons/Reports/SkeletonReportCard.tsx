@@ -1,5 +1,3 @@
-import React from "react";
-import { AiOutlineCalendar } from "react-icons/ai";
 import Skeleton from "react-loading-skeleton";
 
 function SkeletonReportCard() {

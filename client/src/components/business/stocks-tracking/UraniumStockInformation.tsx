@@ -1,5 +1,3 @@
-import React from "react";
-
 interface DataI {
   Actual: string;
   Dates: string;

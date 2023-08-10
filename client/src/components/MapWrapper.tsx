@@ -1,34 +1,16 @@
 // @ts-ignore: Unreachable code error
-import {
-  fetchLastReadings,
-  fetchPaddockGeometry,
-  fetchPiezometersData,
-  fetchSectionsData,
-  satelliteMap,
-  sentinelMap,
-} from "../utils/map";
-
-// @ts-ignore: Unreachable code error
-import { boxShadowSlight } from "../utils/shadow";
+import { fetchPaddockGeometry, fetchSectionsData } from "../utils/map";
 
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import moment from "moment";
-import axios from "axios";
+
 import { useQuery } from "react-query";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import "../MarkerCluster.css";
 import "../MarkerCluster.Default.css";
 import "leaflet.markercluster";
-import {
-  activeIcon,
-  damagedIcon,
-  disconnectedIcon,
-  proposedIcon,
-  tarpIcon,
-} from "../utils/icons";
-import FadeLoader from "react-spinners/FadeLoader";
+
 import { useMapStore } from "../store/MapStateStore";
 import {
   addSections,
@@ -36,7 +18,7 @@ import {
   drawPiezometers,
   InitializeMap,
 } from "../utils/mapInitFunc";
-import { useChartStore } from "../store/ChartStateStore";
+
 import { useNavigate } from "react-router-dom";
 import { useMonitoringMapStateStore } from "../store/MonitoringMapStateStore";
 import { usePiezometerLecturesStateStore } from "../store/PiezometerLecturesStateStore";

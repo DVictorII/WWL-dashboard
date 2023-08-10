@@ -1,4 +1,3 @@
-import React from "react";
 import { useNewIncidentReportStateStore } from "../../../store/NewIncidentReportStateStore";
 import { chartPiezoList } from "../../../utils/piezoList";
 import Select from "react-tailwindcss-select";

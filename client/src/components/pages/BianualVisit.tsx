@@ -1,17 +1,10 @@
-import React from "react";
-
-import { useLocation } from "react-router-dom";
-
 import MenuNavbar from "../MenuNavbar";
 
-import { BsPlusSquare } from "react-icons/bs";
 import BVisitSelector from "../BVisits/BVisitSelector";
 import BVisitMapShowcase from "../BVisits/BVisitMapShowcase";
 import BVisitMediaPlayer from "../BVisits/BVisitMediaPlayer";
 
 function BianualVisit() {
-  const location = useLocation();
-
   return (
     <>
       <MenuNavbar />

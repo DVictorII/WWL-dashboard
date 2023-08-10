@@ -85,7 +85,6 @@ function VisitMap({ media }: VisitMapProps) {
     // adding circles to the map
     // @ts-ignore
     piezoList.map((piezometer, i) => {
-      console.log("PIEZOMETER", piezometer);
       let icon = piezometer.type === "photo" ? photoIcon : videoIcon;
 
       const circle = L.marker([piezometer.latitude, piezometer.longitude], {
@@ -126,7 +125,6 @@ function VisitMap({ media }: VisitMapProps) {
         title?.forEach((t) =>
           t.addEventListener("click", () => {
             displayMedia(piezometer.id);
-            console.log(piezometer.id);
           })
         );
       });

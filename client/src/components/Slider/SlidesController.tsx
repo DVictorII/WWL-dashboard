@@ -1,17 +1,11 @@
-import React,{useEffect} from 'react'
-import { useSwiper, useSwiperSlide } from 'swiper/react'
+import { useSwiper } from "swiper/react";
 
 function SlidesController() {
-    const swiper = useSwiper()
-
-    // useEffect(()=>{
-    //     console.log(swiper)
-
-    // },[swiper])
+  const swiper = useSwiper();
 
   return (
-    <div className='absolute top-0 right-0 z-[20]'>{swiper.activeIndex}</div>
-  )
+    <div className="absolute top-0 right-0 z-[20]">{swiper.activeIndex}</div>
+  );
 }
 
-export default SlidesController
+export default SlidesController;

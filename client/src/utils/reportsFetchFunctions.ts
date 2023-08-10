@@ -63,8 +63,6 @@ export const fetchReportLectures = async (
   channel: number,
   days: number
 ) => {
-  console.log("DATALOGGER", datalogger);
-  console.log("CHANNEL", channel);
   const result = await axios.get(
     `/lectures/node_${datalogger}_${channel}/${days}`
   );

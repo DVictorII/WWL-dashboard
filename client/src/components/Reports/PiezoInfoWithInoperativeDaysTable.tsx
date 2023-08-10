@@ -1,6 +1,6 @@
 import InoperativeDaysSpanTable from "./InoperativeDaysSpanTable";
 import InoperativeDaysTable from "./InoperativeDaysTable";
-import { QueryClient, useQuery, useQueryClient } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 
 import {
   fetchChartLectures,
@@ -11,7 +11,7 @@ import moment from "moment";
 
 //@ts-ignore
 import { getInoperativeDates } from "../../utils/getInoperativeDates";
-import { FadeLoader } from "react-spinners";
+
 import ReportPiezoInformationTable from "./form/ReportPiezoInformationTable";
 import SkeletonPiezoInfoWithInoperativeDaysTable from "../Skeletons/Reports/SkeletonPiezoInfoWithInoperativeDaysTable";
 
@@ -22,7 +22,6 @@ function PiezoInfoWithInoperativeDaysTable({
   paddock: string;
   piezo: string;
 }) {
-  const queryClient = useQueryClient();
   const daysSpan = useReportInfoTablesDaysSpanStore((state) => state.daysSpan);
 
   const { isLoading: piezometersAreLoading, data: piezometersData } = useQuery({
@@ -48,10 +47,6 @@ function PiezoInfoWithInoperativeDaysTable({
     enabled: !!datalogger,
     refetchOnWindowFocus: false,
   });
-
-  // useEffect(() => {
-  //   console.log("lectures", lecturesData);
-  // }, [lecturesData]);
 
   //@ts-ignore
   const lecturesDates = lecturesData?.map((lecture) => {

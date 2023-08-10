@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { useNewPiezoReportStateStore } from "../../../store/NewPiezoReportStateStore";
 
 function ReportDescription() {

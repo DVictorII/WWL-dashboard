@@ -33,8 +33,6 @@ function IncidentDate() {
           value={value}
           //@ts-ignore
           onChange={(value) => {
-            console.log(value);
-
             if (!value || value.startDate === null)
               return changeDate(moment(Date.now()).format("YYYY-MM-DD"));
             //@ts-ignore

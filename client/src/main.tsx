@@ -10,7 +10,7 @@ import "./index.css";
 import Index from "./components/pages/Index";
 import { QueryClient, QueryClientProvider } from "react-query";
 import PaddockLectures from "./components/pages/PaddockLectures";
-import ProtectedRoute from "./components/ProtectedRoute";
+
 import PiezoReports from "./components/pages/PiezoReports";
 import IncidentReports from "./components/pages/IncidentReports";
 import NewPiezoReport from "./components/pages/NewPiezoReport";
@@ -18,17 +18,14 @@ import NewIncidentReport from "./components/pages/NewIncidentReport";
 import PiezoReportDetails from "./components/pages/PiezoReportDetails";
 import IncidentReportDetails from "./components/pages/IncidentReportDetails";
 import Login from "./components/pages/Login";
-import ProtectedLogIn from "./components/ProtectedLogIn";
+
 import BianualVisit from "./components/pages/BianualVisit";
-import VisitDetails from "./components/pages/VisitDetails";
-import MediaPlayer from "./components/BVisits/MediaPlayer";
 
 import PageLayout from "./components/pages/PageLayout";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import Chart from "./components/pages/Chart";
+
 import Stocks_tracking from "./components/pages/business/Stocks_tracking";
 import Team_information from "./components/pages/human_resources/Team_information";
 

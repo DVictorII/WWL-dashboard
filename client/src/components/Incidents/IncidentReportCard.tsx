@@ -1,7 +1,7 @@
 import React from "react";
 import { IncidentDetails } from "../../types";
 import { Link } from "react-router-dom";
-import { BsBookmarkHeart } from "react-icons/bs";
+
 import { AiOutlineCalendar, AiOutlineUser } from "react-icons/ai";
 import moment from "moment";
 

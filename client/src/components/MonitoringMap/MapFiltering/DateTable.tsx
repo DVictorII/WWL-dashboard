@@ -1,6 +1,5 @@
 import Datepicker from "react-tailwindcss-datepicker";
 
-import moment from "moment";
 import { useMonitoringMapStateStore } from "../../../store/MonitoringMapStateStore";
 
 function DateTable() {
@@ -30,8 +29,6 @@ function DateTable() {
         primaryColor={"orange"}
         value={value}
         onChange={(value) => {
-          console.log("VALUE", value);
-
           if (!value || value.startDate === null || value.startDate === null)
             return;
           //@ts-ignore

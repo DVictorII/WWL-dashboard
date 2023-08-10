@@ -2,12 +2,10 @@ import React from "react";
 import BarChart from "../../BarChart";
 import { useNewPiezoReportStateStore } from "../../../store/NewPiezoReportStateStore";
 import { ReportDetails } from "../../../types";
-import { useLocation } from "react-router-dom";
+
 import ChartTypeTable from "../../PiezometerLectures/Filtering/ChartTypeTable";
 
 function DetailsReportLecturesChart({ report }: { report: ReportDetails }) {
-  const location = useLocation().pathname;
-
   const {
     report_paddock: paddock,
     report_piezo: piezo,

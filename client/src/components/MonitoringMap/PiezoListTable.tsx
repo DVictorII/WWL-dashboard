@@ -1,13 +1,10 @@
-import React, { useEffect } from "react";
 import { BsArrowDownUp } from "react-icons/bs";
 import { monitoringMapStatusInfo } from "../../utils/monitoringMapStatusInfo";
 import { useMonitoringMapStateStore } from "../../store/MonitoringMapStateStore";
-import { useQuery } from "react-query";
-import { fetchLastReadings, fetchPiezometersData } from "../../utils/map";
-import Skeleton from "react-loading-skeleton";
+
 import SkeletonPiezoListTable from "../Skeletons/MonitoringMap/SkeletonPiezoListTable";
 import { PiezometerDataI } from "../../types";
-import moment from "moment";
+
 import { convertFloodDate } from "../../utils/convertFloodDate";
 
 const options = {

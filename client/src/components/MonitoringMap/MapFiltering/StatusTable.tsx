@@ -1,5 +1,5 @@
 import React from "react";
-import { AiOutlineCheck, AiOutlineAlert } from "react-icons/ai";
+import { AiOutlineCheck } from "react-icons/ai";
 import { BsLightbulb } from "react-icons/bs";
 import { FiAlertTriangle, FiAlertOctagon } from "react-icons/fi";
 import { VscDebugDisconnect } from "react-icons/vsc";

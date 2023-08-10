@@ -5,8 +5,6 @@ import ChartTypeTable from "../PiezometerLectures/Filtering/ChartTypeTable";
 
 //@ts-ignore
 import BarChart from "../BarChart";
-import FullScreenButton from "../PiezometerLectures/FullScreenButton";
-import ChartLegend from "../PiezometerLectures/ChartLegend";
 
 function ReportLecturesChart({
   paddock,
@@ -15,8 +13,6 @@ function ReportLecturesChart({
   paddock: string;
   piezo: string;
 }) {
-  const location = useLocation().pathname;
-
   const days = useNewPiezoReportStateStore((state) => state.days);
   const chartType = useNewPiezoReportStateStore((state) => state.chartType);
 

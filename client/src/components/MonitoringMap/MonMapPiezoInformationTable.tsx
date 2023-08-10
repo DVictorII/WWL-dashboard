@@ -1,7 +1,7 @@
 import React from "react";
 import { useMonitoringMapStateStore } from "../../store/MonitoringMapStateStore";
 import { useQuery } from "react-query";
-import { fetchLastReadings, fetchPiezometerData } from "../../utils/map";
+import { fetchPiezometerData } from "../../utils/map";
 import SkeletonPiezoInformationTable from "../Skeletons/PiezometerLectures/SkeletonPiezoInformationTable";
 import {
   capitalizeName,

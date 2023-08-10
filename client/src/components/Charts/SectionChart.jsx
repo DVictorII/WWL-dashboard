@@ -14,10 +14,7 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 
-import {
-  
-  piezoRawData,
-} from "../../utils/sectionChartData";
+
 import { useMediaQuery } from "react-responsive";
 import {monitoringMapStatusInfo} from "../../utils/monitoringMapStatusInfo"
 
@@ -39,7 +36,7 @@ const piezoLine = {
     let piezometer;
     for (let i = 0; i <= piezometersData.length - 1; i++) {
         piezometer = piezometersData[i];
-        // console.log(piezometer)
+
       if(piezometer[3] !== 0){
 
 
@@ -244,7 +241,7 @@ const Y3WaterLvl = chartCoordinates.map((arr) => arr[3]);
           },
 
           label: (ctx) => {
-            // console.log(ctx)
+
             return ` ${ctx.raw.name}`
           }
         },

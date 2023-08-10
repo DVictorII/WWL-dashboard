@@ -10,14 +10,11 @@ import axios from "../../utils/axios";
 import { useQuery } from "react-query";
 import moment from "moment";
 
-//@ts-ignore
-import { boxShadowSlight } from "../../utils/shadow";
-
 import "../../MarkerCluster.css";
 import "../../MarkerCluster.Default.css";
 import "leaflet.markercluster";
 import { incidentIcon } from "../../utils/icons";
-import FadeLoader from "react-spinners/FadeLoader";
+
 import SkeletonIncidentMapMultiple from "../Skeletons/Incidents/SkeletonIncidentMapMultiple";
 
 function IncidentMapMultiple() {
@@ -37,7 +34,7 @@ function IncidentMapMultiple() {
 
   const fetchSectionsData = async () => {
     const result = await axios.get("/get_geojson_sections-sections_bp");
-    // console.log(result.data.data[0].features)
+
     return result.data.data[0].features;
   };
 

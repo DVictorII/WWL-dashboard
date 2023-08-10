@@ -1,6 +1,6 @@
 import React from "react";
 import { useNewPiezoReportStateStore } from "../../../store/NewPiezoReportStateStore";
-import { chartPiezoList } from "../../../utils/piezoList";
+
 import Select from "react-tailwindcss-select";
 
 function ReportPiezo() {

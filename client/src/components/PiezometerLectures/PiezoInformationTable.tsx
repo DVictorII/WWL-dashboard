@@ -1,13 +1,8 @@
-import React from "react";
-import { BsArrowDownUp } from "react-icons/bs";
 import { usePiezometerLecturesStateStore } from "../../store/PiezometerLecturesStateStore";
-import { useQuery } from "react-query";
-import { fetchLastReadings, fetchPiezometerData } from "../../utils/map";
-import { FadeLoader } from "react-spinners";
+
 import { monitoringMapStatusInfo } from "../../utils/monitoringMapStatusInfo";
 import { capitalizeName } from "../../utils/monitoringMapStatusInfo";
-import { useLocation } from "react-router-dom";
-import { useNewPiezoReportStateStore } from "../../store/NewPiezoReportStateStore";
+
 import SkeletonPiezoInformationTable from "../Skeletons/PiezometerLectures/SkeletonPiezoInformationTable";
 import { useMonitoringMapStateStore } from "../../store/MonitoringMapStateStore";
 import moment from "moment";

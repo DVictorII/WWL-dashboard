@@ -17,13 +17,9 @@ function ReportInoperativeDatesTable() {
     (p) => p.paddock === paddock && p.id === piezo
   );
 
-  console.log("CURRENT", currentPiezometer);
-
   const { inoperativeDates } = lecturesInformation;
 
   const timeSpan = useNewPiezoReportStateStore((state) => state.timeSpan);
-
-  console.log(lecturesInformation);
 
   return (
     <div
