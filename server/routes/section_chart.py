@@ -311,7 +311,6 @@ def plot_section_chart(piezometer):
     nodes, data, section = wwl.get_data_by_section(
         piezometer["datalogger"], piezometer["channel"], natural_ground, new_ground
     )
-
     nodes = sorted(nodes, key=lambda x: x[2])
     x = [item[0] for item in data]
     y1 = [item[1] for item in data]
@@ -325,19 +324,11 @@ def plot_section_chart(piezometer):
 
     plt.figure(figsize=(16, 6))
 
-    plt.plot(x, y1, color="#7b8831", label="Original ground")
-    plt.plot(x, y2, color="#876538", label="Tailing surface")
-
-    # plt.scatter(
-    #     piezometer_x, piezometer_location, color="red", label="Piezometer location"
-    # )
-    # plt.scatter(
-    #     piezometer_x, piezometer_reading, color="blue", label="Current PWP level"
-    # )
-
+    # Change the labels as you prefer, will appear in legend
+    plt.plot(x, y1, color="brown", label="Ground lvl (RLm)")
+    plt.plot(x, y2, color="blue", label="2022 Survey lvl (RLm)")
     index = 1
     for i, reading in enumerate(piezometer_reading):
-        print("READING", reading)
         if piezometer_status[i] == 1:
             color = "blue"
         elif piezometer_status[i] == 2:
@@ -346,8 +337,13 @@ def plot_section_chart(piezometer):
             color = "yellow"
 
         if piezometer_status[i] == 1:
-            tag = str(index) + ") " + piezometer_name[i] + " - " + str(reading) + " KPa"
-            plt.scatter(piezometer_x[i], reading, marker="v", color=color)
+            tag = str(index) + ") " + piezometer_name[i] + " - " + str(reading)
+            if piezometer_reading[i] < piezometer_location[i]:
+                plt.scatter(
+                    piezometer_x[i], piezometer_location[i] - 2, marker="v", color=color
+                )
+            else:
+                plt.scatter(piezometer_x[i], reading, marker="v", color=color)
             plt.scatter(
                 piezometer_x[i],
                 piezometer_location[i],
@@ -355,17 +351,11 @@ def plot_section_chart(piezometer):
                 color=color,
                 label=tag,
             )
-            if int(reading) == 0:
-                plt.plot(
-                    [piezometer_x[i], piezometer_x[i]],
-                    color=color,
-                )
-            else:
-                plt.plot(
-                    [piezometer_x[i], piezometer_x[i]],
-                    [piezometer_location[i], reading],
-                    color=color,
-                )
+            plt.plot(
+                [piezometer_x[i], piezometer_x[i]],
+                [piezometer_location[i], reading],
+                color=color,
+            )
             # plt.text(piezometer_x[i], piezometer_location[i], "("+ str(index) + ")" , ha='center', va='bottom',bbox=dict(facecolor='white', alpha=0.5))
             plt.annotate(
                 "(" + str(index) + ")",
@@ -395,9 +385,9 @@ def plot_section_chart(piezometer):
             )
             index += 1
 
-    plt.xlabel("Chainage (m)")
-    plt.ylabel("Elevation (m)")
-    plt.title(f"Graph of {piezometer['section'].replace('-',' ',1)} ")
+    plt.xlabel("Ground (m)")
+    plt.ylabel("Level")
+    plt.title("Graph " + section)
 
     plt.legend()
     plt.xticks(range(min(x), max(x) + 1, 50))
@@ -416,6 +406,120 @@ def plot_section_chart(piezometer):
     filename = f"{piezometer['section'].lower()}.png"
 
     return filename
+
+
+# def plot_section_chart(piezometer):
+#     natural_ground = "data/sections/natural_ground/"
+#     new_ground = "data/sections/new_ground/"
+
+#     nodes, data, section = wwl.get_data_by_section(
+#         piezometer["datalogger"], piezometer["channel"], natural_ground, new_ground
+#     )
+
+#     nodes = sorted(nodes, key=lambda x: x[2])
+#     x = [item[0] for item in data]
+#     y1 = [item[1] for item in data]
+#     y2 = [item[2] for item in data]
+
+#     piezometer_x = [item[2] for item in nodes]
+#     piezometer_location = [item[3] for item in nodes]
+#     piezometer_reading = [item[4] for item in nodes]
+#     piezometer_name = [item[0] for item in nodes]
+#     piezometer_status = [item[1] for item in nodes]
+
+#     plt.figure(figsize=(16, 6))
+
+#     plt.plot(x, y1, color="#7b8831", label="Original ground")
+#     plt.plot(x, y2, color="#876538", label="Tailing surface")
+
+#     # plt.scatter(
+#     #     piezometer_x, piezometer_location, color="red", label="Piezometer location"
+#     # )
+#     # plt.scatter(
+#     #     piezometer_x, piezometer_reading, color="blue", label="Current PWP level"
+#     # )
+
+#     index = 1
+#     for i, reading in enumerate(piezometer_reading):
+#         print("READING", reading)
+#         if piezometer_status[i] == 1:
+#             color = "blue"
+#         elif piezometer_status[i] == 2:
+#             color = "red"
+#         elif piezometer_status[i] == 3:
+#             color = "yellow"
+
+#         if piezometer_status[i] == 1:
+#             tag = str(index) + ") " + piezometer_name[i] + " - " + str(reading) + " KPa"
+#             plt.scatter(piezometer_x[i], reading, marker="v", color=color)
+#             plt.scatter(
+#                 piezometer_x[i],
+#                 piezometer_location[i],
+#                 marker="o",
+#                 color=color,
+#                 label=tag,
+#             )
+#             if int(reading) == 0:
+#                 plt.plot(
+#                     [piezometer_x[i], piezometer_x[i]],
+#                     color=color,
+#                 )
+#             else:
+#                 plt.plot(
+#                     [piezometer_x[i], piezometer_x[i]],
+#                     [piezometer_location[i], reading],
+#                     color=color,
+#                 )
+#             # plt.text(piezometer_x[i], piezometer_location[i], "("+ str(index) + ")" , ha='center', va='bottom',bbox=dict(facecolor='white', alpha=0.5))
+#             plt.annotate(
+#                 "(" + str(index) + ")",
+#                 (piezometer_x[i], piezometer_location[i]),
+#                 textcoords="offset points",
+#                 xytext=(5, 5),
+#                 ha="center",
+#                 fontsize=8,
+#             )
+#             index += 1
+#         elif piezometer_status[i] == 2 or piezometer_status[i] == 3:
+#             tag = str(index) + ") " + piezometer_name[i]
+#             plt.scatter(
+#                 piezometer_x[i],
+#                 piezometer_location[i],
+#                 marker="o",
+#                 color=color,
+#                 label=tag,
+#             )
+#             plt.annotate(
+#                 "(" + str(index) + ")",
+#                 (piezometer_x[i], piezometer_location[i]),
+#                 textcoords="offset points",
+#                 xytext=(5, 5),
+#                 ha="center",
+#                 fontsize=8,
+#             )
+#             index += 1
+
+#     plt.xlabel("Chainage (m)")
+#     plt.ylabel("Elevation (m)")
+#     plt.title(f"Graph of {piezometer['section'].replace('-',' ',1)} ")
+
+#     plt.legend()
+#     plt.xticks(range(min(x), max(x) + 1, 50))
+#     plt.yticks(range(int(min(y1)), int(max(y2) + 1), 5))
+#     plt.grid(True)
+
+#     # Save chart picture
+#     file_path_to_save = os.path.abspath(
+#         f"../client/public/sectionReport/sections/{piezometer['section'].lower()}.png"
+#     )
+
+#     plt.savefig(file_path_to_save, bbox_inches="tight")
+
+#     plt.close("all")
+
+#     filename = f"{piezometer['section'].lower()}.png"
+
+#     return filename
 
 
 def plot_readings_chart(piezometer, daysAgo, reqDate):
@@ -585,3 +689,14 @@ def readings_test(node):
     res = cur.fetchall()
 
     return jsonify({"message": res, "len": len(res)})
+
+
+@section_chart_routes.route("/api/v1/sections-info", methods=["GET"])
+@cross_origin()
+def get_wuwu():
+    natural_ground = "data/sections/natural_ground/"
+    new_ground = "data/sections/new_ground/"
+
+    nodes, data, section = wwl.get_data_by_section(natural_ground, new_ground)
+
+    return jsonify({"nodes": nodes, "data": data, "section": section})

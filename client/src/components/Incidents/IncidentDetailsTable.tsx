@@ -11,11 +11,10 @@ function IncidentDetailsTable({ incident }: { incident: IncidentDetails }) {
               <span>Location coordinates:</span>
             </th>
 
-            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span>
-                {Number(incident.incident_latitude).toFixed(8)}° /{" "}
-                {Number(incident.incident_longitude).toFixed(8)}°
-              </span>
+            <th className="flex items-center gap-x-2  justify-center font-semibold flex-wrap w-full">
+              <span>{Number(incident.incident_latitude).toFixed(8)}°</span>
+              <span>/</span>
+              <span>{Number(incident.incident_longitude).toFixed(8)}°</span>
             </th>
           </tr>
 

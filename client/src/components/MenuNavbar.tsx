@@ -25,7 +25,7 @@ function MenuNavbar() {
       </div>
 
       <div className="md:hidden" onClick={openMobileMenu}>
-        <HiMenuAlt2 className="text-3xl" />
+        <HiMenuAlt2 className="text-2xl" />
       </div>
     </nav>
   );

@@ -5,7 +5,7 @@ import { useConfirmationModalStore } from "../../store/ConfirmationModalStore";
 import Sidebar from "../NavBars/Sidebar";
 import { motion } from "framer-motion";
 import LogOutConfirmationModal from "../LogOutConfirmationModal";
-import MobileMenu from "../MobileMenu";
+
 import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "../ProtectedRoute";
 import ProtectedLogIn from "../ProtectedLogIn";
@@ -15,6 +15,7 @@ import { fetchLastReadings, fetchPiezometersData } from "../../utils/map";
 import { usePiezometerLecturesStateStore } from "../../store/PiezometerLecturesStateStore";
 import PiezoReportDeleteConfirmationModal from "../Reports/PiezoReportDeleteConfirmationModal";
 import IncidentReportDeleteConfirmationModal from "../Incidents/IncidentReportDeleteConfirmationModal";
+import MobileMenu from "../NavBars/MobileMenu";
 
 function PageLayout() {
   const location = useLocation();

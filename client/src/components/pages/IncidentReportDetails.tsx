@@ -12,6 +12,9 @@ import IncidentSupervisorsView from "../Incidents/IncidentSupervisorsView";
 import IncidentMapDetailsTable from "../Incidents/IncidentMapDetailsTable";
 import { IncidentDetails } from "../../types";
 import SkeletonIncidentReportDetailsPage from "../Skeletons/Incidents/SkeletonIncidentReportDetailsPage";
+import { AiOutlineArrowLeft } from "react-icons/ai";
+import IncidentDetailsTable from "../Incidents/IncidentDetailsTable";
+import IncidentMapSingle from "../Incidents/IncidentMapSingle";
 
 function IncidentReportDetails() {
   const { id } = useParams();
@@ -35,52 +38,92 @@ function IncidentReportDetails() {
     <>
       <MenuNavbar />
 
-      <div className="mt-12 md:mt-0 flex flex-col gap-y-12">
-        <div className="flex items-center justify-between gap-x-8 gap-y-8 flex-wrap">
-          <h1 className="md:text-lg 2xl:text-xl font-bold">
-            {incident.incident_title}
-          </h1>
+      <div className="mt-12 md:hidden" />
 
-          <div className="flex items-center gap-x-8 flex-wrap gap-y-8">
-            {/* <button
-              // onClick={downloadReport}
-              className="flex items-center gap-x-2 md:gap-x-3 lg:gap-x-4 px-4 py-2 bg-all-normal hover:bg-orange-800 transition-all text-white rounded-lg shadow-sm"
-            >
-              <BsDownload className="w-4 h-4 " />
-              <span className="text-xs md:text-sm">Download report on PDF</span>
-            </button> */}
+      <div className="flex">
+        <Link to="/operations/reports/incidents">
+          <button className="flex items-center gap-x-1 pb-px border-b w-max border-transparent hover:border-[#666] transition-all">
+            <AiOutlineArrowLeft />
+            <span className="cursor-pointer font-semibold">back</span>
+          </button>
+        </Link>
+      </div>
 
-            <Link to="/operations/reports/incidents">
-              <span className="cursor-pointer text-all-normal pb-1 border-b-2  border-all-normal hover:text-orange-800 hover:border-orange-800 transition-all w-max sz450:justify-self-end md:text-lg  font-semibold ">
-                &larr; Back
-              </span>
-            </Link>
+      <div className="mt-4" />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-6 gap-y-6">
+        <div className="flex flex-col gap-y-6">
+          <div className="flex items-center justify-between gap-x-8 gap-y-8 flex-wrap bg-white p-4 rounded-xl shadow-sm">
+            <h1 className=" font-bold xl:text-lg">Incident Report Details</h1>
+          </div>
+
+          <div className=" bg-white p-4 rounded-xl shadow-sm">
+            <div className="flex flex-col gap-y-8">
+              <div className="flex flex-col gap-y-3 flex-wrap">
+                <span className="text-lg 2xl:text-xl font-bold">
+                  {incident.incident_title}
+                </span>
+
+                <span className="font-semibold text-xs md:text-sm text-[#666]">
+                  {incident.incident_date}
+                </span>
+              </div>
+
+              <div className="gap-x-4 flex items-end">
+                <span className="font-semibold text-sm">
+                  Incident description:
+                </span>{" "}
+                <span className="font-medium text-sm">
+                  {incident.incident_description}
+                </span>{" "}
+              </div>
+            </div>
           </div>
         </div>
-        <div className="text-sm font-medium">
-          {incident.incident_description}
+
+        <div className=" bg-white p-4 rounded-xl shadow-sm">
+          <IncidentDetailsTable incident={incident} />
         </div>
       </div>
 
-      <div className="bg-backgroundWhite md:bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-12 md:shadow-lg ">
-        <div className="bg-[#f5f5f5] border border-[#dfdfdf]  shadow-sm w-full sm:w-3/4 lg:w-1/2 min-h-[10rem] md:min-h-[12rem] 2xl:min-h-[14rem] max-h-[20rem]   rounded-lg flex items-center justify-center overflow-hidden cursor-pointer self-center">
-          <img
-            src={`/media/incident_reports/${
-              incident.incident_photo === "incident-default"
-                ? "incident-default.png"
-                : incident.incident_photo
-            }`}
-            alt={`/media/incident_reports/${
-              incident.incident_photo === "incident-default"
-                ? "incident-default.png"
-                : incident.incident_photo
-            }`}
-            className="object-cover"
-          />
+      <div className="mt-6" />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-6 gap-y-6">
+        <div className=" bg-white p-4 rounded-xl shadow-sm">
+          <div className="flex flex-col gap-y-6">
+            <h2 className="font-semibold">Location photo</h2>
+            <div className="bg-[#f5f5f5] border border-[#dfdfdf]  shadow-sm w-full  min-h-[10rem] md:min-h-[12rem] 2xl:min-h-[14rem] max-h-[20rem]   rounded-md flex items-center justify-center overflow-hidden cursor-pointer ">
+              <img
+                src={`/media/incident_reports/${
+                  incident.incident_photo === "incident-default"
+                    ? "incident-default.png"
+                    : incident.incident_photo
+                }`}
+                alt={`/media/incident_reports/${
+                  incident.incident_photo === "incident-default"
+                    ? "incident-default.png"
+                    : incident.incident_photo
+                }`}
+                className="object-cover"
+              />
+            </div>
+          </div>
         </div>
 
-        <IncidentMapDetailsTable incident={incident} />
+        <div className="flex flex-col gap-y-4  bg-white p-4 rounded-xl shadow-sm">
+          <div className="flex flex-col gap-y-4">
+            <h2 className="font-semibold text-sm 2xl:text-base">
+              Incident location map
+            </h2>
+          </div>
 
+          <IncidentMapSingle incident={incident} />
+        </div>
+      </div>
+
+      <div className="mt-6" />
+
+      <div className=" bg-white p-4 rounded-xl shadow-sm">
         <IncidentSupervisorsView incident={incident} />
       </div>
     </>

@@ -25,7 +25,7 @@ function LogOutConfirmationModal() {
         onClick={closeLogOutModal}
       />
 
-      <div className=" relative  w-full sm:w-2/3 lg:w-1/2 h-1/3 md:h-1/2 bg-white rounded-xl overflow-hidden flex flex-col ">
+      <div className=" relative  w-full sm:w-2/3 lg:w-1/2  bg-white rounded-xl overflow-hidden flex flex-col ">
         <div className="w-full h-28 lg:h-32 2xl:h-36">
           <img
             src="/media/img/photos/Rossing_mine.jpg"
@@ -34,21 +34,21 @@ function LogOutConfirmationModal() {
           />
         </div>
 
-        <div className="flex flex-col gap-y-6 md:gap-y-10 lg:gap-y-12 h-full justify-center items-center border-b-4 border-t-4 border-[#831B1B]">
-          <div className="text-xl md:text-2xl font-semibold 2xl:text-3xl">
+        <div className="flex flex-col gap-y-6 py-6 md:py-8 lg:py-10 md:gap-y-10 lg:gap-y-12 h-full justify-center items-center border-b-4 border-t-4 border-[#831B1B]">
+          <div className=" text-lg sm:text-xl md:text-2xl font-semibold 2xl:text-3xl">
             Are you sure you want to log out?
           </div>
 
           <div className="flex gap-x-6 md:gap-x-8 lg:gap-x-10">
             <button
               onClick={logOut}
-              className="px-8 lg:px-10 2xl:px-12 py-1 2xl:py-2  border-2 border-[#831B1B] text-white rounded-lg bg-[#831B1B] hover:bg-[#622323] transition-all text-lg xl:text-xl font-semibold"
+              className="px-8 lg:px-10 2xl:px-12 py-1 2xl:py-2  border-2 border-[#831B1B] text-white rounded-lg bg-[#831B1B] hover:bg-[#622323] transition-all  sm:text-lg xl:text-xl font-semibold"
             >
               Confirm
             </button>
             <button
               onClick={closeLogOutModal}
-              className="px-8 lg:px-10 2xl:px-12 py-1 2xl:py-2  border-2 border-[#333] text-[#333] rounded-lg bg-white hover:bg-[#333] hover:text-white transition-all text-lg xl:text-xl font-semibold"
+              className="px-8 lg:px-10 2xl:px-12 py-1 2xl:py-2  border-2 border-[#333] text-[#333] rounded-lg bg-white hover:bg-[#333] hover:text-white transition-all  sm:text-lg xl:text-xl font-semibold"
             >
               Go back
             </button>
