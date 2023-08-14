@@ -11,10 +11,6 @@ function SectionLegend() {
         <div className="w-8 h-4 bg-[rgb(135,101,56)] rounded-[4px]" />
         <span className="text-xs font-semibold">Tailing surface (RLm)</span>
       </div>
-      <div className="flex items-center gap-x-2">
-        <div className="w-8 h-4 bg-[rgb(37,109,123)] rounded-[4px]" />
-        <span className="text-xs font-semibold">Water lvl (m)</span>
-      </div>
     </div>
   );
 }

@@ -224,6 +224,17 @@ function PiezoListTable() {
                   <th className="sticky top-0 text-center px-4 py-2 lg:px-6 lg:py-3 bg-white border-b border-[#999] ">
                     <div className="flex gap-x-2 justify-center items-center">
                       <span className="text-[11px] md:text-xs lg:text-sm ">
+                        Pressure limit
+                      </span>
+                      <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
+                    </div>
+                  </th>
+                )}
+
+                {status === 5 && (
+                  <th className="sticky top-0 text-center px-4 py-2 lg:px-6 lg:py-3 bg-white border-b border-[#999] ">
+                    <div className="flex gap-x-2 justify-center items-center">
+                      <span className="text-[11px] md:text-xs lg:text-sm ">
                         Flood time
                       </span>
                       <BsArrowDownUp className="w-2 h-2 lg:w-3 lg:h-3" />
@@ -325,8 +336,8 @@ function PiezoListTable() {
                           <span
                             className={`${
                               lastReadingExists
-                                ? "text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-semibold"
-                                : "text-2xl flex justify-center items-center font-semibold"
+                                ? "text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-bold"
+                                : "text-2xl flex justify-center items-center font-bold"
                             }`}
                           >
                             {lastReadingExists
@@ -334,6 +345,14 @@ function PiezoListTable() {
                               : "-"}
                           </span>
                         </td>
+
+                        {status === 5 && (
+                          <td className="px-4 py-2 lg:px-6 lg:py-3">
+                            <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-bold">
+                              {Number(piezometer.tarps_value).toFixed(2)} KPa
+                            </span>
+                          </td>
+                        )}
 
                         {status === 5 && (
                           <td className="px-4 py-2 lg:px-6 lg:py-3">

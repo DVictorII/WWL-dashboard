@@ -60,7 +60,7 @@ function Stocks_tracking() {
             {/* <StockSelector /> */}
           </div>
 
-          <StockHeaderInfo />
+          <StockHeaderInfo data={stockInfo.data} />
         </div>
 
         <div className="flex flex-col  bg-white p-4 gap-y-4 rounded-xl shadow-md shadow-[rgba(91,71,0,0.1)]  ">

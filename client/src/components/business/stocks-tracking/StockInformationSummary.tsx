@@ -25,32 +25,34 @@ function StockInformationSummary({ data }: { data: DataI }) {
   const summaryTopics = [
     {
       title: "Previous close",
-      value: data.previousClose,
+      value: data.previousClose.toFixed(2),
     },
 
     {
       title: "Open",
-      value: data.open,
+      value: data.open.toFixed(2),
     },
 
     {
       title: "Bid",
-      value: data.bid,
+      value: data.bid.toFixed(2),
     },
 
     {
       title: "Ask",
-      value: data.ask,
+      value: data.ask.toFixed(2),
     },
 
     {
       title: "Day's range",
-      value: `${data.dayLow} - ${data.dayHigh}`,
+      value: `${data.dayLow.toFixed(2)} - ${data.dayHigh.toFixed(2)}`,
     },
 
     {
       title: "52-week range",
-      value: `${data.fiftyTwoWeekLow} - ${data.fiftyTwoWeekHigh}`,
+      value: `${data.fiftyTwoWeekLow.toFixed(
+        2
+      )} - ${data.fiftyTwoWeekHigh.toFixed(2)}`,
     },
 
     {
@@ -64,43 +66,40 @@ function StockInformationSummary({ data }: { data: DataI }) {
     },
 
     {
-      title: "Net assets",
-      value: "3.3B",
+      title: "Market cap",
+      value: `${(data.marketCap / 1000000000).toFixed(3)} B`,
     },
 
     {
-      title: "NAV",
-      value: "64.98",
+      title: "Beta (5Y monthly)",
+      value: data.beta.toFixed(2),
     },
 
     {
       title: "PE ratio (TTM)",
-      value: data.trailingPE,
+      value: data.trailingPE.toFixed(2),
     },
 
     {
-      title: "Yield",
-      value: `${data.dividendYield * 100} %`,
+      title: "EPS (TTM)",
+      value: data.trailingEps.toFixed(2),
     },
 
     {
-      title: "YTD daily total return",
-      value: "10.29%",
-    },
-
-    // {
-    //   title: "Beta (5Y monthly)",
-    //   value: data.beta,
-    // },
-
-    {
-      title: "Expense ratio (net)",
-      value: "0.75%",
+      title: "Earnings date",
+      value: `N/A`,
     },
 
     {
-      title: "Inception date",
-      value: moment(1689292800).format("YYYY-MM-DD"),
+      title: "Forward dividend & yield",
+      value: `${data.dividendRate.toFixed(2)} (${(
+        data.dividendYield * 100
+      ).toFixed(2)}%)`,
+    },
+
+    {
+      title: "Ex-dividend date",
+      value: moment(data.exDividendDate * 1000).format("DD MMMM YYYY"),
     },
   ];
 

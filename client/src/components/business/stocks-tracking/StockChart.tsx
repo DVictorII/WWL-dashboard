@@ -67,17 +67,17 @@ function StockChart({ data: hist }: { data: any[] }) {
         ...hist.map((arr) => {
           return {
             x: arr[0],
-            y: arr[6] / 1000000,
+            y: arr[4],
           };
         }),
       ],
     },
   ];
 
-  const maxLimit = Math.max(...hist.map((arr) => arr[6] / 1000000));
-  const minLimit = Math.min(...hist.map((arr) => arr[6] / 1000000));
+  const maxLimit = Math.max(...hist.map((arr) => arr[4]));
+  const minLimit = Math.min(...hist.map((arr) => arr[4]));
 
-  const chartMargin = (maxLimit - minLimit) / 5;
+  const chartMargin = 1;
 
   return (
     <div className="overflow-scroll  2xl:overflow-visible">
@@ -105,7 +105,7 @@ function StockChart({ data: hist }: { data: any[] }) {
               //   { match: { id: "stockHistory" }, id: "gradientC" },
               { match: { id: "stockHistory" }, id: "dots" },
             ]}
-            margin={{ top: 50, right: 20, bottom: 50, left: 50 }}
+            margin={{ top: 50, right: 30, bottom: 55, left: 55 }}
             xScale={{ type: "point" }}
             yScale={{
               type: "linear",
@@ -121,9 +121,9 @@ function StockChart({ data: hist }: { data: any[] }) {
             axisBottom={{
               tickSize: 5,
               tickPadding: 5,
-              tickRotation: 0,
+              tickRotation: -15,
               legend: "Dates",
-              legendOffset: 36,
+              legendOffset: 50,
 
               legendPosition: "middle",
             }}
@@ -131,8 +131,8 @@ function StockChart({ data: hist }: { data: any[] }) {
               tickSize: 5,
               tickPadding: 5,
               tickRotation: 0,
-              legend: "Volume (millions)",
-              legendOffset: -40,
+              legend: "Market close (CNY)",
+              legendOffset: -45,
               legendPosition: "middle",
             }}
             enableGridX={false}

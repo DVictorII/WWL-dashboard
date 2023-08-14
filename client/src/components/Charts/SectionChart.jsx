@@ -17,11 +17,15 @@ import { Line } from "react-chartjs-2";
 
 import { useMediaQuery } from "react-responsive";
 import {monitoringMapStatusInfo} from "../../utils/monitoringMapStatusInfo"
+import { useMonitoringMapStateStore } from "../../store/MonitoringMapStateStore";
 
 const piezoLine = {
   id: "piezoLine",
   beforeDatasetsDraw(chart, args, options) {
     const piezometersData = options.piezometersData;
+    const piezoInformation = options.piezoInformation;
+
+    // console.log("DATA",piezoInformation[0].id)
     const XValues = options.XValues;
     const YTopValues = options.YTopValues;
 
@@ -37,83 +41,83 @@ const piezoLine = {
     for (let i = 0; i <= piezometersData.length - 1; i++) {
         piezometer = piezometersData[i];
 
-      if(piezometer[3] !== 0){
+        const piezoInfo = piezoInformation.find((p)=>p.id === piezometer[0])
 
+        const readingIsPositive =   piezometer[4] - piezometer[3] >= 0
 
-  
-        ctx.save();
+        if (piezoInfo.status === 1) {
+           
+          if(piezometer[3] !== 0){
 
-  
-        // ctx.strokeStyle = i === 0 ? "#7B8831" : "#333";
-        ctx.strokeStyle = i === 0 ? "#7B8831" : "#333";
-        ctx.lineWidth = i === 0 ? 4 : 1;
-        
+            
+    
+    
+      
+            ctx.save();
+    
+      
+            // ctx.strokeStyle = i === 0 ? "#7B8831" : "#333";
+            ctx.strokeStyle = monitoringMapStatusInfo[piezoInfo.status].normalColor;
+            ctx.lineWidth = 2;
 
-       
-        // ctx.strokeRect(
-        //   x.getPixelForValue( XValues.findIndex((p)=>p === piezometer[2]) ),
-        //   y.getPixelForValue(piezometer[4]) ,
-        //   0,
-        //   y.getPixelForValue(piezometer[3]) - y.getPixelForValue(piezometer[4])
-        // );
-
-        ctx.strokeRect(
-          x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) )  ,
           
-          y.getPixelForValue(piezometer[4]) ,
-          0 ,
-          y.getPixelForValue(piezometer[3]) - y.getPixelForValue(piezometer[4])
-        );
-  
-        ctx.restore();
-      }
+            if (!readingIsPositive){
+
+              ctx.setLineDash([1,3])
+            }
+
+
+            
+    
+           
+            // ctx.strokeRect(
+            //   x.getPixelForValue( XValues.findIndex((p)=>p === piezometer[2]) ),
+            //   y.getPixelForValue(piezometer[4]) ,
+            //   0,
+            //   y.getPixelForValue(piezometer[3]) - y.getPixelForValue(piezometer[4])
+            // );
+    
+            ctx.strokeRect(
+              x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) )  ,
+              
+              y.getPixelForValue(piezometer[3]) ,
+              0 ,
+              y.getPixelForValue(piezometer[4]) - y.getPixelForValue(piezometer[3])
+            );
+      
+            ctx.restore();
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) ) - 4 ,y.getPixelForValue(piezometer[4]))
+            ctx.lineTo(x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) ) + 4, y.getPixelForValue(piezometer[4]))
+            ctx.lineTo(x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) ), y.getPixelForValue(piezometer[4]) + 6)
+            ctx.fillStyle = '#1c394a';
+            ctx.fill()
+
+            
+          }
+        }
+
     }
   },
-  // beforeDraw(chart, args, options) {
-  //   const piezometersData = options.piezometersData;
-  //   const XValues = options.XValues;
-  //   const YTopValues = options.YTopValues;
-
-  //   const {
-  //     ctx,
-  //     chartArea: { top, right, bottom, left, width, height },
-  //     scales: { x, y },
-  //   } = chart;
-
-  //   console.log("XVALUES",XValues)
-
-  //   let piezometer;
-  //   for (let i = 0; i <= piezometersData.length - 1; i++) {
-  //       piezometer = piezometersData[i];
-  //     if(piezometer[3] !== 0){
-
   
-  //       ctx.save();
-
-  
-  //       ctx.strokeStyle = piezometer[0] === "VW-CD3-01" ? "#008000" : "#333";
-        
-
-       
-  //       // ctx.strokeRect(
-  //       //   x.getPixelForValue( XValues.findIndex((p)=>p === piezometer[2]) ),
-  //       //   y.getPixelForValue(piezometer[4]) ,
-  //       //   0,
-  //       //   y.getPixelForValue(piezometer[3]) - y.getPixelForValue(piezometer[4])
-  //       // );
-
-  //       ctx.strokeRect(
-  //         x.getPixelForValue( XValues.findIndex((p)=>p === piezometer[2]) ),
-  //         y.getPixelForValue(piezometer[4]) ,
-  //         0,
-  //         y.getPixelForValue(piezometer[3]) - y.getPixelForValue(piezometer[4])
-  //       );
-  
-  //       ctx.restore();
-  //     }
-  //   }
-  // },
 };
+
+// const readingsShapes = {
+//   id: 'readingsShapes',
+//   afterDraw(chart, args, options) {
+//     const {ctx} = chart;
+    
+//     ctx.save();
+//     ctx.beginPath();
+//     ctx.moveTo(364,90)
+//     ctx.lineTo(330,177)
+//     ctx.lineTo(398,177)
+//     ctx.fillStyle = 'black';
+//     ctx.fill()
+//   }
+// }
 
 ChartJS.register(
   CategoryScale,
@@ -126,7 +130,8 @@ ChartJS.register(
   Tooltip,
   Legend,
   Filler,
-  piezoLine
+  piezoLine,
+  // readingsShapes
 );
 
 
@@ -135,30 +140,39 @@ function SectionChart({chartCoordinates, chartPiezometers}) {
   const isTablet = useMediaQuery({ query: "(max-width: 1023px)" });
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
 
+  const piezometersData = useMonitoringMapStateStore((s) => s.piezometersData);
+  
+  console.log(chartCoordinates)
 
 
   
 
   const XChainage = chartCoordinates.map((arr) => arr[0]);
-const Y1GroundLvl = chartCoordinates.map((arr) => arr[1]);
-const Y2SurveyLvl = chartCoordinates.map((arr) => arr[2]);
-const Y3WaterLvl = chartCoordinates.map((arr) => arr[3]);
+  const Y1GroundLvl = chartCoordinates.map((arr) => arr[1]);
+  const Y2SurveyLvl = chartCoordinates.map((arr) => arr[2]);
+
 
 
   const labels = XChainage;
 
+
+
   const data = {
   labels ,
+
   
   datasets: [
     {
       label: "Original ground (RLm)",
       data: Y1GroundLvl,
       borderColor: "rgb(123,136,49)",
-      backgroundColor: "rgba(123,136,49, 0.5)",
+      backgroundColor: "rgba(123,136,49, 0.3)",
       pointRadius: 0,
       pointHitRadius: 0,
       order:1,
+      fill: true,
+      
+      
     },
     {
       label: "Tailing surface (RLm)",
@@ -170,19 +184,11 @@ const Y3WaterLvl = chartCoordinates.map((arr) => arr[3]);
       order:1,
     },
 
-    {
-      label: "Water lvl (m)",
-      data: Y3WaterLvl,
-      borderColor: "rgb(37,109,123)",
-      fill: true,
-      backgroundColor: "rgba(37,109,123, 0.2)",
-      pointRadius: 0,
-      pointHitRadius: 0,
-      order:1,
-    },
 
     ...chartPiezometers.filter((piezoData)=>piezoData[3] !== 0).map((piezoData,i) => {
       const name = piezoData[0];
+      if (name === "VW-CD3-01") console.log(piezoData)
+      const status = piezoData[1];
       const XPosition = piezoData[2];
       
       const YPosition = piezoData[3];
@@ -194,10 +200,10 @@ const Y3WaterLvl = chartCoordinates.map((arr) => arr[3]);
         
         backgroundColor:  monitoringMapStatusInfo[piezoData[1]].normalColor  ,
         borderColor:  monitoringMapStatusInfo[piezoData[1]].darkColor,
-        // hoverRadius:100,
-        hoverBorderWidth: i === 0 ? 3 : 2,
-        borderWidth: i === 0 ? 3 : 2,
-        radius: i === 0 ? 10 : 5,
+        hoverRadius:i === 0 ? 2 : 2,
+        hoverBorderWidth: i === 0 ? 1 : 1,
+        borderWidth: i === 0 ? 1 : 1,
+        radius: i === 0 ? 4 : 4,
         type: "bubble" ,
         
         
@@ -205,7 +211,9 @@ const Y3WaterLvl = chartCoordinates.map((arr) => arr[3]);
           {
             y: YPosition,
             x: XPosition,
-            name
+            name,
+            reading: YIntersection - YPosition ,
+            status
           },
         ],
       };
@@ -242,15 +250,17 @@ const Y3WaterLvl = chartCoordinates.map((arr) => arr[3]);
 
           label: (ctx) => {
 
-            return ` ${ctx.raw.name}`
+            return ` ${ctx.raw.name} ${ctx.raw.status == 1 ? `( ${(ctx.raw.reading * 10).toFixed(2)} KPa )` : ""}` 
           }
         },
       },
       piezoLine: {
         piezometersData: chartPiezometers,
+        piezoInformation: piezometersData,
         XValues: labels,
         YTopValues: Y2SurveyLvl
       },
+      // readingsShapes
     },
 
     scales: {

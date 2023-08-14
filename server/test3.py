@@ -180,7 +180,7 @@ def update(year, month, op=True):
         print("already got features")
         query += uf.save_features(nodes, year, month, cur)
         print("updated readings")
-        # query += uf.save_last_features(nodes, cur)
+        query += uf.save_last_features(nodes, cur)
         print("updated last readings")
 
         print("FINAL QUERY", query)
