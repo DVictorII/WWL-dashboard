@@ -82,16 +82,24 @@ const piezoLine = {
               
               y.getPixelForValue(piezometer[3]) ,
               0 ,
-              y.getPixelForValue(piezometer[4]) - y.getPixelForValue(piezometer[3])
+              readingIsPositive ? y.getPixelForValue(piezometer[4]) - y.getPixelForValue(piezometer[3]) : 15
+              
             );
       
             ctx.restore();
 
             ctx.save();
             ctx.beginPath();
-            ctx.moveTo(x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) ) - 4 ,y.getPixelForValue(piezometer[4]))
-            ctx.lineTo(x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) ) + 4, y.getPixelForValue(piezometer[4]))
-            ctx.lineTo(x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) ), y.getPixelForValue(piezometer[4]) + 6)
+            if (readingIsPositive){
+
+              ctx.moveTo(x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) ) - 4 ,y.getPixelForValue(piezometer[4]))
+              ctx.lineTo(x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) ) + 4, y.getPixelForValue(piezometer[4]))
+              ctx.lineTo(x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) ), y.getPixelForValue(piezometer[4]) + 6)
+            } else{
+              ctx.moveTo(x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) ) - 4 ,y.getPixelForValue(piezometer[3])+15)
+              ctx.lineTo(x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) ) + 4, y.getPixelForValue(piezometer[3])+15)
+              ctx.lineTo(x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) ), y.getPixelForValue(piezometer[3]) + 21)
+            }
             ctx.fillStyle = '#1c394a';
             ctx.fill()
 
@@ -194,16 +202,18 @@ function SectionChart({chartCoordinates, chartPiezometers}) {
       const YPosition = piezoData[3];
       const YIntersection = piezoData[4];
 
+      const readingIsPositive =   YIntersection - YPosition >= 0
+
 
        return {
         label: "none",
         
-        backgroundColor:  monitoringMapStatusInfo[piezoData[1]].normalColor  ,
+        backgroundColor: readingIsPositive ?  monitoringMapStatusInfo[piezoData[1]].normalColor : monitoringMapStatusInfo[piezoData[1]].lightColor ,
         borderColor:  monitoringMapStatusInfo[piezoData[1]].darkColor,
-        hoverRadius:i === 0 ? 2 : 2,
-        hoverBorderWidth: i === 0 ? 1 : 1,
-        borderWidth: i === 0 ? 1 : 1,
-        radius: i === 0 ? 4 : 4,
+        hoverRadius: i === 0 ? 3 : 2,
+        hoverBorderWidth: i === 0 ? 2 : readingIsPositive ? 1 : 2,
+        borderWidth: i === 0 ? 2 : readingIsPositive ? 1 : 2,
+        radius: i === 0 ? 6 : 4,
         type: "bubble" ,
         
         
