@@ -135,7 +135,7 @@ function SectionImg({ fullPage = false }) {
         <div
           className={`${
             fullPage ? "h-[50vh]" : "h-[48vh] "
-          }    min-w-[36rem] max-w-full  p-4`}
+          }    min-w-[40rem] max-w-full  p-4`}
         >
           <SectionChart
             chartCoordinates={chartCoordinates}

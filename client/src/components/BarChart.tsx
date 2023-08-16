@@ -12,6 +12,8 @@ import ChartLegend from "./PiezometerLectures/ChartLegend";
 import SkeletonBarChart from "./Skeletons/PiezometerLectures/SkeletonBarChart";
 import { chartPiezoListWithElevation } from "../utils/piezoList";
 import { FiAlertTriangle } from "react-icons/fi";
+import { useMonitoringMapStateStore } from "../store/MonitoringMapStateStore";
+import { monitoringMapStatusInfo } from "../utils/monitoringMapStatusInfo";
 
 const CHART_PRESSURE_LIMIT = 50;
 
@@ -37,10 +39,15 @@ const BarChart = ({ information, fullPage = false }) => {
 
   const [limitAlert, setLimitAlert] = useState(false);
 
+  const piezoInformation = useMonitoringMapStateStore((s) => s.piezometersData);
+
   const paddock = information.paddock.replace("/", "-");
   const piezo = information.piezo;
   const days = information.days;
   const chartType = information.chartType;
+
+  const currentPiezometer = piezoInformation.find((p) => p.id === piezo);
+  console.log("CURRENT PIEZO", currentPiezometer);
 
   const fetchPiezometerData = async () => {
     const result = await axios.get(`/piezometers-data/${paddock}/${piezo}`);
@@ -324,7 +331,11 @@ const BarChart = ({ information, fullPage = false }) => {
                             },
                           },
                         ]}
-                        colors="#477C9A"
+                        colors={
+                          //@ts-ignore
+                          monitoringMapStatusInfo[currentPiezometer?.status | 0]
+                            .normalColor
+                        }
                         enablePoints={false}
                         //@ts-ignore
                         lineWidth={lecturesData.length > 500 ? 1 : 2}
@@ -395,7 +406,25 @@ const BarChart = ({ information, fullPage = false }) => {
                           legendOffset: -45,
                           legendPosition: "middle",
                         }}
-                        colors="#BD6A1C"
+                        colors={
+                          //@ts-ignore
+                          monitoringMapStatusInfo[currentPiezometer?.status | 0]
+                            .normalColor
+                        }
+                        markers={[
+                          {
+                            axis: "y",
+                            value: 5,
+                            legend: "Water Level limit",
+                            lineStyle: {
+                              stroke: "red",
+                            },
+                            textStyle: {
+                              fontWeight: 600,
+                              fill: "red",
+                            },
+                          },
+                        ]}
                         enablePoints={false}
                         //@ts-ignore
                         lineWidth={lecturesData.length > 500 ? 1 : 2}
@@ -467,7 +496,27 @@ const BarChart = ({ information, fullPage = false }) => {
                           legendOffset: -45,
                           legendPosition: "middle",
                         }}
-                        colors="#7B8831"
+                        markers={[
+                          {
+                            axis: "y",
+                            value: currentPiezometer
+                              ? currentPiezometer.elevation + 5
+                              : 605,
+                            legend: "Water Elevation limit",
+                            lineStyle: {
+                              stroke: "red",
+                            },
+                            textStyle: {
+                              fontWeight: 600,
+                              fill: "red",
+                            },
+                          },
+                        ]}
+                        colors={
+                          //@ts-ignore
+                          monitoringMapStatusInfo[currentPiezometer?.status | 0]
+                            .normalColor
+                        }
                         enablePoints={false}
                         //@ts-ignore
                         lineWidth={lecturesData.length > 500 ? 1 : 2}

@@ -150,11 +150,7 @@ function SectionChart({chartCoordinates, chartPiezometers}) {
 
   const piezometersData = useMonitoringMapStateStore((s) => s.piezometersData);
   
-  console.log(chartCoordinates)
-
-
   
-
   const XChainage = chartCoordinates.map((arr) => arr[0]);
   const Y1GroundLvl = chartCoordinates.map((arr) => arr[1]);
   const Y2SurveyLvl = chartCoordinates.map((arr) => arr[2]);
@@ -195,7 +191,7 @@ function SectionChart({chartCoordinates, chartPiezometers}) {
 
     ...chartPiezometers.filter((piezoData)=>piezoData[3] !== 0).map((piezoData,i) => {
       const name = piezoData[0];
-      if (name === "VW-CD3-01") console.log(piezoData)
+
       const status = piezoData[1];
       const XPosition = piezoData[2];
       
@@ -222,7 +218,7 @@ function SectionChart({chartCoordinates, chartPiezometers}) {
             y: YPosition,
             x: XPosition,
             name,
-            reading: YIntersection - YPosition ,
+            reading: YIntersection ,
             status
           },
         ],
@@ -260,7 +256,7 @@ function SectionChart({chartCoordinates, chartPiezometers}) {
 
           label: (ctx) => {
 
-            return ` ${ctx.raw.name} ${ctx.raw.status == 1 ? `( ${(ctx.raw.reading * 10).toFixed(2)} KPa )` : ""}` 
+            return ` ${ctx.raw.name} ${ctx.raw.status == 1 ? `${ctx.raw.reading - ctx.raw.y >= 0 ? `( ${ (ctx.raw.reading ).toFixed(2)} RLm )` : "( Negative reading )"}` : ""}` 
           }
         },
       },
@@ -314,7 +310,7 @@ function SectionChart({chartCoordinates, chartPiezometers}) {
     },
   };
 
-  return <Line options={options} data={data} />;
+  return <Line options={options} data={data} className=""/>;
 }
 
 export default SectionChart;

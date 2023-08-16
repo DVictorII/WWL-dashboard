@@ -12,6 +12,8 @@ import { useMonitoringMapStateStore } from "../../store/MonitoringMapStateStore"
 import { monitoringMapStatusInfo } from "../../utils/monitoringMapStatusInfo";
 
 import MonMapPiezoInformationTable from "../MonitoringMap/MonMapPiezoInformationTable";
+import { PiezometerDataI } from "../../types";
+import SkeletonPiezoListTable from "../Skeletons/MonitoringMap/SkeletonPiezoListTable";
 
 interface GlobalMapState {
   status: string | number;
@@ -29,6 +31,99 @@ const Index = () => {
   const section = useMonitoringMapStateStore((s) => s.section);
 
   const piezometersData = useMonitoringMapStateStore((s) => s.piezometersData);
+  //@ts-ignore
+  const filterPiezometers = (fullPiezoList) => {
+    //@ts-ignore
+    let filtered = [];
+
+    //@ts-ignore
+    if (!fullPiezoList) return filtered;
+
+    if (status === 5) {
+      if (paddock === "All") {
+        if (section === "All") {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) => p.time_threshold_wrong != null
+          );
+        } else {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) =>
+              p.section == section && p.time_threshold_wrong != null
+          );
+        }
+      } else {
+        if (section === "All") {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) =>
+              p.time_threshold_wrong != null && p.paddock === paddock
+          );
+        } else {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) =>
+              p.section == section &&
+              p.time_threshold_wrong != null &&
+              p.paddock === paddock
+          );
+        }
+      }
+    } else if (status === 0 || status === 6) {
+      if (paddock === "All") {
+        if (section === "All") {
+          filtered = fullPiezoList;
+        } else {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) => p.section == section
+          );
+        }
+      } else {
+        if (piezo === "All") {
+          if (section === "All") {
+            filtered = fullPiezoList.filter(
+              (p: PiezometerDataI) => p.paddock === paddock
+            );
+          } else {
+            filtered = fullPiezoList.filter(
+              (p: PiezometerDataI) =>
+                p.section == section && p.paddock === paddock
+            );
+          }
+        } else {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) => p.paddock === paddock && p.id === piezo
+          );
+        }
+      }
+    } else {
+      if (paddock === "All") {
+        if (section === "All") {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) => p.status == status
+          );
+        } else {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) => p.section == section && p.status == status
+          );
+        }
+      } else {
+        if (section === "All") {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) => p.status == status && p.paddock === paddock
+          );
+        } else {
+          filtered = fullPiezoList.filter(
+            (p: PiezometerDataI) =>
+              p.section == section &&
+              p.status == status &&
+              p.paddock === paddock
+          );
+        }
+      }
+    }
+
+    return filtered;
+  };
+
+  const filteredPiezoList = filterPiezometers(piezometersData);
 
   //@ts-ignore
   const selectedStatus = monitoringMapStatusInfo[status];
@@ -64,7 +159,19 @@ const Index = () => {
             {paddock !== "All" && piezo !== "All" ? (
               <MonMapPiezoInformationTable />
             ) : (
-              <PiezoListTable />
+              <>
+                {filteredPiezoList ? (
+                  <div
+                    key={`${paddock}${piezo}${section}${status}${JSON.stringify(
+                      filteredPiezoList
+                    )}`}
+                  >
+                    <PiezoListTable filteredPiezoList={filteredPiezoList} />
+                  </div>
+                ) : (
+                  <SkeletonPiezoListTable />
+                )}
+              </>
             )}
           </div>
 

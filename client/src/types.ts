@@ -5,6 +5,18 @@ export interface Information {
   chartType: string;
 }
 
+export interface PiezoDataListI {
+  id: string;
+  paddock: string;
+  section: string;
+  reading: null | string | number | 0;
+  pressureLimit?: null | string | number;
+  floodTime?: null | string;
+  depth: null | string | number;
+  status: number;
+  coordinates: string[];
+}
+
 export interface ReportDetails {
   report_photo: string;
   report_date: string;
