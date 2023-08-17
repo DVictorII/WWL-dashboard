@@ -13,9 +13,65 @@ import moment from "moment";
 import axios from "../../utils/axios";
 import { toast } from "react-hot-toast";
 import { useMonitoringMapStateStore } from "../../store/MonitoringMapStateStore";
+import { useOverallReportStateStore } from "../../store/overallReportStateStore";
+import OverviewReportDateSelector from "../Reports/OverviewReportDateSelector";
+import { BsDot } from "react-icons/bs";
+import { MdDownloading } from "react-icons/md";
 
 function PiezoReports() {
-  const date = useMonitoringMapStateStore((s) => s.date);
+  const date = useOverallReportStateStore((s) => s.date);
+
+  const reportStatus = useOverallReportStateStore((s) => s.reportStatus);
+  const setReportStatus = useOverallReportStateStore((s) => s.setReportStatus);
+
+  const triggerReportBuild = async () => {
+    try {
+      const res = await toast.promise(
+        axios.post("/paddock-chart", {
+          date,
+        }),
+        {
+          loading: "Sending request to the server",
+          success: (data) => {
+            console.log(data);
+            setReportStatus(data.data.status);
+
+            return `Report requested`;
+          },
+          //@ts-ignore
+          error: (err) => `There was an error!`,
+        },
+        {
+          style: {
+            fontWeight: "500",
+          },
+          success: {
+            duration: 3000,
+
+            style: {
+              fontWeight: "500",
+              border: "2px solid #65a30d",
+              padding: "8px 16px",
+              color: "#1c1917",
+            },
+          },
+          error: {
+            duration: 3000,
+
+            style: {
+              fontWeight: "500",
+              border: "2px solid #b91c1c",
+              padding: "8px 16px",
+              color: "#1c1917",
+            },
+          },
+        }
+      );
+    } catch (err) {
+      console.log("ERROR", err);
+    }
+  };
+
   const downloadReport = async () => {
     try {
       const res = await toast.promise(
@@ -74,68 +130,78 @@ function PiezoReports() {
   };
 
   const downloadWord = async () => {
-    const aTag = document.createElement("a");
-    //@ts-ignore
-    aTag.href = "/report_word/word_report.docx";
-    aTag.target = "_blank";
-    aTag.setAttribute(
-      "download",
-      `report_${moment(Date.now()).format("YYYY_MM_DD_hh_mm_ss")}.docx`
-    );
-    document.body.appendChild(aTag);
-    aTag.click();
-    aTag.remove();
-    // try {
-    //   const res = await toast.promise(
-    //     axios.post("/paddock-chart", {
-    //       date: date,
-    //     }),
-    //     {
-    //       loading: "Generating report...",
-    //       success: (data) => {
-    //         const aTag = document.createElement("a");
-    //         //@ts-ignore
-    //         aTag.href = "/report_word/word_report.docx";
-    //         aTag.target = "_blank";
-    //         aTag.setAttribute(
-    //           "download",
-    //           `report_${moment(Date.now()).format("YYYY_MM_DD_hh_mm_ss")}.docx`
-    //         );
-    //         document.body.appendChild(aTag);
-    //         aTag.click();
-    //         aTag.remove();
-    //         return `Generated! Downloading...`;
-    //       },
-    //       error: (err) => `There was an error!`,
-    //     },
-    //     {
-    //       style: {
-    //         fontWeight: "500",
-    //       },
-    //       success: {
-    //         duration: 3000,
-    //         style: {
-    //           fontWeight: "500",
-    //           border: "2px solid #65a30d",
-    //           padding: "8px 16px",
-    //           color: "#1c1917",
-    //         },
-    //       },
-    //       error: {
-    //         duration: 3000,
-    //         style: {
-    //           fontWeight: "500",
-    //           border: "2px solid #b91c1c",
-    //           padding: "8px 16px",
-    //           color: "#1c1917",
-    //         },
-    //       },
-    //     }
-    //   );
-    // } catch (err) {
-    //   console.log("ERROR", err);
-    // }
+    // const aTag = document.createElement("a");
+    // //@ts-ignore
+    // aTag.href = "/report_word/word_report.docx";
+    // aTag.target = "_blank";
+    // aTag.setAttribute(
+    //   "download",
+    //   `report_${moment(Date.now()).format("YYYY_MM_DD_hh_mm_ss")}.docx`
+    // );
+    // document.body.appendChild(aTag);
+    // aTag.click();
+    // aTag.remove();
+    try {
+      const res = await toast.promise(
+        axios.get("/download-word-report"),
+        {
+          loading: "Downloading report",
+          success: (data) => {
+            const filename = data.data.filename;
+            const aTag = document.createElement("a");
+            //@ts-ignore
+            aTag.href = `/report_word/${filename}`;
+            aTag.target = "_blank";
+            aTag.setAttribute(
+              "download",
+              `report_${moment(Date.now()).format("YYYY_MM_DD_hh_mm_ss")}.docx`
+            );
+            document.body.appendChild(aTag);
+            aTag.click();
+            aTag.remove();
+
+            setReportStatus("off");
+            return `Report downloaded`;
+          },
+          error: (err) => {
+            setReportStatus("off");
+            return `There was an error!`;
+          },
+        },
+        {
+          style: {
+            fontWeight: "500",
+          },
+          success: {
+            duration: 3000,
+            style: {
+              fontWeight: "500",
+              border: "2px solid #65a30d",
+              padding: "8px 16px",
+              color: "#1c1917",
+            },
+          },
+          error: {
+            duration: 3000,
+            style: {
+              fontWeight: "500",
+              border: "2px solid #b91c1c",
+              padding: "8px 16px",
+              color: "#1c1917",
+            },
+          },
+        }
+      );
+    } catch (err) {
+      console.log("ERROR", err);
+    }
   };
+
+  // useEffect(() => {
+  //   if (reportStatus === "ok") {
+  //     downloadWord();
+  //   }
+  // }, [reportStatus]);
 
   const { isLoading, data: piezoReports } = useQuery(
     "piezoReports",
@@ -160,16 +226,6 @@ function PiezoReports() {
 
         <div className="flex items-center gap-x-4">
           <div className="flex items-center gap-x-2">
-            <button
-              onClick={downloadWord}
-              className="flex items-center gap-x-1   px-4  py-2 sm:px-4  bg-[#333] text-[#f1f1f1] rounded-full"
-            >
-              <AiOutlineDownload className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
-              <span className="text-xs font-semibold sm:hidden">Overview</span>
-              <span className="text-xs sm:text-sm   font-medium hidden sm:block">
-                Overview Report
-              </span>
-            </button>
             <button
               onClick={downloadReport}
               className="flex items-center gap-x-1   px-4  py-2 sm:px-4  bg-[#333] text-[#f1f1f1] rounded-full"
@@ -197,7 +253,9 @@ function PiezoReports() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-6 gap-y-6 ">
         <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center gap-y-4 ">
-          <h2 className="font-bold text-sm 2xl:text-base">Featured reports</h2>
+          <h2 className="font-semibold text-[#555] text-sm 2xl:text-base">
+            Featured reports
+          </h2>
 
           <div className="w-full ">
             <SliderComp reports={piezoReports} />
@@ -205,11 +263,123 @@ function PiezoReports() {
         </div>
 
         <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center gap-y-4 ">
-          <h2 className="font-bold text-sm 2xl:text-base">Reports List</h2>
+          <h2 className="font-semibold text-[#555] text-sm 2xl:text-base">
+            Reports List
+          </h2>
 
           <div className="grid grid-cols-1">
             <ReportsListTable reports={piezoReports} />
           </div>
+        </div>
+      </div>
+
+      <div className="mt-6" />
+
+      <div className="flex flex-col gap-y-12  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center  ">
+        <div className="flex flex-col gap-y-6">
+          <h2 className="font-semibold text-[#555] text-sm 2xl:text-base">
+            Overview Report
+          </h2>
+
+          <div className="flex items-end gap-x-6">
+            {reportStatus === "off" ? (
+              <button
+                onClick={triggerReportBuild}
+                className="flex items-center gap-x-1   px-4  py-2 sm:px-4  bg-[#333] text-[#f1f1f1] rounded-full"
+              >
+                <AiOutlineDownload className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
+                <span className="text-xs font-semibold sm:hidden">Create</span>
+                <span className="text-xs sm:text-sm   font-medium hidden sm:block ">
+                  Create Report
+                </span>
+              </button>
+            ) : (
+              <button
+                disabled
+                className="flex items-center gap-x-1   px-4  py-2 sm:px-4  bg-[#666] text-[#f1f1f1] rounded-full"
+              >
+                <AiOutlineDownload className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
+                <span className="text-xs font-semibold sm:hidden">
+                  In Progress
+                </span>
+                <span className="text-xs sm:text-sm   font-medium hidden sm:block ">
+                  Report in progress
+                </span>
+              </button>
+            )}
+            <OverviewReportDateSelector />
+          </div>
+
+          <p className="text-sm text-[#666]">
+            Once requested, the final report will be available in 3 minutes time
+            aproximately.
+            <br />
+            Check the status of the request below:
+          </p>
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-y-4  justify-between md:items-center ">
+          <div className="flex items-center">
+            <BsDot />
+
+            <span className="text-sm font-semibold">
+              Operations Overview Report
+            </span>
+          </div>
+
+          <span className="text-sm font-semibold">
+            Status:{" "}
+            <span
+              style={{
+                color:
+                  reportStatus === "off"
+                    ? "#b91c1c"
+                    : reportStatus === "pending"
+                    ? "#b45309"
+                    : reportStatus === "ok"
+                    ? "#15803d"
+                    : "#333",
+              }}
+              className="md:text-lg"
+            >
+              {reportStatus}
+            </span>
+          </span>
+
+          {reportStatus === "off" ? (
+            <button
+              disabled
+              className="flex items-center gap-x-1   px-4  py-2 sm:px-4  bg-[#666] text-[#f1f1f1] rounded-full w-max"
+            >
+              <AiOutlineDownload className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
+              <span className="text-xs font-semibold sm:hidden">Download</span>
+              <span className="text-xs sm:text-sm   font-medium hidden sm:block ">
+                Download Report
+              </span>
+            </button>
+          ) : reportStatus === "pending" ? (
+            <button
+              disabled
+              className="flex items-center gap-x-1   px-4  py-2 sm:px-4  bg-[#666] text-[#f1f1f1] rounded-full w-max"
+            >
+              <MdDownloading className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
+              <span className="text-xs font-semibold sm:hidden">Download</span>
+              <span className="text-xs sm:text-sm   font-medium hidden sm:block ">
+                Download Report
+              </span>
+            </button>
+          ) : reportStatus === "ok" ? (
+            <button
+              onClick={downloadWord}
+              className="flex items-center gap-x-1   px-4  py-2 sm:px-4  bg-[#333] text-[#f1f1f1] rounded-full w-max"
+            >
+              <AiOutlineDownload className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
+              <span className="text-xs font-semibold sm:hidden">Download</span>
+              <span className="text-xs sm:text-sm   font-medium hidden sm:block ">
+                Download Report
+              </span>
+            </button>
+          ) : null}
         </div>
       </div>
     </>

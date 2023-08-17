@@ -1,5 +1,6 @@
 import sentry_sdk
-from flask import Flask, json
+import threading
+from flask import Flask, json, jsonify, request
 from sentry_sdk.integrations.flask import FlaskIntegration
 from flask_session import Session
 from flask_cors import CORS
@@ -8,6 +9,8 @@ import psycopg2
 from datetime import timedelta
 import os
 from werkzeug.exceptions import HTTPException
+from flask_cors import CORS, cross_origin
+
 
 os.environ["OPENBLAS_NUM_THREADS"] = "1"
 
@@ -54,6 +57,7 @@ CORS(app)
 
 # app.config.from_pyfile('config.cfg')
 
+
 BASEPATH = os.getcwd()
 
 dbname = "wwlengineering_rossing"
@@ -93,9 +97,8 @@ from routes.section_chart import section_chart_routes
 app.register_blueprint(section_chart_routes)
 
 
-@app.route("/api/v1/debug-sentry")
-def trigger_error():
-    division_by_zero = 1 / 0
+import routes.section_chart as sec_chart
+from routes.piezometers_data import piezometer_details
 
 
 @app.errorhandler(HTTPException)

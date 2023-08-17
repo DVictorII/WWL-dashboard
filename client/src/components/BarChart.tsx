@@ -14,6 +14,7 @@ import { chartPiezoListWithElevation } from "../utils/piezoList";
 import { FiAlertTriangle } from "react-icons/fi";
 import { useMonitoringMapStateStore } from "../store/MonitoringMapStateStore";
 import { monitoringMapStatusInfo } from "../utils/monitoringMapStatusInfo";
+import { RiAlarmWarningLine } from "react-icons/ri";
 
 const CHART_PRESSURE_LIMIT = 50;
 
@@ -37,9 +38,11 @@ const BarChart = ({ information, fullPage = false }) => {
     },
   });
 
+  const [alarmAlert, setAlarmAlert] = useState(false);
   const [limitAlert, setLimitAlert] = useState(false);
 
   const piezoInformation = useMonitoringMapStateStore((s) => s.piezometersData);
+  const lastReadings = useMonitoringMapStateStore((s) => s.lastReadings);
 
   const paddock = information.paddock.replace("/", "-");
   const piezo = information.piezo;
@@ -47,21 +50,20 @@ const BarChart = ({ information, fullPage = false }) => {
   const chartType = information.chartType;
 
   const currentPiezometer = piezoInformation.find((p) => p.id === piezo);
-  console.log("CURRENT PIEZO", currentPiezometer);
 
-  const fetchPiezometerData = async () => {
-    const result = await axios.get(`/piezometers-data/${paddock}/${piezo}`);
+  // const fetchPiezometerData = async () => {
+  //   const result = await axios.get(`/piezometers-data/${paddock}/${piezo}`);
 
-    return result.data.piezos[0];
-  };
+  //   return result.data.piezos[0];
+  // };
 
-  const { isLoading: piezometersAreLoading, data: piezometersData } = useQuery(
-    `Onepiezometer-${paddock}-${piezo}`,
-    fetchPiezometerData
-  );
+  // const { isLoading: piezometersAreLoading, data: piezometersData } = useQuery(
+  //   `Onepiezometer-${paddock}-${piezo}`,
+  //   fetchPiezometerData
+  // );
 
-  let datalogger = piezometersData?.datalogger;
-  let channel = piezometersData?.channel;
+  // let datalogger = piezometersData?.datalogger;
+  // let channel = piezometersData?.channel;
 
   //@ts-ignore
   const fetchChartLectures = async (datalogger, channel) => {
@@ -74,13 +76,17 @@ const BarChart = ({ information, fullPage = false }) => {
 
   const { isLoading: lecturesAreLoading, data: lecturesData } = useQuery({
     queryKey: [
-      `lecturesData-node_${datalogger}_${channel}-${days}`,
-      datalogger,
-      channel,
+      `lecturesData-node_${currentPiezometer?.datalogger}_${currentPiezometer?.channel}-${days}`,
+      currentPiezometer?.datalogger,
+      currentPiezometer?.channel,
     ],
-    queryFn: () => fetchChartLectures(datalogger, channel),
+    queryFn: () =>
+      fetchChartLectures(
+        currentPiezometer?.datalogger,
+        currentPiezometer?.channel
+      ),
     // The query will not execute until the userId exists
-    enabled: !!datalogger,
+    enabled: !!currentPiezometer?.datalogger || !!currentPiezometer?.channel,
     refetchOnWindowFocus: false,
   });
 
@@ -88,12 +94,28 @@ const BarChart = ({ information, fullPage = false }) => {
     if (!lecturesData) return;
     //@ts-ignore
 
-    const pressureLimitFlag =
-      //@ts-ignore
-      lecturesData.filter((data) => data.pressure > CHART_PRESSURE_LIMIT)
-        .length > 0;
+    const lastReading = lastReadings.find(
+      (r) =>
+        r.node === currentPiezometer?.datalogger &&
+        r.channel === currentPiezometer?.channel
+    );
 
-    pressureLimitFlag ? setLimitAlert(true) : setLimitAlert(false);
+    console.log("LAST READINGS", lastReading);
+
+    if (lastReading) {
+      const pressureAlarmFlag =
+        lastReading.pressure && lastReading.pressure != "NaN"
+          ? Number(lastReading.pressure) > CHART_PRESSURE_LIMIT * 0.8
+          : false;
+
+      const pressureLimitFlag =
+        lastReading.pressure && lastReading.pressure != "NaN"
+          ? Number(lastReading.pressure) > CHART_PRESSURE_LIMIT
+          : false;
+
+      pressureAlarmFlag ? setAlarmAlert(true) : setAlarmAlert(false);
+      pressureLimitFlag ? setLimitAlert(true) : setLimitAlert(false);
+    }
 
     //@ts-ignore
     const fullPiezoInfoObj = chartPiezoListWithElevation[paddock].find(
@@ -187,9 +209,9 @@ const BarChart = ({ information, fullPage = false }) => {
     setReadingsWaterLevelData(waterElevationChartData);
   }, [lecturesData]);
 
-  if (piezometersAreLoading || lecturesAreLoading) return <SkeletonBarChart />;
+  if (lecturesAreLoading || !currentPiezometer) return <SkeletonBarChart />;
 
-  if (piezometersData.status === 4)
+  if (currentPiezometer.status === 4)
     return (
       <div className="flex flex-col gap-y-4">
         <div className={`${fullPage ? "h-[50vh]" : "h-[40vh]"}  w-full`}>
@@ -258,6 +280,17 @@ const BarChart = ({ information, fullPage = false }) => {
             </span>
           </div>
         </div>
+      ) : alarmAlert ? (
+        <div className="mt-6 text-amber-700 flex items-center gap-x-2 2xl:gap-x-3 ">
+          <RiAlarmWarningLine className="2xl:w-5 2xl:h-5" />
+
+          <div className="flex gap-x-1 ">
+            <span className="font-medium text-sm 2xl:text-base">Warning:</span>
+            <span className="font-semibold text-sm 2xl:text-base ">
+              TARPS limit nearly reached
+            </span>
+          </div>
+        </div>
       ) : null}
 
       <div className="overflow-scroll  2xl:overflow-visible">
@@ -289,7 +322,11 @@ const BarChart = ({ information, fullPage = false }) => {
                         xFormat="time:%Y-%m-%d %H:%M"
                         yScale={{
                           type: "linear",
-                          min: limits.pressure.min,
+                          min: limitAlert
+                            ? limits.pressure.min + 10 < CHART_PRESSURE_LIMIT
+                              ? limits.pressure.min
+                              : CHART_PRESSURE_LIMIT - 10
+                            : limits.pressure.min,
                           max: limits.pressure.max,
                           stacked: false,
                           reverse: false,
@@ -345,7 +382,13 @@ const BarChart = ({ information, fullPage = false }) => {
                         pointBorderColor={{ from: "serieColor" }}
                         pointLabelYOffset={-12}
                         useMesh={true}
-                        areaBaselineValue={limits.pressure.min}
+                        areaBaselineValue={
+                          limitAlert
+                            ? limits.pressure.min + 10 < CHART_PRESSURE_LIMIT
+                              ? limits.pressure.min
+                              : CHART_PRESSURE_LIMIT - 10
+                            : limits.pressure.min
+                        }
                       />
                     </motion.div>
                   ) : null}

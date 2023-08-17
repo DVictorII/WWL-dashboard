@@ -16,6 +16,9 @@ import { usePiezometerLecturesStateStore } from "../../store/PiezometerLecturesS
 import PiezoReportDeleteConfirmationModal from "../Reports/PiezoReportDeleteConfirmationModal";
 import IncidentReportDeleteConfirmationModal from "../Incidents/IncidentReportDeleteConfirmationModal";
 import MobileMenu from "../NavBars/MobileMenu";
+import { clearInterval } from "timers";
+import { useOverallReportStateStore } from "../../store/overallReportStateStore";
+import axios from "../../utils/axios";
 
 function PageLayout() {
   const location = useLocation();
@@ -36,6 +39,9 @@ function PageLayout() {
     (s) => s.setPiezometersDataAndLastReadings
   );
 
+  const reportStatus = useOverallReportStateStore((s) => s.reportStatus);
+  const setReportStatus = useOverallReportStateStore((s) => s.setReportStatus);
+
   const PiezoReadingsSetPiezometersDataAndLastReadings =
     usePiezometerLecturesStateStore((s) => s.setPiezometersDataAndLastReadings);
 
@@ -54,6 +60,23 @@ function PageLayout() {
       refetchOnWindowFocus: false,
     }
   );
+
+  useEffect(() => {
+    console.log(reportStatus);
+    if (reportStatus === "pending") {
+      console.log("REQUESTING2");
+      const interval = window.setInterval(async () => {
+        const res = await axios.get("/report-status");
+        console.log("RES", res);
+
+        setReportStatus(res.data.status);
+      }, 5000);
+
+      return () => window.clearInterval(interval);
+    }
+
+    if (reportStatus === "ok") console.log("REPORT READY!!!");
+  }, [reportStatus]);
 
   useEffect(() => {
     if (!fetchedPiezoData || !lastReadings) return;

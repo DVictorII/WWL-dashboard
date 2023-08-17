@@ -352,18 +352,18 @@ def get_data_by_section_front(datalogger, channel, na_ground, new_ground):
     rows = cur.fetchall()
     cur.close()
     conn.close()
-    
-    #e3 = []
+
+    # e3 = []
 
     # Generate output [id,Lp,ep,ept]
-    #coordinates = coordinates_projections(
+    # coordinates = coordinates_projections(
     #    lstart, lend, float(piezometer_eastutm), float(piezometer_northutm)
-    #)
+    # )
     if piezometer_pressure != 0 and not np.isnan(piezometer_pressure):
         valuee3 = float(piezometer_elevation) + piezometer_pressure / 10
     else:
         valuee3 = 0
-        #e3.append([coordinates, valuee3]
+        # e3.append([coordinates, valuee3]
     output = [
         [
             piezometer_id,
@@ -372,30 +372,28 @@ def get_data_by_section_front(datalogger, channel, na_ground, new_ground):
                 lstart, lend, float(piezometer_eastutm), float(piezometer_northutm)
             ),
             float(piezometer_elevation),
-            valuee3
+            valuee3,
         ]
     ]
-    
+
     for row in rows:
         if row[0] != piezometer_id:
-            
-            #coordinates = coordinates_projections(
+            # coordinates = coordinates_projections(
             #    lstart, lend, float(row[3]), float(row[4])
-            #)
+            # )
             if float(row[5]) != 0 and not np.isnan(float(row[5])) and int(row[1]) != 2:
                 valuee3 = float(row[2]) + float(row[5] / 10)
-                #e3.append([coordinates, valuee3])
-            
+                # e3.append([coordinates, valuee3])
+
             output.append(
                 [
                     row[0],
                     int(row[1]),
                     coordinates_projections(lstart, lend, float(row[3]), float(row[4])),
                     float(row[2]),
-                    valuee3
+                    valuee3,
                 ]
             )
-            
 
     # for i in range(len(output)):
     #     x3 = output[i][2]
@@ -408,15 +406,15 @@ def get_data_by_section_front(datalogger, channel, na_ground, new_ground):
     #     output[i].append(y3)
 
     # In case there are more than 1 pizometer and the value of e3 is outside the range, the value is corrected accordingly their neighbors
-    #if len(e3) > 1:
+    # if len(e3) > 1:
     #    e3 = sorted(e3, key=lambda p: p[0])
     #    e3 = correct_e3_version2(e3, dict_graph[piezometer_section + ".txt"])
 
     # Generate arrange of e3 for the 80 points
-    #output2 = coordinates_generatee3(e3, dict_graph[piezometer_section + ".txt"])
+    # output2 = coordinates_generatee3(e3, dict_graph[piezometer_section + ".txt"])
 
     # Add to the final output the values of e3
-    #for i in range(len(output2)):
+    # for i in range(len(output2)):
     #    dict_graph[piezometer_section + ".txt"][i].append(output2[i][1])
     return output, dict_graph[piezometer_section + ".txt"]
 
@@ -850,7 +848,7 @@ class stock_data:
                 with open(os.path.join(folder_path, file_name), "wb") as f:
                     pickle.dump(dict_full, f)
 
-        file_name = f"{today_date}_sthistory.pkl"
+        file_name = f"{today_date}_sthistory_{self.interval}.pkl"
         matching_files = [f for f in files if file_name in f]
         if matching_files:
             print("Loading existing one")

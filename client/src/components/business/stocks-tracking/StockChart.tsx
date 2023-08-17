@@ -62,7 +62,7 @@ function StockChart({ data: hist }: { data: any[] }) {
   const dataFormatted = [
     {
       id: "stockHistory",
-      color: "#e4b400",
+      color: "#477C9A",
       data: [
         ...hist.map((arr) => {
           return {
@@ -82,7 +82,7 @@ function StockChart({ data: hist }: { data: any[] }) {
   return (
     <div className="overflow-scroll  2xl:overflow-visible">
       <div className="min-w-[36rem] max-w-full">
-        <div className={`h-[40vh] 2xl:h-[40vh]  w-full`}>
+        <div className={`h-[45vh] 2xl:h-[45vh]  w-full`}>
           <ResponsiveLine
             data={dataFormatted}
             //@ts-ignore
@@ -98,7 +98,7 @@ function StockChart({ data: hist }: { data: any[] }) {
               //     ],
               //   },
 
-              patternDotsDef("dots", { color: "#e4b400", size: 4, padding: 2 }),
+              patternDotsDef("dots", { color: "#477C9A", size: 4, padding: 2 }),
             ]}
             fill={[
               // match using object query
@@ -136,7 +136,7 @@ function StockChart({ data: hist }: { data: any[] }) {
               legendPosition: "middle",
             }}
             enableGridX={false}
-            colors="#e4b400"
+            colors="#477C9A"
             lineWidth={3}
             enablePoints={false}
             pointLabelYOffset={-12}

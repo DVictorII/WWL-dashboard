@@ -25,9 +25,9 @@ function StockNewsComp() {
       <div className="flex items-center justify-between ">
         <h2 className="font-semibold">Latest News</h2>
 
-        <span className="px-4 py-1 border rounded-full font-semibold text-sm ">
+        {/* <span className="px-4 py-1 border rounded-full font-semibold text-sm ">
           View All
-        </span>
+        </span> */}
       </div>
 
       <div className="flex flex-col gap-y-8">

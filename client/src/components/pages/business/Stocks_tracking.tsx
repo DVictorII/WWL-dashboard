@@ -52,9 +52,9 @@ function Stocks_tracking() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 lg:gap-x-6  gap-y-6 ">
         <div className="flex flex-col gap-y-6 2xl:col-span-2">
-          <div className="flex items-center justify-between gap-x-8 gap-y-6 flex-wrap bg-white  p-4 rounded-xl shadow-md shadow-[rgba(91,71,0,0.1)]   ">
+          <div className="flex items-center justify-between gap-x-8 gap-y-6 flex-wrap bg-white  p-4 rounded-xl shadow-sm   ">
             <h1 className="font-bold xl:text-lg ">
-              <span className="text-[#b69000]">Business</span> - Stocks Tracking
+              <span className="text-[#477C9A]">Business</span> - Stocks Tracking
             </h1>
 
             {/* <StockSelector /> */}
@@ -63,7 +63,7 @@ function Stocks_tracking() {
           <StockHeaderInfo data={stockInfo.data} />
         </div>
 
-        <div className="flex flex-col  bg-white p-4 gap-y-4 rounded-xl shadow-md shadow-[rgba(91,71,0,0.1)]  ">
+        <div className="flex flex-col  bg-white p-4 gap-y-4 rounded-xl shadow-sm  ">
           <StockNewsComp />
         </div>
       </div>
@@ -71,18 +71,18 @@ function Stocks_tracking() {
       <div className="mt-6 " />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 lg:gap-x-6  gap-y-6 ">
-        <div className="flex flex-col 2xl:col-span-2  bg-white p-4 gap-y-4 rounded-xl shadow-md shadow-[rgba(91,71,0,0.1)]  ">
+        <div className="flex flex-col 2xl:col-span-2  bg-white p-4 gap-y-4 rounded-xl shadow-sm  ">
           <StockChartComp data={stockInfo.hist} />
         </div>
 
-        <div className="flex flex-col  bg-white p-4 gap-y-4 rounded-xl shadow-md shadow-[rgba(91,71,0,0.1)]  ">
+        <div className="flex flex-col  bg-white p-4 gap-y-4 rounded-xl shadow-sm  ">
           <UraniumStockInformation data={financeCurrency.data} />
         </div>
       </div>
 
       <div className="mt-6 " />
 
-      <div className="flex flex-col 2xl:col-span-2  bg-white p-4 gap-y-4 rounded-xl shadow-md shadow-[rgba(91,71,0,0.1)]  ">
+      <div className="flex flex-col 2xl:col-span-2  bg-white p-4 gap-y-4 rounded-xl shadow-sm  ">
         <StockInformationSummary data={stockInfo.data} />
       </div>
     </>
