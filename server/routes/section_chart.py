@@ -357,7 +357,7 @@ def plot_section_chart():
         # img = Image(paddock['image'], width=200, height=150)
 
         for j, section in enumerate(paddock["sections"], start=1):
-            plt.figure(figsize=(16, 9), dpi=80)
+            plt.figure(figsize=(16, 6))
             plt.tight_layout()
             x = [item[0] for item in section["coordinates"]]
             y1 = [item[1] for item in section["coordinates"]]
@@ -396,8 +396,8 @@ def plot_section_chart():
             lgd = plt.legend(
                 handles=[blue_circle, blue_ncircle, red_circle, yellow_circle], loc=3
             )
-            plt.plot(x, y1, color="brown", label="Original Ground (RLm)")
-            plt.plot(x, y2, color="dimgray", label="Tailing Surface (RLm)")
+            plt.plot(x, y1, color="#7b8831", label="Original Ground (RLm)")
+            plt.plot(x, y2, color="#876538", label="Tailing Surface (RLm)")
             index = 1
             for i, reading in enumerate(piezometer_reading):
                 if piezometer_status[i] == 1:
@@ -490,7 +490,7 @@ def plot_section_chart():
                     index += 1
 
             plt.xlabel("Chainage (m)")
-            plt.ylabel("Level RLm")
+            plt.ylabel("Elevation (m)")
             plt.title(paddock["name"] + " - " + section["name"], fontsize=18)
             plt.legend()
             plt.gca().add_artist(lgd)
@@ -500,7 +500,8 @@ def plot_section_chart():
             plt.margins(x=0)
 
             plt.savefig(
-                f"../client/public/sectionReport/sections/{section['name'].lower()}.png"
+                f"../client/public/sectionReport/sections/{section['name'].lower()}.png",
+                bbox_inches="tight",
             )
             # elements.append(Paragraph(section['name'], getSampleStyleSheet()['Heading2'], keepTogether=True))
             plt.close()
