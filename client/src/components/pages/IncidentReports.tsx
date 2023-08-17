@@ -56,7 +56,7 @@ function IncidentReports() {
       <div className="grid grid-cols-1  lg:gap-x-6 gap-y-6 ">
         <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center gap-y-4">
           <div className="  flex flex-col  gap-y-4 w-full ">
-            <h2 className="font-bold ">Featured Incidents</h2>
+            <h2 className="font-semibold text-[#555] ">Featured Incidents</h2>
 
             <div className="w-full ">
               <IncidentsSliderComp incidents={incidents} />
@@ -70,7 +70,7 @@ function IncidentReports() {
       <div className="grid grid-cols-1 lg:grid-cols-2  lg:gap-x-6 gap-y-6 ">
         <div className="flex flex-col   bg-white p-4 2xl:p-6 rounded-xl shadow-sm  gap-y-4">
           <div className="  flex flex-col  gap-y-4  ">
-            <h2 className="font-bold ">Reports List</h2>
+            <h2 className="font-semibold text-[#555] ">Reports List</h2>
 
             <div className="grid grid-cols-1">
               <IncidentsListTable incidents={incidents} />
@@ -80,7 +80,7 @@ function IncidentReports() {
 
         <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center gap-y-4">
           <div className="  flex flex-col  gap-y-4  ">
-            <h2 className="font-bold text-sm 2xl:text-base">
+            <h2 className="font-semibold text-[#555]">
               Incidents Interactive Map
             </h2>
 

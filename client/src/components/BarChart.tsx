@@ -354,20 +354,24 @@ const BarChart = ({ information, fullPage = false }) => {
                           legendOffset: -45,
                           legendPosition: "middle",
                         }}
-                        markers={[
-                          {
-                            axis: "y",
-                            value: CHART_PRESSURE_LIMIT,
-                            legend: "pressure limit",
-                            lineStyle: {
-                              stroke: "red",
-                            },
-                            textStyle: {
-                              fontWeight: 600,
-                              fill: "red",
-                            },
-                          },
-                        ]}
+                        markers={
+                          alarmAlert
+                            ? [
+                                {
+                                  axis: "y",
+                                  value: CHART_PRESSURE_LIMIT,
+                                  legend: "pressure limit",
+                                  lineStyle: {
+                                    stroke: "red",
+                                  },
+                                  textStyle: {
+                                    fontWeight: 600,
+                                    fill: "red",
+                                  },
+                                },
+                              ]
+                            : []
+                        }
                         colors={
                           //@ts-ignore
                           monitoringMapStatusInfo[currentPiezometer?.status | 0]
@@ -422,7 +426,11 @@ const BarChart = ({ information, fullPage = false }) => {
                         xFormat="time:%Y-%m-%d %H:%M"
                         yScale={{
                           type: "linear",
-                          min: limits.wLevel.min,
+                          min: limitAlert
+                            ? limits.pressure.min + 10 < CHART_PRESSURE_LIMIT
+                              ? limits.wLevel.min
+                              : CHART_PRESSURE_LIMIT / 10 - 1
+                            : limits.wLevel.min,
                           max: limits.wLevel.max,
                           stacked: false,
                           reverse: false,
@@ -454,20 +462,24 @@ const BarChart = ({ information, fullPage = false }) => {
                           monitoringMapStatusInfo[currentPiezometer?.status | 0]
                             .normalColor
                         }
-                        markers={[
-                          {
-                            axis: "y",
-                            value: 5,
-                            legend: "Water Level limit",
-                            lineStyle: {
-                              stroke: "red",
-                            },
-                            textStyle: {
-                              fontWeight: 600,
-                              fill: "red",
-                            },
-                          },
-                        ]}
+                        markers={
+                          alarmAlert
+                            ? [
+                                {
+                                  axis: "y",
+                                  value: 5,
+                                  legend: "Water Level limit",
+                                  lineStyle: {
+                                    stroke: "red",
+                                  },
+                                  textStyle: {
+                                    fontWeight: 600,
+                                    fill: "red",
+                                  },
+                                },
+                              ]
+                            : []
+                        }
                         enablePoints={false}
                         //@ts-ignore
                         lineWidth={lecturesData.length > 500 ? 1 : 2}
@@ -477,7 +489,13 @@ const BarChart = ({ information, fullPage = false }) => {
                         pointBorderColor={{ from: "serieColor" }}
                         pointLabelYOffset={-12}
                         useMesh={true}
-                        areaBaselineValue={limits.wLevel.min}
+                        areaBaselineValue={
+                          limitAlert
+                            ? limits.pressure.min + 10 < CHART_PRESSURE_LIMIT
+                              ? limits.wLevel.min
+                              : CHART_PRESSURE_LIMIT / 10 - 1
+                            : limits.wLevel.min
+                        }
                       />
                     </motion.div>
                   ) : null}
@@ -512,7 +530,13 @@ const BarChart = ({ information, fullPage = false }) => {
                         xFormat="time:%Y-%m-%d %H:%M"
                         yScale={{
                           type: "linear",
-                          min: limits.wElevation.min,
+                          min: limitAlert
+                            ? limits.pressure.min + 10 < CHART_PRESSURE_LIMIT
+                              ? limits.wElevation.min
+                              : Number(currentPiezometer.elevation) +
+                                CHART_PRESSURE_LIMIT / 10 -
+                                1
+                            : limits.wElevation.min,
                           max: limits.wElevation.max,
                           stacked: false,
                           reverse: false,
@@ -539,22 +563,26 @@ const BarChart = ({ information, fullPage = false }) => {
                           legendOffset: -45,
                           legendPosition: "middle",
                         }}
-                        markers={[
-                          {
-                            axis: "y",
-                            value: currentPiezometer
-                              ? currentPiezometer.elevation + 5
-                              : 605,
-                            legend: "Water Elevation limit",
-                            lineStyle: {
-                              stroke: "red",
-                            },
-                            textStyle: {
-                              fontWeight: 600,
-                              fill: "red",
-                            },
-                          },
-                        ]}
+                        markers={
+                          alarmAlert
+                            ? [
+                                {
+                                  axis: "y",
+                                  value: currentPiezometer
+                                    ? Number(currentPiezometer.elevation) + 5
+                                    : 605,
+                                  legend: "Water Elevation limit",
+                                  lineStyle: {
+                                    stroke: "red",
+                                  },
+                                  textStyle: {
+                                    fontWeight: 600,
+                                    fill: "red",
+                                  },
+                                },
+                              ]
+                            : []
+                        }
                         colors={
                           //@ts-ignore
                           monitoringMapStatusInfo[currentPiezometer?.status | 0]
@@ -569,7 +597,15 @@ const BarChart = ({ information, fullPage = false }) => {
                         pointBorderColor={{ from: "serieColor" }}
                         pointLabelYOffset={-12}
                         useMesh={true}
-                        areaBaselineValue={limits.wElevation.min}
+                        areaBaselineValue={
+                          limitAlert
+                            ? limits.pressure.min + 10 < CHART_PRESSURE_LIMIT
+                              ? limits.wElevation.min
+                              : Number(currentPiezometer.elevation) +
+                                CHART_PRESSURE_LIMIT / 10 -
+                                1
+                            : limits.wElevation.min
+                        }
                       />
                     </motion.div>
                   ) : null}

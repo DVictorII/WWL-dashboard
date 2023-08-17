@@ -1,29 +1,56 @@
+import SwitchSelector from "react-switch-selector";
+import { useStockTrackingStateStore } from "../../../store/StockTrackingStateStore";
+
+const options = [
+  {
+    label: "5D",
+    value: 5,
+    fontColor: "#333",
+    selectedFontColor: "#ffffff",
+  },
+  {
+    label: "7D",
+    value: 7,
+    fontColor: "#333",
+    selectedFontColor: "#ffffff",
+  },
+  {
+    label: "1M",
+    value: 31,
+    fontColor: "#333",
+    selectedFontColor: "#ffffff",
+  },
+  {
+    label: "6M",
+    value: 180,
+    fontColor: "#333",
+    selectedFontColor: "#ffffff",
+  },
+  {
+    label: "1Y",
+    value: 365,
+    fontColor: "#333",
+    selectedFontColor: "#ffffff",
+  },
+];
+
 function StockDateSpanSelector() {
+  const changeDaysSpan = useStockTrackingStateStore((s) => s.changeDaysSpan);
+
+  const onChange = (newValue: any) => {
+    changeDaysSpan(newValue);
+  };
+
+  const initialSelectedIndex = options.findIndex(({ value }) => value === 5);
+
   return (
-    <div className="grid grid-cols-6 bg-[#f2f2f0]  rounded-full ">
-      <div className="flex justify-center py-2 rounded-full bg-[#7d7967]">
-        <span className="text-sm font-semibold text-white">1D</span>
-      </div>
-
-      <div className="flex justify-center py-2">
-        <span className="text-sm font-semibold">5D</span>
-      </div>
-
-      <div className="flex justify-center py-2">
-        <span className="text-sm font-semibold">1M</span>
-      </div>
-
-      <div className="flex justify-center py-2">
-        <span className="text-sm font-semibold">6M</span>
-      </div>
-
-      <div className="flex justify-center py-2">
-        <span className="text-sm font-semibold">1Y</span>
-      </div>
-
-      <div className="flex justify-center py-2">
-        <span className="text-sm font-semibold">5Y</span>
-      </div>
+    <div className="h-10 font-semibold">
+      <SwitchSelector
+        onChange={onChange}
+        options={options}
+        initialSelectedIndex={initialSelectedIndex}
+        selectedBackgroundColor="#1c394a"
+      />
     </div>
   );
 }

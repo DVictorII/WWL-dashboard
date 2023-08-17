@@ -9,8 +9,11 @@ import StockInformationSummary from "../../business/stocks-tracking/StockInforma
 import { useQuery } from "react-query";
 import axios from "../../../utils/axios";
 import UraniumStockInformation from "../../business/stocks-tracking/UraniumStockInformation";
+import { useStockTrackingStateStore } from "../../../store/StockTrackingStateStore";
 
 function Stocks_tracking() {
+  const daysSpan = useStockTrackingStateStore((s) => s.daysSpan);
+
   const fetchBusinessHistory = async (
     stockCode: string,
     daysInterval: number
@@ -72,7 +75,7 @@ function Stocks_tracking() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 lg:gap-x-6  gap-y-6 ">
         <div className="flex flex-col 2xl:col-span-2  bg-white p-4 gap-y-4 rounded-xl shadow-sm  ">
-          <StockChartComp data={stockInfo.hist} />
+          <StockChartComp />
         </div>
 
         <div className="flex flex-col  bg-white p-4 gap-y-4 rounded-xl shadow-sm  ">

@@ -159,9 +159,7 @@ function PiezoReportForm() {
         <div className="flex flex-col gap-y-4  bg-white p-4 rounded-xl shadow-sm">
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-y-4">
-              <h2 className="font-semibold text-sm 2xl:text-base">
-                Piezometer details
-              </h2>
+              <h2 className="font-semibold text-[#555]">Piezometer details</h2>
 
               <div className="flex items-center gap-x-2 font-bold">
                 <span>{paddock}</span>

@@ -34,16 +34,16 @@ function ProtectedRoute({ children }: { children: JSX.Element }) {
     );
 
   if (!isLoading && !user) {
-    toast("Please, log in", {
-      duration: 3000,
+    // toast("Please, log in", {
+    //   duration: 3000,
 
-      style: {
-        fontWeight: "500",
-        border: "2px solid #b91c1c",
-        padding: "8px 16px",
-        color: "#1c1917",
-      },
-    });
+    //   style: {
+    //     fontWeight: "500",
+    //     border: "2px solid #b91c1c",
+    //     padding: "8px 16px",
+    //     color: "#1c1917",
+    //   },
+    // });
 
     return (
       <>

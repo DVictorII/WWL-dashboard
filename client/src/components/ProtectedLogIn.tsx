@@ -28,16 +28,16 @@ function ProtectedLogIn({ children }: { children: JSX.Element }) {
     );
 
   if (!isLoading && user) {
-    toast("Already logged in!", {
-      duration: 3000,
+    // toast("Already logged in!", {
+    //   duration: 3000,
 
-      style: {
-        fontWeight: "500",
-        border: "2px solid #65a30d",
-        padding: "8px 16px",
-        color: "#1c1917",
-      },
-    });
+    //   style: {
+    //     fontWeight: "500",
+    //     border: "2px solid #65a30d",
+    //     padding: "8px 16px",
+    //     color: "#1c1917",
+    //   },
+    // });
 
     return (
       <>

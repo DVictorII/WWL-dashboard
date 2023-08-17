@@ -1,5 +1,6 @@
 import { ResponsiveLine } from "@nivo/line";
 import { patternDotsDef } from "@nivo/core";
+import { useStockTrackingStateStore } from "../../../store/StockTrackingStateStore";
 
 const data = [
   {
@@ -59,6 +60,8 @@ const data = [
 ];
 
 function StockChart({ data: hist }: { data: any[] }) {
+  const daysSpan = useStockTrackingStateStore((s) => s.daysSpan);
+
   const dataFormatted = [
     {
       id: "stockHistory",
@@ -106,7 +109,12 @@ function StockChart({ data: hist }: { data: any[] }) {
               { match: { id: "stockHistory" }, id: "dots" },
             ]}
             margin={{ top: 50, right: 30, bottom: 55, left: 55 }}
-            xScale={{ type: "point" }}
+            xScale={{
+              type: "time",
+              format: "%Y-%m-%d",
+              precision: "minute",
+            }}
+            xFormat="time:%Y-%m-%d"
             yScale={{
               type: "linear",
               min: minLimit - chartMargin,
@@ -115,15 +123,18 @@ function StockChart({ data: hist }: { data: any[] }) {
               reverse: false,
             }}
             yFormat=" >-.2f"
-            curve="natural"
+            curve="cardinal"
             axisTop={null}
             axisRight={null}
             axisBottom={{
               tickSize: 5,
               tickPadding: 5,
-              tickRotation: -15,
+              tickRotation: -30,
               legend: "Dates",
               legendOffset: 50,
+
+              format: "%d-%m-%y",
+              tickValues: `every ${Math.ceil(daysSpan / 20)} days`,
 
               legendPosition: "middle",
             }}

@@ -34,7 +34,7 @@ function PiezoLecturesComponent() {
       <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm">
         {location === "/operations/piezometer-readings" && (
           <h2 className="flex items-center gap-x-2 md:gap-x-4 flex-wrap gap-y-2">
-            <span className="  font-semibold text-[#555]">
+            <span className="  font-semibold text-[#555] ">
               Piezometer Readings / Last
             </span>
             <DaysChange />
@@ -43,10 +43,10 @@ function PiezoLecturesComponent() {
         )}
 
         {location === "/operations/reports/piezometers/new-report" && (
-          <h2 className="flex items-center gap-x-2 md:gap-x-2 flex-wrap gap-y-2">
-            <span className="  font-semibold">Piezometer Readings</span>
-            <span className="  font-semibold">/</span>
-            <span className="  font-semibold">
+          <h2 className="flex items-center gap-x-2 md:gap-x-2 flex-wrap gap-y-2 font-semibold text-[#555]">
+            <span className="  ">Piezometer Readings</span>
+            <span className="  ">/</span>
+            <span className="  ">
               {timeSpan === "weekly"
                 ? "Last week"
                 : timeSpan === "monthly"
@@ -60,27 +60,16 @@ function PiezoLecturesComponent() {
 
         <LecturesChart />
       </div>
-      <div className="flex flex-col gap-y-6  bg-white p-4 2xl:p-6 rounded-xl shadow-sm  font-semibold  ">
+      <div className="flex flex-col gap-y-6  bg-white p-4 2xl:p-6 rounded-xl shadow-sm  font-semibold  text-[#555]">
         <div className="flex items-center gap-x-6">
-          <h2 className="flex items-center gap-x-2 flex-wrap gap-y-2 text-[#555]">
-            Section profile view
-          </h2>
+          <h2>Section profile view</h2>
 
           <span>/</span>
-          <span className="text-2xl">
+          <span className="text-active-dark">
             {currentPiezometer?.section === "?"
               ? "Indeterminate section"
               : currentPiezometer?.section}
           </span>
-
-          {/* {location === "/operations/piezometer-readings" && (
-            <>
-              <span>/</span>
-              <span className="text-2xl">
-                {section === "?" ? "Indeterminate section" : section}
-              </span>
-            </>
-          )} */}
         </div>
 
         <SectionImg />

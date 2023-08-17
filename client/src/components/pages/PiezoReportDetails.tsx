@@ -101,7 +101,7 @@ function PiezoReportDetails() {
       <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-6 gap-y-6">
         <div className=" bg-white p-4 rounded-xl shadow-sm">
           <div className="flex flex-col gap-y-6">
-            <h2 className="font-semibold">Location photo</h2>
+            <h2 className="font-semibold text-[#555]">Location photo</h2>
             <div className="bg-[#f5f5f5] border border-[#dfdfdf]  shadow-sm w-full  min-h-[10rem] md:min-h-[12rem] 2xl:min-h-[14rem] max-h-[20rem]   rounded-md flex items-center justify-center overflow-hidden cursor-pointer ">
               <img
                 src={`/media/piezometer_reports/${
@@ -123,9 +123,7 @@ function PiezoReportDetails() {
         <div className="flex flex-col gap-y-4  bg-white p-4 rounded-xl shadow-sm">
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-y-4">
-              <h2 className="font-semibold text-sm 2xl:text-base">
-                Piezometer details
-              </h2>
+              <h2 className="font-semibold text-[#555]">Piezometer details</h2>
 
               <div className="flex items-center gap-x-2 font-bold">
                 <span>{report.report_paddock}</span>

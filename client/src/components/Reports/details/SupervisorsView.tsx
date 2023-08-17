@@ -4,7 +4,7 @@ import { ReportDetails } from "../../../types";
 function SupervisorsView({ report }: { report: ReportDetails }) {
   return (
     <div className="flex flex-col ">
-      <h2 className="font-semibold">Supervisors</h2>
+      <h2 className="font-semibold text-[#555]">Supervisors</h2>
       <p className="mt-4 text-[10px] md:text-xs 2xl:text-sm font-semibold text-[#555]">
         These supervisors received further details of the report. Please,
         contact them if necessary.
