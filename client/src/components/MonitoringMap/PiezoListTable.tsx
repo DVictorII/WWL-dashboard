@@ -330,7 +330,7 @@ function PiezoListTable({ filteredPiezoList }) {
       columnHelper.accessor("reading", {
         header: () => (
           <span className="text-[11px] md:text-xs lg:text-sm ">
-            Current PWP
+            {status === 3 ? "Last PWP" : "Current PWP"}
           </span>
         ),
         cell: (info) => {
