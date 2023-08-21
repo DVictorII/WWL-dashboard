@@ -204,7 +204,7 @@ function SectionChart({chartCoordinates, chartPiezometers}) {
        return {
         label: "none",
         
-        backgroundColor: readingIsPositive ?  monitoringMapStatusInfo[piezoData[1]].normalColor : monitoringMapStatusInfo[piezoData[1]].lightColor ,
+        backgroundColor: readingIsPositive ?  monitoringMapStatusInfo[piezoData[1]].normalColor : status != 1 ? monitoringMapStatusInfo[piezoData[1]].normalColor : monitoringMapStatusInfo[piezoData[1]].lightColor  ,
         borderColor:  monitoringMapStatusInfo[piezoData[1]].darkColor,
         hoverRadius: i === 0 ? 3 : 2,
         hoverBorderWidth: i === 0 ? 2 : readingIsPositive ? 1 : 2,

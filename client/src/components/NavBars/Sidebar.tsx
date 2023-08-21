@@ -18,12 +18,34 @@ import { FaTools } from "react-icons/fa";
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useMenuStore } from "../../store/DesktopSidebarStore";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useConfirmationModalStore } from "../../store/ConfirmationModalStore";
 import { useGloblalUserStore } from "../../store/GlobalUserStore";
 import { BiLogOut } from "react-icons/bi";
+import { useMediaQuery } from "react-responsive";
+
+const anim = {
+  rest: {
+    scaleX: 0,
+    transition: {
+      ease: "easeInOut",
+      duration: 0.3,
+    },
+  },
+
+  hover: {
+    scaleX: 1,
+    transition: {
+      ease: "easeInOut",
+      duration: 0.3,
+    },
+  },
+};
 
 function Sidebar() {
+  const { pathname } = useLocation();
+  console.log(pathname);
+
   const menuIsOpen = useMenuStore((state) => state.menuIsOpen);
   const closeMenu = useMenuStore((state) => state.closeMenu);
   const openMenu = useMenuStore((state) => state.openMenu);
@@ -41,11 +63,284 @@ function Sidebar() {
     navigate(destiny);
   };
 
+  const checkIsActive = (pagePath: string) => {
+    return pathname.startsWith(pagePath);
+  };
+
+  const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
+
+  if (isDesktop)
+    return (
+      <>
+        <div
+          className="sticky top-0 left-0 h-screen pt-8 pb-8 
+                        w-20   lg:w-1/6  md:flex flex-col 
+                        bg-[#333] text-white justify-between  z-[400] hidden shrink-0 "
+        >
+          <div className="flex flex-col items-center gap-y-6 2xl:gap-y-14 ">
+            <Link to="/operations/monitoring-map">
+              <div className="w-full relative">
+                <img
+                  className="object-contain w-28"
+                  src="/media/img/photos/logo_white.png"
+                  alt="rossing-logo"
+                />
+              </div>
+            </Link>
+
+            <div className="flex flex-col gap-y-2 w-full">
+              <motion.div
+                initial={checkIsActive("/operations") ? "hover" : "rest"}
+                animate={checkIsActive("/operations") ? "hover" : "rest"}
+                whileHover={checkIsActive("/operations") ? "hover" : "hover"}
+                transition={{
+                  ease: "easeInOut",
+                  duration: 0.5,
+                }}
+                onClick={!menuIsOpen ? openMenu : closeMenu}
+                className="w-full  py-5   flex items-center pl-4 xl:pl-8 2xl:pl-10 pr-4  cursor-pointer duration-500 relative "
+              >
+                <motion.div
+                  variants={anim}
+                  className="w-full h-full bg-gradient-to-br to-[#7ea3b8] from-[#477c9a] border-[#477c9a] absolute top-0 left-0 z-[1] origin-right  "
+                />
+
+                <div className="flex gap-x-4 items-center z-[2]">
+                  <AiOutlineAreaChart className=" w-5 h-5 " />
+                  <div className=" text-sm font-semibold flex items-center flex-wrap gap-x-2 ">
+                    <span>Operations</span>
+                    <span>( 100% )</span>
+                  </div>
+                </div>
+                <div className="w-1 h-full absolute -right-[2px] top-0 bg-active-dark rounded-r-sm z-[3] " />
+              </motion.div>
+              <Link to="/business/stocks-tracking">
+                <motion.div
+                  initial={checkIsActive("/business") ? "hover" : "rest"}
+                  animate={checkIsActive("/business") ? "hover" : "rest"}
+                  whileHover={checkIsActive("/business") ? "hover" : "hover"}
+                  transition={{
+                    ease: "easeInOut",
+                    duration: 0.5,
+                  }}
+                  onClick={closeMenu}
+                  className="w-full  py-5   flex items-center pl-4 xl:pl-8 2xl:pl-10 pr-4  cursor-pointer duration-500 relative "
+                >
+                  <motion.div
+                    variants={anim}
+                    className="w-full h-full bg-gradient-to-br to-[#7ea3b8] from-[#477c9a] border-[#477c9a] absolute top-0 left-0 z-[1] origin-right  "
+                  />
+
+                  <div className="flex gap-x-4 items-center z-[2]">
+                    <AiOutlinePieChart className=" w-5 h-5 " />
+                    <div className=" text-sm font-semibold flex items-center flex-wrap gap-x-2 ">
+                      <span>Business</span>
+                      <span>( 100% )</span>
+                    </div>
+                  </div>
+                  <div className="w-1 h-full absolute -right-[2px] top-0 bg-active-dark rounded-r-sm z-[3] " />
+                </motion.div>
+              </Link>
+
+              <motion.div
+                initial={
+                  checkIsActive("/logistics-and-machinery") ? "hover" : "rest"
+                }
+                animate={
+                  checkIsActive("/logistics-and-machinery") ? "hover" : "rest"
+                }
+                whileHover={
+                  checkIsActive("/logistics-and-machinery") ? "hover" : "hover"
+                }
+                transition={{
+                  ease: "easeInOut",
+                  duration: 0.5,
+                }}
+                className="w-full  py-5   flex items-center pl-4 xl:pl-8 2xl:pl-10 pr-4  cursor-pointer duration-500 relative group"
+              >
+                <motion.div
+                  variants={anim}
+                  className="w-full h-full bg-gradient-to-br to-[#CF6A6A] from-[#BE3535] border-[#BE3535] absolute top-0 left-0 z-[1] origin-right  "
+                />
+                <div className="flex gap-x-4 items-center z-[2]">
+                  <FaTools className=" w-5 h-5 " />
+                  <div className=" text-sm font-semibold flex items-center flex-wrap gap-x-2 ">
+                    <span>Logistics and machinery</span>
+                    <span>( 70% )</span>
+                  </div>
+                </div>
+                <div className="w-1 h-full absolute -right-[2px] top-0 bg-active-dark rounded-r-sm z-[3] " />
+              </motion.div>
+
+              <Link to="/staff-training/team-information">
+                <motion.div
+                  initial={checkIsActive("/staff-training") ? "hover" : "rest"}
+                  animate={checkIsActive("/staff-training") ? "hover" : "rest"}
+                  whileHover={
+                    checkIsActive("/staff-training") ? "hover" : "hover"
+                  }
+                  transition={{
+                    ease: "easeInOut",
+                    duration: 0.5,
+                  }}
+                  onClick={closeMenu}
+                  className="w-full  py-5   flex items-center pl-4 xl:pl-8 2xl:pl-10 pr-4  cursor-pointer duration-500 relative group"
+                >
+                  <motion.div
+                    variants={anim}
+                    className="w-full h-full bg-gradient-to-br to-[#7ea3b8] from-[#BE3535] border-[#477c9a] absolute top-0 left-0 z-[1] origin-right  "
+                  />
+                  <div className="flex gap-x-4 items-center z-[2]">
+                    <AiOutlineUsergroupAdd className=" w-5 h-5 " />
+                    <div className=" text-sm font-semibold flex items-center flex-wrap gap-x-2 ">
+                      <span>Staff training</span>
+                      <span>( 80% )</span>
+                    </div>
+                  </div>
+                  <div className="w-1 h-full absolute -right-[2px] top-0 bg-active-dark rounded-r-sm z-[3] " />
+                </motion.div>
+              </Link>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center gap-y-6 2xl:gap-y-10 ">
+            <button
+              onClick={() => {
+                closeMenu();
+                openLogOutModal();
+              }}
+              className="gap-x-5 flex items-center px-4 py-2 border-2 border-active-normal rounded-[4px] hover:bg-active-normal transition-all"
+            >
+              <AiOutlineLogout className=" w-5 h-5" />
+
+              <span className="text-sm font-semibold">Log out</span>
+            </button>
+          </div>
+        </div>
+
+        <AnimatePresence key={"menu"}>
+          {menuIsOpen ? (
+            <>
+              <div className="fixed z-[500] md:ml-20 lg:ml-24 2xl:ml-[16.67%] h-screen w-1/2 lg:w-1/3">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: "100%", transition: { duration: 0.5 } }}
+                  exit={{
+                    width: 0,
+                    padding: 0,
+                    transition: { duration: 0.5, delay: 0.3 },
+                  }}
+                  className="bg-cover  h-full   p-10 text-white flex flex-col gap-y-24"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(to bottom, rgba(12, 16, 24,0.95), rgba(12, 16, 24,0.95)) ,url('/media/img/photos/Rossing_mine.jpg') ",
+                  }}
+                >
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{
+                      opacity: 1,
+                      transition: { duration: 0.3, delay: 0.2 },
+                    }}
+                    exit={{ opacity: 0, transition: { duration: 0.3 } }}
+                    className="flex gap-x-6 items-center text-gray-300 relative whitespace-nowrap"
+                  >
+                    <BsArrowLeft
+                      onClick={closeMenu}
+                      className="cursor-pointer shrink-0"
+                    />
+                    <span className="text-sm">Operations</span>
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{
+                      opacity: 1,
+                      transition: { duration: 0.3, delay: 0.2 },
+                    }}
+                    exit={{ opacity: 0, transition: { duration: 0.3 } }}
+                    className="flex flex-col gap-y-12"
+                  >
+                    <div
+                      onClick={() => navigateTo("/operations/monitoring-map")}
+                      className=" whitespace-nowrap flex items-center gap-x-4 relative py-2 group cursor-pointer hover:text-orange-500 transition-all"
+                    >
+                      <TfiMapAlt className="w-6 h-6 lg:w-7 lg:h-7 shrink-0" />
+                      <span className="lg:text-lg">Monitoring map</span>
+                      <div className="w-2 h-full bg-transparent group-hover:bg-orange-500 transition-all absolute top-0 -right-10 rounded-l-xl " />
+                    </div>
+
+                    <div
+                      onClick={() =>
+                        navigateTo("/operations/piezometer-readings")
+                      }
+                      className="whitespace-nowrap flex items-center gap-x-4 relative py-2 group cursor-pointer hover:text-orange-500 transition-all"
+                    >
+                      <AiOutlineBarChart className="w-6 h-6 lg:w-7 lg:h-7 shrink-0" />
+                      <span className="lg:text-lg">Piezometer Readings</span>
+                      <div className="w-2 h-full bg-transparent group-hover:bg-orange-500 transition-all absolute top-0 -right-10 rounded-l-xl " />
+                    </div>
+
+                    <div className="whitespace-nowrap flex items-center gap-x-4 relative py-2 group cursor-pointer hover:text-orange-500 transition-all">
+                      <TbReportAnalytics className="w-6 h-6 lg:w-7 lg:h-7 shrink-0" />
+                      <span className="lg:text-lg">Reports</span>
+                      <AiOutlineDown className="w-3 h-3 lg:w-4 lg:h-4 shrink-0" />
+                    </div>
+
+                    <div className="flex flex-col gap-y-8 ml-12">
+                      <div
+                        onClick={() =>
+                          navigateTo("/operations/reports/piezometers")
+                        }
+                        className="whitespace-nowrap flex items-center gap-x-4 relative py-2 group cursor-pointer hover:text-orange-500 transition-all"
+                      >
+                        <AiOutlineSetting className="w-4 h-4 lg:w-5 lg:h-5 shrink-0" />
+                        <span className="text-sm ">Piezometers</span>
+                        <div className="w-2 h-full bg-transparent group-hover:bg-orange-500 transition-all absolute top-0 -right-10 rounded-l-xl " />
+                      </div>
+
+                      <div
+                        onClick={() =>
+                          navigateTo("/operations/reports/incidents")
+                        }
+                        className="whitespace-nowrap flex items-center gap-x-4 relative py-2 group cursor-pointer hover:text-orange-500 transition-all"
+                      >
+                        <FiAlertTriangle className="w-4 h-4 lg:w-5 lg:h-5 shrink-0" />
+                        <span className="text-sm ">Incidents</span>
+                        <div className="w-2 h-full bg-transparent group-hover:bg-orange-500 transition-all absolute top-0 -right-10 rounded-l-xl " />
+                      </div>
+                    </div>
+
+                    <div
+                      onClick={() =>
+                        navigateTo("/operations/biannual-visits/1")
+                      }
+                      className="whitespace-nowrap flex items-center gap-x-4 relative py-2 group cursor-pointer hover:text-orange-500 transition-all"
+                    >
+                      <BsCalendarMonth className="w-6 h-6 shrink-0" />
+                      <span className="lg:text-lg">Biannual visits</span>
+                      <div className="w-2 h-full bg-transparent group-hover:bg-orange-500 transition-all absolute top-0 -right-10 rounded-l-xl " />
+                    </div>
+                  </motion.div>
+                </motion.div>
+              </div>
+
+              <motion.div
+                onClick={closeMenu}
+                exit={{ opacity: 0 }}
+                className="cursor-pointer fixed top-0 left-0 bg-all-dark w-screen h-screen bg-opacity-50 backdrop-blur-sm z-[200]"
+              />
+            </>
+          ) : null}
+        </AnimatePresence>
+      </>
+    );
+
   return (
     <>
       <div
-        className="sticky top-0 left-0 h-screen pt-8 pb-12 
-                        w-20 lg:w-24  2xl:w-28  md:flex flex-col 
+        className="sticky top-0 left-0 h-screen pt-8 pb-12
+                        w-20 lg:w-24  2xl:w-28  md:flex flex-col
                         bg-all-normal text-white justify-between  z-[400] hidden shrink-0 "
       >
         <div className="flex flex-col items-center gap-y-6 2xl:gap-y-10 ">

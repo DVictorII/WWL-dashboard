@@ -28,7 +28,7 @@ function StockChartComp() {
 
   return (
     <div>
-      <div className="md:px-8 lg:px-0 xl:px-4 2xl:px-8">
+      <div className="md:px-8 lg:px-0 xl:px-4 2xl:px-8 ">
         <StockDateSpanSelector />
       </div>
 

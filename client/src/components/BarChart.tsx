@@ -102,7 +102,7 @@ const BarChart = ({ information, fullPage = false }) => {
 
     console.log("LAST READINGS", lastReading);
 
-    if (lastReading) {
+    if (lastReading && currentPiezometer?.status === 1) {
       const pressureAlarmFlag =
         lastReading.pressure && lastReading.pressure != "NaN"
           ? Number(lastReading.pressure) > CHART_PRESSURE_LIMIT * 0.8
@@ -127,9 +127,12 @@ const BarChart = ({ information, fullPage = false }) => {
     const pressureArray = lecturesData.map((data) => data.pressure);
     //@ts-ignore
     const wLevelArray = lecturesData.map((data) => data.pressure / 10);
+
     const wElevationArray = lecturesData.map(
       //@ts-ignore
-      (data) => fullPiezoInfoObj.piezoElevation + data.pressure / 10
+      (data) => {
+        return Number(currentPiezometer?.elevation) + data.pressure / 10;
+      }
     );
 
     const maxPressureLimit = Math.max(...pressureArray);
@@ -174,9 +177,10 @@ const BarChart = ({ information, fullPage = false }) => {
 
     //@ts-ignore
     const waterLevelDataFormat = lecturesData.map((data) => {
+      console.log("TIME", moment(data.time).format("YYYY-MM-DD HH:MM:SS"));
       return {
         x: moment(data.time).format("YYYY-MM-DD HH:MM:SS"),
-        y: fullPiezoInfoObj.piezoElevation + data.pressure / 10,
+        y: Number(currentPiezometer?.elevation) + data.pressure / 10,
       };
     });
 
@@ -207,7 +211,7 @@ const BarChart = ({ information, fullPage = false }) => {
     setPiezoData(pressureChartData);
     //@ts-ignore
     setReadingsWaterLevelData(waterElevationChartData);
-  }, [lecturesData]);
+  }, [lecturesData, currentPiezometer]);
 
   if (lecturesAreLoading || !currentPiezometer) return <SkeletonBarChart />;
 
@@ -318,6 +322,7 @@ const BarChart = ({ information, fullPage = false }) => {
                           type: "time",
                           format: "%Y-%m-%d %H:%M:%S",
                           precision: "minute",
+                          useUTC: false,
                         }}
                         xFormat="time:%Y-%m-%d %H:%M"
                         yScale={{
@@ -355,7 +360,7 @@ const BarChart = ({ information, fullPage = false }) => {
                           legendPosition: "middle",
                         }}
                         markers={
-                          alarmAlert
+                          alarmAlert && currentPiezometer?.status === 1
                             ? [
                                 {
                                   axis: "y",
@@ -422,6 +427,7 @@ const BarChart = ({ information, fullPage = false }) => {
                           type: "time",
                           format: "%Y-%m-%d %H:%M:%S",
                           precision: "minute",
+                          useUTC: false,
                         }}
                         xFormat="time:%Y-%m-%d %H:%M"
                         yScale={{
@@ -463,7 +469,7 @@ const BarChart = ({ information, fullPage = false }) => {
                             .normalColor
                         }
                         markers={
-                          alarmAlert
+                          alarmAlert && currentPiezometer?.status === 1
                             ? [
                                 {
                                   axis: "y",
@@ -526,6 +532,7 @@ const BarChart = ({ information, fullPage = false }) => {
                           type: "time",
                           format: "%Y-%m-%d %H:%M:%S",
                           precision: "minute",
+                          useUTC: false,
                         }}
                         xFormat="time:%Y-%m-%d %H:%M"
                         yScale={{
@@ -564,7 +571,7 @@ const BarChart = ({ information, fullPage = false }) => {
                           legendPosition: "middle",
                         }}
                         markers={
-                          alarmAlert
+                          alarmAlert && currentPiezometer?.status === 1
                             ? [
                                 {
                                   axis: "y",

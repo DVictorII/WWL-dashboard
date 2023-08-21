@@ -19,6 +19,7 @@ import MobileMenu from "../NavBars/MobileMenu";
 import { clearInterval } from "timers";
 import { useOverallReportStateStore } from "../../store/overallReportStateStore";
 import axios from "../../utils/axios";
+import TopBar from "../NavBars/TopBar";
 
 function PageLayout() {
   const location = useLocation();
@@ -103,22 +104,29 @@ function PageLayout() {
           <Sidebar />
 
           {/* <div className="hidden md:block w-20 shrink-0 md:w-24 2xl:w-28 h-screen" /> */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-            exit={{ opacity: 0, transition: { duration: 0.2 } }}
-            style={{
-              backgroundImage:
-                "linear-gradient(to bottom, rgb(250, 250, 250), rgb(241, 241, 241) )",
-            }}
-            key={location.pathname}
-            className="text-[#333] px-2 sm:px-8 py-8 md:px-8  lg:p-12  2xl:p-16  grow  "
-          >
-            <MobileMenu />
 
-            <Outlet />
-          </motion.div>
+          <div className="grid grid-cols-1 w-full">
+            <TopBar />
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              exit={{ opacity: 0, transition: { duration: 0.2 } }}
+              style={{
+                backgroundImage:
+                  "linear-gradient(to bottom, rgb(250, 250, 250), rgb(241, 241, 241) )",
+              }}
+              key={location.pathname}
+              className="text-[#333] px-2 sm:px-8 py-8 md:px-8  lg:p-12  2xl:p-16  grow  "
+            >
+              <div className="px-2 sm:px-8 py-8 md:px-8  2xl:p-10 ">
+                <MobileMenu />
+
+                <Outlet />
+              </div>
+            </motion.div>
+          </div>
 
           {logOutModalIsOpen ? <LogOutConfirmationModal /> : null}
           {deletePiezoReportModalIsOpen ? (
@@ -143,30 +151,35 @@ function PageLayout() {
         <Sidebar />
 
         {/* <div className="hidden md:block w-20 shrink-0 md:w-24 2xl:w-28 h-screen" /> */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-          exit={{ opacity: 0, transition: { duration: 0.2 } }}
-          key={location.pathname}
-          // style={{
-          //   backgroundColor: location.pathname.startsWith("/operations")
-          //     ? "#f5f5f5"
-          //     : location.pathname.startsWith("/business")
-          //     ? "#f6f4eb"
-          //     : "#fef7ed",
-          // }}
+        <div className="grid grid-cols-1 w-full">
+          <TopBar />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            exit={{ opacity: 0, transition: { duration: 0.2 } }}
+            key={location.pathname}
+            // style={{
+            //   backgroundColor: location.pathname.startsWith("/operations")
+            //     ? "#f5f5f5"
+            //     : location.pathname.startsWith("/business")
+            //     ? "#f6f4eb"
+            //     : "#fef7ed",
+            // }}
 
-          style={{
-            backgroundImage:
-              "linear-gradient(to bottom, rgb(250, 250, 250), rgb(241, 241, 241) )",
-          }}
-          className={`text-[#333] px-2 sm:px-8 py-8 md:px-8  2xl:p-10   grow  `}
-        >
-          <MobileMenu />
+            style={{
+              backgroundImage:
+                "linear-gradient(to bottom, rgb(250, 250, 250), rgb(241, 241, 241) )",
+            }}
+            className={`text-[#333]  grow  `}
+          >
+            <div className="px-2 sm:px-8 py-8 md:px-8  2xl:p-10 ">
+              <MobileMenu />
 
-          <Outlet />
-        </motion.div>
+              <Outlet />
+            </div>
+          </motion.div>
+        </div>
 
         {logOutModalIsOpen ? <LogOutConfirmationModal /> : null}
         {deletePiezoReportModalIsOpen ? (
