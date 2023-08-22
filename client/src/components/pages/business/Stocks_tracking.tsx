@@ -53,7 +53,7 @@ function Stocks_tracking() {
 
       <div className="mt-12 md:hidden" />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 lg:gap-x-6  gap-y-6 ">
+      <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 lg:gap-x-6  gap-y-6 lg:mx-4 lg:mt-4 ">
         <div className="flex flex-col gap-y-6 2xl:col-span-2">
           <div className="flex items-center justify-between gap-x-8 gap-y-6 flex-wrap bg-white  p-4 rounded-xl shadow-sm   ">
             <h1 className="font-bold xl:text-lg ">
@@ -73,7 +73,7 @@ function Stocks_tracking() {
 
       <div className="mt-6 " />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 lg:gap-x-6  gap-y-6 ">
+      <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 lg:gap-x-6  gap-y-6 lg:mx-4">
         <div className="flex flex-col 2xl:col-span-2  bg-white p-4 gap-y-4 rounded-xl shadow-sm  ">
           <StockChartComp />
         </div>
@@ -85,7 +85,7 @@ function Stocks_tracking() {
 
       <div className="mt-6 " />
 
-      <div className="flex flex-col 2xl:col-span-2  bg-white p-4 gap-y-4 rounded-xl shadow-sm  ">
+      <div className="flex flex-col 2xl:col-span-2  bg-white p-4 gap-y-4 rounded-xl shadow-sm  lg:mx-4 lg:mb-4">
         <StockInformationSummary data={stockInfo.data} />
       </div>
     </>

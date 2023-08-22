@@ -16,7 +16,7 @@ function Team_information() {
 
       <div className="mt-12 md:hidden" />
 
-      <div className="flex items-center  bg-white  p-4 2xl:px-6 rounded-xl shadow-md shadow-[rgba(22,74,65,0.1)]   ">
+      <div className="flex items-center  bg-white  p-4 2xl:px-6 rounded-xl shadow-md shadow-[rgba(22,74,65,0.1)]  lg:mx-4 mt-4 ">
         <h1 className="font-bold xl:text-lg ">
           <span className="text-[#b69000]">Staff Training</span> - Team
           Information
@@ -25,7 +25,7 @@ function Team_information() {
 
       <div className="mt-6" />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-x-6  gap-y-6 ">
+      <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-x-6  gap-y-6 lg:mx-4">
         <div className="flex md:col-span-2 2xl:col-span-1   bg-white  p-4 2xl:px-6 rounded-xl shadow-md shadow-[rgba(22,74,65,0.1)]   ">
           <HRHeadcountSummary />
         </div>
@@ -41,7 +41,7 @@ function Team_information() {
 
       <div className="mt-6" />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-x-6  gap-y-6 ">
+      <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-x-6  gap-y-6 lg:mx-4">
         <div className="   bg-white  p-4 2xl:px-6 rounded-xl shadow-md shadow-[rgba(22,74,65,0.1)]   ">
           <div className="flex flex-col gap-y-6">
             <h2 className="font-semibold text-[#555]">Team Manager</h2>
@@ -121,7 +121,7 @@ function Team_information() {
         </div>
       </div>
       <div className="mt-6" />
-      <span className="text-sm  font-semibold text-[#777]">
+      <span className="text-sm  font-semibold text-[#777] lg:mx-4 lg:mb-4">
         *: Compared to the last year
       </span>
     </>

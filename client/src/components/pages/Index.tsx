@@ -14,6 +14,7 @@ import { monitoringMapStatusInfo } from "../../utils/monitoringMapStatusInfo";
 import MonMapPiezoInformationTable from "../MonitoringMap/MonMapPiezoInformationTable";
 import { PiezometerDataI } from "../../types";
 import SkeletonPiezoListTable from "../Skeletons/MonitoringMap/SkeletonPiezoListTable";
+import { useMediaQuery } from "react-responsive";
 
 interface GlobalMapState {
   status: string | number;
@@ -127,32 +128,31 @@ const Index = () => {
 
   //@ts-ignore
   const selectedStatus = monitoringMapStatusInfo[status];
+  const isBigScreen = useMediaQuery({ query: "(min-width: 1024px)" });
 
   return (
-    <>
+    <div className="flex flex-col gap-y-12 md:gap-y-0">
       <MenuNavbar />
 
-      <div className="mt-12 md:hidden" />
-
-      <div className="flex items-center justify-between gap-x-8 gap-y-8 flex-wrap bg-white p-4 rounded-xl shadow-sm">
-        <h1 className="flex flex-col gap-y-1 ">
-          <span className="font-bold xl:text-lg">
-            Operations - Monitoring Map
-          </span>
-          <span className="text-xs xl:text-sm font-semibold text-[#666]">
-            ({piezometersData.length} Piezometers)
-          </span>
-        </h1>
+      <div className="py-4  lg:px-4  border-b border-[#ccc]">
+        <div className="flex justify-between">
+          <h1 className="flex gap-x-4 items-center ">
+            <span className="font-bold xl:text-lg">
+              Operations - Monitoring Map
+            </span>
+            <span className="text-xs xl:text-sm font-semibold text-[#666]">
+              ({piezometersData.length} Piezometers)
+            </span>
+          </h1>
+        </div>
       </div>
 
-      <div className="mt-12" />
+      <PiezoFilterComp />
 
-      <div className="  flex flex-col gap-y-8  ">
-        <PiezoFilterComp />
-
-        <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-6 lg:gap-x-8 gap-y-8">
-          <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm">
-            <h2 className="font-semibold text-[#555] ">Piezometers Overview</h2>
+      {isBigScreen ? (
+        <div className="grid grid-cols-2 ">
+          <div className="flex flex-col p-4 gap-y-4 border-r border-[#ccc]">
+            <h2 className="font-semibold text-[#666] ">Piezometers Overview</h2>
 
             {paddock !== "All" && piezo !== "All" ? (
               <MonMapPiezoInformationTable />
@@ -173,10 +173,8 @@ const Index = () => {
             )}
           </div>
 
-          {/* <StateShowing /> */}
-
           <div
-            className="flex flex-col gap-y-4 bg-white p-4 2xl:p-6 rounded-xl shadow-sm"
+            className="flex flex-col p-4 gap-y-4"
             key={`${piezo}${paddock}${status}${date}${section}`}
           >
             <h2 className="font-semibold text-[#555] ">
@@ -187,8 +185,48 @@ const Index = () => {
             {status !== 6 ? <MapWrapper /> : <IncidentMapMultiple />}
           </div>
         </div>
-      </div>
-    </>
+      ) : (
+        <div className="  flex flex-col gap-y-8  ">
+          <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-6 lg:gap-x-8 gap-y-8">
+            <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm">
+              <h2 className="font-semibold text-[#555] ">
+                Piezometers Overview
+              </h2>
+
+              {paddock !== "All" && piezo !== "All" ? (
+                <MonMapPiezoInformationTable />
+              ) : (
+                <>
+                  {filteredPiezoList ? (
+                    <div
+                      key={`${paddock}${piezo}${section}${status}${JSON.stringify(
+                        filteredPiezoList
+                      )}`}
+                    >
+                      <PiezoListTable filteredPiezoList={filteredPiezoList} />
+                    </div>
+                  ) : (
+                    <SkeletonPiezoListTable />
+                  )}
+                </>
+              )}
+            </div>
+
+            <div
+              className="flex flex-col gap-y-4 bg-white p-4 2xl:p-6 rounded-xl shadow-sm"
+              key={`${piezo}${paddock}${status}${date}${section}`}
+            >
+              <h2 className="font-semibold text-[#555] ">
+                {status !== 6
+                  ? "Piezometers location map"
+                  : "Incidents location map"}
+              </h2>
+              {status !== 6 ? <MapWrapper /> : <IncidentMapMultiple />}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

@@ -8,7 +8,11 @@ import ReportsListTable from "../Reports/ReportsListTable";
 import { fetchPiezoReports } from "../../utils/reportsFetchFunctions";
 import { useEffect } from "react";
 import SkeletonPiezoReportsPage from "../Skeletons/Reports/SkeletonPiezoReportsPage";
-import { AiOutlineDownload, AiOutlinePlus } from "react-icons/ai";
+import {
+  AiOutlineDownload,
+  AiOutlineLeft,
+  AiOutlinePlus,
+} from "react-icons/ai";
 import moment from "moment";
 import axios from "../../utils/axios";
 import { toast } from "react-hot-toast";
@@ -217,41 +221,47 @@ function PiezoReports() {
     <>
       <MenuNavbar />
 
-      <div className="mt-12 md:hidden" />
+      <div className="py-4  lg:px-4  border-b border-[#ccc]">
+        <div className="flex items-center justify-between flex-wrap gap-y-6">
+          <h1 className="flex gap-x-4 items-center ">
+            <Link to="/operations/monitoring-map">
+              <AiOutlineLeft className="w-4 h-4 cursor-pointer" />
+            </Link>
+            <span className="font-bold xl:text-lg">
+              Operations - Piezometer Reports
+            </span>
+          </h1>
+          <div className="flex items-center gap-x-4">
+            <div className="flex items-center gap-x-2">
+              <button
+                onClick={downloadReport}
+                className="flex items-center gap-x-1   px-4  py-2 sm:px-4  bg-[#333] text-[#f1f1f1] rounded-full"
+              >
+                <AiOutlineDownload className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
+                <span className="text-xs font-semibold sm:hidden">
+                  Readings
+                </span>
+                <span className="text-xs sm:text-sm   font-medium hidden sm:block">
+                  Readings report
+                </span>
+              </button>
+            </div>
 
-      <div className="items-center flex flex-wrap justify-between  gap-x-8 gap-y-4 bg-white p-4 rounded-xl shadow-sm">
-        <h1 className="  font-bold xl:text-lg">
-          Operations - Piezometer Reports
-        </h1>
-
-        <div className="flex items-center gap-x-4">
-          <div className="flex items-center gap-x-2">
-            <button
-              onClick={downloadReport}
-              className="flex items-center gap-x-1   px-4  py-2 sm:px-4  bg-[#333] text-[#f1f1f1] rounded-full"
-            >
-              <AiOutlineDownload className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
-              <span className="text-xs font-semibold sm:hidden">Readings</span>
-              <span className="text-xs sm:text-sm   font-medium hidden sm:block">
-                Readings report
-              </span>
-            </button>
+            <Link to="/operations/reports/piezometers/new-report">
+              <button className="flex items-center gap-x-2 p-2 sm:px-4 rounded-full bg-orange-700 text-white  hover:bg-orange-800 transition-all">
+                <AiOutlinePlus className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
+                <span className="text-xs sm:text-sm   font-medium hidden sm:block">
+                  New Piezo. Report
+                </span>
+              </button>
+            </Link>
           </div>
-
-          <Link to="/operations/reports/piezometers/new-report">
-            <button className="flex items-center gap-x-2 p-2 sm:px-4 rounded-full bg-orange-700 text-white  hover:bg-orange-800 transition-all">
-              <AiOutlinePlus className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
-              <span className="text-xs sm:text-sm   font-medium hidden sm:block">
-                New Piezo. Report
-              </span>
-            </button>
-          </Link>
         </div>
       </div>
 
       <div className="mt-6" />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-6 gap-y-6 ">
+      <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-6 gap-y-6 lg:px-4 ">
         <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center gap-y-4 ">
           <h2 className="font-semibold text-[#555] text-sm 2xl:text-base">
             Featured reports
@@ -275,7 +285,7 @@ function PiezoReports() {
 
       <div className="mt-6" />
 
-      <div className="flex flex-col gap-y-12  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center  ">
+      <div className="flex flex-col gap-y-12  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center lg:mx-4   ">
         <div className="flex flex-col gap-y-6">
           <h2 className="font-semibold text-[#555] text-sm 2xl:text-base">
             Overview Report

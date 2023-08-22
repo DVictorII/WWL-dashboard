@@ -1,25 +1,128 @@
-import React from "react";
-import { AiOutlineCheck } from "react-icons/ai";
+import React, { useState } from "react";
+import { AiOutlineCheck, AiOutlineGlobal } from "react-icons/ai";
 import { BsLightbulb } from "react-icons/bs";
 import { FiAlertTriangle, FiAlertOctagon } from "react-icons/fi";
 import { VscDebugDisconnect } from "react-icons/vsc";
 import { SiFlood } from "react-icons/si";
 import { useMonitoringMapStateStore } from "../../../store/MonitoringMapStateStore";
 import { monitoringMapStatusInfo } from "../../../utils/monitoringMapStatusInfo";
+import { useMediaQuery } from "react-responsive";
+import { HiOutlineArchiveBox } from "react-icons/hi2";
+
+const statusOptions = [
+  {
+    statusNumber: 0,
+    icon: <AiOutlineGlobal className="xl:w-5 xl:h-5" />,
+    title: "All",
+  },
+
+  {
+    statusNumber: 1,
+    icon: <AiOutlineCheck className="xl:w-5 xl:h-5" />,
+    title: "Active",
+  },
+
+  {
+    statusNumber: 2,
+    icon: <FiAlertTriangle className="xl:w-5 xl:h-5" />,
+    title: "Damaged",
+  },
+
+  {
+    statusNumber: 3,
+    icon: <VscDebugDisconnect className="xl:w-5 xl:h-5" />,
+    title: (
+      <>
+        <span className="xl:hidden">Disconn.</span>
+        <span className="hidden xl:block">Disconnected</span>
+      </>
+    ),
+  },
+
+  {
+    statusNumber: 4,
+    icon: <BsLightbulb className="xl:w-5 xl:h-5" />,
+    title: "Proposed",
+  },
+
+  {
+    statusNumber: 5,
+    icon: <SiFlood className="xl:w-5 xl:h-5" />,
+    title: "TARPS",
+  },
+  {
+    statusNumber: 6,
+    icon: <HiOutlineArchiveBox className="xl:w-5 xl:h-5" />,
+    title: "Archived",
+  },
+];
 
 function StatusTable() {
   const status = useMonitoringMapStateStore((state) => state.status);
-  //@ts-ignore
-  const selectedStatus = monitoringMapStatusInfo[status];
+  const isBigScreen = useMediaQuery({ query: "(min-width: 1024px)" });
+  const islg = useMediaQuery({ query: "(max-width: 1280px)" });
 
   const changeStatus = useMonitoringMapStateStore(
     (state) => state.changeStatus
   );
-  return (
-    <div className="flex flex-col gap-y-1">
-      <h3 className="text-[10px] xl:text-xs  font-semibold text-[#666] justify-self-end">
-        Piezometer status
-      </h3>
+
+  const [isHovered, setIsHovered] = useState<number | boolean>(0);
+
+  //
+  const statusInfoObj = monitoringMapStatusInfo[Number(status)];
+
+  return isBigScreen ? (
+    <div className="flex flex-col gap-y-4 col-span-2 p-4 border-r border-[#ccc]">
+      <h3 className="font-semibold text-[#666] ">Piezometer status</h3>
+
+      <div className="grid grid-cols-4 gap-x-2 gap-y-5 ">
+        {statusOptions.map((statusObj) => (
+          <div className="flex justify-center">
+            <div className="flex flex-col gap-y-2 items-center">
+              <button
+                onClick={() => {
+                  status !== statusObj.statusNumber &&
+                    changeStatus(statusObj.statusNumber);
+                }}
+                style={{
+                  backgroundColor:
+                    status === statusObj.statusNumber
+                      ? statusInfoObj.lightColor
+                      : isHovered === statusObj.statusNumber
+                      ? monitoringMapStatusInfo[statusObj.statusNumber]
+                          .lightColor
+                      : "",
+
+                  color:
+                    status === statusObj.statusNumber
+                      ? statusInfoObj.normalColor
+                      : "#666",
+                }}
+                onMouseEnter={() => setIsHovered(statusObj.statusNumber)}
+                onMouseLeave={() => setIsHovered(false)}
+                className={` w-10 h-10 xl:w-12 xl:h-12  flex justify-center items-center    transition-all duration-300 cursor-pointer rounded-full `}
+              >
+                {statusObj.icon}
+              </button>
+              <span
+                style={{
+                  color:
+                    status === statusObj.statusNumber
+                      ? statusInfoObj.normalColor
+                      : "#666",
+                }}
+                className="text-xs font-semibold transition-all duration-300"
+              >
+                {statusObj.title}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  ) : (
+    <div className="flex flex-col gap-y-1 col-span-2 ">
+      <h3 className="font-semibold text-[#666] text-xs ">Piezometer status</h3>
 
       <div
         // style={{

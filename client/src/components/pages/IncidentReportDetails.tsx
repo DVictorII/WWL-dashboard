@@ -12,7 +12,7 @@ import IncidentSupervisorsView from "../Incidents/IncidentSupervisorsView";
 import IncidentMapDetailsTable from "../Incidents/IncidentMapDetailsTable";
 import { IncidentDetails } from "../../types";
 import SkeletonIncidentReportDetailsPage from "../Skeletons/Incidents/SkeletonIncidentReportDetailsPage";
-import { AiOutlineArrowLeft } from "react-icons/ai";
+import { AiOutlineArrowLeft, AiOutlineLeft } from "react-icons/ai";
 import IncidentDetailsTable from "../Incidents/IncidentDetailsTable";
 import IncidentMapSingle from "../Incidents/IncidentMapSingle";
 
@@ -38,25 +38,23 @@ function IncidentReportDetails() {
     <>
       <MenuNavbar />
 
-      <div className="mt-12 md:hidden" />
-
-      <div className="flex">
-        <Link to="/operations/reports/incidents">
-          <button className="flex items-center gap-x-1 pb-px border-b w-max border-transparent hover:border-[#666] transition-all">
-            <AiOutlineArrowLeft />
-            <span className="cursor-pointer font-semibold">back</span>
-          </button>
-        </Link>
+      <div className="py-4  lg:px-4  border-b border-[#ccc]">
+        <div className="flex items-center justify-between flex-wrap gap-y-6">
+          <h1 className="flex gap-x-4 items-center ">
+            <Link to="/operations/reports/incidents">
+              <AiOutlineLeft className="w-4 h-4 cursor-pointer" />
+            </Link>
+            <span className="font-bold xl:text-lg">
+              Incident Report Details
+            </span>
+          </h1>
+        </div>
       </div>
 
       <div className="mt-4" />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-6 gap-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-6 gap-y-6 lg:mx-4">
         <div className="flex flex-col gap-y-6">
-          <div className="flex items-center justify-between gap-x-8 gap-y-8 flex-wrap bg-white p-4 rounded-xl shadow-sm">
-            <h1 className=" font-bold xl:text-lg">Incident Report Details</h1>
-          </div>
-
           <div className=" bg-white p-4 rounded-xl shadow-sm">
             <div className="flex flex-col gap-y-8">
               <div className="flex flex-col gap-y-3 flex-wrap">
@@ -88,7 +86,7 @@ function IncidentReportDetails() {
 
       <div className="mt-6" />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-6 gap-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-6 gap-y-6 lg:mx-4">
         <div className=" bg-white p-4 rounded-xl shadow-sm">
           <div className="flex flex-col gap-y-6">
             <h2 className="font-semibold">Location photo</h2>

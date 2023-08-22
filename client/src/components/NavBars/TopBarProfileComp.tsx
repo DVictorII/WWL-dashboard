@@ -28,7 +28,7 @@ function TopBarProfileComp() {
           </div>
 
           <div className="flex flex-col gap-y-1">
-            <span className="font-bold">{currentUser.name}</span>
+            <span className="font-bold text-sm">{currentUser.name}</span>
             <span className="text-xs text-[#ccc]">
               ({currentUser.username})
             </span>
@@ -45,7 +45,7 @@ function TopBarProfileComp() {
           </div>
 
           <div className="flex flex-col gap-y-1">
-            <span className="font-bold">Guest user</span>
+            <span className="font-bold text-sm">Guest user</span>
             <span className="text-xs text-[#ccc]">(guest_user1809)</span>
           </div>
         </>

@@ -36,7 +36,7 @@ function FullPageComps({ information }: { information: Information }) {
     <>
       <AnimatePresence key="fullpage-img">
         {sectionImgIsOpen ? (
-          <div className="fixed top-0 left-0 h-screen w-screen z-[100] flex items-center justify-center">
+          <div className="fixed top-0 left-0 h-screen w-screen  z-[1000] flex items-center justify-center">
             <div
               onClick={closeSectionImg}
               className="absolute top-0 left-0 w-full h-full bg-[#222222] bg-opacity-50 backdrop-blur-sm cursor-pointer "
@@ -68,7 +68,7 @@ function FullPageComps({ information }: { information: Information }) {
 
       <AnimatePresence key="fullpage-barchart">
         {fullPageBarChartIsOpen ? (
-          <div className="fixed top-0 left-0 h-screen w-screen z-[100] flex items-center justify-center">
+          <div className="fixed top-0 left-0 h-screen w-screen z-[1000] flex items-center justify-center">
             <div
               onClick={closeFullPageBarChart}
               className="absolute top-0 left-0 w-full h-full bg-[#222222] bg-opacity-50 backdrop-blur-sm blur-md cursor-pointer "

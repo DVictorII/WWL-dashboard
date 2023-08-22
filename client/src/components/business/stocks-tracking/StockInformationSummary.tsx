@@ -1,58 +1,62 @@
 import moment from "moment";
 
 interface DataI {
-  ask: number;
-  averageVolume: number;
-  beta: number;
-  bid: number;
-  dayHigh: number;
-  dayLow: number;
-  dividendRate: number;
-  dividendYield: number;
-  exDividendDate: number;
-  fiftyTwoWeekHigh: number;
-  fiftyTwoWeekLow: number;
-  marketCap: number;
-  open: number;
-  previousClose: number;
-  targetMeanPrice: number;
-  trailingEps: number;
-  trailingPE: number;
-  volume: number;
+  ask: number | string;
+  averageVolume: number | string;
+  beta: number | string;
+  bid: number | string;
+  dayHigh: number | string;
+  dayLow: number | string;
+  dividendRate: number | string;
+  dividendYield: number | string;
+  exDividendDate: number | string;
+  fiftyTwoWeekHigh: number | string;
+  fiftyTwoWeekLow: number | string;
+  marketCap: number | string;
+  open: number | string;
+  previousClose: number | string;
+  targetMeanPrice: number | string;
+  trailingEps: number | string;
+  trailingPE: number | string;
+  volume: number | string;
 }
 
 function StockInformationSummary({ data }: { data: DataI }) {
+  const checkData = (value: number | string) => {
+    return value === "" ? "-" : (value as number).toFixed(2);
+  };
+
   const summaryTopics = [
     {
       title: "Previous close",
-      value: data.previousClose.toFixed(2),
+      value: checkData(data?.previousClose),
     },
 
     {
       title: "Open",
-      value: data.open.toFixed(2),
+      value: checkData(data?.open),
     },
 
     {
       title: "Bid",
-      value: data.bid.toFixed(2),
+      value: checkData(data?.bid),
     },
 
     {
       title: "Ask",
-      value: data.ask.toFixed(2),
+      value: checkData(data?.ask),
     },
 
     {
       title: "Day's range",
-      value: `${data.dayLow.toFixed(2)} - ${data.dayHigh.toFixed(2)}`,
+      value: `${checkData(data?.dayLow)} - ${checkData(data?.dayHigh)}`,
     },
 
     {
       title: "52-week range",
-      value: `${data.fiftyTwoWeekLow.toFixed(
-        2
-      )} - ${data.fiftyTwoWeekHigh.toFixed(2)}`,
+      value: `${checkData(data?.fiftyTwoWeekLow)} - ${checkData(
+        data?.fiftyTwoWeekHigh
+      )}`,
     },
 
     {
@@ -67,22 +71,26 @@ function StockInformationSummary({ data }: { data: DataI }) {
 
     {
       title: "Market cap",
-      value: `${(data.marketCap / 1000000000).toFixed(3)} B`,
+      value: `${
+        data.marketCap === ""
+          ? "-"
+          : ((data.marketCap as number) / 1000000000).toFixed(3)
+      } B`,
     },
 
     {
       title: "Beta (5Y monthly)",
-      value: data.beta.toFixed(2),
+      value: checkData(data?.beta),
     },
 
     {
       title: "PE ratio (TTM)",
-      value: data.trailingPE.toFixed(2),
+      value: checkData(data?.trailingPE),
     },
 
     {
       title: "EPS (TTM)",
-      value: data.trailingEps.toFixed(2),
+      value: checkData(data?.trailingEps),
     },
 
     {
@@ -92,14 +100,21 @@ function StockInformationSummary({ data }: { data: DataI }) {
 
     {
       title: "Forward dividend & yield",
-      value: `${data.dividendRate.toFixed(2)} (${(
-        data.dividendYield * 100
-      ).toFixed(2)}%)`,
+      value: `${checkData(data?.dividendRate)} ${
+        data.dividendRate === ""
+          ? ""
+          : `(${((data.dividendYield as number) * 100).toFixed(2)}%)`
+      }`,
     },
 
     {
       title: "Ex-dividend date",
-      value: moment(data.exDividendDate * 1000).format("DD MMMM YYYY"),
+      value:
+        data?.exDividendDate === ""
+          ? "-"
+          : moment((data.exDividendDate as number) * 1000).format(
+              "DD MMMM YYYY"
+            ),
     },
   ];
 

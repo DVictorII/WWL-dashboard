@@ -61,7 +61,7 @@ function MonMapPiezoInformationTable() {
 
   return (
     <>
-      {status !== 6 && <div className="mt-8" />}
+      {status == 6 && <div className="mt-8" />}
       <div className="flex flex-col gap-y-6">
         <div className=" flex items-center gap-x-3">
           {/* @ts-ignore */}

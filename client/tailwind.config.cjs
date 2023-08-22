@@ -10,6 +10,40 @@ module.exports = {
     "./node_modules/react-tailwindcss-datepicker/dist/index.esm.js",
     "./node_modules/react-tailwindcss-select/dist/index.esm.js",
   ],
+  safelist:[
+    'bg-[#0c1018]',
+    'bg-[#1c394a]',
+    'bg-[#7f2121]',
+    'bg-[#9e8f12]',
+    'bg-[#69742C]',
+    'bg-[#206845]',
+    'bg-[#622323]',
+
+
+    'text-[#0c1018]',
+    'text-[#1c394a]',
+    'text-[#7f2121]',
+    'text-[#9e8f12]',
+    'text-[#69742C]',
+    'text-[#206845]',
+    'text-[#622323]',
+
+    'bg-[#18212f]',
+    'bg-[#477C9A]',
+    'bg-[#B41818]',
+    'bg-[#C5B317]',
+    'bg-[#7B8831]',
+    'bg-[#2C8A5D]',
+    'bg-[#831B1B]',
+
+    'border-[#0c1018]',
+    'border-[#1c394a]',
+    'border-[#7f2121]',
+    'border-[#9e8f12]',
+    'border-[#69742C]',
+    'border-[#206845]',
+    'border-[#622323]',
+  ],
   presets: [],
   darkMode: "media", // or 'class'
   theme: {

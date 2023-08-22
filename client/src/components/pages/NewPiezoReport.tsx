@@ -1,11 +1,11 @@
 import MenuNavbar from "../MenuNavbar";
 import PiezoReportForm from "../Reports/PiezoReportForm";
 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useNewPiezoReportStateStore } from "../../store/NewPiezoReportStateStore";
 import FullPageComps from "../FullPageComps";
-import { AiOutlineArrowLeft } from "react-icons/ai";
+import { AiOutlineArrowLeft, AiOutlineLeft } from "react-icons/ai";
 
 function NewPiezoReport() {
   const paddock = useNewPiezoReportStateStore(
@@ -43,24 +43,25 @@ function NewPiezoReport() {
     <>
       <MenuNavbar />
 
-      <div className="mt-12 md:hidden" />
+      <div className="py-4  lg:px-4  border-b border-[#ccc]">
+        <div className="flex flex-col gap-y-4">
+          <h1 className="flex gap-x-4 items-center ">
+            <div onClick={cancelForm} className="cursor-pointer">
+              <AiOutlineLeft className="w-4 h-4 " />
+            </div>
 
-      <div className="flex items-center gap-x-1 pb-px border-b w-max border-transparent hover:border-[#666] transition-all">
-        <AiOutlineArrowLeft />
-        <span onClick={cancelForm} className="cursor-pointer font-semibold">
-          back
-        </span>
+            <span className="font-bold xl:text-lg">
+              Operations - New Report
+            </span>
+          </h1>
+        </div>
       </div>
 
       <div className="mt-4" />
 
-      <div className="flex items-center justify-between gap-x-8 gap-y-8 flex-wrap bg-white p-4 rounded-xl shadow-sm">
-        <h1 className=" font-bold xl:text-lg">Operations - New Report</h1>
+      <div className="lg:mx-4">
+        <PiezoReportForm />
       </div>
-
-      <div className="mt-4" />
-
-      <PiezoReportForm />
 
       <FullPageComps
         information={{

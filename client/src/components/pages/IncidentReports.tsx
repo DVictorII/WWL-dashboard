@@ -10,7 +10,7 @@ import IncidentsSliderComp from "../Slider/IncidentsSliderComp";
 import IncidentsListTable from "../Incidents/IncidentsListTable";
 import SkeletonIncidentReportPage from "../Skeletons/Incidents/SkeletonIncidentReportPage";
 import IncidentMapMultiple from "../Incidents/IncidentMapMultiple";
-import { AiOutlinePlus } from "react-icons/ai";
+import { AiOutlineLeft, AiOutlinePlus } from "react-icons/ai";
 
 function IncidentReports() {
   const fetchIncidents = async () => {
@@ -28,17 +28,16 @@ function IncidentReports() {
     <>
       <MenuNavbar />
 
-      <div className="mt-12 md:hidden" />
-
-      <div className="items-center flex flex-wrap justify-between  gap-x-8 gap-y-4 bg-white p-4 rounded-xl shadow-sm">
-        <h1 className="  font-bold xl:text-lg">
-          Operations - Incident Reports
-        </h1>
-
-        <div className="flex items-center gap-x-4">
-          {/* <div className="w-8 h-8 xl:w-10 xl:h-10 bg-all-normal flex items-center justify-center rounded-full text-white ">
-            <BsBookmarkHeartFill className="w-3 h-3 xl:w-4 xl:h-4" />
-          </div> */}
+      <div className="py-4  lg:px-4  border-b border-[#ccc]">
+        <div className="flex items-center justify-between flex-wrap gap-y-6">
+          <h1 className="flex gap-x-4 items-center ">
+            <Link to="/operations/monitoring-map">
+              <AiOutlineLeft className="w-4 h-4 cursor-pointer" />
+            </Link>
+            <span className="font-bold xl:text-lg">
+              Operations - Incident Reports
+            </span>
+          </h1>
 
           <Link to="/operations/reports/incidents/new-incident">
             <button className="flex items-center gap-x-2 p-2 sm:px-4 rounded-full bg-all-normal text-white  hover:bg-orange-800 transition-all">
@@ -53,7 +52,7 @@ function IncidentReports() {
 
       <div className="mt-6" />
 
-      <div className="grid grid-cols-1  lg:gap-x-6 gap-y-6 ">
+      <div className="grid grid-cols-1  lg:gap-x-6 gap-y-6 lg:mx-4 ">
         <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center gap-y-4">
           <div className="  flex flex-col  gap-y-4 w-full ">
             <h2 className="font-semibold text-[#555] ">Featured Incidents</h2>
@@ -67,7 +66,7 @@ function IncidentReports() {
 
       <div className="mt-6" />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2  lg:gap-x-6 gap-y-6 ">
+      <div className="grid grid-cols-1 lg:grid-cols-2  lg:gap-x-6 gap-y-6 lg:mx-4">
         <div className="flex flex-col   bg-white p-4 2xl:p-6 rounded-xl shadow-sm  gap-y-4">
           <div className="  flex flex-col  gap-y-4  ">
             <h2 className="font-semibold text-[#555] ">Reports List</h2>

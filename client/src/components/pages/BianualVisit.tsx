@@ -3,15 +3,30 @@ import MenuNavbar from "../MenuNavbar";
 import BVisitSelector from "../BVisits/BVisitSelector";
 import BVisitMapShowcase from "../BVisits/BVisitMapShowcase";
 import BVisitMediaPlayer from "../BVisits/BVisitMediaPlayer";
+import { Link } from "react-router-dom";
+import { AiOutlineLeft } from "react-icons/ai";
 
 function BianualVisit() {
   return (
     <>
       <MenuNavbar />
 
-      <div className="mt-12 md:mt-0 flex flex-col gap-y-8 justify-between">
-        <h1 className="font-bold ">Operations - Biannual Visits</h1>
+      <div className="py-4  lg:px-4  border-b border-[#ccc]">
+        <div className="flex flex-col gap-y-4">
+          <h1 className="flex gap-x-4 items-center ">
+            <Link to="/operations/monitoring-map">
+              <AiOutlineLeft className="w-4 h-4 cursor-pointer" />
+            </Link>
+            <span className="font-bold xl:text-lg">
+              Operations - Biannual Visits
+            </span>
+          </h1>
+        </div>
+      </div>
 
+      <div className="mt-6" />
+
+      <div className=" flex flex-col gap-y-8 justify-between lg:mx-4">
         <div className="flex flex-col gap-y-4">
           <h2 className=" font-bold ">
             Biannual Review - 360 Photos - May 2022
@@ -20,7 +35,7 @@ function BianualVisit() {
         </div>
       </div>
 
-      <div className="bg-backgroundWhite md:bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-12 md:gap-y-8 md:shadow-lg ">
+      <div className="bg-backgroundWhite md:bg-white   md:px-8 md:py-10  rounded-2xl mt-12 flex flex-col gap-y-12 md:gap-y-8 md:shadow-lg lg:mx-4">
         <div className="flex items-center justify-between gap-x-16 flex-wrap gap-y-8">
           <BVisitSelector />
 

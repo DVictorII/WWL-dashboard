@@ -16,7 +16,7 @@ function VisitDetails() {
     >
       <MenuNavbar />
 
-      <div className="mt-20 lg:mt-10 flex flex-col gap-y-10 pb-10 border-b border-[#F1F5F9]">
+      <div className="mt-20 lg:mt-10 flex flex-col gap-y-10 pb-10 border-b border-[#F1F5F9] ">
         <div className="flex flex-col md:flex-row w-full md:justify-between gap-x-10 gap-y-10 flex-wrap">
           <h1 className="font-semibold text-2xl 2xl:text-4xl">
             Biannual review - 360 Photos - May 2022

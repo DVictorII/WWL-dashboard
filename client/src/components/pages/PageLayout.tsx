@@ -120,7 +120,7 @@ function PageLayout() {
               key={location.pathname}
               className="text-[#333] px-2 sm:px-8 py-8 md:px-8  lg:p-12  2xl:p-16  grow  "
             >
-              <div className="px-2 sm:px-8 py-8 md:px-8  2xl:p-10 ">
+              <div>
                 <MobileMenu />
 
                 <Outlet />
@@ -147,11 +147,10 @@ function PageLayout() {
         <Outlet />
       </div>
     ) : (
-      <main className="flex font-openSans">
+      <main className=" flex lg:grid  lg:grid-cols-6 font-openSans ">
         <Sidebar />
 
-        {/* <div className="hidden md:block w-20 shrink-0 md:w-24 2xl:w-28 h-screen" /> */}
-        <div className="grid grid-cols-1 w-full">
+        <div className="flex flex-col w-full col-span-5 h-screen">
           <TopBar />
           <motion.div
             initial={{ opacity: 0 }}
@@ -171,13 +170,11 @@ function PageLayout() {
               backgroundImage:
                 "linear-gradient(to bottom, rgb(250, 250, 250), rgb(241, 241, 241) )",
             }}
-            className={`text-[#333]  grow  `}
+            className={`text-[#333] overflow-y-scroll px-4 lg:px-0 py-4 md:pb-4 md:py-0 lg:pb-0 grow`}
           >
-            <div className="px-2 sm:px-8 py-8 md:px-8  2xl:p-10 ">
-              <MobileMenu />
+            <MobileMenu />
 
-              <Outlet />
-            </div>
+            <Outlet />
           </motion.div>
         </div>
 

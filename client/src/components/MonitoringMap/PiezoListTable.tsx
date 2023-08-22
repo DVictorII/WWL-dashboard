@@ -36,8 +36,7 @@ function PiezoListTable({ filteredPiezoList }) {
 
   const section = useMonitoringMapStateStore((s) => s.section);
 
-  //@ts-ignore
-  const selectedStatus = monitoringMapStatusInfo[status];
+  const selectedStatus = monitoringMapStatusInfo[Number(status)];
 
   const paddock = useMonitoringMapStateStore((s) => s.paddock);
   const piezo = useMonitoringMapStateStore((s) => s.piezo);
@@ -116,7 +115,7 @@ function PiezoListTable({ filteredPiezoList }) {
                 onClick={() => {
                   changePaddockAndPiezo(originals.paddock, originals.id);
                 }}
-                className={`text-[9px] md:text-[10px] lg:text-[11px] flex justify-center w-full items-center font-bold  hover:scale-105 transition-all`}
+                className={`text-[9px] md:text-[10px] lg:text-[11px] flex justify-center w-full items-center font-bold   hover:scale-105 transition-all`}
               >
                 {originals.id}
               </button>
@@ -425,8 +424,6 @@ function PiezoListTable({ filteredPiezoList }) {
 
   return (
     <>
-      <div className={`${status !== 6 ? "mt-8" : "mt-4"}`} />
-
       <div className="flex flex-col gap-y-1 2xl:gap-y-3">
         {status !== 6 && (
           <div className=" flex items-end md:items-center gap-x-8 md:gap-x-16 lg:gap-x-8">
@@ -470,14 +467,14 @@ function PiezoListTable({ filteredPiezoList }) {
           </div>
         )}
 
-        <div className=" max-w-full max-h-fit ">
+        <div className=" max-w-full max-h-fit  ">
           <div
             style={{
               borderColor: selectedStatus.darkColor,
             }}
-            className={` overflow-y-scroll overflow-x-scroll h-fit max-h-96 mt-5 mb-4    pb-5  `}
+            className={` overflow-y-scroll overflow-x-scroll h-fit max-h-[45vh] xl:max-h-[42vh] 2xl:max-h-[45vh] mt-5     pb-5 border-y-2   `}
           >
-            <table className="min-w-max border-separate border-spacing-0">
+            <table className="min-w-max border-separate border-spacing-0 ">
               <thead>
                 {tableInstance.getHeaderGroups().map((headerGroup) => {
                   return (
@@ -485,7 +482,10 @@ function PiezoListTable({ filteredPiezoList }) {
                       {headerGroup.headers.map((header) => (
                         <th
                           key={header.id}
-                          className="sticky top-0 text-center px-4 py-2 lg:px-6 lg:py-3 bg-white border-b border-[#ccc] text-[#777] "
+                          style={{
+                            borderColor: selectedStatus.normalColor,
+                          }}
+                          className="sticky top-0 text-center px-4 py-2 lg:px-6 lg:py-4 bg-white border-b-2  text-[#777]  "
                         >
                           {header.isPlaceholder ? null : (
                             <div
@@ -537,7 +537,13 @@ function PiezoListTable({ filteredPiezoList }) {
                     }}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <td className="px-4 py-2 lg:px-6 lg:py-3" key={cell.id}>
+                      <td
+                        style={{
+                          borderColor: selectedStatus.normalColor,
+                        }}
+                        className="px-4 py-2 lg:px-6 lg:py-3 border-b "
+                        key={cell.id}
+                      >
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()

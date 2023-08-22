@@ -44,7 +44,6 @@ const anim = {
 
 function Sidebar() {
   const { pathname } = useLocation();
-  console.log(pathname);
 
   const menuIsOpen = useMenuStore((state) => state.menuIsOpen);
   const closeMenu = useMenuStore((state) => state.closeMenu);
@@ -73,8 +72,8 @@ function Sidebar() {
     return (
       <>
         <div
-          className="sticky top-0 left-0 h-screen pt-8 pb-8 
-                        w-20   lg:w-1/6  md:flex flex-col 
+          className="h-screen pt-8 pb-8 
+                        md:flex flex-col 
                         bg-[#333] text-white justify-between  z-[400] hidden shrink-0 "
         >
           <div className="flex flex-col items-center gap-y-6 2xl:gap-y-14 ">
@@ -221,7 +220,7 @@ function Sidebar() {
         <AnimatePresence key={"menu"}>
           {menuIsOpen ? (
             <>
-              <div className="fixed z-[500] md:ml-20 lg:ml-24 2xl:ml-[16.67%] h-screen w-1/2 lg:w-1/3">
+              <div className="fixed z-[500] md:ml-20 lg:ml-[16.67%]  h-screen w-1/2 lg:w-1/3">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: "100%", transition: { duration: 0.5 } }}
