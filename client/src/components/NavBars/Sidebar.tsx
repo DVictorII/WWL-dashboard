@@ -72,7 +72,7 @@ function Sidebar() {
     return (
       <>
         <div
-          className="h-screen pt-8 pb-8 
+          className="h-screen pt-6 pb-6 xl:pt-8 xl:pb-8 
                         md:flex flex-col 
                         bg-[#333] text-white justify-between  z-[400] hidden shrink-0 "
         >
@@ -80,7 +80,7 @@ function Sidebar() {
             <Link to="/operations/monitoring-map">
               <div className="w-full relative">
                 <img
-                  className="object-contain w-28"
+                  className="object-contain w-24 2xl:w-28"
                   src="/media/img/photos/logo_white.png"
                   alt="rossing-logo"
                 />
@@ -97,7 +97,7 @@ function Sidebar() {
                   duration: 0.5,
                 }}
                 onClick={!menuIsOpen ? openMenu : closeMenu}
-                className="w-full  py-5   flex items-center pl-4 xl:pl-8 2xl:pl-10 pr-4  cursor-pointer duration-500 relative "
+                className="w-full  py-3 xl:py-4 2xl:py-5 flex items-center pl-3 xl:pl-4 2xl:pl-6  pr-2 xl:pr-4  cursor-pointer duration-500 relative "
               >
                 <motion.div
                   variants={anim}
@@ -105,10 +105,10 @@ function Sidebar() {
                 />
 
                 <div className="flex gap-x-4 items-center z-[2]">
-                  <AiOutlineAreaChart className=" w-5 h-5 " />
+                  <AiOutlineAreaChart className=" w-4 h-4 xl:w-5 xl:h-5 shrink-0" />
                   <div className=" text-sm font-semibold flex items-center flex-wrap gap-x-2 ">
                     <span>Operations</span>
-                    <span>( 100% )</span>
+                    <span className="text-xs font-bold">( 100% )</span>
                   </div>
                 </div>
                 <div className="w-1 h-full absolute -right-[2px] top-0 bg-active-dark rounded-r-sm z-[3] " />
@@ -123,7 +123,7 @@ function Sidebar() {
                     duration: 0.5,
                   }}
                   onClick={closeMenu}
-                  className="w-full  py-5   flex items-center pl-4 xl:pl-8 2xl:pl-10 pr-4  cursor-pointer duration-500 relative "
+                  className="w-full  py-3 xl:py-4 2xl:py-5 flex items-center pl-3 xl:pl-4 2xl:pl-6  pr-2 xl:pr-4  cursor-pointer duration-500 relative"
                 >
                   <motion.div
                     variants={anim}
@@ -131,10 +131,10 @@ function Sidebar() {
                   />
 
                   <div className="flex gap-x-4 items-center z-[2]">
-                    <AiOutlinePieChart className=" w-5 h-5 " />
+                    <AiOutlinePieChart className=" w-4 h-4 xl:w-5 xl:h-5 shrink-0 " />
                     <div className=" text-sm font-semibold flex items-center flex-wrap gap-x-2 ">
                       <span>Business</span>
-                      <span>( 100% )</span>
+                      <span className="text-xs font-bold">( 100% )</span>
                     </div>
                   </div>
                   <div className="w-1 h-full absolute -right-[2px] top-0 bg-active-dark rounded-r-sm z-[3] " />
@@ -155,17 +155,17 @@ function Sidebar() {
                   ease: "easeInOut",
                   duration: 0.5,
                 }}
-                className="w-full  py-5   flex items-center pl-4 xl:pl-8 2xl:pl-10 pr-4  cursor-pointer duration-500 relative group"
+                className="w-full  py-3 xl:py-4 2xl:py-5 flex items-center pl-3 xl:pl-4 2xl:pl-6  pr-2 xl:pr-4  cursor-pointer duration-500 relative"
               >
                 <motion.div
                   variants={anim}
                   className="w-full h-full bg-gradient-to-br to-[#CF6A6A] from-[#BE3535] border-[#BE3535] absolute top-0 left-0 z-[1] origin-right  "
                 />
                 <div className="flex gap-x-4 items-center z-[2]">
-                  <FaTools className=" w-5 h-5 " />
+                  <FaTools className=" w-4 h-4 xl:w-5 xl:h-5 shrink-0 " />
                   <div className=" text-sm font-semibold flex items-center flex-wrap gap-x-2 ">
                     <span>Logistics and machinery</span>
-                    <span>( 70% )</span>
+                    <span className="text-xs font-bold">( 70% )</span>
                   </div>
                 </div>
                 <div className="w-1 h-full absolute -right-[2px] top-0 bg-active-dark rounded-r-sm z-[3] " />
@@ -183,17 +183,17 @@ function Sidebar() {
                     duration: 0.5,
                   }}
                   onClick={closeMenu}
-                  className="w-full  py-5   flex items-center pl-4 xl:pl-8 2xl:pl-10 pr-4  cursor-pointer duration-500 relative group"
+                  className="w-full  py-3 xl:py-4 2xl:py-5 flex items-center pl-3 xl:pl-4 2xl:pl-6  pr-2 xl:pr-4  cursor-pointer duration-500 relative"
                 >
                   <motion.div
                     variants={anim}
                     className="w-full h-full bg-gradient-to-br to-[#7ea3b8] from-[#BE3535] border-[#477c9a] absolute top-0 left-0 z-[1] origin-right  "
                   />
                   <div className="flex gap-x-4 items-center z-[2]">
-                    <AiOutlineUsergroupAdd className=" w-5 h-5 " />
+                    <AiOutlineUsergroupAdd className=" w-4 h-4 xl:w-5 xl:h-5 shrink-0 " />
                     <div className=" text-sm font-semibold flex items-center flex-wrap gap-x-2 ">
                       <span>Staff training</span>
-                      <span>( 80% )</span>
+                      <span className="text-xs font-bold">( 80% )</span>
                     </div>
                   </div>
                   <div className="w-1 h-full absolute -right-[2px] top-0 bg-active-dark rounded-r-sm z-[3] " />
@@ -220,7 +220,7 @@ function Sidebar() {
         <AnimatePresence key={"menu"}>
           {menuIsOpen ? (
             <>
-              <div className="fixed z-[500] md:ml-20 lg:ml-[16.67%]  h-screen w-1/2 lg:w-1/3">
+              <div className="fixed z-[500] md:ml-20 lg:ml-[14.28%]  h-screen w-1/2 lg:w-1/3">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: "100%", transition: { duration: 0.5 } }}

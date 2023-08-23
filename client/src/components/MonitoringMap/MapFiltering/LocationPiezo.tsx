@@ -63,7 +63,7 @@ function LocationPiezo() {
         classNames={{
           //@ts-ignore
           menuButton: ({ isDisabled }) =>
-            `flex text-xs sm:text-sm text-gray-500 border border-[#dfdfdf] shadow-sm  rounded-full  items-center   transition-all duration-300 focus:outline-none px-2 ${
+            `flex text-xs 2xl:text-sm text-gray-500 border border-[#dfdfdf]  rounded-[4px]  items-center h-9 2xl:h-10  transition-all duration-300 focus:outline-none px-2 ${
               isDisabled
                 ? "bg-gray-200"
                 : " bg-white text-[#333] font-semibold focus:border-orange-500 focus:border-opacity-50"

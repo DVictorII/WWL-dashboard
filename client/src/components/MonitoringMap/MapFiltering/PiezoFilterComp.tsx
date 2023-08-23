@@ -6,15 +6,26 @@ import { useMediaQuery } from "react-responsive";
 import LocationPaddock from "./LocationPaddock";
 import LocationSection from "./LocationSection";
 import LocationPiezo from "./LocationPiezo";
+import GlobalSectionSubtitle from "../../global/GlobalSectionSubtitle";
+import { useMonitoringMapStateStore } from "../../../store/MonitoringMapStateStore";
+import { monitoringMapStatusInfo } from "../../../utils/monitoringMapStatusInfo";
 
 function PiezoFilterComp() {
   const isBigScreen = useMediaQuery({ query: "(min-width: 1024px)" });
+  const status = useMonitoringMapStateStore((s) => s.status);
+  const selectedStatus = monitoringMapStatusInfo[Number(status)];
+
   return isBigScreen ? (
-    <div className="grid grid-cols-5 border-b border-[#ccc]">
+    <div
+      style={{
+        borderColor: selectedStatus.lightColor,
+      }}
+      className="grid grid-cols-5 border-b "
+    >
       <StatusTable />
 
       <div className="flex flex-col gap-y-4 col-span-3 p-4 ">
-        <h3 className="font-semibold text-[#666] ">Location selectors</h3>
+        <GlobalSectionSubtitle subtitle="Location selectors" />
         <div className="grid grid-cols-2 col-span-3 gap-x-8 gap-y-4 xl:px-8 2xl:gap-y-6 2xl:gap-x-12">
           <DateTable />
 

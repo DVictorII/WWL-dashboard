@@ -5,6 +5,12 @@ from uuid import uuid4
 import os
 from flask_cors import cross_origin
 from sqlalchemy import text
+import boto3
+from dotenv import dotenv_values
+import os
+
+config = {**dotenv_values(".env")}
+print(config)
 
 reports_routes = Blueprint("reports_routes", __name__)
 
@@ -148,6 +154,13 @@ def upload_photo():
     return final_filename
 
 
+ALLOWED_EXTENSIONS = {"tif", "tiff", "jpg", "jpeg", "png"}
+
+
+def allowed_file(filename):
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 def upload_piezoreport_photo():
     if len(request.files.to_dict(flat=False)) == 0:
         return "piezoreport-default"
@@ -156,21 +169,36 @@ def upload_piezoreport_photo():
     # print(file)
     # print("name",file.filename)
 
+    ########################################################################
+    ## UPLOAD FILE TO S3
+    ########################################################################
+
+    if not allowed_file(file.filename):
+        return "piezoreport-default"
+
     filename = secure_filename(file.filename)
 
     final_filename = f"{uuid4()}-{filename}"
 
+    s3 = boto3.resource(
+        "s3",
+        aws_access_key_id=config["aws_access_key_id"],
+        aws_secret_access_key=config["aws_secret_access_key"],
+    )
+
+    s3.Bucket("rossing").upload_fileobj(file, f"piezometer_reports/{final_filename}")
+
     # print(os.path.abspath( "../client/public/media/piezometer_reports") + "\\" + final_filename)
 
-    file.seek(0)
-    file.save(
-        os.path.abspath(f"../client/public/media/piezometer_reports/{final_filename}")
-    )
+    # file.seek(0)
+    # file.save(
+    #     os.path.abspath(f"../client/public/media/piezometer_reports/{final_filename}")
+    # )
 
-    file.seek(0)
-    file.save(
-        os.path.abspath(f"../client/dist/media/piezometer_reports/{final_filename}")
-    )
+    # file.seek(0)
+    # file.save(
+    #     os.path.abspath(f"../client/dist/media/piezometer_reports/{final_filename}")
+    # )
 
     return final_filename
 

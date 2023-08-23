@@ -11,7 +11,7 @@ function ReportCard({ report }: { report: ReportDetails }) {
     >
       <div className="h-24 md:h-28  ">
         <img
-          src={`/media/piezometer_reports/${
+          src={`https://rossing.s3.ap-southeast-2.amazonaws.com/piezometer_reports/${
             report.report_photo === "piezoreport-default"
               ? "piezoreport-default.png"
               : report.report_photo

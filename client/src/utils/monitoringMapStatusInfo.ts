@@ -1,52 +1,63 @@
 export const monitoringMapStatusInfo = [
   {
     name: "all",
-    number: 92,
     normalColor: "#18212f",
+    intermediateColor: "#babcc1",
     darkColor: "#0c1018",
-    lightColor: "rgba(24, 33, 47, 0.1)",
+    lightColor: "#d1d3d5",
+    washedColor: "#e8e9ea",
   },
   {
     name: "active",
-    number: 49,
     normalColor: "#477C9A",
-    lightColor: "rgba(71, 124, 154, 0.1)",
+    lightColor: "#dae5eb",
+    intermediateColor: "#c8d8e1",
     darkColor: "#1c394a",
+    washedColor: "#edf2f5",
   },
   {
     name: "damaged",
-    number: 14,
+
     normalColor: "#B41818",
-    lightColor: "rgba(180, 24, 24, 0.1)",
+    lightColor: "#f0d1d1",
+    intermediateColor: "#e9baba",
     darkColor: "#7f2121",
+    washedColor: "#f8e8e8",
   },
   {
     name: "disconnected",
-    number: 17,
+
     normalColor: "#C5B317",
-    lightColor: "rgba(197, 179, 23, 0.1)",
+    lightColor: "#f3f0d1",
+    intermediateColor: "#eee8b9",
     darkColor: "#9e8f12",
+    washedColor: "#f9f7e8",
   },
   {
     name: "proposed",
-    number: 12,
     normalColor: "#7B8831",
-    lightColor: "rgba(123, 136, 49, 0.1)",
+    lightColor: "#e5e7d6",
+    intermediateColor: "#d7dbc1",
     darkColor: "#69742C",
+    washedColor: "#f2f3ea",
   },
   {
     name: "tarp",
-    number: 0,
+
     normalColor: "#2C8A5D",
-    lightColor: "rgba(44, 138, 93, 0.1)",
+    lightColor: "#d5e8df",
+    intermediateColor: "#c0dcce",
     darkColor: "#206845",
+    washedColor: "#eaf3ef",
   },
   {
     name: "incident",
-    number: 1,
+
     normalColor: "#831B1B",
-    lightColor: "rgba(131, 27, 27, 0.1)",
+    lightColor: "#e6d1d1",
+    intermediateColor: "#dabbbb",
     darkColor: "#622323",
+    washedColor: "#f3e8e8",
   },
 ];
 

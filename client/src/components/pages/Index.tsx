@@ -15,6 +15,7 @@ import MonMapPiezoInformationTable from "../MonitoringMap/MonMapPiezoInformation
 import { PiezometerDataI } from "../../types";
 import SkeletonPiezoListTable from "../Skeletons/MonitoringMap/SkeletonPiezoListTable";
 import { useMediaQuery } from "react-responsive";
+import GlobalSectionSubtitle from "../global/GlobalSectionSubtitle";
 
 interface GlobalMapState {
   status: string | number;
@@ -126,15 +127,19 @@ const Index = () => {
 
   const filteredPiezoList = filterPiezometers(piezometersData);
 
-  //@ts-ignore
-  const selectedStatus = monitoringMapStatusInfo[status];
+  const selectedStatus = monitoringMapStatusInfo[Number(status)];
   const isBigScreen = useMediaQuery({ query: "(min-width: 1024px)" });
 
   return (
     <div className="flex flex-col gap-y-12 md:gap-y-0">
       <MenuNavbar />
 
-      <div className="py-4  lg:px-4  border-b border-[#ccc]">
+      <div
+        style={{
+          borderColor: selectedStatus.lightColor,
+        }}
+        className="py-4  lg:px-4  border-b border-[#ccc]"
+      >
         <div className="flex justify-between">
           <h1 className="flex gap-x-4 items-center ">
             <span className="font-bold xl:text-lg">
@@ -151,8 +156,13 @@ const Index = () => {
 
       {isBigScreen ? (
         <div className="grid grid-cols-2 ">
-          <div className="flex flex-col p-4 gap-y-4 border-r border-[#ccc]">
-            <h2 className="font-semibold text-[#666] ">Piezometers Overview</h2>
+          <div
+            style={{
+              borderColor: selectedStatus.lightColor,
+            }}
+            className="flex flex-col p-4 gap-y-4 border-r "
+          >
+            <GlobalSectionSubtitle subtitle="Piezometers overview" />
 
             {paddock !== "All" && piezo !== "All" ? (
               <MonMapPiezoInformationTable />
@@ -177,11 +187,14 @@ const Index = () => {
             className="flex flex-col p-4 gap-y-4"
             key={`${piezo}${paddock}${status}${date}${section}`}
           >
-            <h2 className="font-semibold text-[#555] ">
-              {status !== 6
-                ? "Piezometers location map"
-                : "Incidents location map"}
-            </h2>
+            <GlobalSectionSubtitle
+              subtitle={
+                status !== 6
+                  ? "Piezometers location map"
+                  : "Incidents location map"
+              }
+            />
+
             {status !== 6 ? <MapWrapper /> : <IncidentMapMultiple />}
           </div>
         </div>

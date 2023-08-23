@@ -150,10 +150,10 @@ function PageLayout() {
         <Outlet />
       </div>
     ) : (
-      <main className=" flex lg:grid  lg:grid-cols-6 font-openSans ">
+      <main className=" flex lg:grid  lg:grid-cols-7 font-openSans ">
         <Sidebar />
 
-        <div className="flex flex-col w-full col-span-5 h-screen">
+        <div className="flex flex-col w-full col-span-6 h-screen">
           <TopBar />
           <motion.div
             initial={{ opacity: 0 }}
@@ -169,10 +169,10 @@ function PageLayout() {
             //     : "#fef7ed",
             // }}
 
-            style={{
-              backgroundImage:
-                "linear-gradient(to bottom, rgb(250, 250, 250), rgb(241, 241, 241) )",
-            }}
+            // style={{
+            //   backgroundImage:
+            //     "linear-gradient(to bottom, rgb(250, 250, 250), rgb(241, 241, 241) )",
+            // }}
             className={`text-[#333] overflow-y-scroll px-4 lg:px-0 py-4 md:pb-4 md:py-0 lg:pb-0 grow`}
           >
             <MobileMenu />

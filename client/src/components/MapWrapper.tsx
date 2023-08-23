@@ -243,7 +243,7 @@ function MapWrapper() {
     return <SkeletonMapWrapper />;
 
   return (
-    <div className=" w-full   grow min-h-[55vh] rounded-md overflow-hidden shadow-md relative z-[10]">
+    <div className=" w-full   grow min-h-[55vh] rounded-[4px] overflow-hidden  relative z-[10]">
       <div id="map"></div>
     </div>
   );

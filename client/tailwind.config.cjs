@@ -11,6 +11,7 @@ module.exports = {
     "./node_modules/react-tailwindcss-select/dist/index.esm.js",
   ],
   safelist:[
+    //DARK COLOR BACKGROUND
     'bg-[#0c1018]',
     'bg-[#1c394a]',
     'bg-[#7f2121]',
@@ -19,7 +20,7 @@ module.exports = {
     'bg-[#206845]',
     'bg-[#622323]',
 
-
+    //DARK COLOR TEXT
     'text-[#0c1018]',
     'text-[#1c394a]',
     'text-[#7f2121]',
@@ -28,6 +29,7 @@ module.exports = {
     'text-[#206845]',
     'text-[#622323]',
 
+    //NORMAL COLOR BACKGROUND
     'bg-[#18212f]',
     'bg-[#477C9A]',
     'bg-[#B41818]',
@@ -36,6 +38,25 @@ module.exports = {
     'bg-[#2C8A5D]',
     'bg-[#831B1B]',
 
+    //WASHED COLOR BACKGROUND
+    'bg-[#e8e9ea]',
+    'bg-[#edf2f5]',
+    'bg-[#f8e8e8]',
+    'bg-[#f9f7e8]',
+    'bg-[#f2f3ea]',
+    'bg-[#eaf3ef]',
+    'bg-[#f3e8e8]',
+
+    //WASHED COLOR BORDER
+    'border-[#e8e9ea]',
+    'border-[#edf2f5]',
+    'border-[#f8e8e8]',
+    'border-[#f9f7e8]',
+    'border-[#f2f3ea]',
+    'border-[#eaf3ef]',
+    'border-[#f3e8e8]',
+
+    //DARK COLOR BORDER
     'border-[#0c1018]',
     'border-[#1c394a]',
     'border-[#7f2121]',

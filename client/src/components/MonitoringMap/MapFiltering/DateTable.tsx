@@ -27,7 +27,7 @@ function DateTable() {
         readOnly={true}
         toggleClassName="hidden"
         containerClassName="shrink-0 "
-        inputClassName={`font-semibold text-xs border-2 border-[${statusInfoObj.darkColor}] dark:border-[${statusInfoObj.darkColor}] w-full  px-4 py-2  sm:text-sm  rounded-full   text-[${statusInfoObj.darkColor}]   `}
+        inputClassName={`font-semibold text-xs 2xl:text-sm border-2 bg-[${statusInfoObj.washedColor}] dark:bg-[${statusInfoObj.washedColor}] border-[${statusInfoObj.darkColor}] dark:border-[${statusInfoObj.darkColor}] w-full  px-4 py-2    rounded-[4px]   text-[${statusInfoObj.darkColor}]   `}
         useRange={false}
         asSingle={true}
         // showShortcuts={true}

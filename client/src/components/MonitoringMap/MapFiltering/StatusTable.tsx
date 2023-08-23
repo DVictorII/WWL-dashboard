@@ -8,6 +8,7 @@ import { useMonitoringMapStateStore } from "../../../store/MonitoringMapStateSto
 import { monitoringMapStatusInfo } from "../../../utils/monitoringMapStatusInfo";
 import { useMediaQuery } from "react-responsive";
 import { HiOutlineArchiveBox } from "react-icons/hi2";
+import GlobalSectionSubtitle from "../../global/GlobalSectionSubtitle";
 
 const statusOptions = [
   {
@@ -66,14 +67,19 @@ function StatusTable() {
     (state) => state.changeStatus
   );
 
-  const [isHovered, setIsHovered] = useState<number | boolean>(0);
+  const [isHovered, setIsHovered] = useState<number | boolean>(false);
 
   //
   const statusInfoObj = monitoringMapStatusInfo[Number(status)];
 
   return isBigScreen ? (
-    <div className="flex flex-col gap-y-4 col-span-2 p-4 border-r border-[#ccc]">
-      <h3 className="font-semibold text-[#666] ">Piezometer status</h3>
+    <div
+      style={{
+        borderColor: statusInfoObj.lightColor,
+      }}
+      className="flex flex-col gap-y-4 col-span-2 p-4 border-r border-[#ccc]"
+    >
+      <GlobalSectionSubtitle subtitle="Piezometer status" />
 
       <div className="grid grid-cols-4 gap-x-2 gap-y-5 ">
         {statusOptions.map((statusObj) => (

@@ -115,7 +115,7 @@ function PiezoListTable({ filteredPiezoList }) {
                 onClick={() => {
                   changePaddockAndPiezo(originals.paddock, originals.id);
                 }}
-                className={`text-[9px] md:text-[10px] lg:text-[11px] flex justify-center w-full items-center font-bold   hover:scale-105 transition-all`}
+                className={`text-[10px] md:text-[11px] lg:text-xs flex justify-center w-full items-center font-bold   hover:scale-105 transition-all`}
               >
                 {originals.id}
               </button>
@@ -288,7 +288,7 @@ function PiezoListTable({ filteredPiezoList }) {
               onClick={() => {
                 changePaddockAndPiezo(originals.paddock, originals.id);
               }}
-              className={`text-[9px] md:text-[10px] lg:text-[11px] flex justify-center w-full items-center font-bold  hover:scale-105 transition-all`}
+              className={`text-[10px] md:text-[11px] lg:text-xs flex justify-center w-full items-center font-bold  hover:scale-105 transition-all`}
             >
               {originals.id}
             </button>
@@ -426,14 +426,14 @@ function PiezoListTable({ filteredPiezoList }) {
     <>
       <div className="flex flex-col gap-y-1 2xl:gap-y-3">
         {status !== 6 && (
-          <div className=" flex items-end md:items-center gap-x-8 md:gap-x-16 lg:gap-x-8">
-            <div className="flex gap-x-3 md:flex-col lg:flex-row md:gap-y-2">
+          <div className=" flex items-end md:items-center gap-x-8 md:gap-x-16 lg:gap-x-8 mt-4 lg:mt-0">
+            <div className="flex gap-x-3 flex-wrap gap-y-1">
               {paddock !== "All" && (
                 <div className="flex gap-x-3">
-                  <span className="font-semibold text-sm sm:text-base  2xl:text-lg">
+                  <span className="font-semibold text-sm   2xl:text-base">
                     {paddock}
                   </span>
-                  <span className="font-semibold text-sm sm:text-base  2xl:text-lg">
+                  <span className="font-semibold text-sm   2xl:text-base">
                     /
                   </span>
                 </div>
@@ -441,16 +441,16 @@ function PiezoListTable({ filteredPiezoList }) {
 
               {section !== "All" && (
                 <div className="flex gap-x-3">
-                  <span className="font-semibold text-sm sm:text-base  2xl:text-lg">
+                  <span className="font-semibold text-sm   2xl:text-base">
                     {section}
                   </span>
-                  <span className="font-semibold text-sm sm:text-base  2xl:text-lg">
+                  <span className="font-semibold text-sm   2xl:text-base">
                     /
                   </span>
                 </div>
               )}
 
-              <span className="font-semibold text-sm sm:text-base  2xl:text-lg">
+              <span className="font-semibold text-sm   2xl:text-base">
                 {/* @ts-ignore */}
                 {options[status]}
               </span>
@@ -460,7 +460,7 @@ function PiezoListTable({ filteredPiezoList }) {
                 //@ts-ignore
                 color: monitoringMapStatusInfo[status].normalColor,
               }}
-              className="text-xl sm:text-2xl lg:text-3xl font-semibold"
+              className="text-xl  lg:text-2xl font-semibold"
             >
               {filteredPiezoList.length}
             </span>
@@ -485,7 +485,7 @@ function PiezoListTable({ filteredPiezoList }) {
                           style={{
                             borderColor: selectedStatus.normalColor,
                           }}
-                          className="sticky top-0 text-center px-4 py-2 lg:px-6 lg:py-4 bg-white border-b-2  text-[#777]  "
+                          className="sticky top-0 text-center px-4 py-2 lg:px-6 lg:py-4 bg-white border-b  text-[#777]  "
                         >
                           {header.isPlaceholder ? null : (
                             <div
@@ -528,30 +528,32 @@ function PiezoListTable({ filteredPiezoList }) {
               </thead>
 
               <tbody className="bg-white text-[#444]">
-                {tableInstance.getRowModel().rows.map((row, i) => (
-                  <tr
-                    key={row.id}
-                    style={{
-                      backgroundColor:
-                        i % 2 === 0 ? selectedStatus.lightColor : "#fff",
-                    }}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <td
-                        style={{
-                          borderColor: selectedStatus.normalColor,
-                        }}
-                        className="px-4 py-2 lg:px-6 lg:py-3 border-b "
-                        key={cell.id}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
+                <>
+                  {tableInstance.getRowModel().rows.map((row, i) => (
+                    <tr
+                      key={row.id}
+                      style={{
+                        backgroundColor:
+                          i % 2 === 0 ? selectedStatus.washedColor : "#fff",
+                      }}
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <td
+                          style={{
+                            borderColor: selectedStatus.intermediateColor,
+                          }}
+                          className="px-4 py-2 lg:px-6 lg:py-3 border-b "
+                          key={cell.id}
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </>
               </tbody>
             </table>
           </div>
