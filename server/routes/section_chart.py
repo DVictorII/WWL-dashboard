@@ -198,7 +198,7 @@ def build_word_report(app1, piezos, reqDate, report_id):
         readings_images_paths = []
 
         # CREATE SECTION CHART IMAGES AND SAVE THEIR PATHS
-        sections_images_paths = plot_section_chart()
+        sections_images_paths = plot_section_chart(report_id)
 
         for i in range(0, len(paddockList)):
             paddock = paddockList[i]
@@ -279,7 +279,7 @@ def build_word_report(app1, piezos, reqDate, report_id):
                                 print("SECTION ADDED", section.lower(), image_path)
                                 document.add_picture(
                                     os.path.abspath(
-                                        f"../client/public/sectionReport/sections/{section.lower()}.png"
+                                        f"../client/public/sectionReport/sections/{report_id}-{section.lower()}.png"
                                     ),
                                     width=Cm(17),
                                     height=Cm(8.5),
@@ -373,7 +373,7 @@ def move_duplicates(x):
     return result
 
 
-def plot_section_chart():
+def plot_section_chart(report_id):
     natural_ground = "data/sections/natural_ground/"
     new_ground = "data/sections/new_ground/"
     test = wwl.get_data_by_section(natural_ground, new_ground)
@@ -533,7 +533,7 @@ def plot_section_chart():
             ax.grid(visible=True, axis="both")
             ax.margins(x=0)
 
-            filename = f"{uuid.uuid4().hex}-{section['name'].lower()}.png"
+            filename = f"{report_id}-{section['name'].lower()}.png"
             filePath = os.path.abspath(
                 f"../client/public/sectionReport/sections/{filename}"
             )
