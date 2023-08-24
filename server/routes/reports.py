@@ -10,7 +10,7 @@ from dotenv import dotenv_values
 import os
 
 config = {**dotenv_values(".env")}
-print(config)
+
 
 reports_routes = Blueprint("reports_routes", __name__)
 
@@ -354,6 +354,36 @@ def getOnePiezoReport(id):
 @cross_origin()
 def delete_piezo_report(id):
     print(f"DELETE FROM piezometer_reports as pr WHERE pr.id = '{id}';")
+
+    ########################################################################
+    ## DELETE FILE'S PHOTO FROM S3
+    ########################################################################
+
+    # 1) GET REPORT FROM DB
+    userQuery = db.session.execute(
+        text(
+            f"SELECT  pr.photo as report_photo FROM piezometer_reports as pr WHERE pr.id = '{id}';"
+        )
+    )
+
+    piezo_reports = [dict(r._mapping) for r in userQuery]
+
+    print("PIEZO-REPORT", piezo_reports[0])
+
+    # if not allowed_file(file.filename):
+    #     return "piezoreport-default"
+
+    photo_filename = piezo_reports[0]["report_photo"]
+
+    if photo_filename != "piezoreport-default":
+        s3 = boto3.client(
+            "s3",
+            aws_access_key_id=config["aws_access_key_id"],
+            aws_secret_access_key=config["aws_secret_access_key"],
+        )
+
+        s3.delete_object(Bucket="rossing", Key=f"piezometer_reports/{photo_filename}")
+        print("DELETED photo")
 
     db.session.execute(
         text(f"DELETE FROM piezometer_reports as pr WHERE pr.id = '{id}';")

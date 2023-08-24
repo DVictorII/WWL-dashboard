@@ -21,6 +21,7 @@ import { useOverallReportStateStore } from "../../store/overallReportStateStore"
 import OverviewReportDateSelector from "../Reports/OverviewReportDateSelector";
 import { BsDot } from "react-icons/bs";
 import { MdDownloading } from "react-icons/md";
+import { v4 as uuidv4 } from "uuid";
 
 function PiezoReports() {
   const date = useOverallReportStateStore((s) => s.date);
@@ -28,11 +29,28 @@ function PiezoReports() {
   const reportStatus = useOverallReportStateStore((s) => s.reportStatus);
   const setReportStatus = useOverallReportStateStore((s) => s.setReportStatus);
 
+  const reportID = useOverallReportStateStore((s) => s.reportID);
+  const changeReportID = useOverallReportStateStore((s) => s.changeReportID);
+  const resetReportStatus = useOverallReportStateStore(
+    (s) => s.resetReportStatus
+  );
+
+  useEffect(() => {
+    if (!reportID) changeReportID(uuidv4());
+    console.log("report ID", reportID);
+  }, []);
+
+  useEffect(() => {
+    if (!reportID) changeReportID(uuidv4());
+    console.log("report ID", reportID);
+  }, [reportID]);
+
   const triggerReportBuild = async () => {
     try {
       const res = await toast.promise(
         axios.post("/paddock-chart", {
           date,
+          reportID,
         }),
         {
           loading: "Sending request to the server",
@@ -73,6 +91,8 @@ function PiezoReports() {
       );
     } catch (err) {
       console.log("ERROR", err);
+      // setReportStatus("off");
+      // changeReportID(undefined);
     }
   };
 
@@ -147,11 +167,14 @@ function PiezoReports() {
     // aTag.remove();
     try {
       const res = await toast.promise(
-        axios.get("/download-word-report"),
+        axios.post("/download-word-report", {
+          reportID,
+        }),
         {
           loading: "Downloading report",
           success: (data) => {
             const filename = data.data.filename;
+            console.log("FILENAME", filename);
             const aTag = document.createElement("a");
             //@ts-ignore
             aTag.href = `/report_word/${filename}`;
@@ -164,11 +187,11 @@ function PiezoReports() {
             aTag.click();
             aTag.remove();
 
-            setReportStatus("off");
+            resetReportStatus();
             return `Report downloaded`;
           },
           error: (err) => {
-            setReportStatus("off");
+            resetReportStatus();
             return `There was an error!`;
           },
         },

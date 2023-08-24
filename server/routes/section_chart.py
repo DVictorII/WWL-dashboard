@@ -34,6 +34,8 @@ password = "WWL#2023"
 host = "wwl-rossing.crnkanilun4m.ap-southeast-2.rds.amazonaws.com"
 dev = True
 
+threading_processes = {}
+
 report_status = "off"
 report_filename_global = ""
 
@@ -163,9 +165,7 @@ tables = [
 ]
 
 
-def build_word_report(app1, piezos, reqDate):
-    # print("PIEZOS", piezos)
-    # print("REQDATE", reqDate)
+def build_word_report(app1, piezos, reqDate, report_id):
     with app1.app_context():
         document = Document()
 
@@ -191,10 +191,14 @@ def build_word_report(app1, piezos, reqDate):
 
         paddockList = list(set(list(map(lambda x: x["paddock"], piezos))))
 
-        finalArr = []
+        ################################################################
+        ### TRACK CREATED IMAGES' FILE PATH SO WE CAN DELETE THEM LATER
+        ################################################################
 
-        # CREATE SECTION CHART IMAGES
-        plot_section_chart()
+        readings_images_paths = []
+
+        # CREATE SECTION CHART IMAGES AND SAVE THEIR PATHS
+        sections_images_paths = plot_section_chart()
 
         for i in range(0, len(paddockList)):
             paddock = paddockList[i]
@@ -270,14 +274,17 @@ def build_word_report(app1, piezos, reqDate):
 
                         # BUILD SECTION CHART WITH THE FIRST PIEZOMETER THAT HAS DATALOGGER AND CHANNEL
 
-                        document.add_picture(
-                            os.path.abspath(
-                                f"../client/public/sectionReport/sections/{section.lower() }.png"
-                            ),
-                            width=Cm(17),
-                            height=Cm(8.5),
-                        )
-                        document.add_page_break()
+                        for image_path in sections_images_paths:
+                            if f"{section.lower()}.png" in image_path:
+                                print("SECTION ADDED", section.lower(), image_path)
+                                document.add_picture(
+                                    os.path.abspath(
+                                        f"../client/public/sectionReport/sections/{section.lower()}.png"
+                                    ),
+                                    width=Cm(17),
+                                    height=Cm(8.5),
+                                )
+                                document.add_page_break()
                         #################################################################################
 
                     if piezometer["status"] == 1:
@@ -292,8 +299,11 @@ def build_word_report(app1, piezos, reqDate):
                             )
                             # and (piezometer["paddock"] == "CROWN")
                         ):
-                            filename = plot_readings_chart(piezometer, 90, reqDate)
-                            print("FILENAME", filename)
+                            filename, file_path = plot_readings_chart(
+                                piezometer, 90, reqDate
+                            )
+
+                            readings_images_paths.append(file_path)
 
                             document.add_picture(
                                 os.path.abspath(
@@ -315,21 +325,36 @@ def build_word_report(app1, piezos, reqDate):
 
         # GET PIEZO READINGS FOR EACH PIEZOMETER IN EACH SECTION
 
-        global report_filename_global
+        global threading_processes
 
-        report_filename_global = f"word_report_{str(uuid.uuid4())}.docx"
+        filename = f"word_report_{str(uuid.uuid4())}.docx"
 
-        document.save(
-            os.path.abspath(f"../client/dist/report_word/{report_filename_global}")
-        )
-        document.save(
-            os.path.abspath(f"../client/public/report_word/{report_filename_global}")
-        )
+        threading_processes[report_id]["report_filename"] = filename
+
+        document.save(os.path.abspath(f"../client/dist/report_word/{filename}"))
+        document.save(os.path.abspath(f"../client/public/report_word/{filename}"))
 
         print("REPORT FINISHED")
 
-        global report_status
-        report_status = "ok"
+        threading_processes[report_id]["report_status"] = "ok"
+
+        ################################################################
+        ## ONCE EVERYTHING IS FINISHED, DELETE THE REMAINING IMAGE FILES
+        ################################
+
+        for path in readings_images_paths:
+            if os.path.isfile(path):
+                os.remove(path)
+            else:
+                # If it fails, inform the user.
+                print("Error: %s file not found" % path)
+
+        for path in sections_images_paths:
+            if os.path.isfile(path):
+                os.remove(path)
+            else:
+                # If it fails, inform the user.
+                print("Error: %s file not found" % path)
 
 
 def move_duplicates(x):
@@ -353,12 +378,13 @@ def plot_section_chart():
     new_ground = "data/sections/new_ground/"
     test = wwl.get_data_by_section(natural_ground, new_ground)
 
-    for i, paddock in enumerate(test, start=1):
-        # img = Image(paddock['image'], width=200, height=150)
+    sections_images_paths = []
 
+    for i, paddock in enumerate(test, start=1):
         for j, section in enumerate(paddock["sections"], start=1):
-            plt.figure(figsize=(16, 6))
-            plt.tight_layout()
+            fig, ax = plt.subplots()
+            fig.set_size_inches(16, 6)
+
             x = [item[0] for item in section["coordinates"]]
             y1 = [item[1] for item in section["coordinates"]]
             y2 = [item[2] for item in section["coordinates"]]
@@ -393,11 +419,13 @@ def plot_section_chart():
                 linestyle="None",
                 label="Disconnected",
             )
-            lgd = plt.legend(
+
+            ax.legend(
                 handles=[blue_circle, blue_ncircle, red_circle, yellow_circle], loc=3
             )
-            plt.plot(x, y1, color="#7b8831", label="Original Ground (RLm)")
-            plt.plot(x, y2, color="#876538", label="Tailing Surface (RLm)")
+
+            ax.plot(x, y1, color="#7b8831", label="Original Ground (RLm)")
+            ax.plot(x, y2, color="#876538", label="Tailing Surface (RLm)")
             index = 1
             for i, reading in enumerate(piezometer_reading):
                 if piezometer_status[i] == 1:
@@ -412,20 +440,20 @@ def plot_section_chart():
                         tag = (
                             str(index) + ") " + piezometer_name[i] + " - Negative"
                         )  # + str(reading)
-                        plt.scatter(
+                        ax.scatter(
                             piezometer_x[i],
                             piezometer_location[i] - 1,
                             marker="v",
                             color=color,
                             facecolors="none",
                         )
-                        plt.plot(
+                        ax.plot(
                             [piezometer_x[i], piezometer_x[i]],
                             [piezometer_location[i], piezometer_location[i] - 1],
                             color=color,
                             linestyle="dashed",
                         )
-                        plt.scatter(
+                        ax.scatter(
                             piezometer_x[i],
                             piezometer_location[i],
                             marker="o",
@@ -433,6 +461,7 @@ def plot_section_chart():
                             label=tag,
                             facecolors="none",
                         )
+
                     else:
                         tag = (
                             str(index)
@@ -442,26 +471,27 @@ def plot_section_chart():
                             + str(reading)
                             + " RLm"
                         )
-                        plt.scatter(
+                        ax.scatter(
                             piezometer_x[i],
                             reading,
                             marker="v",
                             color=color,
                             facecolors="none",
                         )
-                        plt.plot(
+                        ax.plot(
                             [piezometer_x[i], piezometer_x[i]],
                             [piezometer_location[i], reading],
                             color=color,
                         )
-                        plt.scatter(
+                        ax.scatter(
                             piezometer_x[i],
                             piezometer_location[i],
                             marker="o",
                             color=color,
                             label=tag,
                         )
-                    plt.annotate(
+
+                    ax.annotate(
                         "(" + str(index) + ")",
                         (piezometer_x[i], piezometer_location[i]),
                         textcoords="offset points",
@@ -469,17 +499,18 @@ def plot_section_chart():
                         ha="center",
                         fontsize=8,
                     )
+
                     index += 1
                 elif piezometer_status[i] == 2 or piezometer_status[i] == 3:
                     tag = str(index) + ") " + piezometer_name[i]
-                    plt.scatter(
+                    ax.scatter(
                         piezometer_x[i],
                         piezometer_location[i],
                         marker="o",
                         color=color,
                         label=tag,
                     )
-                    plt.annotate(
+                    ax.annotate(
                         "(" + str(index) + ")",
                         (piezometer_x[i], piezometer_location[i]),
                         textcoords="offset points",
@@ -487,24 +518,36 @@ def plot_section_chart():
                         ha="center",
                         fontsize=8,
                     )
+
                     index += 1
 
-            plt.xlabel("Chainage (m)")
-            plt.ylabel("Elevation (m)")
-            plt.title(paddock["name"] + " - " + section["name"], fontsize=18)
-            plt.legend()
-            plt.gca().add_artist(lgd)
-            plt.xticks(range(min(x), max(x) + 1, 50))
-            plt.yticks(range(int(min(y1)), int(max(y2) + 1), 5))
-            plt.grid(True)
-            plt.margins(x=0)
+            ax.set_xlabel("Chainage (m)")
+            ax.set_ylabel("Elevation (m)")
 
-            plt.savefig(
-                f"../client/public/sectionReport/sections/{section['name'].lower()}.png",
+            ax.set_title(paddock["name"] + " - " + section["name"], fontsize=18)
+
+            ax.legend()
+
+            ax.set_xticks(range(min(x), max(x) + 1, 50))
+            ax.set_yticks(range(int(min(y1)), int(max(y2) + 1), 5))
+            ax.grid(visible=True, axis="both")
+            ax.margins(x=0)
+
+            filename = f"{uuid.uuid4().hex}-{section['name'].lower()}.png"
+            filePath = os.path.abspath(
+                f"../client/public/sectionReport/sections/{filename}"
+            )
+
+            fig.savefig(
+                filePath,
                 bbox_inches="tight",
             )
             # elements.append(Paragraph(section['name'], getSampleStyleSheet()['Heading2'], keepTogether=True))
             plt.close()
+
+            sections_images_paths.append(filePath)
+
+    return sections_images_paths
 
 
 # def plot_section_chart(piezometer):
@@ -622,7 +665,6 @@ def plot_section_chart():
 
 
 def plot_readings_chart(piezometer, daysAgo, reqDate):
-    print("PIEZO", piezometer, daysAgo, reqDate)
     arr = reqDate.split("-")
     intArr = list(map(lambda x: int(x), arr))
 
@@ -706,47 +748,46 @@ def plot_readings_chart(piezometer, daysAgo, reqDate):
 
     spacedTime = list(map(testFunc, enumerate(t)))
 
-    fig = plt.figure(figsize=(16, 6))
+    fig, ax = plt.subplots()
+    fig.set_size_inches(16, 6)
 
-    ax = fig.add_subplot(1, 1, 1)
     ax.tick_params(length=0)
 
-    plt.ylim([minLimit - 10, maxLimit + 40])
+    ax.set_ylim(minLimit - 10, maxLimit + 40)
 
-    plt.plot(t, s, label="Pressure readings (KPa)")
+    ax.plot(t, s, label="Pressure readings (KPa)")
 
-    plt.legend()
-    plt.xticks(np.arange(len(spacedTime)), spacedTime, rotation=45)
-    plt.xlabel("Dates")
-    plt.ylabel("Pressure (KPa)")
+    ax.legend()
+
+    ax.set_xticks(np.arange(len(spacedTime)), spacedTime, rotation=45)
+
+    ax.set_xlabel("Dates")
+
+    ax.set_ylabel("Pressure (KPa)")
 
     arrPastDate = pastDate.split(" ")
     arrRecentDate = recentDate.split(" ")
 
-    plt.title(
+    ax.set_title(
         f"{piezometer['id']} - {piezometer['section']} - {piezometer['paddock']} - {arrPastDate[0]} to {arrRecentDate[0]} "
     )
-    plt.gca().yaxis.grid(True)
+
+    ax.grid(visible=True, axis="y")
 
     if len(pressureArr) != 0:
-        plt.fill_between(t, s, minLimit - 10, color=["#477C9A"], alpha=0.1)
+        ax.fill_between(t, s, minLimit - 10, color=["#477C9A"], alpha=0.1)
 
-    file_path = os.path.abspath(
-        f"../client/public/sectionReport/readings/{piezometer['datalogger']}_{piezometer['channel']}.png"
+    filename = (
+        f"{uuid.uuid4().hex}-{piezometer['datalogger']}_{piezometer['channel']}.png"
     )
 
-    filename = f"{piezometer['datalogger']}_{piezometer['channel']}.png"
+    file_path = os.path.abspath(f"../client/public/sectionReport/readings/{filename}")
 
-    print("PREPARING FILENAME", filename)
-    plt.savefig(file_path, bbox_inches="tight")
+    fig.savefig(file_path, bbox_inches="tight")
 
     plt.close()
 
-    return filename
-
-
-# except:
-#     return "no readings"
+    return (filename, file_path)
 
 
 section_chart_routes = Blueprint("section_chart_routes", __name__)
@@ -755,8 +796,13 @@ section_chart_routes = Blueprint("section_chart_routes", __name__)
 @section_chart_routes.route("/api/v1/paddock-chart", methods=["POST"])
 @cross_origin()
 def build_paddocks_information_chart():
-    global report_status
-    report_status = "pending"
+    report_id = request.json["reportID"]
+    reqDate = request.json["date"]
+
+    global threading_processes
+    threading_processes[report_id] = {"report_status": "pending", "report_filename": ""}
+
+    print("procesess", threading_processes)
 
     result = piezometer_details.query.all()
 
@@ -766,27 +812,35 @@ def build_paddocks_information_chart():
 
     print("processed piezos, entering build word function")
 
-    reqDate = request.json["date"]
-
-    threading.Thread(target=build_word_report, args=(app, piezos, reqDate)).start()
+    threading.Thread(
+        target=build_word_report, args=(app, piezos, reqDate, report_id)
+    ).start()
 
     # build_word_report(piezos, reqDate)
     return jsonify({"message": "Creating report", "status": "pending"})
 
 
-@section_chart_routes.route("/api/v1/report-status", methods=["GET"])
+@section_chart_routes.route("/api/v1/report-status", methods=["POST"])
 @cross_origin()
 def get_report_status():
-    global report_status
-    return jsonify({"status": report_status})
+    report_id = request.json["reportID"]
+
+    global threading_processes
+
+    return jsonify({"status": threading_processes[report_id]["report_status"]})
 
 
-@section_chart_routes.route("/api/v1/download-word-report", methods=["GET"])
+@section_chart_routes.route("/api/v1/download-word-report", methods=["POST"])
 @cross_origin()
 def download_word_report():
-    global report_filename_global
+    report_id = request.json["reportID"]
 
-    return jsonify({"filename": report_filename_global})
+    global threading_processes
+    filename = threading_processes[report_id]["report_filename"]
+
+    threading_processes.pop(report_id)
+
+    return jsonify({"filename": filename})
 
 
 @section_chart_routes.route("/api/v1/sections-info", methods=["GET"])

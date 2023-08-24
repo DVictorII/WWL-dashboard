@@ -13,7 +13,7 @@ function ReportCard({ report }: { report: ReportDetails }) {
         <img
           src={`https://rossing.s3.ap-southeast-2.amazonaws.com/piezometer_reports/${
             report.report_photo === "piezoreport-default"
-              ? "piezoreport-default.png"
+              ? "piezoreport-default.jpg"
               : report.report_photo
           }`}
           alt={report.report_title}
