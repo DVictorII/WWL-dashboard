@@ -97,16 +97,12 @@ function PiezoReportDetails() {
             <h2 className="font-semibold text-[#555]">Location photo</h2>
             <div className="bg-[#f5f5f5] border border-[#dfdfdf]  shadow-sm w-full  min-h-[10rem] md:min-h-[12rem] 2xl:min-h-[14rem] max-h-[20rem]   rounded-md flex items-center justify-center overflow-hidden cursor-pointer ">
               <img
-                src={`/media/piezometer_reports/${
+                src={`https://rossing.s3.ap-southeast-2.amazonaws.com/piezometer_reports/${
                   report.report_photo === "piezoreport-default"
-                    ? "piezoreport-default.png"
+                    ? "piezoreport-default.jpg"
                     : report.report_photo
                 }`}
-                alt={`/media/piezometer_reports/${
-                  report.report_photo === "report-default"
-                    ? "report-default.png"
-                    : report.report_photo
-                }`}
+                alt={report.report_title}
                 className="object-cover"
               />
             </div>

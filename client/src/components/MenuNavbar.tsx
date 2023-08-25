@@ -4,6 +4,7 @@ import { HiMenuAlt2 } from "react-icons/hi";
 import { useMobileMenuStore } from "../store/MobileMenuStore";
 
 import { useLocation } from "react-router-dom";
+import { s3StaticFilesLinks } from "../utils/globalLinks";
 
 function MenuNavbar() {
   const [currentPage, setCurrentPage] = useState("");
@@ -19,7 +20,7 @@ function MenuNavbar() {
     <nav className="flex justify-between items-center md:hidden">
       <div className="w-24  relative ">
         <img
-          src="/media/img/photos/logo_normal.png"
+          src={`${s3StaticFilesLinks.baseURL}/${s3StaticFilesLinks.layoutImages}/logo_normal.png`}
           className="w-full  object-contain"
         />
       </div>

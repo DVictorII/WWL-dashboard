@@ -14,6 +14,12 @@ config = {**dotenv_values(".env")}
 
 reports_routes = Blueprint("reports_routes", __name__)
 
+ALLOWED_EXTENSIONS = {"tif", "tiff", "jpg", "jpeg", "png"}
+
+
+def allowed_file(filename):
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 class Incident_report(db.Model):
     __tablename__ = "incident_reports"
@@ -138,27 +144,26 @@ def upload_photo():
 
     file = request.files["photo"]
 
+    ########################################################################
+    ## UPLOAD FILE TO S3
+    ########################################################################
+
+    if not allowed_file(file.filename):
+        return "incident-default"
+
     filename = secure_filename(file.filename)
 
     final_filename = f"{uuid4()}-{filename}"
 
-    file.seek(0)
-    file.save(
-        os.path.abspath(f"../client/public/media/incident_reports/{final_filename}")
+    s3 = boto3.resource(
+        "s3",
+        aws_access_key_id=config["aws_access_key_id"],
+        aws_secret_access_key=config["aws_secret_access_key"],
     )
 
-    file.seek(0)
-    file.save(
-        os.path.abspath(f"../client/dist/media/incident_reports/{final_filename}")
-    )
+    s3.Bucket("rossing").upload_fileobj(file, f"incident_reports/{final_filename}")
+
     return final_filename
-
-
-ALLOWED_EXTENSIONS = {"tif", "tiff", "jpg", "jpeg", "png"}
-
-
-def allowed_file(filename):
-    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 def upload_piezoreport_photo():
@@ -401,6 +406,33 @@ def delete_piezo_report(id):
 @cross_origin()
 def delete_incident_report(id):
     print(f"DELETE FROM incident_reports as ir WHERE ir.id = '{id}';")
+
+    ########################################################################
+    ## DELETE FILE'S PHOTO FROM S3
+    ########################################################################
+
+    # 1) GET INCIDENT FROM DB
+    userQuery = db.session.execute(
+        text(
+            f"SELECT  ir.photo as incident_photo FROM incident_reports as ir WHERE ir.id = '{id}';"
+        )
+    )
+
+    incident_reports = [dict(r._mapping) for r in userQuery]
+
+    print("INCIDENT-REPORT", incident_reports[0])
+
+    photo_filename = incident_reports[0]["incident_photo"]
+
+    if photo_filename != "incident-default":
+        s3 = boto3.client(
+            "s3",
+            aws_access_key_id=config["aws_access_key_id"],
+            aws_secret_access_key=config["aws_secret_access_key"],
+        )
+
+        s3.delete_object(Bucket="rossing", Key=f"incident_reports/{photo_filename}")
+        print("DELETED photo")
 
     db.session.execute(
         text(f"DELETE FROM incident_reports as ir WHERE ir.id = '{id}';")

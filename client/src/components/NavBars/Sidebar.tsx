@@ -23,6 +23,7 @@ import { useConfirmationModalStore } from "../../store/ConfirmationModalStore";
 import { useGloblalUserStore } from "../../store/GlobalUserStore";
 import { BiLogOut } from "react-icons/bi";
 import { useMediaQuery } from "react-responsive";
+import { s3StaticFilesLinks } from "../../utils/globalLinks";
 
 const anim = {
   rest: {
@@ -81,7 +82,7 @@ function Sidebar() {
               <div className="w-full relative">
                 <img
                   className="object-contain w-24 2xl:w-28"
-                  src="/media/img/photos/logo_white.png"
+                  src={`${s3StaticFilesLinks.baseURL}/${s3StaticFilesLinks.layoutImages}/logo_white.png`}
                   alt="rossing-logo"
                 />
               </div>
@@ -231,8 +232,7 @@ function Sidebar() {
                   }}
                   className="bg-cover  h-full   p-10 text-white flex flex-col gap-y-24"
                   style={{
-                    backgroundImage:
-                      "linear-gradient(to bottom, rgba(12, 16, 24,0.95), rgba(12, 16, 24,0.95)) ,url('/media/img/photos/Rossing_mine.jpg') ",
+                    backgroundImage: `linear-gradient(to bottom, rgba(12, 16, 24,0.95), rgba(12, 16, 24,0.95)) ,url('${s3StaticFilesLinks.baseURL}/${s3StaticFilesLinks.layoutImages}/Rossing_mine.jpg') `,
                   }}
                 >
                   <motion.div
@@ -347,7 +347,7 @@ function Sidebar() {
             <div className="w-full relative h-20">
               <img
                 className="object-contain w-full"
-                src="/media/img/photos/logo_white.png"
+                src={`${s3StaticFilesLinks.baseURL}/${s3StaticFilesLinks.layoutImages}/logo_white.png`}
                 alt="rossing-logo"
               />
             </div>
@@ -414,9 +414,9 @@ function Sidebar() {
                 <>
                   <div className="w-full h-20">
                     <img
-                      src={`/media/img/photos/${
-                        currentUser.picture || "undraw_profile_1.svg"
-                      }`}
+                      src={`${s3StaticFilesLinks.baseURL}/${
+                        s3StaticFilesLinks.userProfilePictures
+                      }/${currentUser.picture || "undraw_profile_1.svg"}`}
                       alt={`${currentUser.name} profile picture`}
                       className="object-cover w-full h-full"
                     />
@@ -448,7 +448,7 @@ function Sidebar() {
                 <>
                   <div className="w-full h-20">
                     <img
-                      src={`/media/img/photos/undraw_profile_1.svg`}
+                      src={`${s3StaticFilesLinks.baseURL}/${s3StaticFilesLinks.userProfilePictures}/undraw_profile_1.svg`}
                       alt="user photo"
                       className="object-cover w-full h-full"
                     />
@@ -508,8 +508,7 @@ function Sidebar() {
                 }}
                 className="bg-cover  h-full   p-10 text-white flex flex-col gap-y-24"
                 style={{
-                  backgroundImage:
-                    "linear-gradient(to bottom, rgba(12, 16, 24,0.95), rgba(12, 16, 24,0.95)) ,url('/media/img/photos/Rossing_mine.jpg') ",
+                  backgroundImage: `linear-gradient(to bottom, rgba(12, 16, 24,0.95), rgba(12, 16, 24,0.95)) ,url('${s3StaticFilesLinks.baseURL}/${s3StaticFilesLinks.layoutImages}/Rossing_mine.jpg') `,
                 }}
               >
                 <motion.div

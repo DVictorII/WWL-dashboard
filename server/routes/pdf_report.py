@@ -212,12 +212,12 @@ def create_pdf(
 
         # SECTION IMG
 
-        pdf.image(
-            os.path.abspath(f"../client/public/media/img/sections/{sectionURL}"),
-            10,
-            80,
-            pdf.w - 20,
-        )
+        # pdf.image(
+        #     os.path.abspath(f"../client/public/media/img/sections/{sectionURL}"),
+        #     10,
+        #     80,
+        #     pdf.w - 20,
+        # )
 
     now = datetime.now()
     dt_string = now.strftime("%Y%m%d%H%M%S")

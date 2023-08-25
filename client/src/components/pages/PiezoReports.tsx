@@ -22,6 +22,7 @@ import OverviewReportDateSelector from "../Reports/OverviewReportDateSelector";
 import { BsDot } from "react-icons/bs";
 import { MdDownloading } from "react-icons/md";
 import { v4 as uuidv4 } from "uuid";
+import { s3StaticFilesLinks } from "../../utils/globalLinks";
 
 function PiezoReports() {
   const date = useOverallReportStateStore((s) => s.date);
@@ -37,12 +38,10 @@ function PiezoReports() {
 
   useEffect(() => {
     if (!reportID) changeReportID(uuidv4());
-    console.log("report ID", reportID);
   }, []);
 
   useEffect(() => {
     if (!reportID) changeReportID(uuidv4());
-    console.log("report ID", reportID);
   }, [reportID]);
 
   const triggerReportBuild = async () => {
@@ -103,9 +102,11 @@ function PiezoReports() {
         {
           loading: "Generating report...",
           success: (data) => {
+            const filename = data.data.filename;
+
             const aTag = document.createElement("a");
-            //@ts-ignore
-            aTag.href = "/pyreport/report3.xlsx";
+
+            aTag.href = `/pyreport/${filename}`;
 
             aTag.target = "_blank";
             aTag.setAttribute(
@@ -148,6 +149,13 @@ function PiezoReports() {
           },
         }
       );
+
+      const filename = res.data.filename;
+      console.log("FILENAME", filename);
+
+      await axios.post("/delete_excel", {
+        filename,
+      });
     } catch (err) {
       console.log("ERROR", err);
     }
@@ -177,7 +185,7 @@ function PiezoReports() {
             console.log("FILENAME", filename);
             const aTag = document.createElement("a");
             //@ts-ignore
-            aTag.href = `/report_word/${filename}`;
+            aTag.href = `${s3StaticFilesLinks.baseURL}/${s3StaticFilesLinks.overviewReports}/${filename}`;
             aTag.target = "_blank";
             aTag.setAttribute(
               "download",

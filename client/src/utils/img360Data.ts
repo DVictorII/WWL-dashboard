@@ -29,12 +29,12 @@ export const img360Data = [
     longitude: 15.033227,
     type: "photo",
   },
-  // {
-  //   id: 372,
-  //   latitude: -22.458305,
-  //   longitude: 15.036036,
-  //   type: "video",
-  // },
+  {
+    id: 372,
+    latitude: -22.458305,
+    longitude: 15.036036,
+    type: "video",
+  },
 ];
 
 // Photo,	Lat,	Lon

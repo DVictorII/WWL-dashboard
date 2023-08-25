@@ -4,6 +4,7 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 
 import { useConfirmationModalStore } from "../../store/ConfirmationModalStore";
+import { s3StaticFilesLinks } from "../../utils/globalLinks";
 
 function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
   const openDeletePiezoReportModal = useConfirmationModalStore(
@@ -83,7 +84,10 @@ function ReportsListTable({ reports }: { reports: ReportDetails[] }) {
                 <td className="px-4 py-2 lg:px-8 lg:py-3">
                   <div className="flex items-center gap-x-2 justify-center">
                     <div className="w-6 h-6 border border-[#333] rounded-full flex items-center justify-center">
-                      <img src={`/media/img/photos/${report.user_picture}`} />
+                      <img
+                        src={`${s3StaticFilesLinks.baseURL}/${s3StaticFilesLinks.userProfilePictures}/${report.user_picture}`}
+                        alt={report.user_name}
+                      />
                     </div>
                     <span className="text-[9px] md:text-[10px] lg:text-[11px]  font-semibold">
                       {report.user_name}

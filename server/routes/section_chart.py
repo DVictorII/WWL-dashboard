@@ -27,6 +27,11 @@ from routes.piezometers_data import piezometer_details
 import os
 import psycopg2
 
+import boto3
+from dotenv import dotenv_values
+
+config = {**dotenv_values(".env")}
+
 
 dbname = "wwlengineering_rossing"
 user = "WWL_ADMIN"
@@ -331,15 +336,28 @@ def build_word_report(app1, piezos, reqDate, report_id):
 
         threading_processes[report_id]["report_filename"] = filename
 
-        document.save(os.path.abspath(f"../client/dist/report_word/{filename}"))
         document.save(os.path.abspath(f"../client/public/report_word/{filename}"))
+
+        s3 = boto3.resource(
+            "s3",
+            aws_access_key_id=config["aws_access_key_id"],
+            aws_secret_access_key=config["aws_secret_access_key"],
+        )
+
+        with open(
+            os.path.abspath(f"../client/public/report_word/{filename}"), "rb"
+        ) as file:
+            s3.Bucket("rossing").upload_fileobj(
+                file,
+                f"overview_reports/{filename}",
+            )
 
         print("REPORT FINISHED")
 
         threading_processes[report_id]["report_status"] = "ok"
 
         ################################################################
-        ## ONCE EVERYTHING IS FINISHED, DELETE THE REMAINING IMAGE FILES
+        ## ONCE EVERYTHING IS FINISHED, DELETE THE REMAINING IMAGE FILES AND THE REPORT IN THE FILESYSTEM
         ################################
 
         for path in readings_images_paths:
@@ -355,6 +373,15 @@ def build_word_report(app1, piezos, reqDate, report_id):
             else:
                 # If it fails, inform the user.
                 print("Error: %s file not found" % path)
+
+        if os.path.isfile(os.path.abspath(f"../client/public/report_word/{filename}")):
+            os.remove(os.path.abspath(f"../client/public/report_word/{filename}"))
+        else:
+            # If it fails, inform the user.
+            print(
+                "Error: %s file not found"
+                % os.path.abspath(f"../client/public/report_word/{filename}")
+            )
 
 
 def move_duplicates(x):

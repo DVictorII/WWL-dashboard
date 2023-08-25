@@ -62,17 +62,14 @@ function PaddockLectures() {
             <PiezoInformationTable />
           </div>
 
-          <div
-            key={`${piezo}${paddock}${date}`}
-            className="flex flex-col  bg-white p-4 gap-y-4 rounded-xl shadow-sm  "
-          >
+          <div className="flex flex-col  bg-white p-4 gap-y-4 rounded-xl shadow-sm  ">
             <div className="flex items-center justify-between">
               <h2 className="font-semibold text-[#555]">
                 Piezometer location map
               </h2>
               <PiezoReadingsDateTable />
             </div>
-            <PaddockMapWrapper />
+            <PaddockMapWrapper key={`${piezo}${paddock}${date}`} />
           </div>
         </div>
       </div>

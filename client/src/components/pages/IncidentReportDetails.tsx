@@ -92,16 +92,12 @@ function IncidentReportDetails() {
             <h2 className="font-semibold">Location photo</h2>
             <div className="bg-[#f5f5f5] border border-[#dfdfdf]  shadow-sm w-full  min-h-[10rem] md:min-h-[12rem] 2xl:min-h-[14rem] max-h-[20rem]   rounded-md flex items-center justify-center overflow-hidden cursor-pointer ">
               <img
-                src={`/media/incident_reports/${
+                src={`https://rossing.s3.ap-southeast-2.amazonaws.com/incident_reports/${
                   incident.incident_photo === "incident-default"
-                    ? "incident-default.png"
+                    ? "incident-default.jpg"
                     : incident.incident_photo
                 }`}
-                alt={`/media/incident_reports/${
-                  incident.incident_photo === "incident-default"
-                    ? "incident-default.png"
-                    : incident.incident_photo
-                }`}
+                alt={incident.incident_title}
                 className="object-cover"
               />
             </div>

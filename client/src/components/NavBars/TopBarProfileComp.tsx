@@ -3,6 +3,7 @@ import { useMenuStore } from "../../store/DesktopSidebarStore";
 import { useConfirmationModalStore } from "../../store/ConfirmationModalStore";
 import { useGloblalUserStore } from "../../store/GlobalUserStore";
 import { BiLogOut } from "react-icons/bi";
+import { s3StaticFilesLinks } from "../../utils/globalLinks";
 
 function TopBarProfileComp() {
   const closeMenu = useMenuStore((state) => state.closeMenu);
@@ -19,9 +20,9 @@ function TopBarProfileComp() {
         <>
           <div className="w-10 h-10 rounded-full border border-white">
             <img
-              src={`/media/img/photos/${
-                currentUser.picture || "undraw_profile_1.svg"
-              }`}
+              src={`${s3StaticFilesLinks.baseURL}/${
+                s3StaticFilesLinks.userProfilePictures
+              }/${currentUser.picture || "undraw_profile_1.svg"}`}
               alt={`${currentUser.name} profile picture`}
               className="object-cover w-full h-full"
             />
@@ -38,7 +39,7 @@ function TopBarProfileComp() {
         <>
           <div className="w-10 h-10 rounded-full border border-white">
             <img
-              src={`/media/img/photos/undraw_profile_1.svg`}
+              src={`${s3StaticFilesLinks.baseURL}/${s3StaticFilesLinks.userProfilePictures}/undraw_profile_1.svg`}
               alt="user photo"
               className="object-cover w-full h-full"
             />

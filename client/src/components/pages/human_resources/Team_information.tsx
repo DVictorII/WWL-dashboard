@@ -6,6 +6,7 @@ import HRLeavesSummary from "../../human_resources/HRLeavesSummary";
 import MembersInformationTable from "../../human_resources/MembersInformationTable";
 import { AiOutlinePhone } from "react-icons/ai";
 import { GoMail } from "react-icons/go";
+import { s3StaticFilesLinks } from "../../../utils/globalLinks";
 
 const colores = ["#164A41", "#4D774E", "#9DC88D", "#F1B24A", "#FFFFFF"];
 
@@ -49,7 +50,10 @@ function Team_information() {
             <div className="flex flex-col gap-y-12">
               <div className="flex items-center gap-x-4">
                 <div className="w-28 h-28">
-                  <img src="/media/img/photos/undraw_profile_3.svg" alt="" />
+                  <img
+                    src={`${s3StaticFilesLinks.baseURL}/${s3StaticFilesLinks.userProfilePictures}/undraw_profile_3.svg`}
+                    alt="Team manager image"
+                  />
                 </div>
                 <div className="flex flex-col gap-y-2">
                   <span className="font-bold text-xl">Cynthia Pogisho</span>

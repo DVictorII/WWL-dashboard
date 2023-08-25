@@ -12,9 +12,9 @@ function IncidentReportCard({ incident }: { incident: IncidentDetails }) {
     >
       <div className="h-24 md:h-28  ">
         <img
-          src={`/media/incident_reports/${
+          src={`https://rossing.s3.ap-southeast-2.amazonaws.com/incident_reports/${
             incident.incident_photo === "incident-default"
-              ? "incident-default.png"
+              ? "incident-default.jpg"
               : incident.incident_photo
           }`}
           alt={incident.incident_title}

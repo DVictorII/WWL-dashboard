@@ -4,6 +4,7 @@ import { BsArrowDownUp, BsTrash } from "react-icons/bs";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { useConfirmationModalStore } from "../../store/ConfirmationModalStore";
+import { s3StaticFilesLinks } from "../../utils/globalLinks";
 
 function IncidentsListTable({ incidents }: { incidents: IncidentDetails[] }) {
   const openDeleteIncidentReportModal = useConfirmationModalStore(
@@ -84,7 +85,10 @@ function IncidentsListTable({ incidents }: { incidents: IncidentDetails[] }) {
                 <td className="px-4 py-2  lg:py-3">
                   <div className="flex items-center gap-x-2 justify-center">
                     <div className="w-6 h-6 border border-[#333] rounded-full flex items-center justify-center">
-                      <img src={`/media/img/photos/${incident.user_picture}`} />
+                      <img
+                        src={`${s3StaticFilesLinks.baseURL}/${s3StaticFilesLinks.userProfilePictures}/${incident.user_picture}`}
+                        alt={incident.user_name}
+                      />
                     </div>
                     <span className="text-[9px] md:text-[10px] lg:text-[11px]  font-semibold">
                       {incident.user_name}
