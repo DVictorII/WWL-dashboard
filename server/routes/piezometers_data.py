@@ -144,7 +144,7 @@ def getLectures(node, daysAgo):
     date = d.strftime("%Y-%m-%d 00:00:00")
     # connection = db.session.connection()
     result = db.session.execute(
-        text(f"SELECT time,pressure FROM public.{node} WHERE time >= '{date}'")
+        text(f"SELECT time,pressure FROM {node} WHERE time >= '{date}'")
     )
 
     lectures = [dict(r._mapping) for r in result]

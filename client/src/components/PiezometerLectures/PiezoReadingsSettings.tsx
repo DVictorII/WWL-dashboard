@@ -7,7 +7,7 @@ import { usePiezometerLecturesStateStore } from "../../store/PiezometerLecturesS
 
 function PiezoReadingsSettings() {
   const [showing, setShowing] = useState("base");
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const chartType = usePiezometerLecturesStateStore((s) => s.chartType);
   const changeChartType = usePiezometerLecturesStateStore(
