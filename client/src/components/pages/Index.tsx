@@ -68,7 +68,7 @@ const Index = () => {
           );
         }
       }
-    } else if (status === 0 || status === 6) {
+    } else if (status === 0) {
       if (paddock === "All") {
         if (section === "All") {
           filtered = fullPiezoList;

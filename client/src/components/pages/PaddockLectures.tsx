@@ -16,6 +16,7 @@ import FullPageComps from "../FullPageComps";
 import PiezoReadingsDateTable from "../PiezometerLectures/PiezoReadingsDateTable";
 import { AiOutlineLeft } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import GlobalSectionSubtitle from "../global/GlobalSectionSubtitle";
 
 function PaddockLectures() {
   const paddock = usePiezometerLecturesStateStore((s) => s.paddock);
@@ -45,28 +46,28 @@ function PaddockLectures() {
         </div>
       </div>
 
-      <div className="mt-12" />
+      <div className="py-4 lg:px-4 flex border-b border-[#ccc]">
+        <LecturesLocationTable />
+      </div>
 
-      <div className=" flex flex-col gap-y-8 lg:px-4 lg:pb-4">
-        <div className="grid grid-cols-1 lg:grid-cols-3   ">
-          <LecturesLocationTable />
-        </div>
-
-        <div key={`${paddock}${piezo}`}>
+      <div className=" flex border-b border-[#ccc]">
+        <div className="w-full" key={`${paddock}${piezo}`}>
           <PiezoLecturesComponent />
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-6 xl:gap-x-8 gap-y-8 ">
-          <div className="flex flex-col  bg-white p-4 gap-y-4 rounded-xl shadow-sm  ">
-            <h2 className="font-semibold text-[#555]">Piezometer details</h2>
+      <div className=" flex flex-col gap-y-8 lg:px-4 lg:pb-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 ">
+          <div className="flex flex-col gap-y-6  bg-white p-4 lg:border-r border-[#ccc]  ">
+            <GlobalSectionSubtitle subtitle="Piezometer details" />
+
             <PiezoInformationTable />
           </div>
 
-          <div className="flex flex-col  bg-white p-4 gap-y-4 rounded-xl shadow-sm  ">
-            <div className="flex items-center justify-between">
-              <h2 className="font-semibold text-[#555]">
-                Piezometer location map
-              </h2>
+          <div className="flex flex-col gap-y-6  bg-white p-4 ">
+            <div className="flex items-start justify-between">
+              <GlobalSectionSubtitle subtitle="Location map" />
+
               <PiezoReadingsDateTable />
             </div>
             <PaddockMapWrapper key={`${piezo}${paddock}${date}`} />

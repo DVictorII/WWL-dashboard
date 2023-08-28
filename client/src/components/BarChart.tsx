@@ -297,7 +297,7 @@ const BarChart = ({ information, fullPage = false }) => {
         </div>
       ) : null}
 
-      <div className="overflow-scroll  2xl:overflow-visible">
+      <div className=" overflow-scroll  2xl:overflow-visible">
         <div className="min-w-[36rem] max-w-full">
           <div className={`${fullPage ? "h-[50vh]" : "h-[40vh]"}  w-full`}>
             <AnimatePresence>
@@ -632,7 +632,7 @@ const BarChart = ({ information, fullPage = false }) => {
         </>
       ) : (
         <div className="w-full flex justify-between gap-x-16 flex-wrap gap-y-8 ">
-          <FullScreenButton comp={"chart"} />
+          {/* <FullScreenButton comp={"chart"} /> */}
           <ChartLegend chartType={chartType} />
         </div>
       )}

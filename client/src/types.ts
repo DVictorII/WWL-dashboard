@@ -12,6 +12,7 @@ export interface PiezoDataListI {
   reading: null | string | number | 0;
   pressureLimit?: null | string | number;
   floodTime?: null | string;
+  lastReadingDate?: string;
   depth: null | string | number;
   status: number;
   coordinates: string[];

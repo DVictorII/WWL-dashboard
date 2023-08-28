@@ -15,6 +15,7 @@ import {
   getSortedRowModel,
   SortingState,
 } from "@tanstack/react-table";
+import moment from "moment";
 
 const options = {
   0: "All piezometers",
@@ -23,6 +24,7 @@ const options = {
   3: "Disconnected piezometers",
   4: "Proposed piezometers",
   5: "TARPS",
+  6: "Archived piezometers",
 };
 
 //@ts-ignore
@@ -65,6 +67,28 @@ function PiezoListTable({ filteredPiezoList }) {
           reading: lastReading?.pressure ? Number(lastReading.pressure) : 0,
           pressureLimit: piezo.tarps_value,
           floodTime: floodTime,
+          depth: piezo.depth || 0,
+          status: piezo.status,
+          coordinates: [piezo.lat, piezo.lon],
+        };
+      });
+
+    if (status === 3)
+      // @ts-ignore
+      return filteredPiezoList.map((piezo) => {
+        const lastReading = lastReadings.find(
+          //@ts-ignore
+          (reading) =>
+            reading.node === piezo.datalogger &&
+            reading.channel === piezo.channel
+        );
+
+        return {
+          id: piezo.id,
+          paddock: piezo.paddock,
+          section: piezo.section,
+          reading: lastReading?.pressure ? Number(lastReading.pressure) : 0,
+          lastReadingDate: lastReading?.time || "-",
           depth: piezo.depth || 0,
           status: piezo.status,
           coordinates: [piezo.lat, piezo.lon],
@@ -205,6 +229,173 @@ function PiezoListTable({ filteredPiezoList }) {
             return (
               <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-semibold">
                 {value}
+              </span>
+            );
+          },
+        }),
+
+        columnHelper.accessor("depth", {
+          header: () => (
+            <span className="text-[11px] md:text-xs lg:text-sm ">Depth</span>
+          ),
+          cell: (info) => {
+            const value = info.getValue();
+
+            return (
+              <span
+                className={`${
+                  Number(value) === 0
+                    ? "text-2xl flex justify-center items-center font-semibold"
+                    : "text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-semibold"
+                }`}
+              >
+                {Number(value) === 0 ? "-" : `${Number(value).toFixed(2)} m`}{" "}
+              </span>
+            );
+          },
+        }),
+
+        columnHelper.accessor("status", {
+          header: () => (
+            <span className="text-[11px] md:text-xs lg:text-sm ">Status</span>
+          ),
+          cell: (info) => {
+            const value = info.getValue();
+
+            return (
+              <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-semibold">
+                {/* @ts-ignore */}
+                {monitoringMapStatusInfo[value].name}
+              </span>
+            );
+          },
+        }),
+
+        columnHelper.accessor("coordinates", {
+          header: () => (
+            <span className="text-[11px] md:text-xs lg:text-sm ">
+              Coordinates
+            </span>
+          ),
+          cell: (info) => {
+            const value = info.getValue();
+
+            return (
+              <div className="flex flex-col gap-y-1 items-center">
+                <span className="text-[9px] md:text-[10px] lg:text-[11px] font-semibold">
+                  {Number(value[0]).toFixed(6)},
+                </span>
+                <span className="text-[9px] md:text-[10px] lg:text-[11px] font-semibold">
+                  {Number(value[1]).toFixed(6)}
+                </span>
+              </div>
+            );
+          },
+        }),
+      ];
+
+    if (status === 3)
+      return [
+        columnHelper.accessor("id", {
+          header: () => (
+            <span className="text-[11px] md:text-xs lg:text-sm ">
+              Piezo. ID
+            </span>
+          ),
+          cell: (info) => {
+            const value = info.getValue();
+            const originals = info.row.original;
+            return (
+              <button
+                style={{
+                  color:
+                    //@ts-ignore
+                    monitoringMapStatusInfo[originals.status].normalColor,
+                }}
+                onClick={() => {
+                  changePaddockAndPiezo(originals.paddock, originals.id);
+                }}
+                className={`text-[10px] md:text-[11px] lg:text-xs flex justify-center w-full items-center font-bold  hover:scale-105 transition-all`}
+              >
+                {originals.id}
+              </button>
+            );
+          },
+        }),
+
+        columnHelper.accessor("paddock", {
+          header: () => (
+            <span className="text-[11px] md:text-xs lg:text-sm ">Paddock</span>
+          ),
+          cell: (info) => {
+            const value = info.getValue();
+
+            return (
+              <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-semibold">
+                {value}
+              </span>
+            );
+          },
+        }),
+
+        columnHelper.accessor("section", {
+          header: () => (
+            <span className="text-[11px] md:text-xs lg:text-sm ">Section</span>
+          ),
+          cell: (info) => {
+            const value = info.getValue();
+
+            return (
+              <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-semibold">
+                {value}
+              </span>
+            );
+          },
+        }),
+
+        columnHelper.accessor("reading", {
+          header: () => (
+            <span className="text-[11px] md:text-xs lg:text-sm ">
+              {status === 3 ? "Last PWP" : "Current PWP"}
+            </span>
+          ),
+          cell: (info) => {
+            const value = info.getValue();
+
+            return (
+              <span
+                className={`${
+                  value != 0
+                    ? "text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-bold"
+                    : "text-2xl flex justify-center items-center font-bold"
+                }`}
+              >
+                {value != 0 ? `${Number(value).toFixed(3)} Kpa` : "-"}
+              </span>
+            );
+          },
+        }),
+
+        columnHelper.accessor("lastReadingDate", {
+          header: () => (
+            <span className="text-[11px] md:text-xs lg:text-sm ">
+              Last Reading Date
+            </span>
+          ),
+          cell: (info) => {
+            const value = info.getValue();
+
+            return (
+              <span
+                className={`${
+                  value != "-"
+                    ? "text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-bold"
+                    : "text-2xl flex justify-center items-center font-bold"
+                }`}
+              >
+                {value != "-"
+                  ? moment(value).format("YYYY-MM-DD HH:mm")
+                  : value}
               </span>
             );
           },
@@ -425,47 +616,41 @@ function PiezoListTable({ filteredPiezoList }) {
   return (
     <>
       <div className="flex flex-col gap-y-1 2xl:gap-y-3">
-        {status !== 6 && (
-          <div className=" flex items-end md:items-center gap-x-8 md:gap-x-16 lg:gap-x-8 mt-4 lg:mt-0">
-            <div className="flex gap-x-3 flex-wrap gap-y-1">
-              {paddock !== "All" && (
-                <div className="flex gap-x-3">
-                  <span className="font-semibold text-sm   2xl:text-base">
-                    {paddock}
-                  </span>
-                  <span className="font-semibold text-sm   2xl:text-base">
-                    /
-                  </span>
-                </div>
-              )}
+        <div className=" flex items-end md:items-center gap-x-8 md:gap-x-16 lg:gap-x-8 mt-4 lg:mt-0">
+          <div className="flex gap-x-3 flex-wrap gap-y-1">
+            {paddock !== "All" && (
+              <div className="flex gap-x-3">
+                <span className="font-semibold text-sm   2xl:text-base">
+                  {paddock}
+                </span>
+                <span className="font-semibold text-sm   2xl:text-base">/</span>
+              </div>
+            )}
 
-              {section !== "All" && (
-                <div className="flex gap-x-3">
-                  <span className="font-semibold text-sm   2xl:text-base">
-                    {section}
-                  </span>
-                  <span className="font-semibold text-sm   2xl:text-base">
-                    /
-                  </span>
-                </div>
-              )}
+            {section !== "All" && (
+              <div className="flex gap-x-3">
+                <span className="font-semibold text-sm   2xl:text-base">
+                  {section}
+                </span>
+                <span className="font-semibold text-sm   2xl:text-base">/</span>
+              </div>
+            )}
 
-              <span className="font-semibold text-sm   2xl:text-base">
-                {/* @ts-ignore */}
-                {options[status]}
-              </span>
-            </div>
-            <span
-              style={{
-                //@ts-ignore
-                color: monitoringMapStatusInfo[status].normalColor,
-              }}
-              className="text-xl  lg:text-2xl font-semibold"
-            >
-              {filteredPiezoList.length}
+            <span className="font-semibold text-sm   2xl:text-base">
+              {/* @ts-ignore */}
+              {options[status]}
             </span>
           </div>
-        )}
+          <span
+            style={{
+              //@ts-ignore
+              color: monitoringMapStatusInfo[status].normalColor,
+            }}
+            className="text-xl  lg:text-2xl font-semibold"
+          >
+            {filteredPiezoList.length}
+          </span>
+        </div>
 
         <div className=" max-w-full max-h-fit  ">
           <div

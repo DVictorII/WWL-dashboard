@@ -150,12 +150,12 @@ function PiezoReports() {
         }
       );
 
-      const filename = res.data.filename;
-      console.log("FILENAME", filename);
+      // const filename = res.data.filename;
+      // console.log("FILENAME", filename);
 
-      await axios.post("/delete_excel", {
-        filename,
-      });
+      // await axios.post("/delete_excel", {
+      //   filename,
+      // });
     } catch (err) {
       console.log("ERROR", err);
     }

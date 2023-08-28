@@ -14,7 +14,7 @@ export const pageStructureLinks = {
   operations: {
     baseURL: "/operations",
     monitoringMap: "/operations/monitoring-map",
-    piezometerReadings: "operations/piezometer-readings",
+    piezometerReadings: "/operations/piezometer-readings",
 
     piezoReportsBase: "/operations/reports/piezometers",
     incidentsBase: "/operations/reports/incidents",
