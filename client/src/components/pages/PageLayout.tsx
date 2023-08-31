@@ -68,12 +68,16 @@ function PageLayout() {
     if (reportStatus === "pending") {
       console.log("REQUESTING2");
       const interval = window.setInterval(async () => {
-        const res = await axios.post("/report-status", {
-          reportID,
-        });
-        console.log("RES", res);
+        try {
+          const res = await axios.post("/report-status", {
+            reportID,
+          });
+          console.log("RES", res);
 
-        setReportStatus(res.data.status);
+          setReportStatus(res.data.status);
+        } catch (err) {
+          setReportStatus("error");
+        }
       }, 5000);
 
       return () => window.clearInterval(interval);

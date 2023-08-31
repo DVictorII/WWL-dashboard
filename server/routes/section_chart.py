@@ -171,217 +171,225 @@ tables = [
 
 
 def build_word_report(app1, piezos, reqDate, report_id):
-    with app1.app_context():
-        document = Document()
+    global threading_processes
 
-        sections = document.sections
+    try:
+        with app1.app_context():
+            document = Document()
 
-        for section in sections:
-            section.top_margin = Cm(2.54)
-            section.bottom_margin = Cm(2.54)
-            section.left_margin = Cm(1.91)
-            section.right_margin = Cm(1.91)
+            sections = document.sections
 
-        document.add_heading("Appendix: Piezometer Information")
-        document.add_paragraph("")
-        document.add_picture(
-            os.path.abspath(
-                f"../client/public/sectionReport/sections/sectionOverview.jpg"
-            ),
-            width=Cm(18),
-            height=Cm(12),
-        )
+            for section in sections:
+                section.top_margin = Cm(2.54)
+                section.bottom_margin = Cm(2.54)
+                section.left_margin = Cm(1.91)
+                section.right_margin = Cm(1.91)
 
-        document.add_page_break()
-
-        paddockList = list(set(list(map(lambda x: x["paddock"], piezos))))
-
-        ################################################################
-        ### TRACK CREATED IMAGES' FILE PATH SO WE CAN DELETE THEM LATER
-        ################################################################
-
-        readings_images_paths = []
-
-        # CREATE SECTION CHART IMAGES AND SAVE THEIR PATHS
-        sections_images_paths = plot_section_chart(report_id)
-
-        for i in range(0, len(paddockList)):
-            paddock = paddockList[i]
-
-            # PUT PADDOCK TITLE INTO PDF, START NEW SECTION
-            p = document.add_paragraph("")
-            p.add_run(f"{i+1}. Paddock: {paddock}").bold = True
-
-            ################################################################
-
-            sectionsList = list(
-                filter(
-                    lambda z: z != None and z != "?",
-                    list(
-                        set(
-                            list(
-                                map(
-                                    lambda x: x["section"],
-                                    list(
-                                        filter(
-                                            lambda y: y["paddock"] == paddock, piezos
-                                        )
-                                    ),
-                                )
-                            )
-                        )
-                    ),
-                )
+            document.add_heading("Appendix: Piezometer Information")
+            document.add_paragraph("")
+            document.add_picture(
+                os.path.abspath(
+                    f"../client/public/sectionReport/sections/sectionOverview.jpg"
+                ),
+                width=Cm(18),
+                height=Cm(12),
             )
 
-            for j in range(0, len(sectionsList)):
-                section = sectionsList[j]
+            document.add_page_break()
 
-                # PENDING ADD SECTION MAP AND START NEW PART IN THE PDF HERE
+            paddockList = list(set(list(map(lambda x: x["paddock"], piezos))))
 
-                ps = document.add_paragraph("")
-                ps.add_run(f"{i+1}.{j+1} {section.replace('-', ' ', 1)}").bold = True
+            ################################################################
+            ### TRACK CREATED IMAGES' FILE PATH SO WE CAN DELETE THEM LATER
+            ################################################################
 
-                # AÑADIR LOS MAPAS PARA TODAS LAS SECCIONES EXCEPTO LA 7-8A Y 9A (TODAVÍA NO LAS TENEMOS, QUEDA PENDIENTE AÑADIRLAS)
-                if (
-                    section.lower() != "section-7-8a"
-                    and section.lower() != "section-9a"
-                ):
-                    document.add_picture(
-                        os.path.abspath(
-                            f"../client/public/sectionReport/maps/{section.lower()}.png"
-                        ),
-                        width=Cm(15.24),
-                        height=Cm(9.4),
-                    )
-                    document.add_paragraph(" ")
+            readings_images_paths = []
+
+            # CREATE SECTION CHART IMAGES AND SAVE THEIR PATHS
+            sections_images_paths = plot_section_chart(report_id)
+
+            for i in range(0, len(paddockList)):
+                paddock = paddockList[i]
+
+                # PUT PADDOCK TITLE INTO PDF, START NEW SECTION
+                p = document.add_paragraph("")
+                p.add_run(f"{i+1}. Paddock: {paddock}").bold = True
 
                 ################################################################
 
-                piezo_list_by_section = list(
-                    filter(lambda y: y["section"] == section, piezos)
+                sectionsList = list(
+                    filter(
+                        lambda z: z != None and z != "?",
+                        list(
+                            set(
+                                list(
+                                    map(
+                                        lambda x: x["section"],
+                                        list(
+                                            filter(
+                                                lambda y: y["paddock"] == paddock,
+                                                piezos,
+                                            )
+                                        ),
+                                    )
+                                )
+                            )
+                        ),
+                    )
                 )
 
-                for k in range(0, len(piezo_list_by_section)):
-                    piezometer = piezo_list_by_section[k]
+                for j in range(0, len(sectionsList)):
+                    section = sectionsList[j]
 
-                    if k == 0:
-                        filtered_list = list(
-                            filter(
-                                lambda x: x["section"] == section
-                                and x["datalogger"] != None
-                                and x["channel"] != None,
-                                piezos,
-                            )
+                    # PENDING ADD SECTION MAP AND START NEW PART IN THE PDF HERE
+
+                    ps = document.add_paragraph("")
+                    ps.add_run(
+                        f"{i+1}.{j+1} {section.replace('-', ' ', 1)}"
+                    ).bold = True
+
+                    # AÑADIR LOS MAPAS PARA TODAS LAS SECCIONES EXCEPTO LA 7-8A Y 9A (TODAVÍA NO LAS TENEMOS, QUEDA PENDIENTE AÑADIRLAS)
+                    if (
+                        section.lower() != "section-7-8a"
+                        and section.lower() != "section-9a"
+                    ):
+                        document.add_picture(
+                            os.path.abspath(
+                                f"../client/public/sectionReport/maps/{section.lower()}.png"
+                            ),
+                            width=Cm(15.24),
+                            height=Cm(9.4),
                         )
+                        document.add_paragraph(" ")
 
-                        first_piezo_with_datalogger_and_channel = filtered_list[0]
+                    ################################################################
 
-                        # BUILD SECTION CHART WITH THE FIRST PIEZOMETER THAT HAS DATALOGGER AND CHANNEL
+                    piezo_list_by_section = list(
+                        filter(lambda y: y["section"] == section, piezos)
+                    )
 
-                        for image_path in sections_images_paths:
-                            if f"{section.lower()}.png" in image_path:
-                                print("SECTION ADDED", section.lower(), image_path)
+                    for k in range(0, len(piezo_list_by_section)):
+                        piezometer = piezo_list_by_section[k]
+
+                        if k == 0:
+                            filtered_list = list(
+                                filter(
+                                    lambda x: x["section"] == section
+                                    and x["datalogger"] != None
+                                    and x["channel"] != None,
+                                    piezos,
+                                )
+                            )
+
+                            first_piezo_with_datalogger_and_channel = filtered_list[0]
+
+                            # BUILD SECTION CHART WITH THE FIRST PIEZOMETER THAT HAS DATALOGGER AND CHANNEL
+
+                            for image_path in sections_images_paths:
+                                if f"{section.lower()}.png" in image_path:
+                                    print("SECTION ADDED", section.lower(), image_path)
+                                    document.add_picture(
+                                        os.path.abspath(
+                                            f"../client/public/sectionReport/sections/{report_id}-{section.lower()}.png"
+                                        ),
+                                        width=Cm(17),
+                                        height=Cm(8.5),
+                                    )
+                                    document.add_page_break()
+                            #################################################################################
+
+                        if piezometer["status"] == 1:
+                            ps = document.add_paragraph(f"{piezometer['id']}")
+
+                            if (
+                                piezometer["datalogger"] != None
+                                and piezometer["channel"] != None
+                                and (
+                                    f"node_{piezometer['datalogger']}_{piezometer['channel']}"
+                                    in tables
+                                )
+                                # and (piezometer["paddock"] == "CROWN")
+                            ):
+                                filename, file_path = plot_readings_chart(
+                                    piezometer, 90, reqDate
+                                )
+
+                                readings_images_paths.append(file_path)
+
                                 document.add_picture(
                                     os.path.abspath(
-                                        f"../client/public/sectionReport/sections/{report_id}-{section.lower()}.png"
+                                        f"../client/public/sectionReport/readings/{filename}"
                                     ),
                                     width=Cm(17),
                                     height=Cm(8.5),
                                 )
-                                document.add_page_break()
-                        #################################################################################
 
-                    if piezometer["status"] == 1:
-                        ps = document.add_paragraph(f"{piezometer['id']}")
+                                document.add_paragraph(" ")
 
-                        if (
-                            piezometer["datalogger"] != None
-                            and piezometer["channel"] != None
-                            and (
-                                f"node_{piezometer['datalogger']}_{piezometer['channel']}"
-                                in tables
-                            )
-                            # and (piezometer["paddock"] == "CROWN")
-                        ):
-                            filename, file_path = plot_readings_chart(
-                                piezometer, 90, reqDate
-                            )
+                            else:
+                                p_no_readings = document.add_paragraph("")
+                                p_no_readings.add_run(
+                                    f"No readings for the current piezometer"
+                                ).bold = True
 
-                            readings_images_paths.append(file_path)
+                    document.add_page_break()
 
-                            document.add_picture(
-                                os.path.abspath(
-                                    f"../client/public/sectionReport/readings/{filename}"
-                                ),
-                                width=Cm(17),
-                                height=Cm(8.5),
-                            )
+            # GET PIEZO READINGS FOR EACH PIEZOMETER IN EACH SECTION
 
-                            document.add_paragraph(" ")
+            filename = f"word_report_{str(uuid.uuid4())}.docx"
 
-                        else:
-                            p_no_readings = document.add_paragraph("")
-                            p_no_readings.add_run(
-                                f"No readings for the current piezometer"
-                            ).bold = True
+            threading_processes[report_id]["report_filename"] = filename
 
-                document.add_page_break()
+            document.save(os.path.abspath(f"../client/public/report_word/{filename}"))
 
-        # GET PIEZO READINGS FOR EACH PIEZOMETER IN EACH SECTION
-
-        global threading_processes
-
-        filename = f"word_report_{str(uuid.uuid4())}.docx"
-
-        threading_processes[report_id]["report_filename"] = filename
-
-        document.save(os.path.abspath(f"../client/public/report_word/{filename}"))
-
-        s3 = boto3.resource(
-            "s3",
-            aws_access_key_id=config["aws_access_key_id"],
-            aws_secret_access_key=config["aws_secret_access_key"],
-        )
-
-        with open(
-            os.path.abspath(f"../client/public/report_word/{filename}"), "rb"
-        ) as file:
-            s3.Bucket("rossing").upload_fileobj(
-                file,
-                f"overview_reports/{filename}",
+            s3 = boto3.resource(
+                "s3",
+                aws_access_key_id=config["aws_access_key_id"],
+                aws_secret_access_key=config["aws_secret_access_key"],
             )
 
-        print("REPORT FINISHED")
+            with open(
+                os.path.abspath(f"../client/public/report_word/{filename}"), "rb"
+            ) as file:
+                s3.Bucket("rossing").upload_fileobj(
+                    file,
+                    f"overview_reports/{filename}",
+                )
 
-        threading_processes[report_id]["report_status"] = "ok"
+            print("REPORT FINISHED")
 
-        ################################################################
-        ## ONCE EVERYTHING IS FINISHED, DELETE THE REMAINING IMAGE FILES AND THE REPORT IN THE FILESYSTEM
-        ################################
+            threading_processes[report_id]["report_status"] = "ok"
 
-        for path in readings_images_paths:
-            if os.path.isfile(path):
-                os.remove(path)
+            ################################################################
+            ## ONCE EVERYTHING IS FINISHED, DELETE THE REMAINING IMAGE FILES AND THE REPORT IN THE FILESYSTEM
+            ################################
+
+            for path in readings_images_paths:
+                if os.path.isfile(path):
+                    os.remove(path)
+                else:
+                    # If it fails, inform the user.
+                    print("Error: %s file not found" % path)
+
+            for path in sections_images_paths:
+                if os.path.isfile(path):
+                    os.remove(path)
+                else:
+                    # If it fails, inform the user.
+                    print("Error: %s file not found" % path)
+
+            if os.path.isfile(
+                os.path.abspath(f"../client/public/report_word/{filename}")
+            ):
+                os.remove(os.path.abspath(f"../client/public/report_word/{filename}"))
             else:
                 # If it fails, inform the user.
-                print("Error: %s file not found" % path)
-
-        for path in sections_images_paths:
-            if os.path.isfile(path):
-                os.remove(path)
-            else:
-                # If it fails, inform the user.
-                print("Error: %s file not found" % path)
-
-        if os.path.isfile(os.path.abspath(f"../client/public/report_word/{filename}")):
-            os.remove(os.path.abspath(f"../client/public/report_word/{filename}"))
-        else:
-            # If it fails, inform the user.
-            print(
-                "Error: %s file not found"
-                % os.path.abspath(f"../client/public/report_word/{filename}")
-            )
+                print(
+                    "Error: %s file not found"
+                    % os.path.abspath(f"../client/public/report_word/{filename}")
+                )
+    except Exception:
+        threading_processes.pop(report_id)
 
 
 def move_duplicates(x):

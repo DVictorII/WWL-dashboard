@@ -16,8 +16,6 @@ import { useMonitoringMapStateStore } from "../store/MonitoringMapStateStore";
 import { monitoringMapStatusInfo } from "../utils/monitoringMapStatusInfo";
 import { RiAlarmWarningLine } from "react-icons/ri";
 
-const CHART_PRESSURE_LIMIT = 50;
-
 //@ts-ignore
 const BarChart = ({ information, fullPage = false }) => {
   const [piezoData, setPiezoData] = useState([]);
@@ -105,23 +103,18 @@ const BarChart = ({ information, fullPage = false }) => {
     if (lastReading && currentPiezometer?.status === 1) {
       const pressureAlarmFlag =
         lastReading.pressure && lastReading.pressure != "NaN"
-          ? Number(lastReading.pressure) > CHART_PRESSURE_LIMIT * 0.8
+          ? Number(lastReading.pressure) >
+            Number(currentPiezometer.tarps_value) * 0.8
           : false;
 
       const pressureLimitFlag =
         lastReading.pressure && lastReading.pressure != "NaN"
-          ? Number(lastReading.pressure) > CHART_PRESSURE_LIMIT
+          ? Number(lastReading.pressure) > Number(currentPiezometer.tarps_value)
           : false;
 
       pressureAlarmFlag ? setAlarmAlert(true) : setAlarmAlert(false);
       pressureLimitFlag ? setLimitAlert(true) : setLimitAlert(false);
     }
-
-    //@ts-ignore
-    const fullPiezoInfoObj = chartPiezoListWithElevation[paddock].find(
-      //@ts-ignore
-      (obj) => obj.id === piezo
-    );
 
     //@ts-ignore
     const pressureArray = lecturesData.map((data) => data.pressure);
@@ -162,7 +155,7 @@ const BarChart = ({ information, fullPage = false }) => {
     //@ts-ignore
     const pressureDataFormat = lecturesData.map((data) => {
       return {
-        x: moment(data.time).format("YYYY-MM-DD HH:MM:SS"),
+        x: moment(data.time).format("YYYY-MM-DD HH:mm:ss"),
         y: data.pressure,
       };
     });
@@ -170,16 +163,16 @@ const BarChart = ({ information, fullPage = false }) => {
     //@ts-ignore
     const elevationDataFormat = lecturesData.map((data) => {
       return {
-        x: moment(data.time).format("YYYY-MM-DD HH:MM:SS"),
+        x: moment(data.time).format("YYYY-MM-DD HH:mm:ss"),
         y: data.pressure / 10,
       };
     });
 
     //@ts-ignore
     const waterLevelDataFormat = lecturesData.map((data) => {
-      console.log("TIME", moment(data.time).format("YYYY-MM-DD HH:MM:SS"));
+      // console.log("TIME", moment(data.time).format("YYYY-MM-DD HH:mm:ss"));
       return {
-        x: moment(data.time).format("YYYY-MM-DD HH:MM:SS"),
+        x: moment(data.time).format("YYYY-MM-DD HH:mm:ss"),
         y: Number(currentPiezometer?.elevation) + data.pressure / 10,
       };
     });
@@ -328,9 +321,10 @@ const BarChart = ({ information, fullPage = false }) => {
                         yScale={{
                           type: "linear",
                           min: limitAlert
-                            ? limits.pressure.min + 10 < CHART_PRESSURE_LIMIT
+                            ? limits.pressure.min + 10 <
+                              Number(currentPiezometer.tarps_value)
                               ? limits.pressure.min
-                              : CHART_PRESSURE_LIMIT - 10
+                              : Number(currentPiezometer.tarps_value) - 10
                             : limits.pressure.min,
                           max: limits.pressure.max,
                           stacked: false,
@@ -364,7 +358,7 @@ const BarChart = ({ information, fullPage = false }) => {
                             ? [
                                 {
                                   axis: "y",
-                                  value: CHART_PRESSURE_LIMIT,
+                                  value: Number(currentPiezometer.tarps_value),
                                   legend: "pressure limit",
                                   lineStyle: {
                                     stroke: "red",
@@ -393,9 +387,10 @@ const BarChart = ({ information, fullPage = false }) => {
                         useMesh={true}
                         areaBaselineValue={
                           limitAlert
-                            ? limits.pressure.min + 10 < CHART_PRESSURE_LIMIT
+                            ? limits.pressure.min + 10 <
+                              Number(currentPiezometer.tarps_value)
                               ? limits.pressure.min
-                              : CHART_PRESSURE_LIMIT - 10
+                              : Number(currentPiezometer.tarps_value) - 10
                             : limits.pressure.min
                         }
                       />
@@ -433,9 +428,10 @@ const BarChart = ({ information, fullPage = false }) => {
                         yScale={{
                           type: "linear",
                           min: limitAlert
-                            ? limits.pressure.min + 10 < CHART_PRESSURE_LIMIT
+                            ? limits.pressure.min + 10 <
+                              Number(currentPiezometer.tarps_value)
                               ? limits.wLevel.min
-                              : CHART_PRESSURE_LIMIT / 10 - 1
+                              : Number(currentPiezometer.tarps_value) / 10 - 1
                             : limits.wLevel.min,
                           max: limits.wLevel.max,
                           stacked: false,
@@ -497,9 +493,10 @@ const BarChart = ({ information, fullPage = false }) => {
                         useMesh={true}
                         areaBaselineValue={
                           limitAlert
-                            ? limits.pressure.min + 10 < CHART_PRESSURE_LIMIT
+                            ? limits.pressure.min + 10 <
+                              Number(currentPiezometer.tarps_value)
                               ? limits.wLevel.min
-                              : CHART_PRESSURE_LIMIT / 10 - 1
+                              : Number(currentPiezometer.tarps_value) / 10 - 1
                             : limits.wLevel.min
                         }
                       />
@@ -538,10 +535,11 @@ const BarChart = ({ information, fullPage = false }) => {
                         yScale={{
                           type: "linear",
                           min: limitAlert
-                            ? limits.pressure.min + 10 < CHART_PRESSURE_LIMIT
+                            ? limits.pressure.min + 10 <
+                              Number(currentPiezometer.tarps_value)
                               ? limits.wElevation.min
                               : Number(currentPiezometer.elevation) +
-                                CHART_PRESSURE_LIMIT / 10 -
+                                Number(currentPiezometer.tarps_value) / 10 -
                                 1
                             : limits.wElevation.min,
                           max: limits.wElevation.max,
@@ -606,10 +604,11 @@ const BarChart = ({ information, fullPage = false }) => {
                         useMesh={true}
                         areaBaselineValue={
                           limitAlert
-                            ? limits.pressure.min + 10 < CHART_PRESSURE_LIMIT
+                            ? limits.pressure.min + 10 <
+                              Number(currentPiezometer.tarps_value)
                               ? limits.wElevation.min
                               : Number(currentPiezometer.elevation) +
-                                CHART_PRESSURE_LIMIT / 10 -
+                                Number(currentPiezometer.tarps_value) / 10 -
                                 1
                             : limits.wElevation.min
                         }

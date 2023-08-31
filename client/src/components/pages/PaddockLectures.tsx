@@ -56,22 +56,25 @@ function PaddockLectures() {
         </div>
       </div>
 
-      <div className=" flex flex-col gap-y-8 lg:px-4 lg:pb-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 ">
-          <div className="flex flex-col gap-y-6  bg-white p-4 lg:border-r border-[#ccc]  ">
-            <GlobalSectionSubtitle subtitle="Piezometer details" />
+      <div className="grid grid-cols-1 lg:grid-cols-2 ">
+        <div className="flex flex-col gap-y-6   p-4 lg:border-r border-[#ccc]  ">
+          <GlobalSectionSubtitle subtitle="Piezometer details" />
 
-            <PiezoInformationTable />
+          <PiezoInformationTable
+            information={{
+              paddock,
+              piezo,
+            }}
+          />
+        </div>
+
+        <div className="flex flex-col gap-y-6   p-4 ">
+          <div className="flex items-start justify-between">
+            <GlobalSectionSubtitle subtitle="Location map" />
+
+            <PiezoReadingsDateTable />
           </div>
-
-          <div className="flex flex-col gap-y-6  bg-white p-4 ">
-            <div className="flex items-start justify-between">
-              <GlobalSectionSubtitle subtitle="Location map" />
-
-              <PiezoReadingsDateTable />
-            </div>
-            <PaddockMapWrapper key={`${piezo}${paddock}${date}`} />
-          </div>
+          <PaddockMapWrapper key={`${piezo}${paddock}${date}`} />
         </div>
       </div>
 

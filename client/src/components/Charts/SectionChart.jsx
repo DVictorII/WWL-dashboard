@@ -19,94 +19,97 @@ import { useMediaQuery } from "react-responsive";
 import {monitoringMapStatusInfo} from "../../utils/monitoringMapStatusInfo"
 import { useMonitoringMapStateStore } from "../../store/MonitoringMapStateStore";
 
-const piezoLine = {
+export const piezoLine = {
   id: "piezoLine",
   beforeDatasetsDraw(chart, args, options) {
-    const piezometersData = options.piezometersData;
-    const piezoInformation = options.piezoInformation;
+    if( options.display){
 
-    // console.log("DATA",piezoInformation[0].id)
-    const XValues = options.XValues;
-    const YTopValues = options.YTopValues;
-
-    const {
-      ctx,
-      chartArea: { top, right, bottom, left, width, height },
-      scales: { x, y },
-    } = chart;
-
-
-
-    let piezometer;
-    for (let i = 0; i <= piezometersData.length - 1; i++) {
-        piezometer = piezometersData[i];
-
-        const piezoInfo = piezoInformation.find((p)=>p.id === piezometer[0])
-
-        const readingIsPositive =   piezometer[4] - piezometer[3] >= 0
-
-        if (piezoInfo.status === 1) {
-           
-          if(piezometer[3] !== 0){
-
-            
-    
-    
-      
-            ctx.save();
-    
-      
-            // ctx.strokeStyle = i === 0 ? "#7B8831" : "#333";
-            ctx.strokeStyle = monitoringMapStatusInfo[piezoInfo.status].normalColor;
-            ctx.lineWidth = 2;
-
-          
-            if (!readingIsPositive){
-
-              ctx.setLineDash([1,3])
-            }
-
-
-            
-    
-           
-            // ctx.strokeRect(
-            //   x.getPixelForValue( XValues.findIndex((p)=>p === piezometer[2]) ),
-            //   y.getPixelForValue(piezometer[4]) ,
-            //   0,
-            //   y.getPixelForValue(piezometer[3]) - y.getPixelForValue(piezometer[4])
-            // );
-    
-            ctx.strokeRect(
-              x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) )  ,
+      const piezometersData = options.piezometersData;
+      const piezoInformation = options.piezoInformation;
+  
+      // console.log("DATA",piezoInformation[0].id)
+      const XValues = options.XValues;
+      const YTopValues = options.YTopValues;
+  
+      const {
+        ctx,
+        chartArea: { top, right, bottom, left, width, height },
+        scales: { x, y },
+      } = chart;
+  
+  
+  
+      let piezometer;
+      for (let i = 0; i <= piezometersData.length - 1; i++) {
+          piezometer = piezometersData[i];
+  
+          const piezoInfo = piezoInformation.find((p)=>p.id === piezometer[0])
+  
+          const readingIsPositive =   piezometer[4] - piezometer[3] >= 0
+  
+          if (piezoInfo.status === 1) {
+             
+            if(piezometer[3] !== 0){
+  
               
-              y.getPixelForValue(piezometer[3]) ,
-              0 ,
-              readingIsPositive ? y.getPixelForValue(piezometer[4]) - y.getPixelForValue(piezometer[3]) : 15
-              
-            );
       
-            ctx.restore();
-
-            ctx.save();
-            ctx.beginPath();
-            if (readingIsPositive){
-
-              ctx.moveTo(x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) ) - 4 ,y.getPixelForValue(piezometer[4]))
-              ctx.lineTo(x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) ) + 4, y.getPixelForValue(piezometer[4]))
-              ctx.lineTo(x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) ), y.getPixelForValue(piezometer[4]) + 6)
-            } else{
-              ctx.moveTo(x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) ) - 4 ,y.getPixelForValue(piezometer[3])+15)
-              ctx.lineTo(x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) ) + 4, y.getPixelForValue(piezometer[3])+15)
-              ctx.lineTo(x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) ), y.getPixelForValue(piezometer[3]) + 21)
-            }
-            ctx.fillStyle = '#1c394a';
-            ctx.fill()
-
+      
+        
+              ctx.save();
+      
+        
+              // ctx.strokeStyle = i === 0 ? "#7B8831" : "#333";
+              ctx.strokeStyle = monitoringMapStatusInfo[piezoInfo.status].normalColor;
+              ctx.lineWidth = 2;
+  
             
+              if (!readingIsPositive){
+  
+                ctx.setLineDash([1,3])
+              }
+  
+  
+              
+      
+             
+              // ctx.strokeRect(
+              //   x.getPixelForValue( XValues.findIndex((p)=>p === piezometer[2]) ),
+              //   y.getPixelForValue(piezometer[4]) ,
+              //   0,
+              //   y.getPixelForValue(piezometer[3]) - y.getPixelForValue(piezometer[4])
+              // );
+      
+              ctx.strokeRect(
+                x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) )  ,
+                
+                y.getPixelForValue(piezometer[3]) ,
+                0 ,
+                readingIsPositive ? y.getPixelForValue(piezometer[4]) - y.getPixelForValue(piezometer[3]) : 15
+                
+              );
+        
+              ctx.restore();
+  
+              ctx.save();
+              ctx.beginPath();
+              if (readingIsPositive){
+  
+                ctx.moveTo(x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) ) - 4 ,y.getPixelForValue(piezometer[4]))
+                ctx.lineTo(x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) ) + 4, y.getPixelForValue(piezometer[4]))
+                ctx.lineTo(x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) ), y.getPixelForValue(piezometer[4]) + 6)
+              } else{
+                ctx.moveTo(x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) ) - 4 ,y.getPixelForValue(piezometer[3])+15)
+                ctx.lineTo(x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) ) + 4, y.getPixelForValue(piezometer[3])+15)
+                ctx.lineTo(x.getPixelForValue( XValues.findIndex((x)=>x === piezometer[2]) ), y.getPixelForValue(piezometer[3]) + 21)
+              }
+              ctx.fillStyle = '#1c394a';
+              ctx.fill()
+  
+              
+            }
           }
-        }
-
+  
+      }
     }
   },
   
@@ -261,6 +264,7 @@ function SectionChart({chartCoordinates, chartPiezometers}) {
         },
       },
       piezoLine: {
+        display: true,
         piezometersData: chartPiezometers,
         piezoInformation: piezometersData,
         XValues: labels,

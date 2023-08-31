@@ -44,7 +44,7 @@ function PiezoReadingsSettings() {
     return () => {
       document.removeEventListener("mousedown", handler);
     };
-  }, [menuRef, buttonRef, setIsOpen]);
+  }, [menuRef, buttonRef, isOpen]);
 
   return (
     <div className="relative">

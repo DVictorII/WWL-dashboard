@@ -16,6 +16,9 @@ import { satelliteMap, sentinelMap, statusOptions } from "./map";
 
 import { IncidentDetails } from "../types";
 
+import "leaflet-fullscreen/dist/Leaflet.fullscreen.js";
+import "leaflet-fullscreen/dist/leaflet.fullscreen.css";
+
 export async function drawPiezometers({
   piezometers,
   map,
@@ -244,6 +247,11 @@ export async function DrawMap({
     layers: basemap,
     fadeAnimation: true,
     zoomAnimation: true,
+    //@ts-ignore
+    fullscreenControl: true,
+    fullscreenControlOptions: {
+      position: "topleft",
+    },
   });
 
   return map;
@@ -269,6 +277,11 @@ async function DrawIncidentsMap({
     layers: basemap,
     fadeAnimation: true,
     zoomAnimation: true,
+    //@ts-ignore
+    fullscreenControl: true,
+    fullscreenControlOptions: {
+      position: "topleft",
+    },
   });
 
   return myMap;
@@ -305,6 +318,11 @@ export const DrawPrincipalMap = async ({
     layers: basemap,
     fadeAnimation: true,
     zoomAnimation: true,
+    //@ts-ignore
+    fullscreenControl: true,
+    fullscreenControlOptions: {
+      position: "topleft",
+    },
   });
 
   return myMap;

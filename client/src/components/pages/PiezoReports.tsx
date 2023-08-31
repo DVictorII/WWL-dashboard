@@ -23,6 +23,7 @@ import { BsDot } from "react-icons/bs";
 import { MdDownloading } from "react-icons/md";
 import { v4 as uuidv4 } from "uuid";
 import { s3StaticFilesLinks } from "../../utils/globalLinks";
+import GlobalSectionSubtitle from "../global/GlobalSectionSubtitle";
 
 function PiezoReports() {
   const date = useOverallReportStateStore((s) => s.date);
@@ -290,137 +291,137 @@ function PiezoReports() {
         </div>
       </div>
 
-      <div className="mt-6" />
+      <div className="flex flex-col  p-4 gap-y-4 border-b border-[#ccc] ">
+        <GlobalSectionSubtitle subtitle="Featured reports" />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-6 gap-y-6 lg:px-4 ">
-        <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center gap-y-4 ">
-          <h2 className="font-semibold text-[#555] text-sm 2xl:text-base">
-            Featured reports
-          </h2>
-
-          <div className="w-full ">
-            <SliderComp reports={piezoReports} />
-          </div>
+        <div className="w-full ">
+          <SliderComp reports={piezoReports} />
         </div>
+      </div>
 
-        <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center gap-y-4 ">
-          <h2 className="font-semibold text-[#555] text-sm 2xl:text-base">
-            Reports List
-          </h2>
+      <div className="grid grid-cols-1 lg:grid-cols-2">
+        <div className="flex flex-col   p-4 gap-y-4 border-r border-[#ccc] ">
+          <GlobalSectionSubtitle subtitle="Reports list" />
 
           <div className="grid grid-cols-1">
             <ReportsListTable reports={piezoReports} />
           </div>
         </div>
-      </div>
 
-      <div className="mt-6" />
+        <div className="flex flex-col   p-4 gap-y-12">
+          <div className="flex flex-col gap-y-8">
+            <GlobalSectionSubtitle subtitle="Overview report" />
 
-      <div className="flex flex-col gap-y-12  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center lg:mx-4   ">
-        <div className="flex flex-col gap-y-6">
-          <h2 className="font-semibold text-[#555] text-sm 2xl:text-base">
-            Overview Report
-          </h2>
+            <div className="flex items-end gap-x-6">
+              {reportStatus === "off" || reportStatus === "error" ? (
+                <button
+                  onClick={triggerReportBuild}
+                  className="flex items-center gap-x-1   px-4  py-2 sm:px-4  bg-[#333] text-[#f1f1f1] rounded-full"
+                >
+                  <AiOutlineDownload className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
+                  <span className="text-xs font-semibold sm:hidden">
+                    Create
+                  </span>
+                  <span className="text-xs sm:text-sm   font-medium hidden sm:block ">
+                    Create Report
+                  </span>
+                </button>
+              ) : (
+                <button
+                  disabled
+                  className="flex items-center gap-x-1   px-4  py-2 sm:px-4  bg-[#666] text-[#f1f1f1] rounded-full"
+                >
+                  <AiOutlineDownload className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
+                  <span className="text-xs font-semibold sm:hidden">
+                    In Progress
+                  </span>
+                  <span className="text-xs sm:text-sm   font-medium hidden sm:block ">
+                    Report in progress
+                  </span>
+                </button>
+              )}
+              <OverviewReportDateSelector />
+            </div>
 
-          <div className="flex items-end gap-x-6">
-            {reportStatus === "off" ? (
-              <button
-                onClick={triggerReportBuild}
-                className="flex items-center gap-x-1   px-4  py-2 sm:px-4  bg-[#333] text-[#f1f1f1] rounded-full"
+            <p className="text-sm text-[#666]">
+              Once requested, the final report will be available in 3 minutes
+              time aproximately.
+              <br />
+              Check the status of the request below:
+            </p>
+          </div>
+
+          <div className="flex flex-col md:flex-row gap-y-4  justify-between md:items-center ">
+            <div className="flex items-center">
+              <BsDot />
+
+              <span className="text-sm font-semibold">
+                Operations Overview Report
+              </span>
+            </div>
+
+            <span className="text-sm font-semibold">
+              Status:{" "}
+              <span
+                style={{
+                  color:
+                    reportStatus === "off"
+                      ? "#b91c1c"
+                      : reportStatus === "pending"
+                      ? "#b45309"
+                      : reportStatus === "ok"
+                      ? "#15803d"
+                      : reportStatus === "error"
+                      ? "#9e8f12"
+                      : "#333",
+                }}
+                className="md:text-lg"
               >
-                <AiOutlineDownload className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
-                <span className="text-xs font-semibold sm:hidden">Create</span>
-                <span className="text-xs sm:text-sm   font-medium hidden sm:block ">
-                  Create Report
-                </span>
-              </button>
-            ) : (
+                {reportStatus}
+              </span>
+            </span>
+
+            {reportStatus === "off" || reportStatus === "error" ? (
               <button
                 disabled
-                className="flex items-center gap-x-1   px-4  py-2 sm:px-4  bg-[#666] text-[#f1f1f1] rounded-full"
+                className="flex items-center gap-x-1   px-4  py-2 sm:px-4  bg-[#666] text-[#f1f1f1] rounded-full w-max"
               >
                 <AiOutlineDownload className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
                 <span className="text-xs font-semibold sm:hidden">
-                  In Progress
+                  Download
                 </span>
                 <span className="text-xs sm:text-sm   font-medium hidden sm:block ">
-                  Report in progress
+                  Download Report
                 </span>
               </button>
-            )}
-            <OverviewReportDateSelector />
+            ) : reportStatus === "pending" ? (
+              <button
+                disabled
+                className="flex items-center gap-x-1   px-4  py-2 sm:px-4  bg-[#666] text-[#f1f1f1] rounded-full w-max"
+              >
+                <MdDownloading className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
+                <span className="text-xs font-semibold sm:hidden">
+                  Download
+                </span>
+                <span className="text-xs sm:text-sm   font-medium hidden sm:block ">
+                  Download Report
+                </span>
+              </button>
+            ) : reportStatus === "ok" ? (
+              <button
+                onClick={downloadWord}
+                className="flex items-center gap-x-1   px-4  py-2 sm:px-4  bg-[#333] text-[#f1f1f1] rounded-full w-max"
+              >
+                <AiOutlineDownload className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
+                <span className="text-xs font-semibold sm:hidden">
+                  Download
+                </span>
+                <span className="text-xs sm:text-sm   font-medium hidden sm:block ">
+                  Download Report
+                </span>
+              </button>
+            ) : null}
           </div>
-
-          <p className="text-sm text-[#666]">
-            Once requested, the final report will be available in 3 minutes time
-            aproximately.
-            <br />
-            Check the status of the request below:
-          </p>
-        </div>
-
-        <div className="flex flex-col md:flex-row gap-y-4  justify-between md:items-center ">
-          <div className="flex items-center">
-            <BsDot />
-
-            <span className="text-sm font-semibold">
-              Operations Overview Report
-            </span>
-          </div>
-
-          <span className="text-sm font-semibold">
-            Status:{" "}
-            <span
-              style={{
-                color:
-                  reportStatus === "off"
-                    ? "#b91c1c"
-                    : reportStatus === "pending"
-                    ? "#b45309"
-                    : reportStatus === "ok"
-                    ? "#15803d"
-                    : "#333",
-              }}
-              className="md:text-lg"
-            >
-              {reportStatus}
-            </span>
-          </span>
-
-          {reportStatus === "off" ? (
-            <button
-              disabled
-              className="flex items-center gap-x-1   px-4  py-2 sm:px-4  bg-[#666] text-[#f1f1f1] rounded-full w-max"
-            >
-              <AiOutlineDownload className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
-              <span className="text-xs font-semibold sm:hidden">Download</span>
-              <span className="text-xs sm:text-sm   font-medium hidden sm:block ">
-                Download Report
-              </span>
-            </button>
-          ) : reportStatus === "pending" ? (
-            <button
-              disabled
-              className="flex items-center gap-x-1   px-4  py-2 sm:px-4  bg-[#666] text-[#f1f1f1] rounded-full w-max"
-            >
-              <MdDownloading className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
-              <span className="text-xs font-semibold sm:hidden">Download</span>
-              <span className="text-xs sm:text-sm   font-medium hidden sm:block ">
-                Download Report
-              </span>
-            </button>
-          ) : reportStatus === "ok" ? (
-            <button
-              onClick={downloadWord}
-              className="flex items-center gap-x-1   px-4  py-2 sm:px-4  bg-[#333] text-[#f1f1f1] rounded-full w-max"
-            >
-              <AiOutlineDownload className="w-5 h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 " />
-              <span className="text-xs font-semibold sm:hidden">Download</span>
-              <span className="text-xs sm:text-sm   font-medium hidden sm:block ">
-                Download Report
-              </span>
-            </button>
-          ) : null}
         </div>
       </div>
     </>
