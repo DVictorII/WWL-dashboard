@@ -11,6 +11,7 @@ import IncidentsListTable from "../Incidents/IncidentsListTable";
 import SkeletonIncidentReportPage from "../Skeletons/Incidents/SkeletonIncidentReportPage";
 import IncidentMapMultiple from "../Incidents/IncidentMapMultiple";
 import { AiOutlineLeft, AiOutlinePlus } from "react-icons/ai";
+import GlobalSectionSubtitle from "../global/GlobalSectionSubtitle";
 
 function IncidentReports() {
   const fetchIncidents = async () => {
@@ -50,42 +51,28 @@ function IncidentReports() {
         </div>
       </div>
 
-      <div className="mt-6" />
+      <div className="flex flex-col  p-4 gap-y-4 border-b border-[#ccc] ">
+        <GlobalSectionSubtitle subtitle="Featured incidents" />
 
-      <div className="grid grid-cols-1  lg:gap-x-6 gap-y-6 lg:mx-4 ">
-        <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center gap-y-4">
-          <div className="  flex flex-col  gap-y-4 w-full ">
-            <h2 className="font-semibold text-[#555] ">Featured Incidents</h2>
-
-            <div className="w-full ">
-              <IncidentsSliderComp incidents={incidents} />
-            </div>
-          </div>
+        <div className="w-full ">
+          <IncidentsSliderComp incidents={incidents} />
         </div>
       </div>
 
-      <div className="mt-6" />
+      <div className="grid grid-cols-1 lg:grid-cols-2  ">
+        <div className="flex flex-col   p-4 gap-y-4 border-r border-[#ccc] ">
+          <GlobalSectionSubtitle subtitle="Reports list" />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2  lg:gap-x-6 gap-y-6 lg:mx-4">
-        <div className="flex flex-col   bg-white p-4 2xl:p-6 rounded-xl shadow-sm  gap-y-4">
-          <div className="  flex flex-col  gap-y-4  ">
-            <h2 className="font-semibold text-[#555] ">Reports List</h2>
-
-            <div className="grid grid-cols-1">
-              <IncidentsListTable incidents={incidents} />
-            </div>
+          <div className="grid grid-cols-1">
+            <IncidentsListTable incidents={incidents} />
           </div>
         </div>
 
-        <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm justify-center gap-y-4">
-          <div className="  flex flex-col  gap-y-4  ">
-            <h2 className="font-semibold text-[#555]">
-              Incidents Interactive Map
-            </h2>
+        <div className="flex flex-col   p-4 gap-y-4">
+          <GlobalSectionSubtitle subtitle="Incidents interactive map" />
 
-            <div className="grid grid-cols-1">
-              <IncidentMapMultiple />
-            </div>
+          <div className="grid grid-cols-1">
+            <IncidentMapMultiple />
           </div>
         </div>
       </div>

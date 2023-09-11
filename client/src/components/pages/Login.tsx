@@ -4,12 +4,12 @@ import { HiOutlineMail } from "react-icons/hi";
 import { RiLockPasswordLine } from "react-icons/ri";
 
 import { motion } from "framer-motion";
-import rossingPhoto from "../../assets/Rossing.jpg";
-import logo from "../../assets/logo.svg";
+
 import { Link, useNavigate } from "react-router-dom";
 //@ts-ignore: Unreachable code error
 import axios from "../../utils/axios";
 import toast, { Toaster } from "react-hot-toast";
+import { s3StaticFilesLinks } from "../../utils/globalLinks";
 
 function Login() {
   const [credentials, setCredentials] = useState({
@@ -82,12 +82,18 @@ function Login() {
     >
       <div className="w-full h-full relative hidden md:inline">
         <div className="bg-black absolute w-full h-full top-0 left-0 right-0 z-[20] bg-opacity-20" />
-        <img src={rossingPhoto} className="object-cover w-full h-full " />
+        <img
+          src={`${s3StaticFilesLinks.baseURL}/${s3StaticFilesLinks.layoutImages}/Rossing_mine.jpg`}
+          className="object-cover w-full h-full "
+        />
       </div>
       <div className="flex flex-col justify-center h-full relative">
         <main className="flex flex-col py-8 px-8 sm:px-12 lg:px-20 items-center  self-center w-full sm:w-3/4 md:w-full">
           <div className="w-44 2xl:w-52 relative">
-            <img src={logo} className="w-full object-contain" />
+            <img
+              src={`${s3StaticFilesLinks.baseURL}/${s3StaticFilesLinks.layoutImages}/logo.svg`}
+              className="w-full object-contain"
+            />
           </div>
 
           <div className="mt-8" />

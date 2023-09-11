@@ -29,135 +29,179 @@ function ReportPiezoInformationTable() {
       style={{
         borderColor: statusStateObj.darkColor,
       }}
-      className="max-w-[1000vh] h-[19rem] overflow-x-auto rounded-lg border-2  relative bg-white"
+      className="w-full h-[calc(15rem + 4px)] overflow-y-auto rounded-[4px] border-y-2  relative bg-white"
     >
-      <table className="   select-none w-full border-collapse  bg-white">
-        <tbody>
-          <tr
-            style={{
-              backgroundColor: statusStateObj.lightColor,
-            }}
-            className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12   "
-          >
-            <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px]">
-              <span>Location coordinates:</span>
-            </th>
-
-            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span>
-                {Number(currentPiezometer?.lat).toFixed(8)}° /{" "}
-                {Number(currentPiezometer?.lon).toFixed(8)}°
-              </span>
-            </th>
-          </tr>
-
-          <tr className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12 bg-white ">
-            <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px]">
-              <span>Section:</span>
-            </th>
-
-            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span
-                className={`${
-                  currentPiezometer?.section &&
-                  currentPiezometer?.section !== "?" &&
-                  currentPiezometer?.section !== "None"
-                    ? ""
-                    : "text-xl"
-                }`}
-              >
-                {currentPiezometer?.section &&
-                currentPiezometer?.section !== "?" &&
-                currentPiezometer?.section !== "None"
-                  ? currentPiezometer?.section
-                  : "-"}
-              </span>
-            </th>
-          </tr>
-
-          <tr
-            style={{
-              backgroundColor: statusStateObj.lightColor,
-            }}
-            className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12  "
-          >
-            <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px]">
-              <span>Avg. PWP ({timeSpan} report):</span>
-            </th>
-
-            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span
-                className={
-                  lecturesInformation.lecturesAvg === 0 ? "text-xl" : ""
-                }
-              >
-                {lecturesInformation.lecturesAvg === 0
-                  ? "-"
-                  : `${lecturesInformation.lecturesAvg} KPa`}
-              </span>
-            </th>
-          </tr>
-
-          <tr className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12 bg-white ">
-            <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px]">
-              <span>Max. PWP ({timeSpan} report)</span>
-            </th>
-
-            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span
-                className={
-                  lecturesInformation.lecturesMax === 0 ? "text-xl" : ""
-                }
-              >
-                {lecturesInformation.lecturesMax === 0
-                  ? "-"
-                  : `${lecturesInformation.lecturesMax} KPa`}
-              </span>
-            </th>
-          </tr>
-
-          <tr
-            style={{
-              backgroundColor: statusStateObj.lightColor,
-            }}
-            className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12  "
-          >
-            <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px]">
-              <span>Min. PWP ({timeSpan} report)</span>
-            </th>
-
-            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span
-                className={
-                  lecturesInformation.lecturesMin === 0 ? "text-xl" : ""
-                }
-              >
-                {lecturesInformation.lecturesMin === 0
-                  ? "-"
-                  : `${lecturesInformation.lecturesMin} KPa`}
-              </span>
-            </th>
-          </tr>
-
-          {/* <tr className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] h-12 bg-white ">
-            <th className="flex items-center gap-x-2 w-20 justify-center font-bold  text-[11px]">
-              <span>Report time interval</span>
-            </th>
-
-            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span className={`${lastReadingExists ? "" : "text-xl"}`}>
-                {lastReadingExists ? lastReading.time : "-"}
-              </span>
-            </th>
-          </tr> */}
-        </tbody>
-      </table>
       <div
         style={{
-          backgroundColor: statusStateObj.lightColor,
+          backgroundColor: statusStateObj.washedColor,
         }}
-        className="absolute top-0 left-1/2 w-[2px] h-[19rem] "
-      />
+        className="w-full grid grid-cols-2  text-[10px] xl:text-[11px] h-12   "
+      >
+        <div
+          style={{
+            borderColor: statusStateObj.intermediateColor,
+          }}
+          className="flex items-center  justify-center px-2 border-r-2 border-b"
+        >
+          <span className="text-center  font-bold text-[11px] xl:text-xs">
+            Location coordinates:
+          </span>
+        </div>
+
+        <div
+          style={{
+            borderColor: statusStateObj.intermediateColor,
+          }}
+          className="flex items-center  justify-center px-2 border-b"
+        >
+          <span className="text-center  font-semibold ">
+            {Number(currentPiezometer?.lat).toFixed(8)}° /{" "}
+            {Number(currentPiezometer?.lon).toFixed(8)}°
+          </span>
+        </div>
+      </div>
+
+      <div className="w-full grid grid-cols-2  text-[10px] xl:text-[11px] h-12   ">
+        <div
+          style={{
+            borderColor: statusStateObj.intermediateColor,
+          }}
+          className="flex items-center  justify-center px-2 border-r-2 border-b"
+        >
+          <span className="text-center  font-bold text-[11px] xl:text-xs">
+            Section:
+          </span>
+        </div>
+
+        <div
+          style={{
+            borderColor: statusStateObj.intermediateColor,
+          }}
+          className="flex items-center  justify-center px-2 border-b"
+        >
+          <span
+            className={`text-center  font-semibold ${
+              currentPiezometer?.section &&
+              currentPiezometer?.section !== "?" &&
+              currentPiezometer?.section !== "None"
+                ? ""
+                : "text-xl"
+            }`}
+          >
+            {currentPiezometer?.section &&
+            currentPiezometer?.section !== "?" &&
+            currentPiezometer?.section !== "None"
+              ? currentPiezometer?.section
+              : "-"}
+          </span>
+        </div>
+      </div>
+
+      <div
+        style={{
+          backgroundColor: statusStateObj.washedColor,
+        }}
+        className="w-full grid grid-cols-2  text-[10px] xl:text-[11px] h-12   "
+      >
+        <div
+          style={{
+            borderColor: statusStateObj.intermediateColor,
+          }}
+          className="flex items-center  justify-center px-2 border-r-2 border-b"
+        >
+          <span className="text-center  font-bold text-[11px] xl:text-xs">
+            Avg. PWP ({timeSpan} report):
+          </span>
+        </div>
+
+        <div
+          style={{
+            borderColor: statusStateObj.intermediateColor,
+          }}
+          className="flex items-center  justify-center px-2 border-b"
+        >
+          <span
+            className={
+              lecturesInformation.lecturesAvg === 0
+                ? "text-xl text-center  font-semibold"
+                : "text-center  font-semibold"
+            }
+          >
+            {lecturesInformation.lecturesAvg === 0
+              ? "-"
+              : `${lecturesInformation.lecturesAvg} KPa`}
+          </span>
+        </div>
+      </div>
+
+      <div className="w-full grid grid-cols-2  text-[10px] xl:text-[11px] h-12   ">
+        <div
+          style={{
+            borderColor: statusStateObj.intermediateColor,
+          }}
+          className="flex items-center  justify-center px-2 border-r-2 border-b"
+        >
+          <span className="text-center  font-bold text-[11px] xl:text-xs">
+            Max. PWP ({timeSpan} report)
+          </span>
+        </div>
+
+        <div
+          style={{
+            borderColor: statusStateObj.intermediateColor,
+          }}
+          className="flex items-center  justify-center px-2 border-b"
+        >
+          <span
+            className={
+              lecturesInformation.lecturesMax === 0
+                ? "text-xl text-center  font-semibold"
+                : "text-center  font-semibold"
+            }
+          >
+            {lecturesInformation.lecturesMax === 0
+              ? "-"
+              : `${lecturesInformation.lecturesMax} KPa`}
+          </span>
+        </div>
+      </div>
+
+      <div
+        style={{
+          backgroundColor: statusStateObj.washedColor,
+        }}
+        className="w-full grid grid-cols-2  text-[10px] xl:text-[11px] h-12   "
+      >
+        <div
+          style={{
+            borderColor: statusStateObj.intermediateColor,
+          }}
+          className="flex items-center  justify-center px-2 border-r-2 border-b"
+        >
+          <span className="text-center  font-bold text-[11px] xl:text-xs">
+            Min. PWP ({timeSpan} report)
+          </span>
+        </div>
+
+        <div
+          style={{
+            borderColor: statusStateObj.intermediateColor,
+          }}
+          className="flex items-center  justify-center px-2 border-b"
+        >
+          <span
+            className={
+              lecturesInformation.lecturesMin === 0
+                ? "text-xl text-center  font-semibold"
+                : " text-center  font-semibold"
+            }
+          >
+            {lecturesInformation.lecturesMin === 0
+              ? "-"
+              : `${lecturesInformation.lecturesMin} KPa`}
+          </span>
+        </div>
+      </div>
     </div>
   );
 }

@@ -7,17 +7,22 @@ import SkeletonPiezoInformationTable from "../Skeletons/PiezometerLectures/Skele
 import { useMonitoringMapStateStore } from "../../store/MonitoringMapStateStore";
 import moment from "moment";
 
-function PiezoInformationTable() {
-  const paddock = usePiezometerLecturesStateStore((s) => s.paddock);
-
-  const piezo = usePiezometerLecturesStateStore((s) => s.piezo);
-
+function PiezoInformationTable({
+  information,
+}: {
+  information: {
+    paddock: string;
+    piezo: string;
+  };
+}) {
   const piezometersData = useMonitoringMapStateStore((s) => s.piezometersData);
   const lastReadings = useMonitoringMapStateStore((s) => s.lastReadings);
 
   const currentPiezometer = piezometersData.find(
-    (p) => p.paddock === paddock && p.id === piezo
+    (p) => p.id === information.piezo
   );
+
+  if (!currentPiezometer) return <SkeletonPiezoInformationTable />;
 
   const lastReading = lastReadings?.find(
     //@ts-ignore
@@ -34,131 +39,203 @@ function PiezoInformationTable() {
   //@ts-ignore
   const statusStateObj = monitoringMapStatusInfo[currentPiezometer?.status];
 
-  if (!currentPiezometer) return <SkeletonPiezoInformationTable />;
-
   return (
     <div
-      style={
-        {
-          // borderColor: statusStateObj.darkColor,
-        }
-      }
-      className="max-w-[1000vh] h-[19rem] overflow-x-auto rounded-lg border-2  relative bg-white"
+      style={{
+        borderColor: statusStateObj.darkColor,
+      }}
+      className="w-full h-[calc(24rem + 4px)] overflow-y-auto rounded-[4px] border-y-2  relative bg-white"
     >
-      <table className="   select-none w-full border-collapse  bg-white">
-        <tbody>
-          <tr
-            style={{
-              backgroundColor: statusStateObj.lightColor,
-            }}
-            className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] xl:text-[11px] h-12   "
-          >
-            <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px] xl:text-xs">
-              <span>Location coordinates:</span>
-            </th>
-
-            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold ">
-              <span>
-                {Number(currentPiezometer?.lat).toFixed(6)}° /{" "}
-                {Number(currentPiezometer?.lon).toFixed(6)}°
-              </span>
-            </th>
-          </tr>
-
-          <tr className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] xl:text-[11px] h-12 bg-white ">
-            <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px] xl:text-xs">
-              <span>Section:</span>
-            </th>
-
-            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span
-                className={`${
-                  currentPiezometer?.section &&
-                  currentPiezometer?.section !== "?" &&
-                  currentPiezometer?.section !== "None"
-                    ? ""
-                    : "text-xl"
-                }`}
-              >
-                {currentPiezometer?.section &&
-                currentPiezometer?.section !== "?" &&
-                currentPiezometer?.section !== "None"
-                  ? currentPiezometer?.section
-                  : "-"}
-              </span>
-            </th>
-          </tr>
-
-          <tr
-            style={{
-              backgroundColor: statusStateObj.lightColor,
-            }}
-            className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] xl:text-[11px] h-12  "
-          >
-            <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px] xl:text-xs">
-              <span>Depth:</span>
-            </th>
-
-            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span className={`${depthIsZero ? "text-xl" : ""}`}>
-                {depthIsZero
-                  ? "-"
-                  : `${Number(currentPiezometer?.depth).toFixed(2)} m`}
-              </span>
-            </th>
-          </tr>
-
-          <tr className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] xl:text-[11px] h-12 bg-white ">
-            <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px] xl:text-xs">
-              <span>Status:</span>
-            </th>
-
-            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span>{capitalizeName(statusStateObj.name)}</span>
-            </th>
-          </tr>
-
-          <tr
-            style={{
-              backgroundColor: statusStateObj.lightColor,
-            }}
-            className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] xl:text-[11px] h-12  "
-          >
-            <th className="flex items-center gap-x-2 w-20 justify-center font-bold text-[11px] xl:text-xs">
-              <span>Current PWP</span>
-            </th>
-
-            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span className={`${lastReadingExists ? "" : "text-xl"}`}>
-                {" "}
-                {lastReadingExists
-                  ? `${Number(lastReading.pressure).toFixed(3)} Kpa`
-                  : "-"}
-              </span>
-            </th>
-          </tr>
-
-          <tr className="w-full grid grid-cols-2 justify-items-center whitespace-nowrap gap-x-16 px-8 text-[10px] xl:text-[11px] h-12 bg-white ">
-            <th className="flex items-center gap-x-2 w-20 justify-center font-bold  text-[11px] xl:text-xs">
-              <span>Last reading at:</span>
-            </th>
-
-            <th className="flex items-center gap-x-2 w-20 justify-center font-semibold">
-              <span className={`${lastReadingExists ? "" : "text-xl"}`}>
-                {lastReadingExists
-                  ? moment(lastReading.time).format("YYYY-MM-DD HH:mm:ss")
-                  : "-"}
-              </span>
-            </th>
-          </tr>
-        </tbody>
-      </table>
       <div
         style={{
-          backgroundColor: statusStateObj.lightColor,
+          backgroundColor: statusStateObj.washedColor,
         }}
-        className="absolute top-0 left-1/2 w-[2px] h-[19rem] "
-      />
+        className="w-full grid grid-cols-2  text-[10px] xl:text-[11px] h-16   "
+      >
+        <div
+          style={{
+            borderColor: statusStateObj.intermediateColor,
+          }}
+          className="flex items-center  justify-center px-2 border-r-2 border-b"
+        >
+          <span className="text-center  font-bold text-[11px] xl:text-xs">
+            Location coordinates:
+          </span>
+        </div>
+
+        <div
+          style={{
+            borderColor: statusStateObj.intermediateColor,
+          }}
+          className="flex items-center  justify-center px-2 border-b"
+        >
+          <span className="text-center  font-semibold ">
+            {Number(currentPiezometer?.lat).toFixed(6)}° /{" "}
+            {Number(currentPiezometer?.lon).toFixed(6)}°
+          </span>
+        </div>
+      </div>
+
+      <div className="w-full grid grid-cols-2  text-[10px] xl:text-[11px] h-16   ">
+        <div
+          style={{
+            borderColor: statusStateObj.intermediateColor,
+          }}
+          className="flex items-center  justify-center px-2 border-r-2 border-b"
+        >
+          <span className="text-center  font-bold text-[11px] xl:text-xs">
+            Section
+          </span>
+        </div>
+
+        <div
+          style={{
+            borderColor: statusStateObj.intermediateColor,
+          }}
+          className="flex items-center  justify-center px-2 border-b"
+        >
+          <span
+            className={`text-center  font-semibold ${
+              currentPiezometer?.section &&
+              currentPiezometer?.section !== "?" &&
+              currentPiezometer?.section !== "None"
+                ? ""
+                : "text-xl"
+            }`}
+          >
+            {currentPiezometer?.section &&
+            currentPiezometer?.section !== "?" &&
+            currentPiezometer?.section !== "None"
+              ? currentPiezometer?.section
+              : "-"}
+          </span>
+        </div>
+      </div>
+
+      <div
+        style={{
+          backgroundColor: statusStateObj.washedColor,
+        }}
+        className="w-full grid grid-cols-2  text-[10px] xl:text-[11px] h-16   "
+      >
+        <div
+          style={{
+            borderColor: statusStateObj.intermediateColor,
+          }}
+          className="flex items-center  justify-center px-2 border-r-2 border-b"
+        >
+          <span className="text-center  font-bold text-[11px] xl:text-xs">
+            Depth:
+          </span>
+        </div>
+
+        <div
+          style={{
+            borderColor: statusStateObj.intermediateColor,
+          }}
+          className="flex items-center  justify-center px-2 border-b"
+        >
+          <span
+            className={`text-center  font-semibold ${
+              depthIsZero ? "text-xl" : ""
+            }`}
+          >
+            {depthIsZero
+              ? "-"
+              : `${Number(currentPiezometer?.depth).toFixed(2)} m`}
+          </span>
+        </div>
+      </div>
+
+      <div className="w-full grid grid-cols-2  text-[10px] xl:text-[11px] h-16   ">
+        <div
+          style={{
+            borderColor: statusStateObj.intermediateColor,
+          }}
+          className="flex items-center  justify-center px-2 border-r-2 border-b"
+        >
+          <span className="text-center  font-bold text-[11px] xl:text-xs">
+            Status:
+          </span>
+        </div>
+
+        <div
+          style={{
+            borderColor: statusStateObj.intermediateColor,
+          }}
+          className="flex items-center  justify-center px-2 border-b"
+        >
+          <span className="text-center  font-semibold ">
+            {capitalizeName(statusStateObj.name)}
+          </span>
+        </div>
+      </div>
+
+      <div
+        style={{
+          backgroundColor: statusStateObj.washedColor,
+        }}
+        className="w-full grid grid-cols-2  text-[10px] xl:text-[11px] h-16   "
+      >
+        <div
+          style={{
+            borderColor: statusStateObj.intermediateColor,
+          }}
+          className="flex items-center  justify-center px-2 border-r-2 border-b"
+        >
+          <span className="text-center  font-bold text-[11px] xl:text-xs">
+            Current PWP:
+          </span>
+        </div>
+
+        <div
+          style={{
+            borderColor: statusStateObj.intermediateColor,
+          }}
+          className="flex items-center  justify-center px-2 border-b"
+        >
+          <span
+            className={`text-center  font-semibold  ${
+              lastReadingExists ? "" : "text-xl"
+            }`}
+          >
+            {" "}
+            {lastReadingExists
+              ? `${Number(lastReading.pressure).toFixed(3)} Kpa`
+              : "-"}
+          </span>
+        </div>
+      </div>
+
+      <div className="w-full grid grid-cols-2  text-[10px] xl:text-[11px] h-16   ">
+        <div
+          style={{
+            borderColor: statusStateObj.intermediateColor,
+          }}
+          className="flex items-center  justify-center px-2 border-r-2 border-b"
+        >
+          <span className="text-center  font-bold text-[11px] xl:text-xs">
+            Last reading at:
+          </span>
+        </div>
+
+        <div
+          style={{
+            borderColor: statusStateObj.intermediateColor,
+          }}
+          className="flex items-center  justify-center px-2 border-b"
+        >
+          <span
+            className={`text-center  font-semibold ${
+              lastReadingExists ? "" : "text-xl"
+            }`}
+          >
+            {lastReadingExists
+              ? moment(lastReading.time).format("YYYY-MM-DD HH:mm")
+              : "-"}
+          </span>
+        </div>
+      </div>
     </div>
   );
 }

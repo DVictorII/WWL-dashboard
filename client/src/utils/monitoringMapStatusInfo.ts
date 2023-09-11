@@ -6,6 +6,7 @@ export const monitoringMapStatusInfo = [
     darkColor: "#0c1018",
     lightColor: "#d1d3d5",
     washedColor: "#e8e9ea",
+    readingsBgColor: "rgba(218, 229, 235, 0.3)",
   },
   {
     name: "active",
@@ -14,6 +15,7 @@ export const monitoringMapStatusInfo = [
     intermediateColor: "#c8d8e1",
     darkColor: "#1c394a",
     washedColor: "#edf2f5",
+    readingsBgColor: "rgba(71, 124, 154, 0.3)",
   },
   {
     name: "damaged",
@@ -23,6 +25,7 @@ export const monitoringMapStatusInfo = [
     intermediateColor: "#e9baba",
     darkColor: "#7f2121",
     washedColor: "#f8e8e8",
+    readingsBgColor: "rgba(240, 209, 209, 0.3)",
   },
   {
     name: "disconnected",
@@ -32,6 +35,7 @@ export const monitoringMapStatusInfo = [
     intermediateColor: "#eee8b9",
     darkColor: "#9e8f12",
     washedColor: "#f9f7e8",
+    readingsBgColor: "rgba(243, 240, 209, 0.3)",
   },
   {
     name: "proposed",
@@ -40,6 +44,7 @@ export const monitoringMapStatusInfo = [
     intermediateColor: "#d7dbc1",
     darkColor: "#69742C",
     washedColor: "#f2f3ea",
+    readingsBgColor: "rgba(218, 229, 235, 0.3)",
   },
   {
     name: "tarp",
@@ -49,6 +54,7 @@ export const monitoringMapStatusInfo = [
     intermediateColor: "#c0dcce",
     darkColor: "#206845",
     washedColor: "#eaf3ef",
+    readingsBgColor: "rgba(218, 229, 235, 0.3)",
   },
   {
     name: "incident",
@@ -58,6 +64,7 @@ export const monitoringMapStatusInfo = [
     intermediateColor: "#dabbbb",
     darkColor: "#622323",
     washedColor: "#f3e8e8",
+    readingsBgColor: "rgba(218, 229, 235, 0.3)",
   },
 ];
 

@@ -1,4 +1,4 @@
-from flask import Blueprint, session, jsonify
+from flask import Blueprint, session, jsonify, request
 from app import db
 
 from sqlalchemy import text
@@ -8,6 +8,12 @@ import os
 from openpyxl import load_workbook
 from datetime import datetime, date
 import random
+import uuid
+
+import boto3
+from dotenv import dotenv_values
+
+config = {**dotenv_values(".env")}
 
 excel_routes = Blueprint("excel_routes", __name__)
 
@@ -83,8 +89,8 @@ def read_excel():
     tdata = get_data()
 
     filename = os.path.abspath("pyreport/report.xlsx")
+    print("FILENAME", filename)
     # filename = BASEPATH + "/pyreport/report.xlsx"
-    print(filename)
 
     wb = load_workbook(filename)
 
@@ -114,14 +120,29 @@ def read_excel():
     wb.template = False
 
     # wb.save(os.path.abspath("../client/public/pyreport/report3.xlsx"))
-    wb.save(os.path.abspath("../client/dist/pyreport/report3.xlsx"))
+
+    filename = f"report-{uuid.uuid4().hex}.xlsx"
+
+    wb.save(os.path.abspath(f"../client/dist/pyreport/{filename}"))
 
     # SAVING FILE ALSO ON MAIN FILESYSTEM
-    filename2 = os.path.abspath("../client/dist/pyreport/report3.xlsx")
+    filename2 = os.path.abspath(f"../client/dist/pyreport/{filename}")
     wb2 = load_workbook(filename2)
-    wb2.save(os.path.abspath("../client/public/pyreport/report3.xlsx"))
+    wb2.save(os.path.abspath(f"../client/public/pyreport/{filename}"))
 
-    return os.path.abspath("../client/dist/pyreport/report3.xlsx")
+    # s3 = boto3.resource(
+    #     "s3",
+    #     aws_access_key_id=config["aws_access_key_id"],
+    #     aws_secret_access_key=config["aws_secret_access_key"],
+    # )
+
+    # with open(os.path.abspath(f"../client/public/pyreport/{filename}"), "rb") as file:
+    #     s3.Bucket("rossing").upload_fileobj(
+    #         file,
+    #         f"excel_reports/{filename}",
+    #     )
+
+    return filename
 
 
 @excel_routes.route("/api/v1/modify_excel", methods=["POST"])
@@ -130,12 +151,39 @@ def modify_excel():
     try:
         now = datetime.now()
         dt_string = now.strftime("%Y/%m/%d %H:%M:%S")
-        data = read_excel()
-        print("file saved on:", data)
+        filename = read_excel()
+
         print("report download by %s at %s" % (session.get("user_id"), dt_string))
-        return jsonify(
-            {"filename": os.path.abspath("../client/dist/pyreport/report3.xlsx")}
-        )
+        return jsonify({"filename": filename})
+    except Exception:
+        return jsonify({"error": Exception})
+    # return jsonify({"filename": os.path.abspath("pyreport/report2.xlsx")})
+
+
+@excel_routes.route("/api/v1/delete_excel", methods=["POST"])
+@cross_origin()
+def delete_excel():
+    try:
+        filename = request.json["filename"]
+
+        if os.path.isfile(os.path.abspath(f"../client/public/pyreport/{filename}")):
+            os.remove(os.path.abspath(f"../client/public/pyreport/{filename}"))
+        else:
+            # If it fails, inform the user.
+            print(
+                "Error: %s file not found"
+                % os.path.abspath(f"../client/public/pyreport/{filename}")
+            )
+
+        if os.path.isfile(os.path.abspath(f"../client/dist/pyreport/{filename}")):
+            os.remove(os.path.abspath(f"../client/dist/pyreport/{filename}"))
+        else:
+            # If it fails, inform the user.
+            print(
+                "Error: %s file not found"
+                % os.path.abspath(f"../client/dist/pyreport/{filename}")
+            )
+        return jsonify({"filename": filename})
     except Exception:
         return jsonify({"error": Exception})
     # return jsonify({"filename": os.path.abspath("pyreport/report2.xlsx")})

@@ -16,6 +16,7 @@ import { PiezometerDataI } from "../../types";
 import SkeletonPiezoListTable from "../Skeletons/MonitoringMap/SkeletonPiezoListTable";
 import { useMediaQuery } from "react-responsive";
 import GlobalSectionSubtitle from "../global/GlobalSectionSubtitle";
+import PiezoInformationTable from "../PiezometerLectures/PiezoInformationTable";
 
 interface GlobalMapState {
   status: string | number;
@@ -68,7 +69,7 @@ const Index = () => {
           );
         }
       }
-    } else if (status === 0 || status === 6) {
+    } else if (status === 0) {
       if (paddock === "All") {
         if (section === "All") {
           filtered = fullPiezoList;
@@ -165,7 +166,12 @@ const Index = () => {
             <GlobalSectionSubtitle subtitle="Piezometers overview" />
 
             {paddock !== "All" && piezo !== "All" ? (
-              <MonMapPiezoInformationTable />
+              <PiezoInformationTable
+                information={{
+                  paddock,
+                  piezo,
+                }}
+              />
             ) : (
               <>
                 {filteredPiezoList ? (

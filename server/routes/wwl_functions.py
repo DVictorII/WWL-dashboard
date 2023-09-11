@@ -37,8 +37,6 @@ def get_data_by_section_front(datalogger, channel, na_ground, new_ground):
     FUNCTIONS
     """
 
-    
-
     def coordinates_norm(diag0, diag):
         x_project = round(np.linalg.norm(diag - diag0))
         if x_project < 0:
@@ -193,7 +191,7 @@ def get_data_by_section_front(datalogger, channel, na_ground, new_ground):
         valuee3 = float(piezometer_elevation) + piezometer_pressure / 10
     else:
         valuee3 = 0
-        # e3.append([coordinates, valuee3]
+        
     output = [
         [
             piezometer_id,
@@ -209,14 +207,16 @@ def get_data_by_section_front(datalogger, channel, na_ground, new_ground):
     index_pos = 0
     for row in rows:
         if row[0] != piezometer_id:
+
             # coordinates = coordinates_projections(
             #    lstart, lend, float(row[3]), float(row[4])
             # )
             index_pos += 1
+
             if float(row[5]) != 0 and not np.isnan(float(row[5])) and int(row[1]) != 2:
                 valuee3 = float(row[2]) + float(row[5] / 10)
-                # e3.append([coordinates, valuee3])
-
+                
+            index_pos += 1
             output.append(
                 [
                     row[0],
@@ -227,6 +227,7 @@ def get_data_by_section_front(datalogger, channel, na_ground, new_ground):
                     index_pos
                 ]
             )
+
     
     piezometers = sorted(output, key=lambda x: x[2])
     
@@ -237,6 +238,7 @@ def get_data_by_section_front(datalogger, channel, na_ground, new_ground):
                 piezometers[j][2] = piezometers[j][2] + 5
     
     piezometers = sorted(piezometers, key=lambda x: x[5])
+
 
     return piezometers, dict_graph[piezometer_section + ".txt"]
 
@@ -388,6 +390,7 @@ def get_data_by_section(na_ground, new_ground):
 
         paddock_list.append(paddock_data)
     return paddock_list
+
 
 class stock_data:
     def __init__(self, symbol, interval):

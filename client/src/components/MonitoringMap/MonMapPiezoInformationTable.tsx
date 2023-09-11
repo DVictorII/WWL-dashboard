@@ -16,6 +16,7 @@ function MonMapPiezoInformationTable() {
   const piezo = useMonitoringMapStateStore((s) => s.piezo);
   const status = useMonitoringMapStateStore((s) => s.status);
 
+  const piezometersData = useMonitoringMapStateStore((s) => s.piezometersData);
   const lastReadings = useMonitoringMapStateStore((s) => s.lastReadings);
 
   const changeChartPaddockAndPiezo = usePiezometerLecturesStateStore(
@@ -31,33 +32,26 @@ function MonMapPiezoInformationTable() {
     navigate("/operations/piezometer-readings");
   };
 
-  const { isLoading: piezometersAreLoading, data: piezometersData } = useQuery({
-    queryKey: [`Onepiezometer_${paddock}_${piezo}`],
-    queryFn: () =>
-      fetchPiezometerData({
-        paddock: paddock.replaceAll("/", "-"),
-        piezo: piezo,
-      }),
-    refetchOnWindowFocus: false,
-  });
+  const currentPiezometer = piezometersData.find(
+    (p) => p.paddock === paddock && p.id === piezo
+  );
 
-  if (piezometersAreLoading)
-    return <SkeletonPiezoInformationTable monitoringMap />;
+  if (!currentPiezometer) return <SkeletonPiezoInformationTable />;
 
   const lastReading = lastReadings?.find(
     //@ts-ignore
     (reading) =>
-      reading.node === piezometersData[0].datalogger &&
-      reading.channel === piezometersData[0].channel
+      reading.node === currentPiezometer?.datalogger &&
+      reading.channel === currentPiezometer?.channel
   );
 
   const lastReadingExists =
     lastReading && lastReading.pressure && Number(lastReading.pressure);
 
-  const depthIsZero = Number(piezometersData[0].depth) == 0;
+  const depthIsZero = Number(currentPiezometer?.depth) == 0;
 
   //@ts-ignore
-  const statusStateObj = monitoringMapStatusInfo[piezometersData[0].status];
+  const statusStateObj = monitoringMapStatusInfo[currentPiezometer?.status];
 
   return (
     <>

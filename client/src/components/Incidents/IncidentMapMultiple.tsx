@@ -14,6 +14,8 @@ import "../../MarkerCluster.css";
 import "../../MarkerCluster.Default.css";
 import "leaflet.markercluster";
 import { incidentIcon } from "../../utils/icons";
+import "leaflet-fullscreen/dist/Leaflet.fullscreen.js";
+import "leaflet-fullscreen/dist/leaflet.fullscreen.css";
 
 import SkeletonIncidentMapMultiple from "../Skeletons/Incidents/SkeletonIncidentMapMultiple";
 
@@ -132,6 +134,11 @@ function IncidentMapMultiple() {
       layers: baseMap,
       fadeAnimation: true,
       zoomAnimation: true,
+      //@ts-ignore
+      fullscreenControl: true,
+      fullscreenControlOptions: {
+        position: "topleft",
+      },
     });
   }
 

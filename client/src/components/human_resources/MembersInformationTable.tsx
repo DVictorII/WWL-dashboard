@@ -1,4 +1,5 @@
 import { BsArrowDownUp } from "react-icons/bs";
+import { s3StaticFilesLinks } from "../../utils/globalLinks";
 
 const workers = [
   {
@@ -138,7 +139,9 @@ function MembersInformationTable() {
                 <td className="px-4 py-2  lg:py-4">
                   <div className="flex items-center gap-x-2">
                     <div className="w-6 h-6 border border-[#333] rounded-full flex items-center justify-center">
-                      <img src={`/media/img/photos/${worker.profileImg}`} />
+                      <img
+                        src={`${s3StaticFilesLinks.baseURL}/${s3StaticFilesLinks.userProfilePictures}/${worker.profileImg}`}
+                      />
                     </div>
                     <span className="text-[9px] md:text-[10px] lg:text-[11px] flex justify-center items-center font-semibold">
                       {worker.name}

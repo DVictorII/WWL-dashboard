@@ -6,6 +6,13 @@ import { useLocation } from "react-router-dom";
 import { usePiezometerLecturesStateStore } from "../../store/PiezometerLecturesStateStore";
 import { useNewPiezoReportStateStore } from "../../store/NewPiezoReportStateStore";
 import { useMonitoringMapStateStore } from "../../store/MonitoringMapStateStore";
+import {
+  pageStructureLinks,
+  s3StaticFilesLinks,
+} from "../../utils/globalLinks";
+import GlobalSectionSubtitle from "../global/GlobalSectionSubtitle";
+import PiezoReadingsSettings from "./PiezoReadingsSettings";
+import FullScreenButton from "./FullScreenButton";
 
 function PiezoLecturesComponent() {
   const location = useLocation().pathname;
@@ -30,46 +37,63 @@ function PiezoLecturesComponent() {
   const timeSpan = useNewPiezoReportStateStore((state) => state.timeSpan);
 
   return (
-    <div className=" grid grid-cols-1 lg:grid-cols-2  lg:gap-x-6 gap-y-6  ">
-      <div className="flex flex-col  bg-white p-4 2xl:p-6 rounded-xl shadow-sm">
-        {location === "/operations/piezometer-readings" && (
-          <h2 className="flex items-center gap-x-2 md:gap-x-4 flex-wrap gap-y-2">
-            <span className="  font-semibold text-[#555] ">
-              Piezometer Readings / Last
-            </span>
-            <DaysChange />
-            <span className="  font-semibold text-[#555]">days</span>
-          </h2>
+    <div className=" grid grid-cols-1 lg:grid-cols-2 ">
+      <div className="flex flex-col  bg-white p-4 lg:border-r border-[#ccc] ">
+        {location === pageStructureLinks.operations.piezometerReadings && (
+          <div className="flex items-start justify-between">
+            <div className="flex flex-col gap-y-4">
+              <GlobalSectionSubtitle subtitle="Piezometer Readings" />
+              <div className="flex items-center gap-x-3">
+                <span className="  font-semibold text-[#666] text-sm">
+                  Last
+                </span>
+                <DaysChange />
+                <span className="  font-semibold text-[#666] text-sm">
+                  days
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-x-4">
+              <FullScreenButton comp={"chart"} />
+              <PiezoReadingsSettings />
+            </div>
+          </div>
         )}
 
         {location === "/operations/reports/piezometers/new-report" && (
-          <h2 className="flex items-center gap-x-2 md:gap-x-2 flex-wrap gap-y-2 font-semibold text-[#555]">
-            <span className="  ">Piezometer Readings</span>
-            <span className="  ">/</span>
-            <span className="  ">
-              {timeSpan === "weekly"
-                ? "Last week"
-                : timeSpan === "monthly"
-                ? "Last month"
-                : "Last 3 months"}
-            </span>
-          </h2>
+          <div className="flex flex-col gap-y-4">
+            <GlobalSectionSubtitle subtitle="Piezometer Readings" />
+            <div className="flex items-center gap-x-3">
+              <span className="  font-semibold text-[#666] text-sm">
+                {timeSpan === "weekly"
+                  ? "Last week"
+                  : timeSpan === "monthly"
+                  ? "Last month"
+                  : "Last 3 months"}
+              </span>
+            </div>
+          </div>
         )}
 
-        <div className="mt-6" />
-
-        <LecturesChart />
+        <div className="grid grid-cols-1 ">
+          <LecturesChart />
+        </div>
       </div>
-      <div className="flex flex-col gap-y-6  bg-white p-4 2xl:p-6 rounded-xl shadow-sm  font-semibold  text-[#555]">
-        <div className="flex items-center gap-x-6">
-          <h2>Section profile view</h2>
+      <div className="flex flex-col gap-y-6  bg-white p-4   ">
+        <div className="flex items-start justify-between">
+          <div className="flex flex-col gap-y-4">
+            <GlobalSectionSubtitle subtitle="Section profile view" />
+            <span className="text-active-dark text-sm font-semibold">
+              {currentPiezometer?.section === "?"
+                ? "Indeterminate section"
+                : currentPiezometer?.section}
+            </span>
+          </div>
 
-          <span>/</span>
-          <span className="text-active-dark">
-            {currentPiezometer?.section === "?"
-              ? "Indeterminate section"
-              : currentPiezometer?.section}
-          </span>
+          <div className="flex items-center gap-x-4">
+            <FullScreenButton comp={"section"} />
+          </div>
         </div>
 
         <SectionImg />

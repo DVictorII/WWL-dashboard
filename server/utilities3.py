@@ -127,7 +127,7 @@ def update_status():
 	    ELSE 1
 	    END
     FROM last_readings
-    WHERE piezometer_details.datalogger=last_readings.node AND piezometer_details.channel=last_readings.channel;
+    WHERE piezometer_details.datalogger=last_readings.node AND piezometer_details.channel=last_readings.channel AND status != 6;
 
     UPDATE piezometer_details
     SET status = 3
@@ -135,7 +135,7 @@ def update_status():
         SELECT 1
         FROM last_readings
         WHERE last_readings.node = piezometer_details.datalogger AND last_readings.channel = piezometer_details.channel
-    );
+    ) AND status != 6;
     UPDATE piezometer_details
     SET status = 4
     WHERE datalogger IS NULL and channel IS NULL;

@@ -21,6 +21,7 @@ import { useState } from "react";
 import { BsArrowLeft, BsCalendarMonth } from "react-icons/bs";
 import { TfiMapAlt } from "react-icons/tfi";
 import { FiAlertTriangle } from "react-icons/fi";
+import { s3StaticFilesLinks } from "../../utils/globalLinks";
 
 function MobileMenu() {
   const navigate = useNavigate();
@@ -57,10 +58,9 @@ function MobileMenu() {
           exit={{ x: "100%", transition: { duration: 0.7, ease: "easeInOut" } }}
           key="mobile-menu"
           style={{
-            backgroundImage:
-              "linear-gradient(to bottom, rgba(12, 16, 24,0.95), rgba(12, 16, 24,0.95)) , url('/media/img/photos/Rossing_mine.jpg') ",
+            backgroundImage: `linear-gradient(to bottom, rgba(12, 16, 24,0.95), rgba(12, 16, 24,0.95)) , url('${s3StaticFilesLinks.baseURL}/${s3StaticFilesLinks.layoutImages}/Rossing_mine.jpg') `,
           }}
-          className=" md:hidden fixed top-0 left-0 z-[100] bg-cover h-screen w-screen  text-white py-8  px-4 sm:px-8 overflow-scroll "
+          className=" md:hidden fixed top-0 left-0 z-[100] bg-cover bg-center h-screen w-screen  text-white py-8  px-4 sm:px-8 overflow-scroll "
         >
           <motion.div
             initial={{ opacity: 0 }}
@@ -76,7 +76,7 @@ function MobileMenu() {
           >
             <div className="w-24  relative ">
               <img
-                src="/media/img/photos/logo_white.png"
+                src={`${s3StaticFilesLinks.baseURL}/${s3StaticFilesLinks.layoutImages}/logo_white.png`}
                 className="w-full  object-contain"
               />
             </div>
@@ -103,9 +103,9 @@ function MobileMenu() {
                 <>
                   <div className="w-10 h-10 overflow-hidden rounded-full">
                     <img
-                      src={`/media/img/photos/${
-                        currentUser.picture || "undraw_profile_1.svg"
-                      }`}
+                      src={`${s3StaticFilesLinks.baseURL}/${
+                        s3StaticFilesLinks.userProfilePictures
+                      }/${currentUser.picture || "undraw_profile_1.svg"}`}
                       alt={`${currentUser.name} profile picture`}
                       className="object-cover w-full h-full"
                     />
@@ -124,7 +124,7 @@ function MobileMenu() {
                 <>
                   <div className="w-10 h-10 overflow-hidden rounded-full">
                     <img
-                      src={`/media/img/photos/undraw_profile_1.svg`}
+                      src={`${s3StaticFilesLinks.baseURL}/${s3StaticFilesLinks.userProfilePictures}/undraw_profile_1.svg`}
                       alt="user photo"
                       className="object-cover w-full h-full"
                     />

@@ -82,10 +82,7 @@ function SectionImg({ fullPage = false }) {
           </div>
         </div>
 
-        <div className="flex flex-col gap-y-6 3xl:flex-row-reverse 3xl:justify-between w-full">
-          <SectionLegend />
-          {!fullPage && <FullScreenButton comp={"section"} />}
-        </div>
+        <SectionLegend />
       </div>
     );
 
@@ -113,10 +110,7 @@ function SectionImg({ fullPage = false }) {
           </div>
         </div>
 
-        <div className="flex flex-col gap-y-6 3xl:flex-row-reverse 3xl:justify-between w-full">
-          <SectionLegend />
-          {!fullPage && <FullScreenButton comp={"section"} />}
-        </div>
+        <SectionLegend />
       </div>
     );
 
@@ -144,10 +138,7 @@ function SectionImg({ fullPage = false }) {
         </div>
       </div>
 
-      <div className="flex flex-col gap-y-6 3xl:flex-row-reverse 3xl:justify-between w-full">
-        <SectionLegend />
-        {!fullPage && <FullScreenButton comp={"section"} />}
-      </div>
+      <SectionLegend />
     </div>
   );
 }
