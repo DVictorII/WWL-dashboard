@@ -36,6 +36,7 @@ def get_data_by_section_front(datalogger, channel, na_ground, new_ground):
     """
     FUNCTIONS
     """
+
     def coordinates_norm(diag0, diag):
         x_project = round(np.linalg.norm(diag - diag0))
         if x_project < 0:
@@ -56,15 +57,6 @@ def get_data_by_section_front(datalogger, channel, na_ground, new_ground):
             * line_vector
         )
         return coordinates_norm(l_start, projection)
-
-    def coordinates_generateept(y1, y2, x1, point, interval):
-        # Calculate the value of ept for given a value in x
-        if point < x1:
-            print("Error: the point must be greater than x1")
-            return None
-        slope = (y2 - y1) / interval
-        y_interpol = y1 + slope * (point - x1)
-        return round(y_interpol, 2)
 
     def find_closest_numbers(number, interval):
         # Given a <number> return the interval [min,max]
@@ -215,6 +207,12 @@ def get_data_by_section_front(datalogger, channel, na_ground, new_ground):
     index_pos = 0
     for row in rows:
         if row[0] != piezometer_id:
+
+            # coordinates = coordinates_projections(
+            #    lstart, lend, float(row[3]), float(row[4])
+            # )
+            index_pos += 1
+
             if float(row[5]) != 0 and not np.isnan(float(row[5])) and int(row[1]) != 2:
                 valuee3 = float(row[2]) + float(row[5] / 10)
                 
@@ -229,16 +227,19 @@ def get_data_by_section_front(datalogger, channel, na_ground, new_ground):
                     index_pos
                 ]
             )
-    piezometers = sorted(output, key=lambda x: x[2])
 
+    
+    piezometers = sorted(output, key=lambda x: x[2])
+    
     #Create a function that change the coordinates if there are duplicates, and make sure not repeat again.
     for i in range(len(piezometers)):
         for j in range(i+1, len(piezometers)):
             if abs(piezometers[i][2] - piezometers[j][2]) <=5:
                 piezometers[j][2] = piezometers[j][2] + 5
-
-    piezometers = sorted(piezometers, key=lambda x: x[5])
     
+    piezometers = sorted(piezometers, key=lambda x: x[5])
+
+
     return piezometers, dict_graph[piezometer_section + ".txt"]
 
 
